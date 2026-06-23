@@ -73,6 +73,7 @@ BRIDGE не привязан к конкретному визуальному р
 - [Сложные кейсы и edge cases](docs/ru/10-slozhnye-kejsy-i-edge-cases.md)
 - [Валидация и автопроверки](docs/ru/11-validaciya-i-avtoproverki.md)
 - [Roadmap проекта](docs/ru/12-roadmap-proekta.md)
+- [Грамматика тегов](docs/ru/13-grammatika-tegov.md)
 - [Validator rule catalog](validator/rules.json)
 
 ## Минимальный пример

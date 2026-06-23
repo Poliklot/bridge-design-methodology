@@ -73,6 +73,7 @@ No accidental free-floating layers. No mystery buttons. No responsive versions t
 - [Hard cases and edge cases](docs/10-hard-cases-and-edge-cases.md)
 - [Validation and autochecks](docs/11-validation-and-autochecks.md)
 - [Project roadmap](docs/12-project-roadmap.md)
+- [Tag grammar](docs/13-tag-grammar.md)
 - [Validator rule catalog](validator/rules.json)
 
 ## Minimal example
