@@ -70,6 +70,10 @@ BRIDGE не привязан к конкретному визуальному р
 - [Высоты и overflow](docs/ru/07-vysoty-i-overflow.md)
 - [Preflight-чеклист](docs/ru/08-preflight-checklist.md)
 - [Типичные ошибки дизайнеров](docs/ru/09-tipichnye-oshibki-dizajnerov.md)
+- [Сложные кейсы и edge cases](docs/ru/10-slozhnye-kejsy-i-edge-cases.md)
+- [Валидация и автопроверки](docs/ru/11-validaciya-i-avtoproverki.md)
+- [Roadmap проекта](docs/ru/12-roadmap-proekta.md)
+- [Validator rule catalog](validator/rules.json)
 
 ## Минимальный пример
 

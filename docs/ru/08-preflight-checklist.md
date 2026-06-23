@@ -2,6 +2,29 @@
 
 Используй этот чеклист перед передачей макета в перенос.
 
+## Gate levels
+
+Используй чеклист в трёх режимах:
+
+- **Quick** — self-check дизайнера перед обсуждением handoff.
+- **Strict** — reviewer approval check перед началом переноса.
+- **Adapter** — target-specific проверка против возможностей реализации.
+
+Automation markers:
+
+- **Auto** — должно проверяться валидатором.
+- **Heuristic** — валидатор может подсветить подозрительный кейс.
+- **Manual** — нужно подтверждение человека.
+
+Immediate blockers:
+
+- missing keys у важных элементов;
+- duplicate keys внутри breakpoint’а;
+- clickable elements без actions;
+- action targets, которых не существует;
+- text fixed height без overflow policy;
+- hidden keyed layers как source of truth.
+
 ## Identity
 
 - [ ] Каждый важный элемент имеет `[key=...]`.

@@ -2,6 +2,29 @@
 
 Use this checklist before a design is transferred.
 
+## Gate levels
+
+Use the checklist in three modes:
+
+- **Quick** — designer self-check before handoff discussion.
+- **Strict** — reviewer approval check before transfer starts.
+- **Adapter** — target-specific check against implementation capabilities.
+
+Automation markers:
+
+- **Auto** — should be checked by a validator.
+- **Heuristic** — validator can flag suspicious cases.
+- **Manual** — human confirmation is required.
+
+Immediate blockers:
+
+- missing keys for important elements;
+- duplicate keys inside a breakpoint;
+- clickable elements without actions;
+- action targets that do not exist;
+- text fixed height without overflow policy;
+- hidden keyed layers used as source of truth.
+
 ## Identity
 
 - [ ] Every important element has `[key=...]`.

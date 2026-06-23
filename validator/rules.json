@@ -1,0 +1,288 @@
+{
+  "methodology": "BRIDGE",
+  "version": "0.1.0",
+  "severityLevels": ["error", "warning", "info"],
+  "automationLevels": ["automatic", "heuristic", "manual"],
+  "rules": [
+    {
+      "id": "identity.missing-key",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Important transferable elements must have a stable key.",
+      "fix": "Add `[key=...]` using English kebab-case."
+    },
+    {
+      "id": "identity.duplicate-key",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Two elements inside the same breakpoint must not share one key.",
+      "fix": "Rename keys or add instance indexes such as `card-1`, `card-2`."
+    },
+    {
+      "id": "identity.same-key-different-type",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "The same key must not point to different logical element types across breakpoints.",
+      "fix": "Keep the logical type stable or declare an explicit variant."
+    },
+    {
+      "id": "identity.repeated-item-no-index",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Repeated list/grid items need stable instance indexes.",
+      "fix": "Use keys such as `feature-card-1`, `feature-card-2`."
+    },
+    {
+      "id": "naming.default-layer-name",
+      "principle": "Roles",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Default names such as `Frame 53` or `Group 271` usually hide missing intent.",
+      "fix": "Rename the layer and add role tags where needed."
+    },
+    {
+      "id": "layout.missing-role",
+      "principle": "Roles",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Every layer must be classifiable as flow, absolute, or target.",
+      "fix": "Add layout role through structure or tags such as `flex`, `[abs]`, `[modal]`, `[state]`."
+    },
+    {
+      "id": "layout.absolute-without-tag",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Absolute-positioned elements must be intentional and tagged.",
+      "fix": "Add `[abs]` plus a role such as `[decor]`, `[asset]`, or `[overlay]`."
+    },
+    {
+      "id": "layout.one-child-wrapper-without-role",
+      "principle": "Roles",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "A one-child wrapper without a role is likely unnecessary noise.",
+      "fix": "Remove the wrapper or add `[wrapper-role=...]`."
+    },
+    {
+      "id": "layout.wrapper-chain-too-deep",
+      "principle": "Roles",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Deep wrapper chains often make responsive mapping fragile.",
+      "fix": "Flatten structure or annotate each wrapper role."
+    },
+    {
+      "id": "layout.overlap-without-overlay-role",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Overlapping bounds require explicit overlay/decor/absolute intent.",
+      "fix": "Add `[overlay]`, `[decor]`, `[abs]`, or a BRIDGE exception reason."
+    },
+    {
+      "id": "layout.z-index-ambiguous",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Layer order is visually important but not declared as overlay/stacking intent.",
+      "fix": "Declare overlay scope or stacking behavior."
+    },
+    {
+      "id": "responsive.missing-breakpoint-root",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Responsive root frames must declare `[bp=...]`.",
+      "fix": "Add explicit breakpoint tags to root frames."
+    },
+    {
+      "id": "responsive.key-missing-in-required-breakpoint",
+      "principle": "Breakpoints",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "An important key exists on one breakpoint but is missing on another required breakpoint.",
+      "fix": "Add the element, or declare an intentional breakpoint exclusion."
+    },
+    {
+      "id": "responsive.order-changed-without-reason",
+      "principle": "Breakpoints",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Sibling order changed across breakpoints without an order strategy.",
+      "fix": "Preserve semantic order or declare an order strategy."
+    },
+    {
+      "id": "content.text-changed-between-breakpoints",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "The same text key has different content across breakpoints.",
+      "fix": "Keep meaning identical or add `[content-variant=...]` with a reason."
+    },
+    {
+      "id": "content.strict-content-drift",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Strict content such as price, legal copy, or CTA changed across breakpoints.",
+      "fix": "Synchronize strict content or document an approved variant."
+    },
+    {
+      "id": "content.hidden-layer-source-of-truth",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Hidden keyed layers may contain alternative source-of-truth content.",
+      "fix": "Move alternatives into declared states/variants or archive them."
+    },
+    {
+      "id": "interaction.clickable-without-action",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Clickable elements must declare an action.",
+      "fix": "Add `[action=link:...]`, `[action=modal:...]`, `[action=state:...]`, or `[action=none]`."
+    },
+    {
+      "id": "interaction.link-without-url",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Link elements must point to a URL or anchor target.",
+      "fix": "Add a `link:` or `scroll:` action."
+    },
+    {
+      "id": "interaction.modal-target-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A modal action must point to an existing modal target.",
+      "fix": "Create `[modal] [key=...]` target or change the action."
+    },
+    {
+      "id": "interaction.state-target-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A state action must point to an existing state target.",
+      "fix": "Create `[state] [key=...]` target or change the action."
+    },
+    {
+      "id": "interaction.modal-missing-close",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Modal targets need close behavior.",
+      "fix": "Add close button/action and define backdrop/escape behavior."
+    },
+    {
+      "id": "interaction.form-field-missing-label",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Form fields need labels or accessible names.",
+      "fix": "Add label text and field identity."
+    },
+    {
+      "id": "interaction.form-missing-submit-action",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Forms need a submit action or declared endpoint/handler.",
+      "fix": "Add `[action=submit:...]` to the submit control or form."
+    },
+    {
+      "id": "state.required-state-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Interactive or dynamic components often need empty, loading, error, disabled, hover, or focus states.",
+      "fix": "Add required states or declare why they are not needed."
+    },
+    {
+      "id": "height.fixed-height-without-reason",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Fixed height must be intentional.",
+      "fix": "Use hug/min-height or add `[height=fixed] [reason=...]`."
+    },
+    {
+      "id": "overflow.hidden-without-policy",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Clipped surfaces need explicit overflow policy.",
+      "fix": "Add `[overflow=hidden]`, `[overflow=visible]`, `[overflow=scroll]`, or `[overflow=truncate]`."
+    },
+    {
+      "id": "overflow.text-clipping-risk",
+      "principle": "Geometry",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Text appears likely to clip due to fixed height or insufficient bounds.",
+      "fix": "Use hug height, min-height, or truncation policy."
+    },
+    {
+      "id": "asset.raster-text-without-reason",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Text-like content should not be exported as a raster asset without reason.",
+      "fix": "Use native text or add asset exception reason."
+    },
+    {
+      "id": "asset.image-missing-focal-point",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "manual",
+      "description": "Responsive images need a crop/focal strategy.",
+      "fix": "Declare focal point, fit mode, or crop policy."
+    },
+    {
+      "id": "asset.media-missing-fallback",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "manual",
+      "description": "Video/Lottie/complex media should define fallback behavior.",
+      "fix": "Add poster, fallback asset, controls, and autoplay policy."
+    },
+    {
+      "id": "design-system.token-missing",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Color, typography, radius, or spacing values appear detached from tokens.",
+      "fix": "Use design tokens or declare an exception."
+    },
+    {
+      "id": "accessibility.touch-target-too-small",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Interactive target is smaller than recommended touch size.",
+      "fix": "Increase hit area or declare target-specific exception."
+    },
+    {
+      "id": "accessibility.contrast-risk",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Text/background contrast may be insufficient.",
+      "fix": "Adjust colors or document intentional exception."
+    },
+    {
+      "id": "adapter.unsupported-feature",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "The selected target adapter does not support a declared feature.",
+      "fix": "Change the design, add asset fallback, or choose another adapter."
+    }
+  ]
+}

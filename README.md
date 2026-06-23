@@ -70,6 +70,10 @@ No accidental free-floating layers. No mystery buttons. No responsive versions t
 - [Height and overflow](docs/07-height-and-overflow.md)
 - [Preflight checklist](docs/08-preflight-checklist.md)
 - [Common designer mistakes](docs/09-common-designer-mistakes.md)
+- [Hard cases and edge cases](docs/10-hard-cases-and-edge-cases.md)
+- [Validation and autochecks](docs/11-validation-and-autochecks.md)
+- [Project roadmap](docs/12-project-roadmap.md)
+- [Validator rule catalog](validator/rules.json)
 
 ## Minimal example
 
