@@ -1,47 +1,93 @@
-# AI Design Transfer Methodology
+# BRIDGE
 
-Open methodology for designing Figma layouts that AI agents and deterministic tools can transfer into website builders with high fidelity.
+## Breakpoints · Roles · Identity · Dependencies · Geometry · Exceptions
 
-The first target builder is Tilda Zero Block, but the core rules are intentionally builder-agnostic: deterministic hierarchy, explicit responsive variants, stable layer identity, and zero ambiguous layout intent.
+**Designs that can cross the gap.**
+
+BRIDGE is a target-independent methodology for making interface designs transferable: from Figma or any other design source into code, design systems, no-code tools, internal editors, or AI-assisted implementation pipelines.
+
+Languages: [English](README.md) · [Русский](README.ru.md)
+
+> **BRIDGE is not a tool and not a platform adapter.**  
+> BRIDGE is the contract that makes a design understandable before anyone tries to implement it.
+
+## The name
+
+**BRIDGE** means that the design is no longer an isolated picture. It becomes a bridge between intention and implementation.
+
+The acronym is the methodology:
+
+| Letter | Principle | Rule |
+| --- | --- | --- |
+| **B** | **Breakpoints** | Responsive states are explicit and comparable. |
+| **R** | **Roles** | Every layer has a clear role: flow, absolute, or target. |
+| **I** | **Identity** | Logical elements keep stable keys across breakpoints. |
+| **D** | **Dependencies** | Links, modals, states, anchors, and actions are declared. |
+| **G** | **Geometry** | Position, size, spacing, and text metrics are reproducible. |
+| **E** | **Exceptions** | Assets, fixed heights, overflow, and absolute items are intentional. |
+
+## Brand vocabulary
+
+Use the name consistently:
+
+- **BRIDGE-ready design** — a design that can be transferred without guessing.
+- **BRIDGE Contract** — the structured data expected from the design.
+- **BRIDGE Preflight** — the checklist before handoff.
+- **BRIDGE Adapter** — a target-specific implementation layer.
+- **BRIDGE Linter** — a future validator for design mistakes.
+- **BRIDGE Exception** — an intentional deviation with an explicit reason.
+
+Short formula:
+
+```text
+BRIDGE-ready = explicit breakpoints + stable identity + declared intent
+```
+
+## Why BRIDGE exists
+
+A design that should be transferred by humans, AI agents, or deterministic tools must be authored as a system, not as a visual sketch.
+
+BRIDGE is not tied to any specific platform. It does not prescribe a particular framework, CMS, visual editor, runtime, or design-to-code tool. Target adapters may map the same contract to HTML/CSS, React, Vue, mobile UI, internal tools, or any other implementation surface.
 
 ## Core idea
 
-A design that should be transferred by AI must be authored as a system, not as a visual sketch.
+Every layer must have an explicit role:
 
-Every layer must be one of two things:
+1. **Flow item** — part of an explicit layout chain, usually Auto Layout / stack / row / grid.
+2. **Absolute item** — intentionally removed from flow, usually background, decor, overlay, or visual exception.
+3. **Declared target** — an interaction destination such as a modal, section, state, or external URL.
 
-1. **Flex flow item** — part of an explicit Auto Layout chain.
-2. **Absolute item** — intentionally positioned outside the flow, usually background, decor, or overlay.
-
-No third state. No accidental free-floating layers.
+No accidental free-floating layers. No mystery buttons. No responsive versions that silently change content meaning.
 
 ## Start here
 
 - [Design rules](docs/01-design-rules.md)
 - [Layer naming and identity](docs/02-layer-naming-and-identity.md)
 - [Responsive breakpoints](docs/03-responsive-breakpoints.md)
-- [Builder transfer contract](docs/04-builder-transfer-contract.md)
+- [Transfer contract](docs/04-transfer-contract.md)
+- [Interactions and targets](docs/05-interactions-and-targets.md)
+- [Wrapper policy](docs/06-wrapper-policy.md)
+- [Height and overflow](docs/07-height-and-overflow.md)
+- [Preflight checklist](docs/08-preflight-checklist.md)
+- [Common designer mistakes](docs/09-common-designer-mistakes.md)
 
 ## Minimal example
 
 ```text
-Section [bp=1200]
-  background [key=section-bg]                 // absolute
-  [asset] [decor] glow [key=decor-glow]       // absolute
+Hero Section [bp=1200] [key=hero-section]
+  background [abs] [decor] [key=hero-bg]
 
-  content flex [key=content]                  // flex
-    hero flex [key=hero]                      // flex
-      hero-copy flex [key=hero-copy]          // flex
-        title [key=title]
-        subtitle [key=subtitle]
+  content flex [key=content]
+    hero-copy flex [key=hero-copy]
+      title [text] [key=hero-title]
+      subtitle [text] [key=hero-subtitle]
 
-      button-row flex [key=button-row]        // flex
-        [button] primary [key=primary-cta]
-        [button] secondary [key=secondary-cta]
+    button-row flex [key=button-row]
+      primary [button] [key=primary-cta] [action=link:/pricing]
+      secondary [button] [key=contact-cta] [action=modal:contact-modal]
 
-    cards-row flex [key=cards-row]            // flex
-      card [key=card-1]
-      card [key=card-2]
+Modal Contact [modal] [key=contact-modal]
+  modal-content flex [key=contact-modal-content]
 ```
 
 ## License
