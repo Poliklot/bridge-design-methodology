@@ -75,6 +75,8 @@ No accidental free-floating layers. No mystery buttons. No responsive versions t
 - [Project roadmap](docs/12-project-roadmap.md)
 - [Tag grammar](docs/13-tag-grammar.md)
 - [Components and UI Kit](docs/14-components-and-ui-kit.md)
+- [Page routing and views](docs/15-page-routing-and-views.md)
+- [Variation axes](docs/16-variation-axes.md)
 - [Validator rule catalog](validator/rules.json)
 
 ## Minimal example

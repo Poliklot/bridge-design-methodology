@@ -309,6 +309,70 @@
       "fix": "Add states to the UI Kit component set instead of drawing them on a page."
     },
     {
+      "id": "routing.page-route-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Page roots must declare a concrete route or route pattern.",
+      "fix": "Add `[route=/path]` for concrete pages or `[route-pattern=/path/:param]` for templates."
+    },
+    {
+      "id": "routing.duplicate-route",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Two concrete pages must not declare the same route unless intentionally modeled as views of one page.",
+      "fix": "Use one `[page=...]` with multiple `[view=...]` states, or change the duplicate route."
+    },
+    {
+      "id": "routing.href-internal-route-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Internal href points to a route that is not declared in the design contract.",
+      "fix": "Add a page with the matching `[route=...]` or correct the href."
+    },
+    {
+      "id": "routing.href-anchor-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Internal href points to an anchor that is not declared on the target page.",
+      "fix": "Add `[anchor=...]` to the target section or correct the href fragment."
+    },
+    {
+      "id": "routing.page-view-route-drift",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Views or breakpoints of one page identity must not use different routes.",
+      "fix": "Keep one `[route=...]` across all `[view=...]` and `[bp=...]` variants of the page."
+    },
+    {
+      "id": "variation.breakpoint-content-drift",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Content changed across breakpoints without a non-responsive variation axis.",
+      "fix": "Keep breakpoint content identical, or model the change with `[view=...]`, `[locale=...]`, `[experiment=...]`, or another explicit axis."
+    },
+    {
+      "id": "variation.theme-content-drift",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Theme variants must not change text content.",
+      "fix": "Keep content identical across themes; theme should change visual tokens only."
+    },
+    {
+      "id": "variation.axis-overload",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "One variation axis appears to hide a different reason for variation.",
+      "fix": "Use the correct axis: breakpoint for layout, view for data state, locale for translation, experiment for A/B, role-view for permissions."
+    },
+    {
       "id": "adapter.unsupported-feature",
       "principle": "Exceptions",
       "severity": "warning",

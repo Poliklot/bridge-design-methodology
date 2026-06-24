@@ -75,6 +75,8 @@ BRIDGE не привязан к конкретному визуальному р
 - [Roadmap проекта](docs/ru/12-roadmap-proekta.md)
 - [Грамматика тегов](docs/ru/13-grammatika-tegov.md)
 - [Компоненты и UI Kit](docs/ru/14-komponenty-i-ui-kit.md)
+- [Маршруты страниц и состояния](docs/ru/15-marshruty-stranic-i-sostoyaniya.md)
+- [Оси вариативности](docs/ru/16-osi-variativnosti.md)
 - [Validator rule catalog](validator/rules.json)
 
 ## Минимальный пример
