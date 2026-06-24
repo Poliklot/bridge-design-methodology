@@ -18,8 +18,8 @@ Automation markers:
 
 Immediate blockers:
 
-- missing keys for important elements;
-- duplicate keys inside a breakpoint;
+- missing typed identities for important elements;
+- duplicate identities inside a breakpoint/view scope;
 - clickable elements without actions;
 - action targets that do not exist;
 - text fixed height without overflow policy;
@@ -27,10 +27,10 @@ Immediate blockers:
 
 ## Identity
 
-- [ ] Every important element has `[key=...]`.
-- [ ] Keys use English kebab-case.
-- [ ] There are no duplicate keys inside one breakpoint.
-- [ ] The same logical element uses the same key across breakpoints.
+- [ ] Every important element has a typed identity tag (`[type=id]`).
+- [ ] Identities use English kebab-case.
+- [ ] There are no duplicate identities inside one breakpoint/view scope.
+- [ ] The same logical element uses the same identity across breakpoints.
 
 ## Layout
 

@@ -25,7 +25,7 @@ Fixed height is valid for:
 Declare the reason:
 
 ```text
-card [key=feature-card] [height=fixed] [reason=equal-card-grid]
+card [card=feature-card] [height=fixed] [reason=equal-card-grid]
 ```
 
 ## Text and fixed height
@@ -35,19 +35,19 @@ A text layer with fixed height must define what happens when content changes.
 Bad:
 
 ```text
-description [text] [key=description] [height=fixed]
+description [text=description] [height=fixed]
 ```
 
 Good:
 
 ```text
-description [text] [key=description] [height=hug]
+description [text=description] [height=hug]
 ```
 
 Or, if clipping is intentional:
 
 ```text
-description [text] [key=description] [height=fixed] [overflow=truncate] [lines=3]
+description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 ```
 
 ## Overflow policy

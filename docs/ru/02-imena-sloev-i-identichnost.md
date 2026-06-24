@@ -1,36 +1,46 @@
 # Имена слоёв и идентичность
 
-## Стабильные ключи
-
-Каждый важный элемент должен иметь стабильный identity key:
+BRIDGE использует typed identity tags:
 
 ```text
-title [text] [key=title]
-subtitle [text] [key=subtitle]
-button-row flex [key=button-row]
-card [key=feature-card-1]
-[asset] [decor] wave [key=decor-wave]
+[type=id]
 ```
 
-Ключи должны совпадать между breakpoint’ами. Видимое имя слоя может меняться, key — нет.
+Тег описывает и transferable role, и stable identity слоя.
+
+## Примеры
+
+```text
+title [text=hero-title]
+subtitle [text=hero-subtitle]
+button group [container=button-group] [layout=row]
+card [card=feature-card-1]
+wave [decor=decor-wave] [abs]
+```
+
+## Стабильная identity между breakpoint’ами
+
+Identity-часть должна сохраняться между breakpoint’ами.
 
 Desktop:
 
 ```text
-Hero title [text] [key=hero-title]
+Hero title [text=hero-title]
+Button group [container=button-group] [layout=row]
 ```
 
 Mobile:
 
 ```text
-Title mobile [text] [key=hero-title]
+Hero title [text=hero-title]
+Button group [container=button-group] [layout=stack]
 ```
 
-Инструмент переноса воспринимает их как один логический элемент.
+Layout изменился с row на stack, но identity осталась `button-group`.
 
 ## Соглашения по именованию
 
-Используй английский kebab-case для keys:
+Используй English kebab-case для identities:
 
 - `section-bg`
 - `hero-copy`
@@ -41,13 +51,13 @@ Title mobile [text] [key=hero-title]
 Не допускай смысловых коллизий. Повторяющиеся карточки должны иметь индексы:
 
 ```text
-card [key=card-1]
-card [key=card-2]
+card [card=card-1]
+card [card=card-2]
 ```
 
 ## Идентичность контента
 
-Одинаковый key между breakpoint’ами означает один и тот же логический контент.
+Одинаковый typed identity между breakpoint’ами означает один и тот же логический контент.
 
 Можно менять:
 
@@ -55,40 +65,37 @@ card [key=card-2]
 - font-size;
 - переносы строк;
 - позицию в layout;
-- видимое количество строк, если это результат wrapping.
+- parent layout.
 
-Нельзя без явного content variant:
+Нельзя между responsive breakpoint’ами:
 
 - менять текст CTA;
 - менять цену;
 - менять юридическую формулировку;
 - менять продуктовый claim;
-- прятать важный смысл на mobile.
+- прятать важный смысл на mobile;
+- сокращать mobile labels.
 
 Плохо:
 
 ```text
 // desktop
-title [key=hero-title] = "Launch your store in one day"
+title [text=hero-title] = "Launch your store in one day"
 
 // mobile
-title [key=hero-title] = "Launch faster"
+title [text=hero-title] = "Launch faster"
 ```
 
-Если контент намеренно отличается, объяви это:
-
-```text
-title [key=hero-title] [content-variant=mobile-short]
-```
+Если контент отличается из-за locale, experiment, personalization или product variant, моделируй это вне responsive breakpoint contract. Адаптив — это layout variation, а не content variation.
 
 ## Рекомендуемые структурные имена
 
 ```text
-section-body flex [key=section-body]
-content flex [key=content]
-hero flex [key=hero]
-hero-copy flex [key=hero-copy]
-button-row flex [key=button-row]
-stats-row flex [key=stats-row]
-visual-col flex [key=visual-col]
+section-body [container=section-body] [layout=stack]
+content [container=content] [layout=stack]
+hero [container=hero] [layout=row]
+hero-copy [container=hero-copy] [layout=stack]
+button group [container=button-group] [layout=row]
+stats row [container=stats-row] [layout=row]
+visual column [container=visual-col] [layout=stack]
 ```

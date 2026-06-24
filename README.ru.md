@@ -74,25 +74,26 @@ BRIDGE не привязан к конкретному визуальному р
 - [Валидация и автопроверки](docs/ru/11-validaciya-i-avtoproverki.md)
 - [Roadmap проекта](docs/ru/12-roadmap-proekta.md)
 - [Грамматика тегов](docs/ru/13-grammatika-tegov.md)
+- [Компоненты и UI Kit](docs/ru/14-komponenty-i-ui-kit.md)
 - [Validator rule catalog](validator/rules.json)
 
 ## Минимальный пример
 
 ```text
-Hero Section [bp=1200] [key=hero-section]
-  background [abs] [decor] [key=hero-bg]
+Hero Section [section=hero-section] [bp=1200]
+  background [decor=hero-bg] [abs]
 
-  content flex [key=content]
-    hero-copy flex [key=hero-copy]
-      title [text] [key=hero-title]
-      subtitle [text] [key=hero-subtitle]
+  content [container=content] [layout=stack]
+    hero-copy [container=hero-copy] [layout=stack]
+      title [text=hero-title]
+      subtitle [text=hero-subtitle]
 
-    button-row flex [key=button-row]
-      primary [button] [key=primary-cta] [action=link:/pricing]
-      secondary [button] [key=contact-cta] [action=modal:contact-modal]
+    button-row [container=button-group] [layout=row]
+      primary [link=primary-cta] [href=/pricing]
+      secondary [control=contact-cta] [action=modal:contact-modal]
 
-Modal Contact [modal] [key=contact-modal]
-  modal-content flex [key=contact-modal-content]
+Modal Contact [modal=contact-modal]
+  modal-content [container=contact-modal-content] [layout=stack]
 ```
 
 ## Лицензия

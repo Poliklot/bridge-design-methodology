@@ -1,36 +1,46 @@
 # Layer naming and identity
 
-## Stable keys
-
-Every important element should have a stable identity key:
+BRIDGE uses typed identity tags:
 
 ```text
-title [text] [key=title]
-subtitle [text] [key=subtitle]
-button-row flex [key=button-row]
-card [key=feature-card-1]
-[asset] [decor] wave [key=decor-wave]
+[type=id]
 ```
 
-Keys must match across breakpoints. The visible layer name may change; the key should not.
+The tag describes both the transferable role and the stable identity of the layer.
+
+## Examples
+
+```text
+title [text=hero-title]
+subtitle [text=hero-subtitle]
+button group [container=button-group] [layout=row]
+card [card=feature-card-1]
+wave [decor=decor-wave] [abs]
+```
+
+## Stable identity across breakpoints
+
+The identity part must stay stable across breakpoints.
 
 Desktop:
 
 ```text
-Hero title [text] [key=hero-title]
+Hero title [text=hero-title]
+Button group [container=button-group] [layout=row]
 ```
 
 Mobile:
 
 ```text
-Title mobile [text] [key=hero-title]
+Hero title [text=hero-title]
+Button group [container=button-group] [layout=stack]
 ```
 
-The transfer tool treats them as one logical element.
+The layout changed from row to stack, but the identity remained `button-group`.
 
 ## Naming conventions
 
-Use English kebab-case for keys:
+Use English kebab-case for identities:
 
 - `section-bg`
 - `hero-copy`
@@ -41,13 +51,13 @@ Use English kebab-case for keys:
 Avoid semantic collisions. Repeated cards need indexes:
 
 ```text
-card [key=card-1]
-card [key=card-2]
+card [card=card-1]
+card [card=card-2]
 ```
 
 ## Content identity
 
-The same key across breakpoints means the same logical content.
+The same typed identity across breakpoints means the same logical content.
 
 Allowed:
 
@@ -55,40 +65,37 @@ Allowed:
 - different font size;
 - different line breaks;
 - different layout position;
-- shorter visible line caused by wrapping.
+- different parent layout.
 
-Not allowed without an explicit content variant:
+Not allowed across responsive breakpoints:
 
 - different CTA wording;
 - different price;
 - different legal text;
 - different product claim;
-- hiding required meaning on mobile.
+- hiding required meaning on mobile;
+- shortened mobile-only labels.
 
 Bad:
 
 ```text
 // desktop
-title [key=hero-title] = "Launch your store in one day"
+title [text=hero-title] = "Launch your store in one day"
 
 // mobile
-title [key=hero-title] = "Launch faster"
+title [text=hero-title] = "Launch faster"
 ```
 
-If content intentionally differs, declare it:
-
-```text
-title [key=hero-title] [content-variant=mobile-short]
-```
+If content differs because of locale, experiment, personalization, or a product variant, model it outside the responsive breakpoint contract. A responsive breakpoint is a layout variation, not a content variation.
 
 ## Suggested structural names
 
 ```text
-section-body flex [key=section-body]
-content flex [key=content]
-hero flex [key=hero]
-hero-copy flex [key=hero-copy]
-button-row flex [key=button-row]
-stats-row flex [key=stats-row]
-visual-col flex [key=visual-col]
+section-body [container=section-body] [layout=stack]
+content [container=content] [layout=stack]
+hero [container=hero] [layout=row]
+hero-copy [container=hero-copy] [layout=stack]
+button group [container=button-group] [layout=row]
+stats row [container=stats-row] [layout=row]
+visual column [container=visual-col] [layout=stack]
 ```

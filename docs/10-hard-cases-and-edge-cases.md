@@ -12,9 +12,9 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 
 | Case | Why it is dangerous | BRIDGE response | Auto-check |
 | --- | --- | --- | --- |
-| Same logical element has different keys on breakpoints | The adapter creates duplicates instead of one responsive element. | Keep one stable `[key=...]`. | Compare breakpoint groups. |
-| Same key points to different element types | A button becomes text, an image becomes a card, etc. | Same key must preserve logical type unless declared as variant. | Compare type by key. |
-| Repeated cards reuse one key | The adapter cannot distinguish instances. | Use indexed keys: `card-1`, `card-2`. | Detect duplicate keys. |
+| Same logical element has different identities on breakpoints | The adapter creates duplicates instead of one responsive element. | Keep one stable typed identity (`[type=id]`). | Compare breakpoint groups. |
+| Same identity points to different element types | A button becomes text, an image becomes a card, etc. | Same identity must preserve logical type unless modeled as a different entity. | Compare type by key. |
+| Repeated cards reuse one identity | The adapter cannot distinguish instances. | Use indexed keys: `card-1`, `card-2`. | Detect duplicate identities. |
 | Component instance overrides hide changed content | Source component says one thing, override says another. | Treat resolved instance content as source of truth and report overrides. | Extract component metadata. |
 | Hidden layer is the real source of truth | Transfer may pick wrong copy/state. | Hidden alternatives must be declared as states, variants, or archive. | Detect hidden keyed layers. |
 
@@ -22,8 +22,8 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 
 | Case | Why it is dangerous | BRIDGE response | Auto-check |
 | --- | --- | --- | --- |
-| Mobile copy changes product meaning | Users see different promises on different devices. | Same key means same meaning; use `[content-variant=...]` if intentional. | Text diff by key. |
-| Critical element disappears on mobile | CTA, legal note, price, or error state is lost. | Mark intentional exclusions or keep key on required breakpoints. | Key coverage check. |
+| Mobile copy changes product meaning | Users see different promises on different devices. | Responsive breakpoints must preserve exact content; model locale/experiment/product variants separately. | Text diff by identity. |
+| Critical element disappears on mobile | CTA, legal note, price, or error state is lost. | Mark intentional exclusions or keep key on required breakpoints. | Identity coverage check. |
 | Desktop grid becomes mobile carousel | Different behavior, states, and controls appear. | Declare `responsive-behavior=carousel` and carousel controls. | Key + role change heuristic. |
 | Order changes without reason | DOM/order may differ from visual intent and accessibility. | Declare order strategy or preserve semantic order. | Compare sibling order by key. |
 | Breakpoints do not cover transition zones | Design works only at exact widths. | Define breakpoint roots first, then min/max/fluid strategy. | Check declared breakpoint set. |
@@ -57,7 +57,7 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 | Case | Why it is dangerous | BRIDGE response | Auto-check |
 | --- | --- | --- | --- |
 | Button has no action | Nobody knows what click does. | Every clickable element needs `[action=...]`. | Clickable-without-action. |
-| Modal target is missing | Adapter cannot build the flow. | `action=modal:x` requires `[modal] [key=x]`. | Interaction graph check. |
+| Modal target is missing | Adapter cannot build the flow. | `action=modal:x` requires `[modal=x]`. | Interaction graph check. |
 | Modal has no close behavior | User can get trapped. | Declare close control, backdrop behavior, escape behavior. | Modal structure check. |
 | Form fields have no labels | Accessibility and backend mapping fail. | Declare labels, names, validation, submit target. | Form field checks. |
 | Tabs/accordions/carousels have only one state | Interaction cannot be reproduced. | Declare all states and active/default state. | State group check. |
@@ -79,7 +79,7 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 | Case | Why it is dangerous | BRIDGE response | Auto-check |
 | --- | --- | --- | --- |
 | Colors and spacing are one-off | Implementation drifts from system. | Prefer tokens; mark exceptions. | Token coverage check. |
-| Dark mode is partial | Some elements disappear or clash. | Declare theme coverage. | Theme key coverage. |
+| Dark mode is partial | Some elements disappear or clash. | Declare theme coverage. | Theme coverage check. |
 | Component variants are missing | Button/card states are invented later. | Define required variants and states. | Component variant check. |
 | Touch targets are too small | Mobile usability breaks. | Minimum touch sizes per platform. | Geometry check. |
 | Contrast is risky | Accessibility fails. | Contrast threshold or manual review for images. | Contrast check. |

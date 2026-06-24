@@ -18,9 +18,9 @@ A wrapper is valid when it has one of these roles:
 Example:
 
 ```text
-cards-grid flex [key=cards-grid] [wrapper-role=grid]
-  card [key=card-1]
-  card [key=card-2]
+cards [container=cards] [layout=grid]
+  card [card=card-1]
+  card [card=card-2]
 ```
 
 ## Invalid wrappers
@@ -36,16 +36,16 @@ Invalid wrappers usually have these signs:
 Bad:
 
 ```text
-Frame 53 [key=frame-53]
-  Group 271 [key=group-271]
-    title [key=hero-title]
+Frame 53 [container=frame-53]
+  Group 271 [container=group-271]
+    title [text=hero-title]
 ```
 
 Good:
 
 ```text
-hero-copy flex [key=hero-copy] [wrapper-role=stack]
-  title [key=hero-title]
+hero copy [container=hero-copy] [layout=stack]
+  title [text=hero-title]
 ```
 
 ## Breakpoint-specific wrappers
@@ -54,10 +54,10 @@ A wrapper may change between breakpoints only if the role stays explainable.
 
 ```text
 // desktop
-button-row flex [key=button-group] [wrapper-role=row]
+button group [container=button-group] [layout=row]
 
 // mobile
-button-column flex [key=button-group] [wrapper-role=stack]
+button group [container=button-group] [layout=stack]
 ```
 
 The key remains stable because the logical group is the same.

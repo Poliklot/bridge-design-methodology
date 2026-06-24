@@ -5,7 +5,7 @@ BRIDGE-ready макет раскрывает достаточно информа
 ## Обязательные данные
 
 - Root frames breakpoint’ов (`[bp=...]`).
-- Стабильные keys (`[key=...]`).
+- Typed identities (`[type=id]`).
 - Layout role: flow, absolute или target.
 - Тип элемента: text, button, link, shape, image, asset, decor, modal, section, state.
 - Геометрия по breakpoint’ам.
@@ -24,7 +24,7 @@ BRIDGE-ready макет раскрывает достаточно информа
   "breakpoints": [1200, 320],
   "elements": [
     {
-      "key": "hero-title",
+      "id": "hero-title",
       "type": "text",
       "content": {
         "text": "Launch your store in one day",
@@ -39,7 +39,7 @@ BRIDGE-ready макет раскрывает достаточно информа
       }
     },
     {
-      "key": "contact-cta",
+      "id": "contact-cta",
       "type": "button",
       "content": {
         "text": "Contact us"
@@ -52,7 +52,7 @@ BRIDGE-ready макет раскрывает достаточно информа
   ],
   "targets": [
     {
-      "key": "contact-modal",
+      "id": "contact-modal",
       "type": "modal"
     }
   ]

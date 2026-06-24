@@ -1,63 +1,100 @@
 # Interactions and targets
 
-Clickable elements must not be ambiguous. A button or link without a destination is not ready for transfer.
+BRIDGE uses one source of truth per interaction. Navigation uses `href`. Non-navigation behavior uses `action`.
 
-## Action syntax
+## Links use `href`
 
-Recommended action tags:
+A link is a navigation element. Its destination is always `href`.
 
 ```text
-[action=link:/pricing]
-[action=link:https://example.com]
-[action=scroll:#faq]
+Contacts [link=nav-contacts] [href=/contacts]
+FAQ [link=nav-faq] [href=/contacts#faq]
+Telegram [link=social-telegram] [href=https://t.me/company]
+Email [link=email-sales] [href=mailto:sales@example.com]
+Phone [link=phone-main] [href=tel:+12025550123]
+```
+
+Rules:
+
+- `[link=...]` gives the link instance identity.
+- `[href=...]` is the only destination truth.
+- Internal routes start with `/`.
+- Same-page anchors start with `#`.
+- External URLs start with `http://` or `https://`.
+- `mailto:` and `tel:` are valid external protocols.
+- Do not add a second semantic destination such as `[to=...]`.
+
+Optional behavior tags may describe how the link opens, not where it points:
+
+```text
+Telegram [link=social-telegram] [href=https://t.me/company] [open=new-tab] [a11y-label=Telegram]
+```
+
+## Controls use `action`
+
+A control is an interactive element that does something other than direct navigation.
+
+```text
+Contact us [control=contact-cta] [action=modal:contact-modal]
+Menu [control=mobile-menu-button] [action=state:mobile-menu-open]
+Reset filters [control=reset-filters] [action=state:catalog-default]
+Submit [control=lead-submit] [action=submit:lead-form]
+Disabled CTA [control=disabled-cta] [action=none]
+```
+
+Rules:
+
+- `[control=...]` gives the control instance identity.
+- `[action=...]` is required for controls.
+- Do not force page designers to write detailed roles such as `accordion-trigger` or `menu-button` in the page layer name.
+- The exact component/control type should come from the UI Kit component instance metadata whenever possible.
+
+Allowed action forms:
+
+```text
 [action=modal:contact-modal]
-[action=state:menu-open]
+[action=state:mobile-menu-open]
 [action=submit:lead-form]
+[action=reset:catalog-filters]
 [action=none]
 ```
 
-Use `[action=none]` only for intentionally disabled or visual-only controls.
+## Fields use `field` and `name`
 
-## Buttons
-
-Every button must define an action:
+Form fields need stable identity and data binding.
 
 ```text
-primary [button] [key=primary-cta] [action=link:/pricing]
+Email [field=email] [name=email]
+Country [field=country] [name=country]
+Message [field=message] [name=message]
 ```
 
-Bad:
+Use `[field-type=...]` only when the type cannot be inferred from the UI Kit component or native field metadata:
 
 ```text
-button [key=primary-cta]
+Country [field=country] [name=country] [field-type=select]
 ```
 
-## Links
+## Modals and states
 
-Every link must define a URL or target:
+Actions must point to existing targets:
 
 ```text
-terms [link] [key=terms-link] [action=link:/terms]
-faq [link] [key=faq-link] [action=scroll:#faq]
+Contact us [control=contact-cta] [action=modal:contact-modal]
+Contact Modal [modal=contact-modal]
+
+Menu [control=mobile-menu-button] [action=state:mobile-menu-open]
+Mobile Menu [state=mobile-menu-open]
 ```
 
-## Modals
+If a modal or state target does not exist, the design is not BRIDGE-ready.
 
-A modal action must point to an existing modal target:
+## What validators should check
 
-```text
-contact [button] [key=contact-cta] [action=modal:contact-modal]
-
-Modal Contact [modal] [key=contact-modal]
-```
-
-If the modal frame does not exist, the design is incomplete.
-
-## States
-
-State-changing controls must name the state:
-
-```text
-menu button [button] [key=menu-button] [action=state:mobile-menu-open]
-Mobile Menu [state] [key=mobile-menu-open]
-```
+- Every `[link=...]` has exactly one `[href=...]`.
+- Internal href routes resolve to declared pages.
+- Internal href anchors resolve to declared sections/anchors.
+- Every `[control=...]` has exactly one `[action=...]`.
+- Modal/state/submit/reset action targets exist.
+- Social/icon-only links have an accessible label.
+- Page instances do not invent component states; states belong in the UI Kit.

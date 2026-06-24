@@ -1,353 +1,251 @@
 # BRIDGE tag grammar
 
-BRIDGE tags are small machine-readable annotations placed in layer names. They make design intent explicit enough for checklists, validators, and transfer adapters.
+BRIDGE tags are small machine-readable annotations placed in layer names. The grammar must avoid duplicate truths and must be simple enough for designers to use.
 
-## Syntax
+## Core rule
 
-A tag is written in square brackets:
+Use one identity tag per important transferable layer:
 
 ```text
-[key=hero-title]
-[bp=1200]
-[button]
-[action=modal:contact-modal]
+[type=id]
 ```
 
-General forms:
+Use property tags for additional facts:
 
 ```text
-[flag]
-[name=value]
-[name=value:subvalue]
-```
-
-Rules:
-
-- tag names use lowercase kebab-case;
-- values use lowercase kebab-case unless the value is a URL or external identifier;
-- multiple tags are allowed on one layer;
-- stable identity must use `[key=...]`;
-- free text in the visible layer name is allowed, but tags are the source of truth.
-
-## Required core tags
-
-### `[key=...]`
-
-Stable logical identity.
-
-```text
-title [text] [key=hero-title]
-primary [button] [key=primary-cta]
-```
-
-Rules:
-
-- required for every transferable element;
-- must be unique inside one breakpoint scope;
-- must remain stable across breakpoints;
-- should use English kebab-case.
-
-### `[bp=...]`
-
-Breakpoint root width.
-
-```text
-Hero Section [bp=1200] [key=hero-section]
-Hero Section [bp=320] [key=hero-section]
-```
-
-Rules:
-
-- used on responsive root frames;
-- value is numeric width in pixels;
-- sibling breakpoint frames for the same section should share the same section key.
-
-## Element type tags
-
-Use one primary type tag when the visual role is not obvious.
-
-```text
-[text]
-[button]
-[link]
-[input]
-[image]
-[icon]
-[asset]
-[decor]
-[shape]
-[section]
-[modal]
-[state]
-[collection]
+[property=value]
 ```
 
 Examples:
 
 ```text
-price [text] [key=plan-price]
-terms [link] [key=terms-link] [action=link:/terms]
-email [input] [key=email-input]
-features [collection] [key=features-list]
+Contacts Page [page=contacts] [route=/contacts] [bp=1200]
+Hero Title [text=hero-title]
+FAQ [link=nav-faq] [href=/contacts#faq]
+Contact us [control=contact-cta] [action=modal:contact-modal]
 ```
 
-## Layout tags
+## One truth rules
 
-### Flow role
+- Navigation destination is always `[href=...]`.
+- Non-navigation behavior is always `[action=...]`.
+- Responsive breakpoints must not change text content.
+- Page instances must not manually describe component internals that Figma/UI Kit already owns.
+- Do not use `[to=...]`.
+- Do not use responsive content variants such as `mobile-short`.
 
-Flow is usually represented by layout structure or the word `flex` in the layer name:
+## Identity tags
+
+### Page and target entities
 
 ```text
-hero-copy flex [key=hero-copy]
-cards-grid flex [key=cards-grid] [wrapper-role=grid]
+[page=contacts]
+[section=contacts-faq]
+[modal=contact-modal]
+[state=mobile-menu-open]
 ```
 
-### `[abs]`
-
-The element is intentionally removed from flow.
+### Layout entities
 
 ```text
-glow [abs] [decor] [key=hero-glow]
+[container=content]
+[container=hero-copy]
+[collection=products]
+[card=product-card-1]
+[form=lead-form]
 ```
 
-Use `[abs]` with a reason tag or role tag such as `[decor]`, `[asset]`, `[overlay]`, or `[shape]`.
-
-### `[wrapper-role=...]`
-
-Explains why a wrapper exists.
-
-Allowed values:
+### Content and visual entities
 
 ```text
-stack
-row
-grid
-clip
-overlay-scope
-semantic-region
-target-scope
-asset-group
+[text=hero-title]
+[image=hero-photo]
+[icon=close-icon]
+[asset=hero-illustration]
+[decor=hero-glow]
+[shape=background-shape]
 ```
 
-Example:
+### Interaction entities
 
 ```text
-button-row flex [key=button-group] [wrapper-role=row]
+[link=nav-contacts]
+[control=contact-cta]
+[field=email]
 ```
 
-## Interaction tags
+Use `[layout=stack]`, `[layout=row]`, `[layout=grid]`, or similar layout properties on containers when direction/arrangement matters. Use `[control=...]` for interactive elements that are not direct navigation links. Do not make designers choose from a long list of control subtypes in page layer names. The exact component/control type should come from the UI Kit component instance metadata whenever possible.
 
-### `[action=...]`
+## Page and route properties
 
-Required for clickable elements.
+```text
+[route=/contacts]
+[bp=1200]
+[view=default]
+[view=empty]
+[view=loading]
+[view=error]
+[anchor=faq]
+```
+
+Examples:
+
+```text
+Catalog Page [page=catalog] [route=/catalog] [bp=1200] [view=default]
+Catalog Empty [page=catalog] [route=/catalog] [bp=1200] [view=empty]
+FAQ Section [section=contacts-faq] [anchor=faq]
+```
+
+Rules:
+
+- all breakpoints/views of one page share the same `[page=...]` and `[route=...]`;
+- `[view=...]` describes page/data state, not component state;
+- `[anchor=...]` creates an addressable section anchor.
+
+## Links and href
+
+Links use `href` as the only destination truth.
+
+```text
+Contacts [link=nav-contacts] [href=/contacts]
+FAQ [link=nav-faq] [href=/contacts#faq]
+Telegram [link=social-telegram] [href=https://t.me/company]
+Email [link=email-sales] [href=mailto:sales@example.com]
+Phone [link=phone-main] [href=tel:+12025550123]
+```
+
+Optional link behavior:
+
+```text
+[open=new-tab]
+[a11y-label=Telegram]
+```
+
+Validators classify href values:
+
+- `/path` — internal route;
+- `#anchor` — same-page anchor;
+- `/path#anchor` — cross-page anchor;
+- `https://...` — external URL;
+- `mailto:` / `tel:` — external protocol.
+
+## Controls and actions
+
+Controls use `action`.
+
+```text
+Contact us [control=contact-cta] [action=modal:contact-modal]
+Menu [control=mobile-menu-button] [action=state:mobile-menu-open]
+Submit [control=lead-submit] [action=submit:lead-form]
+Reset filters [control=reset-filters] [action=reset:catalog-filters]
+Disabled CTA [control=disabled-cta] [action=none]
+```
 
 Allowed action forms:
 
 ```text
-[action=link:/pricing]
-[action=link:https://example.com]
-[action=scroll:#faq]
-[action=modal:contact-modal]
-[action=state:mobile-menu-open]
-[action=submit:lead-form]
+[action=modal:target-id]
+[action=state:target-id]
+[action=submit:form-id]
+[action=reset:target-id]
 [action=none]
 ```
 
-Rules:
+## Fields
 
-- `[button]` and `[link]` should have `[action=...]`;
-- `modal:` must reference an existing `[modal] [key=...]` target;
-- `state:` must reference an existing `[state] [key=...]` target;
-- `none` is allowed only for intentionally disabled or visual-only controls.
-
-## Content tags
-
-### `[content-variant=...]`
-
-Declares intentional content difference between breakpoints.
+Fields require stable identity and data binding name.
 
 ```text
-title [text] [key=hero-title] [content-variant=mobile-short]
+Email [field=email] [name=email]
+Country [field=country] [name=country]
+Message [field=message] [name=message]
 ```
 
-Use only when the content meaning is intentionally different or shortened.
-
-### `[content=strict]`
-
-Marks content that must not drift across breakpoints without review.
+Use `[field-type=...]` only when type cannot be inferred from UI Kit/native metadata:
 
 ```text
-price [text] [key=plan-price] [content=strict]
-legal [text] [key=terms-note] [content=strict]
+Country [field=country] [name=country] [field-type=select]
 ```
 
-Recommended for:
-
-- prices;
-- legal copy;
-- product claims;
-- CTA labels;
-- plan names;
-- compliance-sensitive text.
-
-## Height and overflow tags
-
-### `[height=...]`
-
-Allowed values:
+## Height and overflow
 
 ```text
-hug
-fixed
-min
-fill
+[height=hug]
+[height=fixed]
+[height=min]
+[height=fill]
+[overflow=visible]
+[overflow=hidden]
+[overflow=scroll]
+[overflow=truncate]
+[lines=3]
 ```
 
 Examples:
 
 ```text
-description [text] [key=description] [height=hug]
-card [key=feature-card] [height=fixed] [reason=equal-card-grid]
+Description [text=description] [height=hug]
+Description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 ```
 
-### `[overflow=...]`
-
-Allowed values:
+## Absolute and exceptions
 
 ```text
-visible
-hidden
-scroll
-truncate
-```
-
-Examples:
-
-```text
-description [text] [key=description] [height=fixed] [overflow=truncate] [lines=3]
-image-mask [image] [key=hero-image] [overflow=hidden]
-```
-
-## Asset and media tags
-
-### `[asset]`
-
-Marks an element or group that should be treated as exported visual material.
-
-```text
-illustration [asset] [key=hero-illustration]
-```
-
-### `[decor]`
-
-Marks visual material that does not carry content meaning.
-
-```text
-wave [abs] [decor] [key=decor-wave]
-```
-
-### `[focal=...]`
-
-Declares responsive image focal point.
-
-```text
-photo [image] [key=team-photo] [focal=center-top]
-```
-
-Suggested values:
-
-```text
-center
-center-top
-center-bottom
-left-center
-right-center
-custom
-```
-
-## Exception tags
-
-### `[bridge-exception=...]`
-
-Marks an intentional deviation from normal BRIDGE rules.
-
-```text
-poster [asset] [key=hero-poster] [bridge-exception=raster-text] [reason=brand-lockup]
-```
-
-Rules:
-
-- every exception must include `[reason=...]`;
-- exceptions should be rare;
-- validators may downgrade some errors to warnings when an exception is valid.
-
-Common exception values:
-
-```text
-raster-text
-overlap
-fixed-height
-unsupported-effect
-manual-transfer
-visual-poster
-```
-
-### `[reason=...]`
-
-Explains why an exception exists.
-
-```text
-[reason=equal-card-grid]
+[abs]
+[bridge-exception=raster-text]
+[bridge-exception=overlap]
+[bridge-exception=fixed-height]
+[bridge-exception=unsupported-effect]
+[bridge-exception=manual-transfer]
 [reason=brand-lockup]
-[reason=decorative-layered-composition]
 ```
 
-## Complete examples
+Rules:
 
-### Button that opens a modal
+- every exception needs `[reason=...]`;
+- `[abs]` should be paired with a meaningful entity type such as `[decor=...]`, `[asset=...]`, `[shape=...]`, or `[modal=...]`;
+- exceptions do not make a design better, they only make complexity explicit.
+
+## Component ownership
+
+Do not tag page instances with `[component=...]` if Figma already knows the source component. Component source, variants, and UI states belong to the UI Kit and should be extracted from Figma component metadata.
+
+Page instance:
 
 ```text
-contact [button] [key=contact-cta] [action=modal:contact-modal]
-Modal Contact [modal] [key=contact-modal]
+Contact us [control=contact-cta] [action=modal:contact-modal]
 ```
 
-### Responsive section roots
+UI Kit component source defines states such as default, hover, focus, disabled, loading, error, etc.
 
-```text
-Hero Section [section] [bp=1200] [key=hero-section]
-Hero Section [section] [bp=320] [key=hero-section]
-```
-
-### Valid decorative absolute layer
-
-```text
-glow [abs] [decor] [key=hero-glow]
-```
-
-### Fixed-height card with declared reason
-
-```text
-feature-card [key=feature-card-1] [height=fixed] [reason=equal-card-grid]
-```
+See [Components and UI Kit](14-components-and-ui-kit.md).
 
 ## Invalid examples
 
 ```text
-Button
+FAQ [link=nav-faq] [to=anchor:contacts-faq] [href=/contacts#faq]
 ```
 
-Missing key, type, and action.
+Invalid: two destinations. Use only `[href=/contacts#faq]`.
 
 ```text
-Frame 53 [key=frame-53]
-  Group 271 [key=group-271]
-    title [key=hero-title]
+Contact us [control=contact-cta]
 ```
 
-Wrapper names do not explain layout intent.
+Invalid: control has no action.
 
 ```text
-description [text] [key=description] [height=fixed]
+// desktop
+Contact us [control=contact-cta]
+
+// mobile
+Contact [control=contact-cta]
 ```
 
-Fixed text height has no overflow policy or reason.
+Invalid: same identity has different text across breakpoints.
+
+```text
+Contact us [control=contact-cta] [component=button]
+```
+
+Invalid for page instances: component source should come from Figma/UI Kit metadata, not a duplicated tag.

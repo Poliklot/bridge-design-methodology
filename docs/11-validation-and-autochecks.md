@@ -5,8 +5,8 @@ BRIDGE should become comfortable because a designer can run a preflight check be
 ## Validation layers
 
 1. **Syntax validation** — tags, keys, action syntax, breakpoint tags.
-2. **Identity validation** — key uniqueness, key stability, type stability.
-3. **Responsive validation** — key coverage, content drift, order changes, breakpoint completeness.
+2. **Identity validation** — identity uniqueness, identity stability, type stability.
+3. **Responsive validation** — identity coverage, content drift, order changes, breakpoint completeness.
 4. **Layout validation** — flow/absolute roles, wrappers, clipping, fixed heights, overlaps.
 5. **Interaction graph validation** — actions, targets, modals, states, forms.
 6. **Content validation** — text equality, strict legal/price content, rich text, localization risk.
@@ -32,7 +32,7 @@ BRIDGE should become comfortable because a designer can run a preflight check be
 extract design tree
   -> normalize names, tags, keys, roles
   -> group frames by section and breakpoint
-  -> build key map and type map
+  -> build identity map and type map
   -> compare content across breakpoints
   -> classify layout roles and wrappers
   -> build action-target graph
@@ -47,9 +47,9 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 
 | Group | Example rule | Severity | Automation |
 | --- | --- | --- | --- |
-| Identity | `identity.missing-key` | error | automatic |
+| Identity | `identity.missing-typed-identity` | error | automatic |
 | Identity | `identity.same-key-different-type` | error | automatic |
-| Responsive | `responsive.key-missing-in-required-breakpoint` | warning | automatic |
+| Responsive | `responsive.identity-missing-in-required-breakpoint` | warning | automatic |
 | Content | `content.text-changed-between-breakpoints` | warning | heuristic |
 | Layout | `layout.one-child-wrapper-without-role` | warning | heuristic |
 | Layout | `layout.overlap-without-overlay-role` | warning | heuristic |
@@ -75,10 +75,10 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
     {
       "ruleId": "interaction.modal-target-missing",
       "severity": "error",
-      "nodeKey": "contact-cta",
+      "nodeId": "contact-cta",
       "breakpoint": 320,
       "message": "Button references modal `contact-modal`, but no modal target exists.",
-      "fix": "Create `[modal] [key=contact-modal]` or change the action."
+      "fix": "Create `[modal=contact-modal]` or change the action."
     }
   ]
 }
@@ -90,7 +90,7 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 
 Use before showing the file to engineering:
 
-- missing keys;
+- missing identities;
 - missing actions;
 - obvious fixed-height text;
 - missing modal/state targets;
@@ -118,9 +118,9 @@ Use to prove that a target implementation path supports BRIDGE:
 
 ## What should block handoff immediately
 
-- Missing `[key=...]` on important elements.
-- Duplicate keys inside a breakpoint.
-- Same key used for different logical types.
+- Missing typed identity (`[type=id]`) on important elements.
+- Duplicate identities inside a breakpoint/view scope.
+- Same identity used for different logical types.
 - Clickable element without `[action=...]`.
 - Action target missing.
 - Modal without close behavior.

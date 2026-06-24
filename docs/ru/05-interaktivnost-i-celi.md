@@ -1,63 +1,100 @@
 # Интерактивность и цели
 
-Clickable elements не должны быть загадкой. Кнопка или ссылка без назначения не готова к переносу.
+BRIDGE использует одну правду на каждое взаимодействие. Навигация описывается через `href`. Ненавигационное поведение — через `action`.
 
-## Синтаксис action
+## Ссылки используют `href`
 
-Рекомендуемые action tags:
+Ссылка — это navigation element. Её destination всегда `href`.
 
 ```text
-[action=link:/pricing]
-[action=link:https://example.com]
-[action=scroll:#faq]
+Contacts [link=nav-contacts] [href=/contacts]
+FAQ [link=nav-faq] [href=/contacts#faq]
+Telegram [link=social-telegram] [href=https://t.me/company]
+Email [link=email-sales] [href=mailto:sales@example.com]
+Phone [link=phone-main] [href=tel:+12025550123]
+```
+
+Правила:
+
+- `[link=...]` задаёт identity конкретной ссылки.
+- `[href=...]` — единственная правда, куда ведёт ссылка.
+- Internal routes начинаются с `/`.
+- Same-page anchors начинаются с `#`.
+- External URLs начинаются с `http://` или `https://`.
+- `mailto:` и `tel:` — валидные external protocols.
+- Не добавляй вторую semantic destination вроде `[to=...]`.
+
+Optional behavior tags могут описывать, как ссылка открывается, но не куда ведёт:
+
+```text
+Telegram [link=social-telegram] [href=https://t.me/company] [open=new-tab] [a11y-label=Telegram]
+```
+
+## Controls используют `action`
+
+Control — интерактивный элемент, который делает что-то кроме прямой навигации.
+
+```text
+Contact us [control=contact-cta] [action=modal:contact-modal]
+Menu [control=mobile-menu-button] [action=state:mobile-menu-open]
+Reset filters [control=reset-filters] [action=state:catalog-default]
+Submit [control=lead-submit] [action=submit:lead-form]
+Disabled CTA [control=disabled-cta] [action=none]
+```
+
+Правила:
+
+- `[control=...]` задаёт identity конкретного control instance.
+- `[action=...]` обязателен для controls.
+- Не заставляй page designers писать подробные roles вроде `accordion-trigger` или `menu-button` в имени слоя страницы.
+- Точный component/control type должен приходить из UI Kit component instance metadata, когда это возможно.
+
+Допустимые формы action:
+
+```text
 [action=modal:contact-modal]
-[action=state:menu-open]
+[action=state:mobile-menu-open]
 [action=submit:lead-form]
+[action=reset:catalog-filters]
 [action=none]
 ```
 
-Используй `[action=none]` только для намеренно disabled или purely visual controls.
+## Fields используют `field` и `name`
 
-## Кнопки
-
-Каждая кнопка должна иметь action:
+Form fields требуют stable identity и data binding.
 
 ```text
-primary [button] [key=primary-cta] [action=link:/pricing]
+Email [field=email] [name=email]
+Country [field=country] [name=country]
+Message [field=message] [name=message]
 ```
 
-Плохо:
+Используй `[field-type=...]` только если тип нельзя вывести из UI Kit component или native field metadata:
 
 ```text
-button [key=primary-cta]
+Country [field=country] [name=country] [field-type=select]
 ```
 
-## Ссылки
+## Modals и states
 
-Каждая ссылка должна иметь URL или target:
+Actions должны указывать на существующие targets:
 
 ```text
-terms [link] [key=terms-link] [action=link:/terms]
-faq [link] [key=faq-link] [action=scroll:#faq]
+Contact us [control=contact-cta] [action=modal:contact-modal]
+Contact Modal [modal=contact-modal]
+
+Menu [control=mobile-menu-button] [action=state:mobile-menu-open]
+Mobile Menu [state=mobile-menu-open]
 ```
 
-## Модалки
+Если modal или state target не существует, дизайн не BRIDGE-ready.
 
-Modal action должен указывать на существующий modal target:
+## Что должен проверять валидатор
 
-```text
-contact [button] [key=contact-cta] [action=modal:contact-modal]
-
-Modal Contact [modal] [key=contact-modal]
-```
-
-Если modal frame не существует, дизайн не завершён.
-
-## Состояния
-
-Controls, которые меняют состояние, должны называть это состояние:
-
-```text
-menu button [button] [key=menu-button] [action=state:mobile-menu-open]
-Mobile Menu [state] [key=mobile-menu-open]
-```
+- У каждого `[link=...]` есть ровно один `[href=...]`.
+- Internal href routes резолвятся в declared pages.
+- Internal href anchors резолвятся в declared sections/anchors.
+- У каждого `[control=...]` есть ровно один `[action=...]`.
+- Modal/state/submit/reset action targets существуют.
+- Social/icon-only links имеют accessible label.
+- Page instances не изобретают component states; states живут в UI Kit.

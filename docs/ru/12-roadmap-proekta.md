@@ -18,7 +18,7 @@ BRIDGE становится твёрдым, когда:
 
 Задачи:
 
-- [ ] Описать canonical tag grammar: `[key=...]`, `[bp=...]`, `[action=...]`, `[wrapper-role=...]`, `[height=...]`, `[overflow=...]`, `[bridge-exception=...]`.
+- [ ] Описать canonical tag grammar: typed identity tags (`[type=id]`), `[bp=...]`, `[href=...]`, `[action=...]`, `[layout=...]`, `[height=...]`, `[overflow=...]`, `[bridge-exception=...]`.
 - [ ] Описать allowed element types: text, button, link, input, image, icon, asset, decor, modal, state, section, collection.
 - [ ] Разделить strict и flexible content classes: legal, price, CTA, marketing copy, decorative text.
 - [ ] Описать exception grammar и обязательный `reason`.

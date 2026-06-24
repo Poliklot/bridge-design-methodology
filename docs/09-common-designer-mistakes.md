@@ -10,7 +10,7 @@ Fix: every wrapper needs a role such as `stack`, `row`, `grid`, `clip`, `overlay
 
 Problem: desktop says one thing, mobile says another, but both layers use the same key.
 
-Fix: preserve content meaning or declare `[content-variant=...]`.
+Fix: preserve exact responsive content. Model locale, experiment, or product variants outside breakpoint variants.
 
 ## 3. Buttons without destination
 
@@ -46,7 +46,7 @@ Fix: keep text native unless the visual effect truly requires an asset.
 
 Problem: the same element is called differently across breakpoints and has different keys.
 
-Fix: keep stable `[key=...]` for logical identity.
+Fix: keep stable typed identity (`[type=id]`) for logical identity.
 
 ## 9. Hidden layers as source of truth
 

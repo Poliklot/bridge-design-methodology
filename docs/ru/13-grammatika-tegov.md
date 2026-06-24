@@ -1,353 +1,251 @@
 # Грамматика тегов BRIDGE
 
-BRIDGE tags — это короткие machine-readable annotations в названиях слоёв. Они делают design intent явным для чеклистов, валидаторов и transfer adapters.
+BRIDGE tags — это короткие machine-readable annotations в названиях слоёв. Грамматика должна избегать двойных истин и быть достаточно простой для дизайнеров.
 
-## Синтаксис
+## Core rule
 
-Тег пишется в квадратных скобках:
+Используй один identity tag на каждый важный transferable layer:
 
 ```text
-[key=hero-title]
-[bp=1200]
-[button]
-[action=modal:contact-modal]
+[type=id]
 ```
 
-Общие формы:
+Для дополнительных фактов используй property tags:
 
 ```text
-[flag]
-[name=value]
-[name=value:subvalue]
-```
-
-Правила:
-
-- имена тегов пишутся lowercase kebab-case;
-- значения пишутся lowercase kebab-case, кроме URL и внешних identifiers;
-- на одном слое может быть несколько тегов;
-- stable identity задаётся через `[key=...]`;
-- свободный текст в имени слоя допустим, но source of truth — это tags.
-
-## Обязательные core tags
-
-### `[key=...]`
-
-Стабильная логическая идентичность.
-
-```text
-title [text] [key=hero-title]
-primary [button] [key=primary-cta]
-```
-
-Правила:
-
-- нужен каждому transferable element;
-- должен быть уникален внутри одного breakpoint scope;
-- должен сохраняться между breakpoint’ами;
-- лучше использовать English kebab-case.
-
-### `[bp=...]`
-
-Ширина breakpoint root.
-
-```text
-Hero Section [bp=1200] [key=hero-section]
-Hero Section [bp=320] [key=hero-section]
-```
-
-Правила:
-
-- используется на responsive root frames;
-- значение — numeric width in pixels;
-- sibling breakpoint frames одной секции должны иметь один section key.
-
-## Element type tags
-
-Используй один primary type tag, если visual role не очевидна.
-
-```text
-[text]
-[button]
-[link]
-[input]
-[image]
-[icon]
-[asset]
-[decor]
-[shape]
-[section]
-[modal]
-[state]
-[collection]
+[property=value]
 ```
 
 Примеры:
 
 ```text
-price [text] [key=plan-price]
-terms [link] [key=terms-link] [action=link:/terms]
-email [input] [key=email-input]
-features [collection] [key=features-list]
+Contacts Page [page=contacts] [route=/contacts] [bp=1200]
+Hero Title [text=hero-title]
+FAQ [link=nav-faq] [href=/contacts#faq]
+Contact us [control=contact-cta] [action=modal:contact-modal]
 ```
 
-## Layout tags
+## Правила одной правды
 
-### Flow role
+- Navigation destination всегда `[href=...]`.
+- Non-navigation behavior всегда `[action=...]`.
+- Responsive breakpoints не должны менять текстовый контент.
+- Page instances не должны вручную описывать component internals, которыми уже владеет Figma/UI Kit.
+- Не используй `[to=...]`.
+- Не используй responsive content variants вроде `mobile-short`.
 
-Flow обычно выражается структурой layout или словом `flex` в названии слоя:
+## Identity tags
+
+### Page and target entities
 
 ```text
-hero-copy flex [key=hero-copy]
-cards-grid flex [key=cards-grid] [wrapper-role=grid]
+[page=contacts]
+[section=contacts-faq]
+[modal=contact-modal]
+[state=mobile-menu-open]
 ```
 
-### `[abs]`
-
-Элемент намеренно вынесен из потока.
+### Layout entities
 
 ```text
-glow [abs] [decor] [key=hero-glow]
+[container=content]
+[container=hero-copy]
+[collection=products]
+[card=product-card-1]
+[form=lead-form]
 ```
 
-Используй `[abs]` вместе с reason tag или role tag: `[decor]`, `[asset]`, `[overlay]`, `[shape]`.
-
-### `[wrapper-role=...]`
-
-Объясняет, зачем существует wrapper.
-
-Допустимые значения:
+### Content and visual entities
 
 ```text
-stack
-row
-grid
-clip
-overlay-scope
-semantic-region
-target-scope
-asset-group
+[text=hero-title]
+[image=hero-photo]
+[icon=close-icon]
+[asset=hero-illustration]
+[decor=hero-glow]
+[shape=background-shape]
 ```
 
-Пример:
+### Interaction entities
 
 ```text
-button-row flex [key=button-group] [wrapper-role=row]
+[link=nav-contacts]
+[control=contact-cta]
+[field=email]
 ```
 
-## Interaction tags
+Используй `[control=...]` для интерактивных элементов, которые не являются прямыми navigation links. Не заставляй дизайнеров выбирать из огромного списка control subtypes в layer names страницы. Точный component/control type должен приходить из UI Kit component instance metadata, когда это возможно.
 
-### `[action=...]`
+## Page and route properties
 
-Обязателен для clickable elements.
+```text
+[route=/contacts]
+[bp=1200]
+[view=default]
+[view=empty]
+[view=loading]
+[view=error]
+[anchor=faq]
+```
+
+Примеры:
+
+```text
+Catalog Page [page=catalog] [route=/catalog] [bp=1200] [view=default]
+Catalog Empty [page=catalog] [route=/catalog] [bp=1200] [view=empty]
+FAQ Section [section=contacts-faq] [anchor=faq]
+```
+
+Правила:
+
+- все breakpoints/views одной страницы имеют один `[page=...]` и `[route=...]`;
+- `[view=...]` описывает page/data state, а не component state;
+- `[anchor=...]` создаёт addressable section anchor.
+
+## Links and href
+
+Links используют `href` как единственную destination truth.
+
+```text
+Contacts [link=nav-contacts] [href=/contacts]
+FAQ [link=nav-faq] [href=/contacts#faq]
+Telegram [link=social-telegram] [href=https://t.me/company]
+Email [link=email-sales] [href=mailto:sales@example.com]
+Phone [link=phone-main] [href=tel:+12025550123]
+```
+
+Optional link behavior:
+
+```text
+[open=new-tab]
+[a11y-label=Telegram]
+```
+
+Валидаторы классифицируют href values:
+
+- `/path` — internal route;
+- `#anchor` — same-page anchor;
+- `/path#anchor` — cross-page anchor;
+- `https://...` — external URL;
+- `mailto:` / `tel:` — external protocol.
+
+## Controls and actions
+
+Controls используют `action`.
+
+```text
+Contact us [control=contact-cta] [action=modal:contact-modal]
+Menu [control=mobile-menu-button] [action=state:mobile-menu-open]
+Submit [control=lead-submit] [action=submit:lead-form]
+Reset filters [control=reset-filters] [action=reset:catalog-filters]
+Disabled CTA [control=disabled-cta] [action=none]
+```
 
 Допустимые формы action:
 
 ```text
-[action=link:/pricing]
-[action=link:https://example.com]
-[action=scroll:#faq]
-[action=modal:contact-modal]
-[action=state:mobile-menu-open]
-[action=submit:lead-form]
+[action=modal:target-id]
+[action=state:target-id]
+[action=submit:form-id]
+[action=reset:target-id]
 [action=none]
 ```
 
-Правила:
+## Fields
 
-- `[button]` и `[link]` должны иметь `[action=...]`;
-- `modal:` должен ссылаться на существующий `[modal] [key=...]` target;
-- `state:` должен ссылаться на существующий `[state] [key=...]` target;
-- `none` допустим только для intentionally disabled или visual-only controls.
-
-## Content tags
-
-### `[content-variant=...]`
-
-Объявляет намеренное отличие content между breakpoint’ами.
+Fields требуют stable identity и data binding name.
 
 ```text
-title [text] [key=hero-title] [content-variant=mobile-short]
+Email [field=email] [name=email]
+Country [field=country] [name=country]
+Message [field=message] [name=message]
 ```
 
-Используй только если смысл контента намеренно отличается или сокращён.
-
-### `[content=strict]`
-
-Помечает контент, который не должен расходиться между breakpoint’ами без review.
+Используй `[field-type=...]` только если тип нельзя вывести из UI Kit/native metadata:
 
 ```text
-price [text] [key=plan-price] [content=strict]
-legal [text] [key=terms-note] [content=strict]
+Country [field=country] [name=country] [field-type=select]
 ```
 
-Рекомендуется для:
-
-- цен;
-- legal copy;
-- product claims;
-- CTA labels;
-- plan names;
-- compliance-sensitive text.
-
-## Height и overflow tags
-
-### `[height=...]`
-
-Допустимые значения:
+## Height and overflow
 
 ```text
-hug
-fixed
-min
-fill
+[height=hug]
+[height=fixed]
+[height=min]
+[height=fill]
+[overflow=visible]
+[overflow=hidden]
+[overflow=scroll]
+[overflow=truncate]
+[lines=3]
 ```
 
 Примеры:
 
 ```text
-description [text] [key=description] [height=hug]
-card [key=feature-card] [height=fixed] [reason=equal-card-grid]
+Description [text=description] [height=hug]
+Description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 ```
 
-### `[overflow=...]`
-
-Допустимые значения:
+## Absolute and exceptions
 
 ```text
-visible
-hidden
-scroll
-truncate
-```
-
-Примеры:
-
-```text
-description [text] [key=description] [height=fixed] [overflow=truncate] [lines=3]
-image-mask [image] [key=hero-image] [overflow=hidden]
-```
-
-## Asset и media tags
-
-### `[asset]`
-
-Помечает элемент или группу, которые должны обрабатываться как exported visual material.
-
-```text
-illustration [asset] [key=hero-illustration]
-```
-
-### `[decor]`
-
-Помечает визуальный материал, который не несёт content meaning.
-
-```text
-wave [abs] [decor] [key=decor-wave]
-```
-
-### `[focal=...]`
-
-Объявляет responsive image focal point.
-
-```text
-photo [image] [key=team-photo] [focal=center-top]
-```
-
-Рекомендуемые значения:
-
-```text
-center
-center-top
-center-bottom
-left-center
-right-center
-custom
-```
-
-## Exception tags
-
-### `[bridge-exception=...]`
-
-Помечает намеренное отклонение от обычных BRIDGE rules.
-
-```text
-poster [asset] [key=hero-poster] [bridge-exception=raster-text] [reason=brand-lockup]
-```
-
-Правила:
-
-- каждое exception должно иметь `[reason=...]`;
-- exceptions должны быть редкими;
-- валидаторы могут понижать некоторые errors до warnings, если exception валидно.
-
-Common exception values:
-
-```text
-raster-text
-overlap
-fixed-height
-unsupported-effect
-manual-transfer
-visual-poster
-```
-
-### `[reason=...]`
-
-Объясняет, почему существует exception.
-
-```text
-[reason=equal-card-grid]
+[abs]
+[bridge-exception=raster-text]
+[bridge-exception=overlap]
+[bridge-exception=fixed-height]
+[bridge-exception=unsupported-effect]
+[bridge-exception=manual-transfer]
 [reason=brand-lockup]
-[reason=decorative-layered-composition]
 ```
 
-## Полные примеры
+Правила:
 
-### Кнопка открывает modal
+- каждое exception требует `[reason=...]`;
+- `[abs]` должен сочетаться с meaningful entity type: `[decor=...]`, `[asset=...]`, `[shape=...]` или `[modal=...]`;
+- exceptions не делают дизайн лучше, они только делают сложность явной.
+
+## Component ownership
+
+Не помечай page instances тегом `[component=...]`, если Figma уже знает source component. Component source, variants и UI states принадлежат UI Kit и должны извлекаться из Figma component metadata.
+
+Page instance:
 
 ```text
-contact [button] [key=contact-cta] [action=modal:contact-modal]
-Modal Contact [modal] [key=contact-modal]
+Contact us [control=contact-cta] [action=modal:contact-modal]
 ```
 
-### Responsive section roots
+UI Kit component source определяет states: default, hover, focus, disabled, loading, error и т.д.
 
-```text
-Hero Section [section] [bp=1200] [key=hero-section]
-Hero Section [section] [bp=320] [key=hero-section]
-```
-
-### Валидный decorative absolute layer
-
-```text
-glow [abs] [decor] [key=hero-glow]
-```
-
-### Fixed-height card с declared reason
-
-```text
-feature-card [key=feature-card-1] [height=fixed] [reason=equal-card-grid]
-```
+См. [Компоненты и UI Kit](14-komponenty-i-ui-kit.md).
 
 ## Невалидные примеры
 
 ```text
-Button
+FAQ [link=nav-faq] [to=anchor:contacts-faq] [href=/contacts#faq]
 ```
 
-Нет key, type и action.
+Невалидно: две destinations. Используй только `[href=/contacts#faq]`.
 
 ```text
-Frame 53 [key=frame-53]
-  Group 271 [key=group-271]
-    title [key=hero-title]
+Contact us [control=contact-cta]
 ```
 
-Wrapper names не объясняют layout intent.
+Невалидно: control без action.
 
 ```text
-description [text] [key=description] [height=fixed]
+// desktop
+Contact us [control=contact-cta]
+
+// mobile
+Contact [control=contact-cta]
 ```
 
-Fixed text height не имеет overflow policy или reason.
+Невалидно: один identity имеет разный текст между breakpoint’ами.
+
+```text
+Contact us [control=contact-cta] [component=button]
+```
+
+Невалидно для page instances: component source должен приходить из Figma/UI Kit metadata, а не дублироваться тегом.

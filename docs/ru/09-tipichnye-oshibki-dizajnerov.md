@@ -10,7 +10,7 @@
 
 Проблема: desktop говорит одно, mobile — другое, но оба слоя имеют один key.
 
-Решение: сохранить смысл контента или объявить `[content-variant=...]`.
+Решение: сохранить точный responsive content. Locale, experiment и product variants моделируются отдельно от breakpoint variants.
 
 ## 3. Кнопки без назначения
 
@@ -46,7 +46,7 @@
 
 Проблема: один и тот же элемент по-разному называется между breakpoint’ами и имеет разные keys.
 
-Решение: сохранять стабильный `[key=...]` для logical identity.
+Решение: сохранять стабильный typed identity (`[type=id]`) для logical identity.
 
 ## 9. Hidden layers как источник правды
 

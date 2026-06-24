@@ -5,34 +5,34 @@
 Создавай соседние frames для каждой responsive-версии:
 
 ```text
-Landing Hero [bp=1200]
-Landing Hero [bp=960]
-Landing Hero [bp=640]
-Landing Hero [bp=480]
-Landing Hero [bp=320]
+Landing Hero [section=landing-hero] [bp=1200]
+Landing Hero [section=landing-hero] [bp=960]
+Landing Hero [section=landing-hero] [bp=640]
+Landing Hero [section=landing-hero] [bp=480]
+Landing Hero [section=landing-hero] [bp=320]
 ```
 
-Инструмент может попробовать вывести breakpoint из ширины frame, но явный тег безопаснее.
+Инструмент может вывести breakpoint из ширины frame, но явный тег безопаснее.
 
-## Одни keys, разный layout
+## Одни identities, разный layout
 
-Desktop и mobile могут иметь разную иерархию и позиции, но важные логические элементы должны сохранять один `[key=...]`.
+Desktop и mobile могут иметь разную иерархию и layout properties, но важные логические элементы должны сохранять один typed identity.
 
 Пример:
 
 ```text
 // desktop
-button-row flex [key=button-row]
-  primary button [key=primary-cta]
-  secondary button [key=secondary-cta]
+button group [container=button-group] [layout=row]
+  primary [link=primary-cta] [href=/pricing]
+  secondary [control=secondary-cta] [action=modal:contact-modal]
 
 // mobile
-button-column flex [key=button-row]
-  primary button [key=primary-cta]
-  secondary button [key=secondary-cta]
+button group [container=button-group] [layout=stack]
+  primary [link=primary-cta] [href=/pricing]
+  secondary [control=secondary-cta] [action=modal:contact-modal]
 ```
 
-Визуальное представление wrapper’а изменилось, но идентичность группы осталась стабильной.
+Layout изменился, но identity осталась стабильной.
 
 ## Изменение обёрток требует причины
 
@@ -42,23 +42,21 @@ button-column flex [key=button-row]
 
 ```text
 // mobile
-mystery-wrapper [key=wrapper-7]
-  title [key=hero-title]
+mystery-wrapper [container=wrapper-7]
+  title [text=hero-title]
 ```
 
 Хорошо:
 
 ```text
 // mobile
-hero-copy-stack flex [key=hero-copy] [wrapper-role=stack]
-  title [key=hero-title]
+hero copy [container=hero-copy] [layout=stack]
+  title [text=hero-title]
 ```
 
 ## Смысл текста должен пережить адаптив
 
-Адаптив может менять размер, переносы, порядок и видимость. Но он не должен незаметно менять смысл.
-
-Если mobile намеренно использует сокращённый текст, пометь это как content variant и объясни причину.
+Адаптив может менять размер, переносы, порядок и видимость. Он не должен менять текстовый контент.
 
 ## Сначала точные breakpoint’ы, потом fluid
 

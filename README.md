@@ -74,25 +74,26 @@ No accidental free-floating layers. No mystery buttons. No responsive versions t
 - [Validation and autochecks](docs/11-validation-and-autochecks.md)
 - [Project roadmap](docs/12-project-roadmap.md)
 - [Tag grammar](docs/13-tag-grammar.md)
+- [Components and UI Kit](docs/14-components-and-ui-kit.md)
 - [Validator rule catalog](validator/rules.json)
 
 ## Minimal example
 
 ```text
-Hero Section [bp=1200] [key=hero-section]
-  background [abs] [decor] [key=hero-bg]
+Hero Section [section=hero-section] [bp=1200]
+  background [decor=hero-bg] [abs]
 
-  content flex [key=content]
-    hero-copy flex [key=hero-copy]
-      title [text] [key=hero-title]
-      subtitle [text] [key=hero-subtitle]
+  content [container=content] [layout=stack]
+    hero-copy [container=hero-copy] [layout=stack]
+      title [text=hero-title]
+      subtitle [text=hero-subtitle]
 
-    button-row flex [key=button-row]
-      primary [button] [key=primary-cta] [action=link:/pricing]
-      secondary [button] [key=contact-cta] [action=modal:contact-modal]
+    button-row [container=button-group] [layout=row]
+      primary [link=primary-cta] [href=/pricing]
+      secondary [control=contact-cta] [action=modal:contact-modal]
 
-Modal Contact [modal] [key=contact-modal]
-  modal-content flex [key=contact-modal-content]
+Modal Contact [modal=contact-modal]
+  modal-content [container=contact-modal-content] [layout=stack]
 ```
 
 ## License

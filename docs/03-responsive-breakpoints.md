@@ -5,34 +5,34 @@
 Create sibling frames for each responsive version:
 
 ```text
-Landing Hero [bp=1200]
-Landing Hero [bp=960]
-Landing Hero [bp=640]
-Landing Hero [bp=480]
-Landing Hero [bp=320]
+Landing Hero [section=landing-hero] [bp=1200]
+Landing Hero [section=landing-hero] [bp=960]
+Landing Hero [section=landing-hero] [bp=640]
+Landing Hero [section=landing-hero] [bp=480]
+Landing Hero [section=landing-hero] [bp=320]
 ```
 
 A tool may infer breakpoints from frame width, but explicit tags are safer.
 
-## Same keys, different layout
+## Same identities, different layout
 
-Desktop and mobile may have different hierarchy and positions, but important logical elements must keep the same `[key=...]`.
+Desktop and mobile may have different hierarchy and layout properties, but important logical elements must keep the same typed identity.
 
 Example:
 
 ```text
 // desktop
-button-row flex [key=button-row]
-  primary button [key=primary-cta]
-  secondary button [key=secondary-cta]
+button group [container=button-group] [layout=row]
+  primary [link=primary-cta] [href=/pricing]
+  secondary [control=secondary-cta] [action=modal:contact-modal]
 
 // mobile
-button-column flex [key=button-row]
-  primary button [key=primary-cta]
-  secondary button [key=secondary-cta]
+button group [container=button-group] [layout=stack]
+  primary [link=primary-cta] [href=/pricing]
+  secondary [control=secondary-cta] [action=modal:contact-modal]
 ```
 
-The wrapper presentation changed, but the identity stayed stable.
+The layout changed, but identity stayed stable.
 
 ## Wrapper changes require a reason
 
@@ -42,23 +42,21 @@ Bad:
 
 ```text
 // mobile
-mystery-wrapper [key=wrapper-7]
-  title [key=hero-title]
+mystery-wrapper [container=wrapper-7]
+  title [text=hero-title]
 ```
 
 Good:
 
 ```text
 // mobile
-hero-copy-stack flex [key=hero-copy] [wrapper-role=stack]
-  title [key=hero-title]
+hero copy [container=hero-copy] [layout=stack]
+  title [text=hero-title]
 ```
 
 ## Text meaning must survive responsive changes
 
-Responsive variants may change size, wrapping, order, and visibility. They must not silently change meaning.
-
-If mobile intentionally uses shorter copy, mark it as a content variant and document why.
+Responsive variants may change size, wrapping, order, and visibility. They must not change content.
 
 ## Exact first, fluid later
 

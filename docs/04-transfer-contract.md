@@ -5,7 +5,7 @@ A BRIDGE-ready design exposes enough information to transfer intent without gues
 ## Required data
 
 - Breakpoint roots (`[bp=...]`).
-- Stable keys (`[key=...]`).
+- Typed identities (`[type=id]`).
 - Layout role: flow, absolute, or target.
 - Element type intent: text, button, link, shape, image, asset, decor, modal, section, state.
 - Geometry per breakpoint.
@@ -24,7 +24,7 @@ A BRIDGE-ready design exposes enough information to transfer intent without gues
   "breakpoints": [1200, 320],
   "elements": [
     {
-      "key": "hero-title",
+      "id": "hero-title",
       "type": "text",
       "content": {
         "text": "Launch your store in one day",
@@ -39,7 +39,7 @@ A BRIDGE-ready design exposes enough information to transfer intent without gues
       }
     },
     {
-      "key": "contact-cta",
+      "id": "contact-cta",
       "type": "button",
       "content": {
         "text": "Contact us"
@@ -52,7 +52,7 @@ A BRIDGE-ready design exposes enough information to transfer intent without gues
   ],
   "targets": [
     {
-      "key": "contact-modal",
+      "id": "contact-modal",
       "type": "modal"
     }
   ]

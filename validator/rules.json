@@ -1,40 +1,48 @@
 {
   "methodology": "BRIDGE",
   "version": "0.1.0",
-  "severityLevels": ["error", "warning", "info"],
-  "automationLevels": ["automatic", "heuristic", "manual"],
+  "severityLevels": [
+    "error",
+    "warning",
+    "info"
+  ],
+  "automationLevels": [
+    "automatic",
+    "heuristic",
+    "manual"
+  ],
   "rules": [
     {
-      "id": "identity.missing-key",
+      "id": "identity.missing-typed-identity",
       "principle": "Identity",
       "severity": "error",
       "automation": "automatic",
-      "description": "Important transferable elements must have a stable key.",
-      "fix": "Add `[key=...]` using English kebab-case."
+      "description": "Important transferable elements must have a typed identity tag.",
+      "fix": "Add `[type=id]` using English kebab-case."
     },
     {
-      "id": "identity.duplicate-key",
+      "id": "identity.duplicate-identity",
       "principle": "Identity",
       "severity": "error",
       "automation": "automatic",
-      "description": "Two elements inside the same breakpoint must not share one key.",
-      "fix": "Rename keys or add instance indexes such as `card-1`, `card-2`."
+      "description": "Two elements inside the same breakpoint/view scope must not share one typed identity.",
+      "fix": "Rename identities or add instance indexes such as `[card=card-1]`, `[card=card-2]`."
     },
     {
-      "id": "identity.same-key-different-type",
+      "id": "identity.same-identity-different-type",
       "principle": "Identity",
       "severity": "error",
       "automation": "automatic",
-      "description": "The same key must not point to different logical element types across breakpoints.",
-      "fix": "Keep the logical type stable or declare an explicit variant."
+      "description": "The same identity must not point to different logical element types across breakpoints.",
+      "fix": "Keep the logical type stable or model a separate entity."
     },
     {
       "id": "identity.repeated-item-no-index",
       "principle": "Identity",
       "severity": "error",
       "automation": "heuristic",
-      "description": "Repeated list/grid items need stable instance indexes.",
-      "fix": "Use keys such as `feature-card-1`, `feature-card-2`."
+      "description": "Repeated list/grid items need stable instance identities.",
+      "fix": "Use identities such as `[card=feature-card-1]`, `[card=feature-card-2]`."
     },
     {
       "id": "naming.default-layer-name",
@@ -101,11 +109,11 @@
       "fix": "Add explicit breakpoint tags to root frames."
     },
     {
-      "id": "responsive.key-missing-in-required-breakpoint",
+      "id": "responsive.identity-missing-in-required-breakpoint",
       "principle": "Breakpoints",
       "severity": "warning",
       "automation": "automatic",
-      "description": "An important key exists on one breakpoint but is missing on another required breakpoint.",
+      "description": "An important identity exists on one breakpoint but is missing on another required breakpoint.",
       "fix": "Add the element, or declare an intentional breakpoint exclusion."
     },
     {
@@ -119,10 +127,10 @@
     {
       "id": "content.text-changed-between-breakpoints",
       "principle": "Identity",
-      "severity": "warning",
+      "severity": "error",
       "automation": "heuristic",
-      "description": "The same text key has different content across breakpoints.",
-      "fix": "Keep meaning identical or add `[content-variant=...]` with a reason."
+      "description": "The same text identity has different content across breakpoints.",
+      "fix": "Keep responsive text identical. Model locale, experiment, or product variants outside breakpoint variants."
     },
     {
       "id": "content.strict-content-drift",
@@ -141,20 +149,28 @@
       "fix": "Move alternatives into declared states/variants or archive them."
     },
     {
-      "id": "interaction.clickable-without-action",
+      "id": "interaction.control-without-action",
       "principle": "Dependencies",
       "severity": "error",
       "automation": "automatic",
-      "description": "Clickable elements must declare an action.",
-      "fix": "Add `[action=link:...]`, `[action=modal:...]`, `[action=state:...]`, or `[action=none]`."
+      "description": "Controls must declare an action. Links must declare href instead.",
+      "fix": "Use `[href=...]` for links. Use `[action=modal:...]`, `[action=state:...]`, `[action=submit:...]`, `[action=reset:...]`, or `[action=none]` for controls."
     },
     {
-      "id": "interaction.link-without-url",
+      "id": "interaction.link-without-href",
       "principle": "Dependencies",
       "severity": "error",
       "automation": "automatic",
-      "description": "Link elements must point to a URL or anchor target.",
-      "fix": "Add a `link:` or `scroll:` action."
+      "description": "Link elements must declare href as the only destination truth.",
+      "fix": "Add `[href=...]`. Do not add `[to=...]` or `[action=link:...]`."
+    },
+    {
+      "id": "interaction.link-has-second-destination",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Links must not declare a second destination such as `[to=...]` or `[action=link:...]` alongside href.",
+      "fix": "Keep only `[href=...]` for navigation destination."
     },
     {
       "id": "interaction.modal-target-missing",
@@ -162,7 +178,7 @@
       "severity": "error",
       "automation": "automatic",
       "description": "A modal action must point to an existing modal target.",
-      "fix": "Create `[modal] [key=...]` target or change the action."
+      "fix": "Create `[modal=target-id]` target or change the action."
     },
     {
       "id": "interaction.state-target-missing",
@@ -170,7 +186,7 @@
       "severity": "error",
       "automation": "automatic",
       "description": "A state action must point to an existing state target.",
-      "fix": "Create `[state] [key=...]` target or change the action."
+      "fix": "Create `[state=target-id]` target or change the action."
     },
     {
       "id": "interaction.modal-missing-close",
@@ -275,6 +291,22 @@
       "automation": "heuristic",
       "description": "Text/background contrast may be insufficient.",
       "fix": "Adjust colors or document intentional exception."
+    },
+    {
+      "id": "component.page-instance-declares-component-tag",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Page instances should not duplicate Figma component source with `[component=...]` tags.",
+      "fix": "Remove `[component=...]` from page instance names and rely on Figma/UI Kit metadata."
+    },
+    {
+      "id": "component.required-state-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "UI Kit component source is missing required states for its component family.",
+      "fix": "Add states to the UI Kit component set instead of drawing them on a page."
     },
     {
       "id": "adapter.unsupported-feature",
