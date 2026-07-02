@@ -79,6 +79,14 @@ No accidental free-floating layers. No mystery buttons. No responsive versions t
 - [Variation axes](docs/16-variation-axes.md)
 - [Validator rule catalog](validator/rules.json)
 
+## Tooling
+
+BRIDGE Assistant, the Figma helper plugin for this methodology, is maintained in a separate private/local repository:
+
+```text
+bridge-figma-assistant
+```
+
 ## Minimal example
 
 ```text

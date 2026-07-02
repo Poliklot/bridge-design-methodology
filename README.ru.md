@@ -79,6 +79,14 @@ BRIDGE не привязан к конкретному визуальному р
 - [Оси вариативности](docs/ru/16-osi-variativnosti.md)
 - [Validator rule catalog](validator/rules.json)
 
+## Инструменты
+
+BRIDGE Assistant, Figma-плагин поверх этой методологии, ведётся в отдельной private/local репе:
+
+```text
+bridge-figma-assistant
+```
+
 ## Минимальный пример
 
 ```text
