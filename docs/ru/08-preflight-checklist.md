@@ -22,7 +22,7 @@ Immediate blockers:
 - duplicate identities внутри breakpoint/view scope;
 - clickable elements без actions;
 - action targets, которых не существует;
-- количество элементов или parent-child topology меняются между breakpoint roots без явного structural exception;
+- количество элементов или вложенность меняются между адаптивами без явного исключения;
 - text fixed height без overflow policy;
 - hidden keyed layers как source of truth.
 
@@ -31,8 +31,8 @@ Immediate blockers:
 - [ ] Каждый важный элемент имеет typed identity tag (`[type=id]`).
 - [ ] Identities написаны на английском в kebab-case.
 - [ ] Внутри одного breakpoint/view scope нет duplicate identities.
-- [ ] Один и тот же логический элемент использует одну identity на всех breakpoint’ах.
-- [ ] Один и тот же логический элемент сохраняет одного parent’а на всех breakpoint’ах.
+- [ ] Один и тот же логический элемент использует одну identity на всех адаптивах.
+- [ ] Один и тот же логический элемент сохраняет одного родителя на всех адаптивах.
 
 ## Layout
 
@@ -41,13 +41,15 @@ Immediate blockers:
 - [ ] Absolute layers имеют явные теги: `[abs]`, `[decor]`, `[asset]`, `[overlay]`.
 - [ ] Wrapper’ы имеют явную layout role.
 
-## Responsive
+## Адаптивы
 
-- [ ] Каждый responsive root имеет `[bp=...]`.
-- [ ] Важные keys присутствуют на нужных breakpoint’ах.
-- [ ] Breakpoint’ы сохраняют одно logical element tree и collection cardinality.
+- [ ] Каждый корневой frame адаптива имеет `[bp=...]`.
+- [ ] Важные ключи присутствуют на нужных адаптивах.
+- [ ] Адаптивы сохраняют один набор логических элементов и одинаковую структуру списков/коллекций.
+- [ ] Скрытые элементы всё равно сохраняют свои ключи и своих родителей на каждом нужном адаптиве.
+- [ ] Элементы, которые поменялись местами, остались внутри того же родителя.
 - [ ] Смысл текста не меняется скрыто между breakpoint’ами.
-- [ ] Breakpoint-specific wrappers объявлены как structural exceptions с причиной.
+- [ ] Обёртки, которые существуют только на одном адаптиве, помечены как исключения и имеют причину.
 
 ## Interactions
 

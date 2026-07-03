@@ -22,12 +22,14 @@ BRIDGE становится полезным только тогда, когда
 
 | Ситуация | Почему опасно | Ответ BRIDGE | Автопроверка |
 | --- | --- | --- | --- |
-| Mobile copy меняет продуктовый смысл | Пользователь видит разные обещания на разных устройствах. | Responsive breakpoints должны сохранять точный content; locale/experiment/product variants моделируются отдельно. | Text diff по identity. |
-| Количество элементов меняется между breakpoint’ами | Адаптер не понимает: элемент удалён, скрыт, продублирован или стал variant-specific. | Сохранять logical cardinality или моделировать отличие как collection rule, state, variant или structural exception. | Identity cardinality diff. |
-| Identity переезжает к другому parent’у на одном breakpoint’е | DOM/component topology, state ownership, ARIA-связи и analytics могут сломаться. | Сохранять parent-child topology; использовать shared wrappers или объявлять structural exception. | Сравнение parent identity по key. |
-| Критичный элемент исчезает на mobile | CTA, legal note, price или error state потерян. | Явно помечать intentional exclusions или сохранять key на обязательных breakpoint’ах. | Identity coverage check. |
+| Mobile copy меняет продуктовый смысл | Пользователь видит разные обещания на разных устройствах. | Адаптивы должны сохранять точный текст и смысл; язык, эксперимент и продуктовые варианты моделируются отдельно. | Text diff по identity. |
+| Количество элементов меняется между адаптивами | Адаптер не понимает: элемент удалён, скрыт, продублирован или относится только к отдельному варианту. | Сохранять одно и то же количество логических элементов или моделировать отличие как правило коллекции, состояние, вариант или исключение. | Сравнение количества ключей. |
+| Элемент переезжает к другому родителю на одном адаптиве | DOM/component-структура, владение состоянием, ARIA-связи и analytics могут сломаться. | Сохранять вложенность; использовать общие обёртки или объявлять исключение. | Сравнение родителя по ключу. |
+| Скрытый элемент удалён вместо скрытия | Адаптер не понимает, это намеренная невидимость или потерянный элемент. | Оставить ключ в том же родителе и описать видимость по адаптивам. | Проверка наличия ключей + diff видимости. |
+| Mobile-only копия заменяет настоящий элемент | States, actions, analytics и текст могут разъехаться между копиями. | Использовать один ключ; менять видимость, порядок и раскладку вместо дубля. | Duplicate role/content heuristic. |
+| Критичный элемент исчезает на mobile | CTA, legal note, price или error state потерян. | Явно помечать намеренные исключения или сохранять ключ на обязательных адаптивах. | Identity coverage check. |
 | Desktop grid превращается в mobile carousel | Поведение, states и controls становятся другими. | `responsive-behavior=carousel` + controls. | Key + role change heuristic. |
-| Порядок элементов меняется без причины | DOM/order и accessibility могут сломаться. | Объявить order strategy или сохранить semantic order. | Сравнение sibling order по key. |
+| Порядок элементов меняется без причины | DOM/order и accessibility могут сломаться. | Объявить order strategy или сохранить semantic order. | Сравнение порядка соседей по ключу. |
 | Нет правил между breakpoint’ами | Макет работает только на точных ширинах. | Сначала breakpoint roots, потом min/max/fluid strategy. | Проверка declared breakpoint set. |
 | Safe areas и device chrome игнорируются | Mobile UI конфликтует с notch, browser bars, sticky nav. | Объявить safe-area и sticky/fixed behavior. | Manual/adapter check. |
 

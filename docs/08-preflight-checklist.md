@@ -46,6 +46,8 @@ Immediate blockers:
 - [ ] Every responsive root has `[bp=...]`.
 - [ ] Important keys are present across required breakpoints.
 - [ ] Breakpoints preserve the same logical element tree and collection cardinality.
+- [ ] Hidden elements still keep their identities and parent positions on every required breakpoint.
+- [ ] Reordered elements stay inside the same parent.
 - [ ] Text meaning does not silently change between breakpoints.
 - [ ] Breakpoint-specific wrappers are declared as structural exceptions with a reason.
 

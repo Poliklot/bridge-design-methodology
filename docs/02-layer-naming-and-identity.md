@@ -66,6 +66,8 @@ Allowed:
 - different line breaks;
 - different layout position;
 - different parent layout properties.
+- different sibling order inside the same parent;
+- different visibility per breakpoint.
 
 Not allowed across responsive breakpoints:
 
@@ -76,7 +78,8 @@ Not allowed across responsive breakpoints:
 - hiding required meaning on mobile;
 - shortened mobile-only labels;
 - moving the same identity under a different parent;
-- adding or removing logical elements without a declared variant, state, collection rule, or structural exception.
+- adding or removing logical elements without a declared variant, state, collection rule, or structural exception;
+- replacing the same logical element with separate breakpoint-only copies.
 
 Bad:
 

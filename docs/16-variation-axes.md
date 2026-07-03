@@ -37,13 +37,14 @@ Allowed changes:
 - spacing;
 - typography size;
 - wrapping;
-- ordering when declared;
+- sibling order inside the same parent;
 - visibility when intentional.
 
 Not allowed:
 
 - extra or missing logical elements;
 - different parent-child topology;
+- replacing one identity with a breakpoint-only copy;
 - different heading text;
 - shorter mobile CTA;
 - different legal copy;

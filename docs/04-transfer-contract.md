@@ -12,6 +12,7 @@ A BRIDGE-ready design exposes enough information to transfer intent without gues
 - Text metrics per breakpoint.
 - Content identity across breakpoints.
 - Parent-child topology and sibling order per breakpoint.
+- Visibility per breakpoint.
 - Interaction/action intent for clickable elements.
 - Target existence for links, modals, anchors, and states.
 - Asset export intent for complex visuals.

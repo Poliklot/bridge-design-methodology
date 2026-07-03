@@ -1,6 +1,6 @@
 {
   "methodology": "BRIDGE",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "severityLevels": [
     "error",
     "warning",
@@ -111,10 +111,10 @@
     {
       "id": "responsive.identity-missing-in-required-breakpoint",
       "principle": "Breakpoints",
-      "severity": "warning",
+      "severity": "error",
       "automation": "automatic",
       "description": "An important identity exists on one breakpoint but is missing on another required breakpoint.",
-      "fix": "Add the element, or declare an intentional breakpoint exclusion."
+      "fix": "Keep the same identity in the same parent and change breakpoint visibility instead of deleting it, or model a separate state/variant/collection rule/structural exception."
     },
     {
       "id": "responsive.tree-cardinality-changed",

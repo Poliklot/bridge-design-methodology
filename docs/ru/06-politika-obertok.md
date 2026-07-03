@@ -28,7 +28,7 @@ cards [container=cards] [layout=grid]
 Обычно плохой wrapper выглядит так:
 
 - один child и нет layout role;
-- wrapper’ы появляются, исчезают или переподчиняют children между breakpoint’ами без причины;
+- wrapper’ы появляются, исчезают или переносят дочерние элементы между адаптивами без причины;
 - имя вроде `Group 271`, `Frame 53`, `copy 2`;
 - wrapper меняет координаты, но не смысл;
 - wrapper используется, чтобы спрятать сломанный Auto Layout.
@@ -50,7 +50,7 @@ hero copy [container=hero-copy] [layout=stack]
 
 ## Стабильность wrapper’ов в адаптивах
 
-Layout properties wrapper’а могут меняться между breakpoint’ами, но его identity и место в parent-child дереве должны оставаться стабильными.
+Настройки раскладки wrapper’а могут меняться между адаптивами, но сам wrapper и его место в дереве должны оставаться стабильными.
 
 ```text
 // desktop
@@ -62,4 +62,4 @@ button group [container=button-group] [layout=stack]
 
 Key остаётся стабильным, потому что логическая группа та же.
 
-Wrapper, который существует только на одном breakpoint’е, меняет responsive tree. Считай его structural exception или добавь один и тот же meaningful wrapper на все breakpoint’ы и делай его layout-neutral там, где он не нужен.
+Wrapper, который существует только на одном адаптиве, меняет структуру элементов. Считай его исключением или добавь одну и ту же осмысленную обёртку на все адаптивы. Там, где она не нужна визуально, сделай её нейтральной для раскладки.

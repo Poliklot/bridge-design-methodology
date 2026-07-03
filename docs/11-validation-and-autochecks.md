@@ -6,7 +6,7 @@ BRIDGE should become comfortable because a designer can run a preflight check be
 
 1. **Syntax validation** — tags, keys, action syntax, breakpoint tags.
 2. **Identity validation** — identity uniqueness, identity stability, type stability.
-3. **Responsive validation** — identity coverage, tree topology/cardinality, parent-child stability, content drift, order changes, breakpoint completeness.
+3. **Responsive validation** — identity coverage, tree topology/cardinality, parent-child stability, visibility changes, content drift, order changes, breakpoint completeness.
 4. **Layout validation** — flow/absolute roles, wrappers, clipping, fixed heights, overlaps.
 5. **Interaction graph validation** — actions, targets, modals, states, forms.
 6. **Content validation** — text equality, strict legal/price content, rich text, localization risk.
@@ -34,6 +34,7 @@ extract design tree
   -> group frames by section and breakpoint
   -> build identity map and type map
   -> compare responsive tree cardinality and parent identities
+  -> compare visibility and sibling order inside each parent
   -> compare content across breakpoints
   -> classify layout roles and wrappers
   -> build action-target graph

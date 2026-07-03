@@ -27,6 +27,15 @@ Breakpoint roots for the same view/section must preserve:
 
 Responsive variants may change geometry and layout behavior: size, spacing, wrapping, layout direction, order, visibility, and constraints. They must not silently create elements, remove elements, or move an identity into a different parent.
 
+Order and visibility are breakpoint properties:
+
+- sibling elements may be reordered inside the same parent;
+- an element may be hidden on one breakpoint and visible on another;
+- hiding does not mean deleting: the same identity still exists in the responsive tree;
+- a visible element must not be replaced by a different mobile-only or desktop-only copy.
+
+The forbidden case is not "this element is currently invisible". The forbidden case is "this identity exists in one breakpoint, but is missing from another", or "this identity moved under a different parent".
+
 If element count or nesting must change, model it as a state, component variant, collection rule, target-specific variant, or explicit BRIDGE structural exception. Do not hide it as an ordinary responsive breakpoint.
 
 Example:

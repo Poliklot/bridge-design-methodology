@@ -4,9 +4,9 @@ BRIDGE разделяет разные причины вариативности
 
 ## Core rule
 
-> Breakpoint — это layout variation одного logical tree, а не content или structure variation.
+> Адаптив — это тот же набор элементов, разложенный под другую ширину. Это не вариант текста и не новая структура.
 
-Если меняется content или logical tree topology, причина должна быть выражена другой осью: view, locale, theme, experiment, role, data scenario, collection rule, component variant или structural exception.
+Если меняется текст, смысл или структура элементов, причина должна быть выражена другой осью: view, locale, theme, experiment, role, data scenario, правило коллекции, вариант компонента или явное исключение.
 
 ## Каноничные оси
 
@@ -22,9 +22,9 @@ BRIDGE разделяет разные причины вариативности
 | Role | `[role-view=...]` | Да, controlled | User role или permission view |
 | Data scenario | `[data=...]` | Только sample content | Stress cases: long names, max items |
 
-## Breakpoint axis
+## Ось адаптива
 
-Breakpoint меняет только layout:
+Адаптив меняет только раскладку:
 
 ```text
 Hero [section=hero] [bp=1200]
@@ -33,22 +33,23 @@ Hero [section=hero] [bp=320]
 
 Можно менять:
 
-- layout direction;
-- spacing;
-- typography size;
-- wrapping;
-- ordering, если declared;
-- visibility, если intentional.
+- направление раскладки;
+- отступы;
+- размер шрифта;
+- переносы;
+- порядок элементов внутри одного родителя;
+- видимость, если это намеренно.
 
 Нельзя менять:
 
-- добавлять или удалять logical elements;
-- parent-child topology;
-- heading text;
-- shortened mobile CTA;
-- legal copy;
-- price;
-- product claim.
+- добавлять или удалять логические элементы;
+- менять вложенность элементов;
+- заменять один ключ отдельной копией только для mobile или desktop;
+- заголовок;
+- сокращённый CTA только для mobile;
+- юридический текст;
+- цену;
+- продуктовый claim.
 
 ## View axis
 
