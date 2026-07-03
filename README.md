@@ -19,9 +19,9 @@ The acronym is the methodology:
 
 | Letter | Principle | Rule |
 | --- | --- | --- |
-| **B** | **Breakpoints** | Responsive states are explicit and comparable. |
+| **B** | **Breakpoints** | Responsive states are explicit and comparable as one logical tree. |
 | **R** | **Roles** | Every layer has a clear role: flow, absolute, or target. |
-| **I** | **Identity** | Logical elements keep stable keys across breakpoints. |
+| **I** | **Identity** | Logical elements keep stable keys and tree positions across breakpoints. |
 | **D** | **Dependencies** | Links, modals, states, anchors, and actions are declared. |
 | **G** | **Geometry** | Position, size, spacing, and text metrics are reproducible. |
 | **E** | **Exceptions** | Assets, fixed heights, overflow, and absolute items are intentional. |
@@ -40,7 +40,7 @@ Use the name consistently:
 Short formula:
 
 ```text
-BRIDGE-ready = explicit breakpoints + stable identity + declared intent
+BRIDGE-ready = explicit breakpoints + stable responsive tree + declared intent
 ```
 
 ## Why BRIDGE exists
@@ -57,7 +57,7 @@ Every layer must have an explicit role:
 2. **Absolute item** — intentionally removed from flow, usually background, decor, overlay, or visual exception.
 3. **Declared target** — an interaction destination such as a modal, section, state, or external URL.
 
-No accidental free-floating layers. No mystery buttons. No responsive versions that silently change content meaning.
+No accidental free-floating layers. No mystery buttons. No responsive versions that silently change content meaning or rebuild the element tree.
 
 ## Start here
 

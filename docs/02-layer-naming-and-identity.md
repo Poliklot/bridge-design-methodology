@@ -65,7 +65,7 @@ Allowed:
 - different font size;
 - different line breaks;
 - different layout position;
-- different parent layout.
+- different parent layout properties.
 
 Not allowed across responsive breakpoints:
 
@@ -74,7 +74,9 @@ Not allowed across responsive breakpoints:
 - different legal text;
 - different product claim;
 - hiding required meaning on mobile;
-- shortened mobile-only labels.
+- shortened mobile-only labels;
+- moving the same identity under a different parent;
+- adding or removing logical elements without a declared variant, state, collection rule, or structural exception.
 
 Bad:
 
@@ -86,7 +88,7 @@ title [text=hero-title] = "Launch your store in one day"
 title [text=hero-title] = "Launch faster"
 ```
 
-If content differs because of locale, experiment, personalization, or a product variant, model it outside the responsive breakpoint contract. A responsive breakpoint is a layout variation, not a content variation.
+If content or tree topology differs because of locale, experiment, personalization, a product variant, or target-specific behavior, model it outside the ordinary responsive breakpoint contract. A responsive breakpoint is a layout variation of the same logical tree, not a content or structure variation.
 
 ## Suggested structural names
 

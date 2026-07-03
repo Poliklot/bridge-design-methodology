@@ -22,6 +22,7 @@ Immediate blockers:
 - duplicate identities inside a breakpoint/view scope;
 - clickable elements without actions;
 - action targets that do not exist;
+- element count or parent-child topology changes between breakpoint roots without an explicit structural exception;
 - text fixed height without overflow policy;
 - hidden keyed layers used as source of truth.
 
@@ -31,6 +32,7 @@ Immediate blockers:
 - [ ] Identities use English kebab-case.
 - [ ] There are no duplicate identities inside one breakpoint/view scope.
 - [ ] The same logical element uses the same identity across breakpoints.
+- [ ] The same logical element keeps the same parent identity across breakpoints.
 
 ## Layout
 
@@ -43,8 +45,9 @@ Immediate blockers:
 
 - [ ] Every responsive root has `[bp=...]`.
 - [ ] Important keys are present across required breakpoints.
+- [ ] Breakpoints preserve the same logical element tree and collection cardinality.
 - [ ] Text meaning does not silently change between breakpoints.
-- [ ] Breakpoint-specific wrappers have a reason.
+- [ ] Breakpoint-specific wrappers are declared as structural exceptions with a reason.
 
 ## Interactions
 

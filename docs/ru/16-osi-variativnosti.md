@@ -4,9 +4,9 @@ BRIDGE разделяет разные причины вариативности
 
 ## Core rule
 
-> Breakpoint — это layout variation, а не content variation.
+> Breakpoint — это layout variation одного logical tree, а не content или structure variation.
 
-Если меняется content, причина должна быть выражена другой осью: view, locale, theme, experiment, role или data scenario.
+Если меняется content или logical tree topology, причина должна быть выражена другой осью: view, locale, theme, experiment, role, data scenario, collection rule, component variant или structural exception.
 
 ## Каноничные оси
 
@@ -42,6 +42,8 @@ Hero [section=hero] [bp=320]
 
 Нельзя менять:
 
+- добавлять или удалять logical elements;
+- parent-child topology;
 - heading text;
 - shortened mobile CTA;
 - legal copy;

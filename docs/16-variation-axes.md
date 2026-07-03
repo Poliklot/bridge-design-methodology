@@ -4,9 +4,9 @@ BRIDGE separates different reasons for variation. This prevents designers from h
 
 ## Core rule
 
-> A breakpoint is a layout variation, not a content variation.
+> A breakpoint is a layout variation of the same logical tree, not a content or structure variation.
 
-If content changes, the reason must be represented by a different axis: view, locale, theme, experiment, role, or data scenario.
+If content or logical tree topology changes, the reason must be represented by a different axis: view, locale, theme, experiment, role, data scenario, collection rule, component variant, or structural exception.
 
 ## Canonical axes
 
@@ -42,6 +42,8 @@ Allowed changes:
 
 Not allowed:
 
+- extra or missing logical elements;
+- different parent-child topology;
 - different heading text;
 - shorter mobile CTA;
 - different legal copy;

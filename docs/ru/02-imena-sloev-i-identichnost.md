@@ -65,7 +65,7 @@ card [card=card-2]
 - font-size;
 - переносы строк;
 - позицию в layout;
-- parent layout.
+- layout properties родителя.
 
 Нельзя между responsive breakpoint’ами:
 
@@ -74,7 +74,9 @@ card [card=card-2]
 - менять юридическую формулировку;
 - менять продуктовый claim;
 - прятать важный смысл на mobile;
-- сокращать mobile labels.
+- сокращать mobile labels;
+- переносить одну identity под другого parent’а;
+- добавлять или удалять логические элементы без declared variant, state, collection rule или structural exception.
 
 Плохо:
 
@@ -86,7 +88,7 @@ title [text=hero-title] = "Launch your store in one day"
 title [text=hero-title] = "Launch faster"
 ```
 
-Если контент отличается из-за locale, experiment, personalization или product variant, моделируй это вне responsive breakpoint contract. Адаптив — это layout variation, а не content variation.
+Если content или tree topology отличаются из-за locale, experiment, personalization, product variant или target-specific behavior, моделируй это вне обычного responsive breakpoint contract. Адаптив — это layout variation одного logical tree, а не content или structure variation.
 
 ## Рекомендуемые структурные имена
 

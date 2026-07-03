@@ -117,6 +117,22 @@
       "fix": "Add the element, or declare an intentional breakpoint exclusion."
     },
     {
+      "id": "responsive.tree-cardinality-changed",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Responsive breakpoint roots for the same view do not preserve the same logical element tree/cardinality.",
+      "fix": "Keep the same transferable identities across breakpoints, or model the difference as a collection rule, state, variant, or structural exception."
+    },
+    {
+      "id": "responsive.parent-changed-across-breakpoints",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A transferable identity changes parent identity across breakpoints.",
+      "fix": "Preserve parent-child topology, use shared wrappers, or declare an explicit structural exception."
+    },
+    {
       "id": "responsive.order-changed-without-reason",
       "principle": "Breakpoints",
       "severity": "warning",

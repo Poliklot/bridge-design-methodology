@@ -23,6 +23,8 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 | Case | Why it is dangerous | BRIDGE response | Auto-check |
 | --- | --- | --- | --- |
 | Mobile copy changes product meaning | Users see different promises on different devices. | Responsive breakpoints must preserve exact content; model locale/experiment/product variants separately. | Text diff by identity. |
+| Element count changes between breakpoints | The adapter cannot know whether an item is deleted, hidden, duplicated, or variant-specific. | Preserve the same logical cardinality, or model the difference as a collection rule, state, variant, or structural exception. | Identity cardinality diff. |
+| Identity is reparented on one breakpoint | DOM/component topology, state ownership, ARIA relationships, and analytics can break. | Preserve parent-child topology; use shared wrappers or declare a structural exception. | Compare parent identity by key. |
 | Critical element disappears on mobile | CTA, legal note, price, or error state is lost. | Mark intentional exclusions or keep key on required breakpoints. | Identity coverage check. |
 | Desktop grid becomes mobile carousel | Different behavior, states, and controls appear. | Declare `responsive-behavior=carousel` and carousel controls. | Key + role change heuristic. |
 | Order changes without reason | DOM/order may differ from visual intent and accessibility. | Declare order strategy or preserve semantic order. | Compare sibling order by key. |

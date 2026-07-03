@@ -6,7 +6,7 @@ BRIDGE should become comfortable because a designer can run a preflight check be
 
 1. **Syntax validation** — tags, keys, action syntax, breakpoint tags.
 2. **Identity validation** — identity uniqueness, identity stability, type stability.
-3. **Responsive validation** — identity coverage, content drift, order changes, breakpoint completeness.
+3. **Responsive validation** — identity coverage, tree topology/cardinality, parent-child stability, content drift, order changes, breakpoint completeness.
 4. **Layout validation** — flow/absolute roles, wrappers, clipping, fixed heights, overlaps.
 5. **Interaction graph validation** — actions, targets, modals, states, forms.
 6. **Content validation** — text equality, strict legal/price content, rich text, localization risk.
@@ -33,6 +33,7 @@ extract design tree
   -> normalize names, tags, keys, roles
   -> group frames by section and breakpoint
   -> build identity map and type map
+  -> compare responsive tree cardinality and parent identities
   -> compare content across breakpoints
   -> classify layout roles and wrappers
   -> build action-target graph
@@ -50,6 +51,8 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 | Identity | `identity.missing-typed-identity` | error | automatic |
 | Identity | `identity.same-key-different-type` | error | automatic |
 | Responsive | `responsive.identity-missing-in-required-breakpoint` | warning | automatic |
+| Responsive | `responsive.tree-cardinality-changed` | error | automatic |
+| Responsive | `responsive.parent-changed-across-breakpoints` | error | automatic |
 | Content | `content.text-changed-between-breakpoints` | warning | heuristic |
 | Layout | `layout.one-child-wrapper-without-role` | warning | heuristic |
 | Layout | `layout.overlap-without-overlay-role` | warning | heuristic |
@@ -121,6 +124,7 @@ Use to prove that a target implementation path supports BRIDGE:
 - Missing typed identity (`[type=id]`) on important elements.
 - Duplicate identities inside a breakpoint/view scope.
 - Same identity used for different logical types.
+- Responsive element tree cardinality or parent-child topology changes without a structural exception.
 - Clickable element without `[action=...]`.
 - Action target missing.
 - Modal without close behavior.

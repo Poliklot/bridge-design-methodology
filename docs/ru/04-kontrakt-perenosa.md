@@ -11,6 +11,7 @@ BRIDGE-ready макет раскрывает достаточно информа
 - Геометрия по breakpoint’ам.
 - Текстовые метрики по breakpoint’ам.
 - Идентичность контента между breakpoint’ами.
+- Parent-child topology и sibling order по breakpoint’ам.
 - Interaction/action intent для clickable элементов.
 - Существование target’ов для ссылок, модалок, anchors и states.
 - Asset export intent для сложных визуалов.
@@ -22,6 +23,10 @@ BRIDGE-ready макет раскрывает достаточно информа
 {
   "methodology": "BRIDGE",
   "breakpoints": [1200, 320],
+  "tree": {
+    "1200": { "hero": ["hero-title", "contact-cta"] },
+    "320": { "hero": ["hero-title", "contact-cta"] }
+  },
   "elements": [
     {
       "id": "hero-title",
@@ -59,4 +64,4 @@ BRIDGE-ready макет раскрывает достаточно информа
 }
 ```
 
-Конкретный adapter реализации может создать базовый layout и затем детерминированно применить responsive fields для своей целевой среды.
+Конкретный adapter реализации может создать одно базовое дерево/layout и затем детерминированно применить responsive fields для своей целевой среды.

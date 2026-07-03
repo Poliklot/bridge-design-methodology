@@ -23,6 +23,8 @@ BRIDGE становится полезным только тогда, когда
 | Ситуация | Почему опасно | Ответ BRIDGE | Автопроверка |
 | --- | --- | --- | --- |
 | Mobile copy меняет продуктовый смысл | Пользователь видит разные обещания на разных устройствах. | Responsive breakpoints должны сохранять точный content; locale/experiment/product variants моделируются отдельно. | Text diff по identity. |
+| Количество элементов меняется между breakpoint’ами | Адаптер не понимает: элемент удалён, скрыт, продублирован или стал variant-specific. | Сохранять logical cardinality или моделировать отличие как collection rule, state, variant или structural exception. | Identity cardinality diff. |
+| Identity переезжает к другому parent’у на одном breakpoint’е | DOM/component topology, state ownership, ARIA-связи и analytics могут сломаться. | Сохранять parent-child topology; использовать shared wrappers или объявлять structural exception. | Сравнение parent identity по key. |
 | Критичный элемент исчезает на mobile | CTA, legal note, price или error state потерян. | Явно помечать intentional exclusions или сохранять key на обязательных breakpoint’ах. | Identity coverage check. |
 | Desktop grid превращается в mobile carousel | Поведение, states и controls становятся другими. | `responsive-behavior=carousel` + controls. | Key + role change heuristic. |
 | Порядок элементов меняется без причины | DOM/order и accessibility могут сломаться. | Объявить order strategy или сохранить semantic order. | Сравнение sibling order по key. |
