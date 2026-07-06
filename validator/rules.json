@@ -1,6 +1,6 @@
 {
   "methodology": "BRIDGE",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "severityLevels": [
     "error",
     "warning",
@@ -43,6 +43,22 @@
       "automation": "heuristic",
       "description": "Repeated list/grid items need stable instance identities.",
       "fix": "Use identities such as `[card=feature-card-1]`, `[card=feature-card-2]`."
+    },
+    {
+      "id": "section.role-prefix-in-name",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Section layer names should not repeat the role with prefixes such as `Section /` or `Секция /`.",
+      "fix": "Keep the human label concise and express the role with `[section=...]`."
+    },
+    {
+      "id": "section.identity-as-human-heading",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "`[section=...]` should describe the reusable section/component contract, not copy the page-specific heading.",
+      "fix": "Use the layer name for the contextual heading and keep `[section=...]` stable for the reusable section contract, for example `Related products [section=product-slider]`."
     },
     {
       "id": "naming.default-layer-name",

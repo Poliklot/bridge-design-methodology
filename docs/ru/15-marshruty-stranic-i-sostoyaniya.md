@@ -92,8 +92,22 @@ Addressable sections используют `[section=...]` и `[anchor=...]`:
 Contacts FAQ [section=contacts-faq] [anchor=faq]
 ```
 
+`[section=...]` — это reusable section/component contract. Human name слоя может быть page-specific:
+
+```text
+Каталог [section=product-slider]
+Похожие товары [section=product-slider]
+Рекомендованные товары [section=product-slider]
+Первый экран [section=home-hero]
+```
+
+В первых трёх примерах content/data разные, но adapter может переносить блок одним секционным компонентом. `home-hero` — пример уникальной секции страницы.
+
 Правила:
 
+- не пиши `Секция /` в имени слоя, если есть `[section=...]`;
+- `[section=...]` должен быть стабильным между breakpoint’ами одной страницы;
+- одинаковый `[section=...]` на разных страницах допускает разные заголовки, данные и content;
 - anchors уникальны внутри одного page route;
 - одна section identity должна сохранять один anchor между breakpoint’ами;
 - anchors являются частью navigation и не должны изобретаться на этапе implementation.

@@ -55,6 +55,24 @@ card [card=card-1]
 card [card=card-2]
 ```
 
+## Section names
+
+For sections, the human-readable layer name and the `[section=...]` tag mean different things.
+
+```text
+Recommended products [section=product-slider]
+Related products [section=product-slider]
+Catalog [section=product-slider]
+```
+
+- the layer name before tags is the contextual label for this page;
+- `[section=...]` is the reusable section/component contract that tells an agent or adapter which section component should implement the block;
+- content, heading, and data may differ across pages while `[section=...]` stays the same;
+- if a section is unique to one page, use a specific section id: `First screen [section=home-hero]`;
+- do not add prefixes such as `Section /` to the human name: the role is already declared by `[section=...]`.
+
+The same `[section=...]` across breakpoints of one page means the same section contract and should preserve a comparable structure. The same `[section=...]` across different pages does not require identical content.
+
 ## Content identity
 
 The same typed identity across breakpoints means the same logical content.

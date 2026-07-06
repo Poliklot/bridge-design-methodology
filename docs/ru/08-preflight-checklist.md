@@ -33,6 +33,8 @@ Immediate blockers:
 - [ ] Внутри одного breakpoint/view scope нет duplicate identities.
 - [ ] Один и тот же логический элемент использует одну identity на всех адаптивах.
 - [ ] Один и тот же логический элемент сохраняет одного родителя на всех адаптивах.
+- [ ] Section roots используют `[section=...]` как reusable section/component contract, а не human заголовок.
+- [ ] Human names секций не дублируют роль префиксом вроде `Секция /`.
 
 ## Layout
 

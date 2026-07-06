@@ -92,8 +92,22 @@ Addressable sections use `[section=...]` and `[anchor=...]`:
 Contacts FAQ [section=contacts-faq] [anchor=faq]
 ```
 
+`[section=...]` is the reusable section/component contract. The human layer name may be page-specific:
+
+```text
+Catalog [section=product-slider]
+Related products [section=product-slider]
+Recommended products [section=product-slider]
+First screen [section=home-hero]
+```
+
+In the first three examples, content/data differs, but an adapter can implement the block with one section component. `home-hero` is an example of a page-unique section.
+
 Rules:
 
+- do not write `Section /` in the layer name when `[section=...]` is present;
+- `[section=...]` should stay stable across breakpoints of one page;
+- the same `[section=...]` on different pages may have different headings, data, and content;
 - anchors are unique inside one page route;
 - the same section identity should keep the same anchor across breakpoints;
 - anchors are part of navigation and should not be invented by implementation later.

@@ -45,6 +45,17 @@ Contact us [control=contact-cta] [action=modal:contact-modal]
 [state=mobile-menu-open]
 ```
 
+`[section=...]` описывает reusable section/component contract, а не заголовок конкретного блока. Заголовок и human name могут отличаться:
+
+```text
+Каталог [section=product-slider]
+Похожие товары [section=product-slider]
+Рекомендованные товары [section=product-slider]
+Первый экран [section=home-hero]
+```
+
+Не используй префиксы вроде `Секция /`: тег уже говорит, что это section.
+
 ### Layout entities
 
 ```text
@@ -94,11 +105,13 @@ Contact us [control=contact-cta] [action=modal:contact-modal]
 Catalog Page [page=catalog] [route=/catalog] [bp=1200] [view=default]
 Catalog Empty [page=catalog] [route=/catalog] [bp=1200] [view=empty]
 FAQ Section [section=contacts-faq] [anchor=faq]
+Related Products [section=product-slider]
 ```
 
 Правила:
 
 - все breakpoints/views одной страницы имеют один `[page=...]` и `[route=...]`;
+- один `[section=...]` может использоваться на разных страницах с разным content/data, если это тот же секционный компонент;
 - `[view=...]` описывает page/data state, а не component state;
 - `[anchor=...]` создаёт addressable section anchor.
 

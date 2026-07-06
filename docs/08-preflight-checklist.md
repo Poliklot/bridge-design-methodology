@@ -33,6 +33,8 @@ Immediate blockers:
 - [ ] There are no duplicate identities inside one breakpoint/view scope.
 - [ ] The same logical element uses the same identity across breakpoints.
 - [ ] The same logical element keeps the same parent identity across breakpoints.
+- [ ] Section roots use `[section=...]` as the reusable section/component contract, not as the human heading.
+- [ ] Human section names do not duplicate the role with prefixes such as `Section /`.
 
 ## Layout
 

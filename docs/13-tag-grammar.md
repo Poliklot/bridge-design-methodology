@@ -45,6 +45,17 @@ Contact us [control=contact-cta] [action=modal:contact-modal]
 [state=mobile-menu-open]
 ```
 
+`[section=...]` describes the reusable section/component contract, not the heading of a specific block. The heading and human layer name may differ:
+
+```text
+Catalog [section=product-slider]
+Related products [section=product-slider]
+Recommended products [section=product-slider]
+First screen [section=home-hero]
+```
+
+Do not use prefixes such as `Section /`: the tag already says that this is a section.
+
 ### Layout entities
 
 ```text
@@ -94,11 +105,13 @@ Examples:
 Catalog Page [page=catalog] [route=/catalog] [bp=1200] [view=default]
 Catalog Empty [page=catalog] [route=/catalog] [bp=1200] [view=empty]
 FAQ Section [section=contacts-faq] [anchor=faq]
+Related Products [section=product-slider]
 ```
 
 Rules:
 
 - all breakpoints/views of one page share the same `[page=...]` and `[route=...]`;
+- one `[section=...]` may be used on different pages with different content/data when it is the same section component;
 - `[view=...]` describes page/data state, not component state;
 - `[anchor=...]` creates an addressable section anchor.
 
