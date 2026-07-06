@@ -55,6 +55,7 @@ Machine-readable seed лежит в [`../../validator/rules.json`](../../validat
 | Responsive | `responsive.tree-cardinality-changed` | error | automatic |
 | Responsive | `responsive.parent-changed-across-breakpoints` | error | automatic |
 | Content | `content.text-changed-between-breakpoints` | warning | heuristic |
+| Content | `content.manual-line-break-in-dynamic-text` | error | heuristic |
 | Layout | `layout.one-child-wrapper-without-role` | warning | heuristic |
 | Layout | `layout.overlap-without-overlay-role` | warning | heuristic |
 | Interaction | `interaction.clickable-without-action` | error | automatic |
@@ -130,6 +131,7 @@ Machine-readable seed лежит в [`../../validator/rules.json`](../../validat
 - Action target отсутствует.
 - Modal без close behavior.
 - Text fixed height без overflow policy.
+- Динамический текст зависит от ручных переносов строк.
 - Hidden keyed layers используются как source of truth.
 - Rasterized text без explicit reason.
 

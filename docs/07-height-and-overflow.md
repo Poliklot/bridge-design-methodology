@@ -50,6 +50,42 @@ Or, if clipping is intentional:
 description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 ```
 
+## Text wrapping and manual line breaks
+
+Manual line breaks are not layout.
+
+Do not use forced line breaks in a text layer, `<br>`, or breakpoint-specific copy splits to make dynamic content look correct. If the text comes from a CMS, admin panel, localization file, product catalog, or any other editable source, it must wrap by the container.
+
+Bad:
+
+```text
+Title [text=hero-title]
+"Launch your winter
+business faster"
+```
+
+when the break is only a visual workaround.
+
+Good:
+
+```text
+Title [text=hero-title] [height=hug]
+```
+
+The container, not the copy, defines the wrapping behavior:
+
+- set an intentional width/max-width;
+- allow normal wrapping;
+- use hug/min-height when the block can grow;
+- use `[overflow=truncate] [lines=...]` only when truncation is a product decision;
+- tolerate long words, names, URLs, and localized text.
+
+Forced line breaks are valid only when they are part of the content semantics or an approved brand lockup: postal addresses, poems, legal copy with prescribed formatting, or a campaign headline that must break in a specific place. Mark that as an exception:
+
+```text
+Headline [text=campaign-title] [bridge-exception=manual-line-break] [reason=brand-lockup]
+```
+
 ## Overflow policy
 
 Use explicit overflow tags:

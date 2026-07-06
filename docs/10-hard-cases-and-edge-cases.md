@@ -52,6 +52,7 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 | --- | --- | --- | --- |
 | CMS item count changes | A 3-card design breaks with 2 or 7 cards. | Declare collection rules: min/max/empty/loading. | Collection metadata check. |
 | Localization expands text | German/Russian text overflows English layout. | Use hug/min-height and text expansion tolerance. | Text box risk heuristic. |
+| Manual line breaks make content fit | CMS/admin/localized text arrives without designer-inserted breaks and breaks the layout. | Container-driven wrapping; manual line breaks only as explicit semantic/brand exceptions. | Line-break-in-text heuristic. |
 | Price/legal text changes across breakpoints | Compliance and product truth are broken. | Treat price/legal keys as strict content. | Strict content diff. |
 | Rich text is flattened | Links, bold, lists, and line breaks disappear. | Declare rich-text structure. | Text node metadata check. |
 | Empty/error/loading states are missing | Real product states are not implementable. | Declare required states for dynamic blocks. | State coverage check. |

@@ -52,6 +52,7 @@ BRIDGE становится полезным только тогда, когда
 | --- | --- | --- | --- |
 | Количество CMS items меняется | Дизайн на 3 карточки ломается на 2 или 7. | Collection rules: min/max/empty/loading. | Collection metadata check. |
 | Локализация расширяет текст | Длинный русский/немецкий текст вылезает. | Hug/min-height и text expansion tolerance. | Text box risk heuristic. |
+| Ручные переносы делают текст “красивым” | Текст из CMS/админки/локализации приходит без дизайнерских переносов и ломает layout. | Container-driven wrapping; ручные переносы только как явные semantic/brand exceptions. | Line-break-in-text heuristic. |
 | Price/legal меняются между breakpoint’ами | Ломается compliance и продуктовая правда. | Price/legal keys — strict content. | Strict content diff. |
 | Rich text flatten’ится | Ссылки, bold, lists и line breaks исчезают. | Rich-text structure. | Text node metadata check. |
 | Нет empty/error/loading states | Реальный продуктовый блок не реализовать. | Required states для dynamic blocks. | State coverage check. |

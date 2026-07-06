@@ -1,6 +1,6 @@
 {
   "methodology": "BRIDGE",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "severityLevels": [
     "error",
     "warning",
@@ -163,6 +163,22 @@
       "automation": "heuristic",
       "description": "The same text identity has different content across breakpoints.",
       "fix": "Keep responsive text identical. Model locale, experiment, or product variants outside breakpoint variants."
+    },
+    {
+      "id": "content.manual-line-break-in-dynamic-text",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Dynamic text must not rely on forced line breaks or <br> to fit the layout.",
+      "fix": "Let text wrap by its container using hug/min-height, max-width, and explicit overflow/truncation rules. Use `[bridge-exception=manual-line-break] [reason=...]` only for semantic or approved brand-lockup breaks."
+    },
+    {
+      "id": "content.manual-line-break-exception-without-reason",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A manual line break exception must explain why the break is semantic or brand-required.",
+      "fix": "Pair `[bridge-exception=manual-line-break]` with `[reason=...]`, for example `[reason=brand-lockup]` or `[reason=postal-address-format]`."
     },
     {
       "id": "content.strict-content-drift",

@@ -208,6 +208,7 @@ Description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 [bridge-exception=raster-text]
 [bridge-exception=overlap]
 [bridge-exception=fixed-height]
+[bridge-exception=manual-line-break]
 [bridge-exception=unsupported-effect]
 [bridge-exception=manual-transfer]
 [reason=brand-lockup]
@@ -217,6 +218,7 @@ Rules:
 
 - every exception needs `[reason=...]`;
 - `[abs]` should be paired with a meaningful entity type such as `[decor=...]`, `[asset=...]`, `[shape=...]`, or `[modal=...]`;
+- `[bridge-exception=manual-line-break]` is allowed only when the line break is semantic or an approved brand lockup, not as a layout workaround for dynamic text;
 - exceptions do not make a design better, they only make complexity explicit.
 
 ## Component ownership

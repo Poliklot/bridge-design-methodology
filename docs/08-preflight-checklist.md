@@ -24,6 +24,7 @@ Immediate blockers:
 - action targets that do not exist;
 - element count or parent-child topology changes between breakpoint roots without an explicit structural exception;
 - text fixed height without overflow policy;
+- dynamic text that depends on manual line breaks;
 - hidden keyed layers used as source of truth.
 
 ## Identity
@@ -63,6 +64,7 @@ Immediate blockers:
 ## Height and overflow
 
 - [ ] Text does not use fixed height unless overflow behavior is declared.
+- [ ] Dynamic text does not rely on forced line breaks or `<br>` to look correct.
 - [ ] Cards do not hide content accidentally.
 - [ ] Fixed height has a reason.
 - [ ] Overflow behavior is explicit for clipped surfaces.

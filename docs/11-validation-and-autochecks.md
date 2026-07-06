@@ -55,6 +55,7 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 | Responsive | `responsive.tree-cardinality-changed` | error | automatic |
 | Responsive | `responsive.parent-changed-across-breakpoints` | error | automatic |
 | Content | `content.text-changed-between-breakpoints` | warning | heuristic |
+| Content | `content.manual-line-break-in-dynamic-text` | error | heuristic |
 | Layout | `layout.one-child-wrapper-without-role` | warning | heuristic |
 | Layout | `layout.overlap-without-overlay-role` | warning | heuristic |
 | Interaction | `interaction.clickable-without-action` | error | automatic |
@@ -130,6 +131,7 @@ Use to prove that a target implementation path supports BRIDGE:
 - Action target missing.
 - Modal without close behavior.
 - Text fixed height with no overflow policy.
+- Dynamic text that relies on manual line breaks.
 - Hidden keyed layers used as source of truth.
 - Rasterized text without explicit reason.
 

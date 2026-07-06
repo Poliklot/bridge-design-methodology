@@ -208,6 +208,7 @@ Description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 [bridge-exception=raster-text]
 [bridge-exception=overlap]
 [bridge-exception=fixed-height]
+[bridge-exception=manual-line-break]
 [bridge-exception=unsupported-effect]
 [bridge-exception=manual-transfer]
 [reason=brand-lockup]
@@ -217,6 +218,7 @@ Description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 
 - каждое exception требует `[reason=...]`;
 - `[abs]` должен сочетаться с meaningful entity type: `[decor=...]`, `[asset=...]`, `[shape=...]` или `[modal=...]`;
+- `[bridge-exception=manual-line-break]` допустим только когда перенос строки семантический или является утверждённым brand lockup, а не layout-костылём для динамического текста;
 - exceptions не делают дизайн лучше, они только делают сложность явной.
 
 ## Component ownership

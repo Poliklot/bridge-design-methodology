@@ -24,6 +24,7 @@ Immediate blockers:
 - action targets, которых не существует;
 - количество элементов или вложенность меняются между адаптивами без явного исключения;
 - text fixed height без overflow policy;
+- динамический текст зависит от ручных переносов строк;
 - hidden keyed layers как source of truth.
 
 ## Identity
@@ -63,6 +64,7 @@ Immediate blockers:
 ## Height и overflow
 
 - [ ] Текст не использует fixed height без declared overflow behavior.
+- [ ] Динамический текст не зависит от forced line breaks или `<br>`, чтобы выглядеть корректно.
 - [ ] Карточки не скрывают контент случайно.
 - [ ] Fixed height имеет reason.
 - [ ] Overflow behavior явно задан для clipped surfaces.

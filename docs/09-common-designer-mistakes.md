@@ -53,3 +53,9 @@ Fix: keep stable typed identity (`[type=id]`) for logical identity.
 Problem: hidden layers contain alternative states, old copy, or unclear versions.
 
 Fix: move alternatives into declared states, variants, or targets.
+
+## 10. Manual line breaks instead of containers
+
+Problem: headings and copy look correct only because the designer inserted forced line breaks. When the CMS/admin text arrives without those breaks, the layout breaks.
+
+Fix: let text wrap by the container. Use hug/min-height, max-width, and explicit overflow/truncation rules. Use `[bridge-exception=manual-line-break] [reason=...]` only for semantic or approved brand-lockup breaks.
