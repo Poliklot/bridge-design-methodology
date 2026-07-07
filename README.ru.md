@@ -78,6 +78,7 @@ BRIDGE разделяет две вещи:
 - [Компоненты и UI Kit](docs/ru/14-komponenty-i-ui-kit.md)
 - [Маршруты страниц и состояния](docs/ru/15-marshruty-stranic-i-sostoyaniya.md)
 - [Оси вариативности](docs/ru/16-osi-variativnosti.md)
+- [BRIDGE-ready чеклист для дизайнеров](docs/ru/17-cheklist-dlya-dizaynerov.md)
 - [Validator rule catalog](validator/rules.json)
 
 ## Инструменты
