@@ -59,7 +59,7 @@ Disabled CTA [control=disabled-cta] [action=none]
 [action=none]
 ```
 
-## Fields используют `field` и `name`
+## Поля используют `field` и `name`
 
 Form fields требуют stable identity и data binding.
 
@@ -77,7 +77,7 @@ Country [field=country] [name=country] [field-type=select]
 
 ## Modals и states
 
-Actions должны указывать на существующие targets:
+Actions должны указывать на существующие цели:
 
 ```text
 Contact us [control=contact-cta] [action=modal:contact-modal]
@@ -87,7 +87,7 @@ Menu [control=mobile-menu-button] [action=state:mobile-menu-open]
 Mobile Menu [state=mobile-menu-open]
 ```
 
-Если modal или state target не существует, дизайн не BRIDGE-ready.
+Если modal или state цель не существует, дизайн не BRIDGE-ready.
 
 ## Что должен проверять валидатор
 

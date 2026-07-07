@@ -1,51 +1,66 @@
 # Грамматика тегов BRIDGE
 
-BRIDGE tags — это короткие machine-readable annotations в названиях слоёв. Грамматика должна избегать двойных истин и быть достаточно простой для дизайнеров.
+BRIDGE-теги — это короткие машиночитаемые пометки в названиях слоёв. В Figma они используются только для смысла переноса, которого нет в метаданных Figma.
 
-## Core rule
+## Главный принцип
 
-Используй один identity tag на каждый важный transferable layer:
+Не пиши тег, если он повторяет то, что уже сделано в Figma.
 
-```text
-[type=id]
-```
+Figma является источником правды для технических свойств слоя:
 
-Для дополнительных фактов используй property tags:
+- тип слоя: text, image/vector, component instance;
+- Auto Layout: ограничения, размеры, gap, padding, alignment, wrap;
+- иерархия: frames, groups, components;
+- позиционирование, clipping, masks;
+- fills, strokes, effects;
+- исходный компонент, variants, component properties.
+
+BRIDGE-тег нужен только для продуктового смысла или смысла переноса.
+
+## Синтаксис
+
+Для фактов, которые должен прочитать агент или адаптер, используй теги свойств:
 
 ```text
 [property=value]
 ```
 
-Примеры:
+Стабильная identity внутри Figma может быть просто именем слоя:
 
 ```text
-Contacts Page [page=contacts] [route=/contacts] [bp=1200]
-Hero Title [text=hero-title]
-FAQ [link=nav-faq] [href=/contacts#faq]
-Contact us [control=contact-cta] [action=modal:contact-modal]
+hero-title
+product-photo
+close-icon
+button-group
 ```
 
-## Правила одной правды
+Имя должно быть стабильным English kebab-case.
 
-- Navigation destination всегда `[href=...]`.
-- Non-navigation behavior всегда `[action=...]`.
-- Responsive breakpoints не должны менять текстовый контент.
-- Page instances не должны вручную описывать component internals, которыми уже владеет Figma/UI Kit.
-- Не используй `[to=...]`.
-- Не используй responsive content variants вроде `mobile-short`.
+## Теги, которые дизайнер пишет
 
-## Identity tags
-
-### Page and target entities
+### Страница и маршрут
 
 ```text
-[page=contacts]
-[section=contacts-faq]
-[modal=contact-modal]
-[state=mobile-menu-open]
+[page=home]
+[route=/]
+[bp=1920]
+[view=default]
+[anchor=faq]
 ```
 
-`[section=...]` описывает reusable section/component contract, а не заголовок конкретного блока. Заголовок и human name могут отличаться:
+```text
+Главная страница [page=home] [route=/] [bp=1920] [view=default]
+FAQ [anchor=faq]
+```
+
+### Секционный контракт
+
+```text
+[section=product-slider]
+[section=home-hero]
+```
+
+`[section=...]` описывает переиспользуемый контракт секционного компонента, а не заголовок конкретного блока.
 
 ```text
 Каталог [section=product-slider]
@@ -56,131 +71,140 @@ Contact us [control=contact-cta] [action=modal:contact-modal]
 
 Не используй префиксы вроде `Секция /`: тег уже говорит, что это section.
 
-### Layout entities
+### Цели
 
 ```text
-[container=content]
-[container=hero-copy]
-[collection=products]
-[card=product-card-1]
-[form=lead-form]
+[modal=contact-modal]
+[state=mobile-menu-open]
 ```
-
-### Content and visual entities
 
 ```text
-[text=hero-title]
-[image=hero-photo]
-[icon=close-icon]
-[asset=hero-illustration]
-[decor=hero-glow]
-[shape=background-shape]
+Contact Modal [modal=contact-modal]
+Mobile Menu Open [state=mobile-menu-open]
 ```
 
-### Interaction entities
+### Ссылки
+
+Ссылки используют `href` как единственный источник правды о назначении.
 
 ```text
 [link=nav-contacts]
-[control=contact-cta]
-[field=email]
+[href=/contacts]
+[href=/contacts#faq]
+[href=https://t.me/company]
+[href=mailto:sales@example.com]
+[href=tel:+12025550123]
 ```
-
-Используй `[control=...]` для интерактивных элементов, которые не являются прямыми navigation links. Не заставляй дизайнеров выбирать из огромного списка control subtypes в layer names страницы. Точный component/control type должен приходить из UI Kit component instance metadata, когда это возможно.
-
-## Page and route properties
 
 ```text
-[route=/contacts]
-[bp=1200]
-[view=default]
-[view=empty]
-[view=loading]
-[view=error]
-[anchor=faq]
+contacts-link [link=nav-contacts] [href=/contacts]
+faq-link [link=nav-faq] [href=/contacts#faq]
+telegram-link [link=social-telegram] [href=https://t.me/company]
+email-link [link=email-sales] [href=mailto:sales@example.com]
+phone-link [link=phone-main] [href=tel:+12025550123]
 ```
 
-Примеры:
-
-```text
-Catalog Page [page=catalog] [route=/catalog] [bp=1200] [view=default]
-Catalog Empty [page=catalog] [route=/catalog] [bp=1200] [view=empty]
-FAQ Section [section=contacts-faq] [anchor=faq]
-Related Products [section=product-slider]
-```
-
-Правила:
-
-- все breakpoints/views одной страницы имеют один `[page=...]` и `[route=...]`;
-- один `[section=...]` может использоваться на разных страницах с разным content/data, если это тот же секционный компонент;
-- `[view=...]` описывает page/data state, а не component state;
-- `[anchor=...]` создаёт addressable section anchor.
-
-## Links and href
-
-Links используют `href` как единственную destination truth.
-
-```text
-Contacts [link=nav-contacts] [href=/contacts]
-FAQ [link=nav-faq] [href=/contacts#faq]
-Telegram [link=social-telegram] [href=https://t.me/company]
-Email [link=email-sales] [href=mailto:sales@example.com]
-Phone [link=phone-main] [href=tel:+12025550123]
-```
-
-Optional link behavior:
+Дополнительное поведение ссылки:
 
 ```text
 [open=new-tab]
 [a11y-label=Telegram]
 ```
 
-Валидаторы классифицируют href values:
+Валидаторы классифицируют значения `href`:
 
-- `/path` — internal route;
-- `#anchor` — same-page anchor;
-- `/path#anchor` — cross-page anchor;
-- `https://...` — external URL;
-- `mailto:` / `tel:` — external protocol.
+- `/path` — внутренний маршрут;
+- `#anchor` — anchor на этой же странице;
+- `/path#anchor` — anchor на другой странице;
+- `https://...` — внешний URL;
+- `mailto:` / `tel:` — внешний протокол.
 
-## Controls and actions
+### Контролы и действия
 
-Controls используют `action`.
-
-```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
-Menu [control=mobile-menu-button] [action=state:mobile-menu-open]
-Submit [control=lead-submit] [action=submit:lead-form]
-Reset filters [control=reset-filters] [action=reset:catalog-filters]
-Disabled CTA [control=disabled-cta] [action=none]
-```
-
-Допустимые формы action:
+Контролы используют `action`.
 
 ```text
-[action=modal:target-id]
-[action=state:target-id]
-[action=submit:form-id]
-[action=reset:target-id]
+[control=contact-cta]
+[action=modal:contact-modal]
+[action=state:mobile-menu-open]
+[action=submit:lead-form]
+[action=reset:catalog-filters]
 [action=none]
 ```
 
-## Fields
-
-Fields требуют stable identity и data binding name.
-
 ```text
-Email [field=email] [name=email]
-Country [field=country] [name=country]
-Message [field=message] [name=message]
+contact-cta [control=contact-cta] [action=modal:contact-modal]
+menu-button [control=mobile-menu-button] [action=state:mobile-menu-open]
+lead-submit [control=lead-submit] [action=submit:lead-form]
+reset-filters [control=reset-filters] [action=reset:catalog-filters]
+disabled-cta [control=disabled-cta] [action=none]
 ```
 
-Используй `[field-type=...]` только если тип нельзя вывести из UI Kit/native metadata:
+Допустимые формы `action`:
 
 ```text
-Country [field=country] [name=country] [field-type=select]
+[action=modal:цель-id]
+[action=state:цель-id]
+[action=submit:form-id]
+[action=reset:цель-id]
+[action=none]
 ```
 
-## Height and overflow
+### Поля
+
+Поля требуют stable identity и data binding name.
+
+```text
+email [field=email] [name=email]
+country [field=country] [name=country]
+message [field=message] [name=message]
+```
+
+Используй `[field-type=...]` только если тип нельзя вывести из метаданных UI Kit или native-элемента:
+
+```text
+country [field=country] [name=country] [field-type=select]
+```
+
+### Коллекции и повторяющиеся элементы
+
+Используй collection/item tags только когда нужно явно описать динамический список или повторяющиеся данные.
+
+```text
+products [collection=products]
+product-card-1 [item=product]
+product-card-2 [item=product]
+```
+
+Если карточка является component instance и повторение очевидно из структуры Figma, дополнительный тег не нужен.
+
+### Визуальный смысл
+
+Контентная картинка получает стабильное имя слоя без ручного `[image=...]`.
+
+```text
+product-photo
+article-cover
+author-avatar
+```
+
+Декоративный визуал помечается `[decor=...]`.
+
+```text
+snow-bg [decor=snow-bg]
+hero-glow [decor=hero-glow]
+```
+
+Экспортируемый цельный визуал помечается `[asset=...]`.
+
+```text
+promo-poster [asset=promo-poster]
+lab-illustration [asset=lab-illustration]
+```
+
+### Высота и overflow
+
+Используй эти теги только когда поведение нельзя безопасно понять из Figma или когда нужна явная policy для динамического контента.
 
 ```text
 [height=hug]
@@ -194,17 +218,14 @@ Country [field=country] [name=country] [field-type=select]
 [lines=3]
 ```
 
-Примеры:
-
 ```text
-Description [text=description] [height=hug]
-Description [text=description] [height=fixed] [overflow=truncate] [lines=3]
+description [height=hug]
+description [height=fixed] [overflow=truncate] [lines=3]
 ```
 
-## Absolute and exceptions
+### Исключения
 
 ```text
-[abs]
 [bridge-exception=raster-text]
 [bridge-exception=overlap]
 [bridge-exception=fixed-height]
@@ -216,51 +237,87 @@ Description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 
 Правила:
 
-- каждое exception требует `[reason=...]`;
-- `[abs]` должен сочетаться с meaningful entity type: `[decor=...]`, `[asset=...]`, `[shape=...]` или `[modal=...]`;
-- `[bridge-exception=manual-line-break]` допустим только когда перенос строки семантический или является утверждённым brand lockup, а не layout-костылём для динамического текста;
-- exceptions не делают дизайн лучше, они только делают сложность явной.
+- каждое исключение требует `[reason=...]`;
+- `[bridge-exception=manual-line-break]` допустим только когда перенос строки семантический или является утверждённым brand lockup, а не костылём для динамического текста;
+- исключения не делают дизайн лучше, они только делают сложность явной.
 
-## Component ownership
+## Теги, которые не пишутся в Figma
 
-Не помечай page instances тегом `[component=...]`, если Figma уже знает source component. Component source, variants и UI states принадлежат UI Kit и должны извлекаться из Figma component metadata.
-
-Page instance:
+Для Figma-макетов не используются:
 
 ```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
+[text=...]
+[image=...]
+[icon=...]
+[container=...]
+[layout=...]
+[abs]
+[component=...]
+[to=...]
 ```
 
-UI Kit component source определяет states: default, hover, focus, disabled, loading, error и т.д.
+Правила:
+
+- текстовый слой получает identity из имени слоя;
+- контентная картинка получает identity из имени слоя;
+- иконка получает identity из имени слоя и/или метаданных компонента;
+- структура задаётся фреймами, группами, компонентами и Auto Layout в Figma;
+- позиционирование задаётся в Figma;
+- исходный компонент, variants и states приходят из UI Kit метаданных компонента;
+- назначение ссылки всегда задаётся через `[href=...]`, не через `[to=...]`.
+
+## Владение компонентами
+
+Не помечай instances на странице тегом `[component=...]`, если Figma уже знает исходный компонент. Исходный компонент, variants и состояния UI принадлежат UI Kit и должны извлекаться из Figma метаданных компонента.
+
+Instance на странице:
+
+```text
+contact-cta [control=contact-cta] [action=modal:contact-modal]
+```
+
+Исходный компонент из UI Kit определяет состояния: default, hover, focus, disabled, loading, error и т.д.
 
 См. [Компоненты и UI Kit](14-komponenty-i-ui-kit.md).
 
 ## Невалидные примеры
 
 ```text
+hero-title [text=hero-title]
+```
+
+Невалидно для текстового слоя Figma: используй имя слоя `hero-title`.
+
+```text
+content [container=content] [layout=stack]
+```
+
+Невалидно для структуры Figma: используй frame `content` и Auto Layout в Figma.
+
+```text
+snow-bg [decor=snow-bg] [abs]
+```
+
+Невалидно: `decor` — это смысл, позиционирование берётся из Figma. Используй `snow-bg [decor=snow-bg]`.
+
+```text
 FAQ [link=nav-faq] [to=anchor:contacts-faq] [href=/contacts#faq]
 ```
 
-Невалидно: две destinations. Используй только `[href=/contacts#faq]`.
+Невалидно: два назначения. Используй только `[href=/contacts#faq]`.
 
 ```text
-Contact us [control=contact-cta]
+contact-cta [control=contact-cta]
 ```
 
-Невалидно: control без action.
+Невалидно: контрол без action.
 
 ```text
 // desktop
-Contact us [control=contact-cta]
+contact-cta [control=contact-cta]
 
 // mobile
-Contact [control=contact-cta]
+contact-button [control=contact-cta]
 ```
 
-Невалидно: один identity имеет разный текст между breakpoint’ами.
-
-```text
-Contact us [control=contact-cta] [component=button]
-```
-
-Невалидно для page instances: component source должен приходить из Figma/UI Kit metadata, а не дублироваться тегом.
+Невалидно: один identity имеет разные layer names между breakpoint’ами без причины.

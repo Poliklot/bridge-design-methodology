@@ -143,10 +143,10 @@ Mobile copy drift:
 
 ```text
 // desktop
-Title [text=hero-title] = "Launch your store in one day"
+hero-title = "Launch your store in one day"
 
 // mobile
-Title [text=hero-title] = "Launch faster"
+hero-title = "Launch faster"
 ```
 
 Fake locale as responsive workaround:

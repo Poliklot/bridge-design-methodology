@@ -1,65 +1,83 @@
 # Design rules
 
-BRIDGE designs must be understandable before they are transferred. A layer is not “done” just because it looks correct visually.
+A BRIDGE-ready design must be understandable before transfer. In Figma, that comes from a correctly authored structure, stable names, and explicit product intent — not from hand-written technical tags.
 
-## 1. Every layer has a role
+## 1. Do not duplicate Figma metadata
 
-For transfer, every layer must be one of the following:
+Designers must not write layer-name tags for technical properties that Figma already exposes as data:
 
-- **Flow** — participates in layout flow through Auto Layout, stack, row, column, grid, or an equivalent layout model.
-- **Absolute** — intentionally removed from flow and positioned by explicit coordinates.
-- **Target** — a declared destination for an interaction, such as a modal, section, state, or external URL.
+- node type: text, image, vector, component instance;
+- Auto Layout: direction, gap, padding, alignment, wrap;
+- frame, group, and component hierarchy;
+- positioning, constraints, clip content, dimensions;
+- fills, strokes, effects, masks;
+- source component, variants, component properties.
 
-If a layer is neither clearly in flow nor explicitly absolute, the transfer is ambiguous.
+The adapter reads these from Figma. A manual tag is needed only when Figma does not know the product intent.
 
-## 2. Containers express structure
+## 2. What designers declare manually
 
-Use layout containers for semantic groups:
+Layer names declare only transfer intent:
 
-- `section-body flex`
-- `content flex`
-- `hero flex`
-- `hero-copy flex`
-- `button-row flex`
-- `cards-grid flex`
-- `stats-row flex`
+- page, route, breakpoint, and view;
+- section contract;
+- link, action, form field;
+- modal or state target;
+- decorative visual;
+- whole exported asset;
+- height, overflow, or explicit exception when it cannot be safely inferred.
 
-Do not position related items as free siblings when they should behave as a group.
+## 3. Build structure with Figma
 
-## 3. Absolute is only for intentional exceptions
+Related elements should be authored as real Figma structure:
 
-Use absolute positioning for:
+- copy and buttons live inside a meaningful parent;
+- cards live inside a shared list or grid;
+- section title, copy, and CTA live inside the section;
+- repeated items are structured consistently;
+- random `Frame 53`, `Group 271`, and `copy 2` layers are not part of a ready handoff.
 
-- backgrounds;
-- decorative assets;
-- overlays;
-- complex atomic illustrations;
-- masks / exported visual posters;
-- elements that intentionally overflow a bounded parent.
+If elements should adapt together, they must not be loose free-floating siblings.
 
-Absolute layers should have explicit tags such as `[abs]`, `[asset]`, `[decor]`, `[shape]`, or `[overlay]`.
+## 4. Image, decor, and asset mean different things
 
-## 4. Root frames are fixed breakpoint canvases
+A content image carries information. If removing it changes the meaning, give the layer a stable name.
 
-A root section frame should have a known breakpoint width and a stable name:
+Decor is visual ornament. If removing it preserves meaning, mark it with `[decor=...]`.
+
+An asset is a visual that should be exported as one whole file instead of being rebuilt from internal layers. Mark it with `[asset=...]`.
 
 ```text
-Pricing Section [bp=1200]
-Pricing Section [bp=320]
+product-photo
+article-cover
+author-avatar
+snow-bg [decor=snow-bg]
+hero-glow [decor=hero-glow]
+promo-poster [asset=promo-poster]
+lab-illustration [asset=lab-illustration]
 ```
 
-The root may be a fixed-size canvas snapshot. Internal content should still expose layout intent.
+## 5. The root frame is a concrete page or section breakpoint
 
-## 5. Clip content is intentional
+The root frame should carry stable page/view/breakpoint data:
 
-If a frame is a bounded surface, card, viewport, or section, define its overflow behavior.
+```text
+Home Page [bp=1920] [view=default] [page=home] [route=/]
+Home Page [bp=375] [view=default] [page=home] [route=/]
+```
 
-If an element must visually overflow, make the overflowing item absolute and put it at the correct hierarchy level.
+A breakpoint is the same page at another width, not a new version of meaning or structure.
 
-## 6. Native/editable elements stay native
+## 6. Clipping and overflow are decisions
 
-Prefer native text, native buttons, and native shapes. Use asset fallbacks only for complex visuals that the target implementation cannot reproduce accurately.
+If a frame is a card, viewport, mask, or constrained surface, its overflow behavior must be intentional.
 
-## 7. No platform-specific assumptions in the methodology
+Text coming from a CMS, admin panel, catalog, or localization must not rely on manual line breaks. It should wrap by the width of its text area and have clear overflow behavior.
 
-BRIDGE is independent from any single implementation target. A target adapter may map BRIDGE to a framework, static HTML/CSS, a visual editor, a mobile UI, or another design system, but the source design contract remains the same.
+## 7. Native/editable elements stay native
+
+Text, buttons, form fields, simple shapes, and icons should not be turned into images without a reason. Exported assets are only for complex visuals that the target implementation should not or cannot rebuild.
+
+## 8. The methodology is platform-independent
+
+BRIDGE is not tied to one tool. Figma is the primary design source, but the contract should transfer into frontend frameworks, static HTML/CSS, visual editors, mobile UI, or internal design systems without guessing.

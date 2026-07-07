@@ -5,16 +5,16 @@ BRIDGE-ready макет раскрывает достаточно информа
 ## Обязательные данные
 
 - Корневые фреймы адаптивов (`[bp=...]`).
-- Typed identities (`[type=id]`).
-- Layout role: flow, absolute или target.
-- Тип элемента: text, button, link, shape, image, asset, decor, modal, section, state.
+- Stable identities: имена слоёв или обязательные BRIDGE-теги.
+- Структурные свойства, извлечённые из метаданных Figma: иерархия, Auto Layout, constraints, positioning, clipping.
+- Тип элемента: из метаданных Figma и BRIDGE-тегов смысла: text, button, link, image, icon, asset, decor, modal, section, state.
 - Геометрия по адаптивам.
 - Текстовые метрики по адаптивам.
 - Идентичность контента между адаптивами.
 - Вложенность элементов и порядок соседей по каждому адаптиву.
 - Видимость элементов по каждому адаптиву.
 - Interaction/action intent для clickable элементов.
-- Существование target’ов для ссылок, модалок, anchors и states.
+- Существование цель’ов для ссылок, модалок, anchors и states.
 - Asset export intent для сложных визуалов.
 - Height и overflow policy.
 

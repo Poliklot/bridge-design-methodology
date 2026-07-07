@@ -1,46 +1,77 @@
 # Layer naming and identity
 
-BRIDGE uses typed identity tags:
+BRIDGE identity is the stable key of a logical element. In Figma, identity is provided in two ways:
+
+1. by a stable layer name when the element type is reliably known from Figma;
+2. by a BRIDGE tag when product intent must be declared because Figma does not know it.
+
+## Core rule
+
+Do not write a tag if it only repeats Figma metadata.
 
 ```text
-[type=id]
+hero-title
+product-photo
+close-icon
+button-group
+hero-copy
 ```
 
-The tag describes both the transferable role and the stable identity of the layer.
+These names are enough when the layer has a clear Figma type and the name is stable English kebab-case.
 
-## Examples
+## When a tag is required
+
+A tag is required for intent that is not a technical layer property:
 
 ```text
-title [text=hero-title]
-subtitle [text=hero-subtitle]
-button group [container=button-group] [layout=row]
-card [card=feature-card-1]
-wave [decor=decor-wave] [abs]
+Home Page [page=home] [route=/] [bp=1920] [view=default]
+Catalog [section=product-slider]
+primary-cta [link=primary-cta] [href=/catalog]
+menu-button [control=menu-button] [action=state:mobile-menu-open]
+email [field=email] [name=email]
+snow-bg [decor=snow-bg]
+promo-poster [asset=promo-poster]
 ```
+
+## What is not written as a Figma tag
+
+For Figma designs, designers do not manually describe the technical construction of a layer:
+
+- that a layer is text;
+- that a layer is a content image;
+- that a layer is an icon;
+- that a layer is a frame, group, or structural wrapper;
+- how Auto Layout is configured;
+- how a layer is positioned;
+- which source component owns an instance when Figma already knows it.
 
 ## Stable identity across breakpoints
 
-The identity part must stay stable across breakpoints.
+The same logical element must keep the same key across all breakpoints.
 
 Desktop:
 
 ```text
-Hero title [text=hero-title]
-Button group [container=button-group] [layout=row]
+hero-title
+button-group
+  primary-cta [link=primary-cta] [href=/pricing]
+  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
 ```
 
 Mobile:
 
 ```text
-Hero title [text=hero-title]
-Button group [container=button-group] [layout=stack]
+hero-title
+button-group
+  primary-cta [link=primary-cta] [href=/pricing]
+  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
 ```
 
-The layout changed from row to stack, but the identity remained `button-group`.
+The Figma layout may change, but identity stays the same.
 
 ## Naming conventions
 
-Use English kebab-case for identities:
+Use English kebab-case for stable identities:
 
 - `section-bg`
 - `hero-copy`
@@ -48,77 +79,83 @@ Use English kebab-case for identities:
 - `stats-row`
 - `card-main-image`
 
-Avoid semantic collisions. Repeated cards need indexes:
+Avoid semantic collisions. Repeated elements need indexes:
 
 ```text
-card [card=card-1]
-card [card=card-2]
+product-card-1
+product-card-2
+review-card-1
+review-card-2
 ```
 
 ## Section names
 
-For sections, the human-readable layer name and the `[section=...]` tag mean different things.
+For sections, the human-readable layer name and the `[section=...]` tag have different responsibilities.
 
 ```text
-Recommended products [section=product-slider]
-Related products [section=product-slider]
+Recommended Products [section=product-slider]
+Related Products [section=product-slider]
 Catalog [section=product-slider]
 ```
 
 - the layer name before tags is the contextual label for this page;
-- `[section=...]` is the reusable section/component contract that tells an agent or adapter which section component should implement the block;
+- `[section=...]` is the reusable section/component contract that tells an agent or adapter which section component should transfer the block;
 - content, heading, and data may differ across pages while `[section=...]` stays the same;
-- if a section is unique to one page, use a specific section id: `First screen [section=home-hero]`;
+- if a section is unique to one page, use a specific section id such as `Hero [section=home-hero]`;
 - do not add prefixes such as `Section /` to the human name: the role is already declared by `[section=...]`.
 
-The same `[section=...]` across breakpoints of one page means the same section contract and should preserve a comparable structure. The same `[section=...]` across different pages does not require identical content.
+The same `[section=...]` across breakpoints of one page means the same section contract and should keep a comparable structure. The same `[section=...]` across different pages does not require identical content.
 
 ## Content identity
 
-The same typed identity across breakpoints means the same logical content.
+The same identity across breakpoints means the same logical content.
 
-Allowed:
+Allowed changes:
 
-- different width;
-- different font size;
-- different line breaks;
-- different layout position;
-- different parent layout properties.
-- different sibling order inside the same parent;
-- different visibility per breakpoint.
+- width;
+- font size;
+- line wrapping;
+- position inside the same structure;
+- parent Auto Layout settings;
+- order inside the same parent;
+- visibility on a specific breakpoint.
 
-Not allowed across responsive breakpoints:
+Not allowed across breakpoints:
 
-- different CTA wording;
-- different price;
-- different legal text;
-- different product claim;
-- hiding required meaning on mobile;
-- shortened mobile-only labels;
-- moving the same identity under a different parent;
-- adding or removing logical elements without a declared variant, state, collection rule, or structural exception;
-- replacing the same logical element with separate breakpoint-only copies.
+- changing CTA text;
+- changing price;
+- changing legal copy;
+- changing product claims;
+- hiding important meaning on mobile;
+- shortening labels only for mobile;
+- moving the same element to another parent;
+- adding or removing logical elements without an explicit variant, state, collection rule, or exception;
+- replacing the same logical element with separate breakpoint-specific copies.
 
 Bad:
 
 ```text
 // desktop
-title [text=hero-title] = "Launch your store in one day"
+hero-title = "Launch your store in one day"
 
 // mobile
-title [text=hero-title] = "Launch faster"
+hero-title = "Launch faster"
 ```
 
-If content or tree topology differs because of locale, experiment, personalization, a product variant, or target-specific behavior, model it outside the ordinary responsive breakpoint contract. A responsive breakpoint is a layout variation of the same logical tree, not a content or structure variation.
+If text, meaning, or structure differs because of locale, experiment, personalization, product variant, or target-specific limitations, model it outside the ordinary responsive breakpoint contract. A responsive breakpoint is the same element set laid out for another width, not a new content or structure version.
 
-## Suggested structural names
+## Recommended structural names
 
 ```text
-section-body [container=section-body] [layout=stack]
-content [container=content] [layout=stack]
-hero [container=hero] [layout=row]
-hero-copy [container=hero-copy] [layout=stack]
-button group [container=button-group] [layout=row]
-stats row [container=stats-row] [layout=row]
-visual column [container=visual-col] [layout=stack]
+section-body
+content
+hero
+hero-copy
+button-group
+stats-row
+visual-column
+cards-list
+cards-grid
 ```
+
+These are layer names, not a request to add technical tags.

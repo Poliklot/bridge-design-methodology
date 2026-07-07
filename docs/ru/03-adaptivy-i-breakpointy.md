@@ -5,14 +5,13 @@
 Создавай соседние frames для каждой responsive-версии:
 
 ```text
-Landing Hero [section=landing-hero] [bp=1200]
-Landing Hero [section=landing-hero] [bp=960]
-Landing Hero [section=landing-hero] [bp=640]
-Landing Hero [section=landing-hero] [bp=480]
-Landing Hero [section=landing-hero] [bp=320]
+Главная страница [bp=1920] [view=default] [page=home] [route=/]
+Главная страница [bp=1280] [view=default] [page=home] [route=/]
+Главная страница [bp=768] [view=default] [page=home] [route=/]
+Главная страница [bp=375] [view=default] [page=home] [route=/]
 ```
 
-Инструмент может вывести breakpoint из ширины frame, но явный тег безопаснее.
+Инструмент может вывести breakpoint из ширины frame, но явный тег безопаснее для handoff и сравнения.
 
 ## Один набор элементов, разная раскладка
 
@@ -25,7 +24,7 @@ Landing Hero [section=landing-hero] [bp=320]
 - то же количество элементов в списках и карточках, если явно не описано, что список динамический;
 - те же действия, цели и текст для одних и тех же элементов.
 
-Адаптивы могут менять размеры, отступы, переносы, направление раскладки, порядок, видимость и ограничения. Они не должны незаметно создавать элементы, удалять элементы или переносить один и тот же элемент в другого родителя.
+Адаптивы могут менять размеры, отступы, переносы, направление Auto Layout, порядок, видимость и constraints. Они не должны незаметно создавать элементы, удалять элементы или переносить один и тот же элемент в другого родителя.
 
 Порядок и видимость — это свойства конкретного адаптива:
 
@@ -38,42 +37,40 @@ Landing Hero [section=landing-hero] [bp=320]
 
 Если количество элементов или вложенность должны измениться, это уже не обычный адаптив. Оформи это как состояние, вариант компонента, правило коллекции, вариант под платформу или явное исключение BRIDGE.
 
-Пример:
-
 ```text
 // desktop
-button group [container=button-group] [layout=row]
-  primary [link=primary-cta] [href=/pricing]
-  secondary [control=secondary-cta] [action=modal:contact-modal]
+button-group
+  primary-cta [link=primary-cta] [href=/pricing]
+  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
 
 // mobile
-button group [container=button-group] [layout=stack]
-  primary [link=primary-cta] [href=/pricing]
-  secondary [control=secondary-cta] [action=modal:contact-modal]
+button-group
+  primary-cta [link=primary-cta] [href=/pricing]
+  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
 ```
 
-Раскладка изменилась, но набор элементов и их вложенность остались теми же.
+В Figma направление и размеры группы могут измениться, но набор элементов и их вложенность остаются теми же.
 
 ## Изменение обёрток требует причины
 
-Не добавляй случайные wrapper’ы между адаптивами. Структура элементов — часть контракта, поэтому лучше добавить одну и ту же осмысленную обёртку на все адаптивы и менять только её настройки раскладки.
+Не добавляй случайные wrapper’ы между адаптивами. Структура элементов — часть контракта, поэтому лучше добавить одну и ту же осмысленную обёртку на все адаптивы и менять только её настройки в Figma.
 
-Обёртка, которая существует только на одном адаптиве, — это исключение. Она допустима только если выражает настоящую роль в раскладке: stack, row, grid, область обрезки, область overlay, смысловая область или группировку под конкретную платформу. Причину нужно указать явно.
+Обёртка, которая существует только на одном адаптиве, — это исключение. Она допустима только если выражает настоящую потребность: группировку, список, сетку, область обрезки, область для overlay/decor, смысловую область или группировку под конкретную платформу. Причину нужно указать явно.
 
 Плохо:
 
 ```text
 // mobile
-mystery-wrapper [container=wrapper-7]
-  title [text=hero-title]
+mystery-wrapper
+  hero-title
 ```
 
 Хорошо:
 
 ```text
 // mobile
-hero copy [container=hero-copy] [layout=stack]
-  title [text=hero-title]
+hero-copy
+  hero-title
 ```
 
 ## Смысл текста должен пережить адаптив

@@ -5,8 +5,8 @@ A BRIDGE-ready design exposes enough information to transfer intent without gues
 ## Required data
 
 - Breakpoint roots (`[bp=...]`).
-- Typed identities (`[type=id]`).
-- Layout role: flow, absolute, or target.
+- Stable identities: layer names or required BRIDGE tags.
+- Structural properties extracted from Figma metadata: hierarchy, Auto Layout, constraints, positioning, clipping.
 - Element type intent: text, button, link, shape, image, asset, decor, modal, section, state.
 - Geometry per breakpoint.
 - Text metrics per breakpoint.

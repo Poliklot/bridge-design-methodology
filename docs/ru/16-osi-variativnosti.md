@@ -2,7 +2,7 @@
 
 BRIDGE разделяет разные причины вариативности. Это не даёт дизайнерам прятать изменения контента внутри responsive breakpoints.
 
-## Core rule
+## Главное правило
 
 > Адаптив — это тот же набор элементов, разложенный под другую ширину. Это не вариант текста и не новая структура.
 
@@ -143,10 +143,10 @@ Mobile copy drift:
 
 ```text
 // desktop
-Title [text=hero-title] = "Launch your store in one day"
+hero-title = "Launch your store in one day"
 
 // mobile
-Title [text=hero-title] = "Launch faster"
+hero-title = "Launch faster"
 ```
 
 Fake locale как responsive workaround:

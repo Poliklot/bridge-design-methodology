@@ -1,65 +1,70 @@
 # Wrapper policy
 
-Wrappers are allowed only when they communicate layout intent. A wrapper that exists only because it was convenient while drawing is noise.
+A wrapper is a real frame, group, or component structure in Figma. It is not a BRIDGE tag and not a manual layer-name annotation.
 
-## Valid wrapper roles
+A wrapper is valid when it helps understand or reproduce interface structure. A wrapper that exists only because it was convenient while drawing is noise.
 
-A wrapper is valid when it has one of these roles:
+## Valid wrappers
 
-- `stack` — vertical or horizontal grouping;
-- `row` — horizontal distribution;
-- `grid` — repeated layout pattern;
-- `clip` — bounded surface or mask scope;
-- `overlay-scope` — parent for absolute overlay children;
-- `semantic-region` — meaningful section of the interface;
-- `target-scope` — modal, state, tab, accordion, or similar target;
-- `asset-group` — atomic illustration exported or handled as one unit.
+A wrapper is valid when it does one of these jobs:
 
-Example:
+- groups elements that should adapt together;
+- defines a list, grid, or repeated pattern;
+- defines clipping, masking, or a visible surface;
+- defines a shared background, border, radius, or shadow for a group;
+- defines a scope for overlay, decor, or an out-of-bounds visual;
+- defines a semantic interface region;
+- defines a target such as modal, state, tab, accordion, or similar behavior;
+- groups a complex illustration that should be exported or processed as one unit.
 
 ```text
-cards [container=cards] [layout=grid]
-  card [card=card-1]
-  card [card=card-2]
+cards-grid
+  product-card-1
+  product-card-2
 ```
 
 ## Invalid wrappers
 
-Invalid wrappers usually have these signs:
+A bad wrapper usually has one of these signs:
 
-- one child and no layout role;
-- wrappers that appear, disappear, or reparent children between breakpoints with no reason;
-- wrapper name like `Group 271`, `Frame 53`, `copy 2`;
-- wrapper that changes coordinates but not meaning;
-- wrapper used to hide a broken Auto Layout structure.
+- one child and no structural reason;
+- wrappers appear, disappear, or move children between breakpoints without a reason;
+- names such as `Group 271`, `Frame 53`, `copy 2`;
+- the wrapper changes coordinates but adds no meaning;
+- the wrapper hides broken structure instead of fixing it.
 
 Bad:
 
 ```text
-Frame 53 [container=frame-53]
-  Group 271 [container=group-271]
-    title [text=hero-title]
+Frame 53
+  Group 271
+    hero-title
 ```
 
 Good:
 
 ```text
-hero copy [container=hero-copy] [layout=stack]
-  title [text=hero-title]
+hero-copy
+  hero-title
+  hero-subtitle
 ```
 
-## Responsive wrapper stability
+## Wrapper stability across breakpoints
 
-A wrapper's layout properties may change between breakpoints, but its identity and parent-child position should stay stable.
+A wrapper's Figma settings may change between breakpoints, but the wrapper itself and its tree position should stay stable.
 
 ```text
 // desktop
-button group [container=button-group] [layout=row]
+button-group
+  primary-cta
+  secondary-cta
 
 // mobile
-button group [container=button-group] [layout=stack]
+button-group
+  primary-cta
+  secondary-cta
 ```
 
-The key remains stable because the logical group is the same.
+The key stays stable because the logical group is the same.
 
-A wrapper that exists only on one breakpoint changes the responsive tree. Treat it as a structural exception, or add the same meaningful wrapper to every breakpoint and make it layout-neutral where needed.
+A wrapper that exists only on one breakpoint changes the element structure. Treat it as an exception or add the same meaningful wrapper to every breakpoint. Where it is not visually needed, make it neutral using Figma settings.

@@ -7,7 +7,7 @@ BRIDGE should become comfortable because a designer can run a preflight check be
 1. **Syntax validation** — tags, keys, action syntax, breakpoint tags.
 2. **Identity validation** — identity uniqueness, identity stability, type stability.
 3. **Responsive validation** — identity coverage, tree topology/cardinality, parent-child stability, visibility changes, content drift, order changes, breakpoint completeness.
-4. **Layout validation** — flow/absolute roles, wrappers, clipping, fixed heights, overlaps.
+4. **Structure validation** — Figma structure, wrappers, clipping, positioning intent, fixed heights, overlaps.
 5. **Interaction graph validation** — actions, targets, modals, states, forms.
 6. **Content validation** — text equality, strict legal/price content, rich text, localization risk.
 7. **Asset validation** — asset intent, native text misuse, export settings, focal points.
@@ -30,13 +30,13 @@ BRIDGE should become comfortable because a designer can run a preflight check be
 
 ```text
 extract design tree
-  -> normalize names, tags, keys, roles
+  -> normalize names, tags, keys, and Figma metadata
   -> group frames by section and breakpoint
   -> build identity map and type map
   -> compare responsive tree cardinality and parent identities
   -> compare visibility and sibling order inside each parent
   -> compare content across breakpoints
-  -> classify layout roles and wrappers
+  -> classify structure, wrappers, and positioning intent
   -> build action-target graph
   -> inspect geometry, overflow, and fixed heights
   -> check assets and component states
@@ -49,15 +49,15 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 
 | Group | Example rule | Severity | Automation |
 | --- | --- | --- | --- |
-| Identity | `identity.missing-typed-identity` | error | automatic |
-| Identity | `identity.same-key-different-type` | error | automatic |
+| Identity | `identity.missing-stable-identity` | error | automatic |
+| Identity | `identity.same-identity-different-type` | error | automatic |
 | Responsive | `responsive.identity-missing-in-required-breakpoint` | warning | automatic |
 | Responsive | `responsive.tree-cardinality-changed` | error | automatic |
 | Responsive | `responsive.parent-changed-across-breakpoints` | error | automatic |
 | Content | `content.text-changed-between-breakpoints` | warning | heuristic |
 | Content | `content.manual-line-break-in-dynamic-text` | error | heuristic |
-| Layout | `layout.one-child-wrapper-without-role` | warning | heuristic |
-| Layout | `layout.overlap-without-overlay-role` | warning | heuristic |
+| Structure | `layout.one-child-wrapper-without-role` | warning | heuristic |
+| Structure | `layout.overlap-without-overlay-role` | warning | heuristic |
 | Interaction | `interaction.clickable-without-action` | error | automatic |
 | Interaction | `interaction.modal-target-missing` | error | automatic |
 | Height | `height.fixed-height-without-reason` | warning | automatic |
@@ -123,7 +123,7 @@ Use to prove that a target implementation path supports BRIDGE:
 
 ## What should block handoff immediately
 
-- Missing typed identity (`[type=id]`) on important elements.
+- Missing stable identity on important elements.
 - Duplicate identities inside a breakpoint/view scope.
 - Same identity used for different logical types.
 - Responsive element tree cardinality or parent-child topology changes without a structural exception.

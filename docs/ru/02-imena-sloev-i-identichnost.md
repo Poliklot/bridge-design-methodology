@@ -1,46 +1,77 @@
 # Имена слоёв и идентичность
 
-BRIDGE использует typed identity tags:
+BRIDGE identity — это стабильный ключ логического элемента. В Figma identity задаётся двумя способами:
+
+1. стабильным именем слоя, если тип элемента надёжно известен из Figma;
+2. BRIDGE-тегом, если нужно объявить продуктовый смысл, которого Figma сама не знает.
+
+## Главное правило
+
+Не пиши тег, если он только повторяет метаданные Figma.
 
 ```text
-[type=id]
+hero-title
+product-photo
+close-icon
+button-group
+hero-copy
 ```
 
-Тег описывает и transferable role, и stable identity слоя.
+Эти имена достаточны, когда слой имеет понятный тип в Figma и имя написано стабильным English kebab-case.
 
-## Примеры
+## Когда тег нужен
+
+Тег нужен для намерения, которое не является техническим свойством слоя:
 
 ```text
-title [text=hero-title]
-subtitle [text=hero-subtitle]
-button group [container=button-group] [layout=row]
-card [card=feature-card-1]
-wave [decor=decor-wave] [abs]
+Главная страница [page=home] [route=/] [bp=1920] [view=default]
+Каталог [section=product-slider]
+primary-cta [link=primary-cta] [href=/catalog]
+menu-button [control=menu-button] [action=state:mobile-menu-open]
+email [field=email] [name=email]
+snow-bg [decor=snow-bg]
+promo-poster [asset=promo-poster]
 ```
+
+## Что не пишется тегами в Figma
+
+Для Figma-макетов дизайнер не описывает руками техническое устройство слоя:
+
+- что слой является текстом;
+- что слой является контентной картинкой;
+- что слой является иконкой;
+- что слой является фреймом, группой или структурной обёрткой;
+- как устроена раскладка внутри Auto Layout;
+- как слой позиционируется;
+- с каким исходным компонентом связан instance, если это известно Figma.
 
 ## Стабильная identity между breakpoint’ами
 
-Identity-часть должна сохраняться между breakpoint’ами.
+Один и тот же логический элемент должен иметь один и тот же ключ на всех адаптивах.
 
 Desktop:
 
 ```text
-Hero title [text=hero-title]
-Button group [container=button-group] [layout=row]
+hero-title
+button-group
+  primary-cta [link=primary-cta] [href=/pricing]
+  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
 ```
 
 Mobile:
 
 ```text
-Hero title [text=hero-title]
-Button group [container=button-group] [layout=stack]
+hero-title
+button-group
+  primary-cta [link=primary-cta] [href=/pricing]
+  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
 ```
 
-Layout изменился с row на stack, но identity осталась `button-group`.
+Раскладка в Figma может измениться, но identity остаётся той же.
 
 ## Соглашения по именованию
 
-Используй English kebab-case для identities:
+Используй English kebab-case для стабильных identities:
 
 - `section-bg`
 - `hero-copy`
@@ -48,11 +79,13 @@ Layout изменился с row на stack, но identity осталась `but
 - `stats-row`
 - `card-main-image`
 
-Не допускай смысловых коллизий. Повторяющиеся карточки должны иметь индексы:
+Не допускай смысловых коллизий. Повторяющиеся элементы должны иметь индексы:
 
 ```text
-card [card=card-1]
-card [card=card-2]
+product-card-1
+product-card-2
+review-card-1
+review-card-2
 ```
 
 ## Имена секций
@@ -66,7 +99,7 @@ card [card=card-2]
 ```
 
 - имя слоя до тегов — контекстный label для конкретной страницы;
-- `[section=...]` — reusable section/component contract, по которому агент или adapter понимает, каким секционным компонентом переносить блок;
+- `[section=...]` — переиспользуемый контракт секционного компонента, по которому агент или адаптер понимает, каким секционным компонентом переносить блок;
 - контент, заголовок и данные могут отличаться на разных страницах при одном `[section=...]`;
 - если секция уникальна для одной страницы, используй конкретный section id: `Первый экран [section=home-hero]`;
 - не добавляй префиксы вроде `Секция /` в human name: роль уже объявлена тегом `[section=...]`.
@@ -75,15 +108,15 @@ card [card=card-2]
 
 ## Идентичность контента
 
-Одинаковый typed identity между breakpoint’ами означает один и тот же логический контент.
+Одинаковая identity между breakpoint’ами означает один и тот же логический контент.
 
 Можно менять:
 
 - ширину;
 - размер шрифта;
 - переносы строк;
-- позицию в раскладке;
-- настройки раскладки у родителя.
+- позицию внутри той же структуры;
+- настройки Auto Layout у родителя;
 - порядок внутри того же родителя;
 - видимость на конкретном адаптиве.
 
@@ -103,10 +136,10 @@ card [card=card-2]
 
 ```text
 // desktop
-title [text=hero-title] = "Launch your store in one day"
+hero-title = "Launch your store in one day"
 
 // mobile
-title [text=hero-title] = "Launch faster"
+hero-title = "Launch faster"
 ```
 
 Если текст, смысл или структура отличаются из-за языка, эксперимента, персонализации, продуктового варианта или ограничений целевой платформы, моделируй это вне обычного адаптива. Адаптив — это тот же набор элементов, разложенный под другую ширину, а не новая версия текста или структуры.
@@ -114,11 +147,15 @@ title [text=hero-title] = "Launch faster"
 ## Рекомендуемые структурные имена
 
 ```text
-section-body [container=section-body] [layout=stack]
-content [container=content] [layout=stack]
-hero [container=hero] [layout=row]
-hero-copy [container=hero-copy] [layout=stack]
-button group [container=button-group] [layout=row]
-stats row [container=stats-row] [layout=row]
-visual column [container=visual-col] [layout=stack]
+section-body
+content
+hero
+hero-copy
+button-group
+stats-row
+visual-column
+cards-list
+cards-grid
 ```
+
+Это имена слоёв, а не просьба добавлять технические теги.

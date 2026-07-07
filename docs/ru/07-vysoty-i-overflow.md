@@ -25,7 +25,7 @@ Fixed height валиден для:
 Укажи причину:
 
 ```text
-card [card=feature-card] [height=fixed] [reason=equal-card-grid]
+feature-card [height=fixed] [reason=equal-card-grid]
 ```
 
 ## Text и fixed height
@@ -35,19 +35,19 @@ Text layer с fixed height обязан объяснить, что произо�
 Плохо:
 
 ```text
-description [text=description] [height=fixed]
+description [height=fixed]
 ```
 
 Хорошо:
 
 ```text
-description [text=description] [height=hug]
+description [height=hug]
 ```
 
 Или, если clipping намеренный:
 
 ```text
-description [text=description] [height=fixed] [overflow=truncate] [lines=3]
+description [height=fixed] [overflow=truncate] [lines=3]
 ```
 
 ## Перенос текста и ручные переносы строк
@@ -59,7 +59,7 @@ description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 Плохо:
 
 ```text
-Title [text=hero-title]
+hero-title
 "Запустите зимний
 бизнес быстрее"
 ```
@@ -69,10 +69,10 @@ Title [text=hero-title]
 Хорошо:
 
 ```text
-Title [text=hero-title] [height=hug]
+hero-title [height=hug]
 ```
 
-Поведение переноса задаёт контейнер, а не copy:
+Поведение переноса задаёт ширина текстового блока, а не copy:
 
 - задай осмысленную width/max-width;
 - разреши normal wrapping;
@@ -83,7 +83,7 @@ Title [text=hero-title] [height=hug]
 Forced line breaks допустимы только когда они являются частью семантики контента или утверждённого brand lockup: почтовые адреса, стихи, юридический текст с заданным форматированием или campaign headline с обязательным переносом. Помечай это как exception:
 
 ```text
-Headline [text=campaign-title] [bridge-exception=manual-line-break] [reason=brand-lockup]
+campaign-title [bridge-exception=manual-line-break] [reason=brand-lockup]
 ```
 
 ## Overflow policy

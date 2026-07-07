@@ -2,7 +2,7 @@
 
 BRIDGE рассматривает компоненты как отдельный контракт. Page designs используют component instances. UI Kit владеет структурой компонентов, variants и states.
 
-## Core rule
+## Главное правило
 
 > Страница использует component instances. UI Kit определяет component states.
 
@@ -18,7 +18,7 @@ FAQ [link=nav-faq] [href=/contacts#faq]
 Email [field=email] [name=email]
 ```
 
-Не добавляй `[component=...]` на page instances, если Figma уже знает source component.
+Не добавляй `[component=...]` на page instances, если Figma уже знает исходный компонент.
 
 Плохо:
 
@@ -32,7 +32,7 @@ Contact us [control=contact-cta] [component=button] [action=modal:contact-modal]
 Contact us [control=contact-cta] [action=modal:contact-modal]
 ```
 
-Component source извлекается из Figma instance metadata.
+Исходный компонент извлекается из Figma instance metadata.
 
 ## Ответственность UI Kit
 
@@ -43,7 +43,7 @@ UI Kit должен определять reusable component behavior и visual s
 | Component family | Required states |
 | --- | --- |
 | Button-like controls | default, hover, focus, pressed, disabled, loading |
-| Links | default, hover, focus, visited, disabled |
+| Ссылки | default, hover, focus, visited, disabled |
 | Text fields | empty, filled, focus, error, disabled, success |
 | Select-like fields | closed, open, selected, focus, error, disabled |
 | Toggles/switches | off, on, focus, disabled |
@@ -63,7 +63,7 @@ UI Kit должен определять reusable component behavior и visual s
 
 - page layer names используют `[control=...]`, `[link=...]` или `[field=...]`;
 - UI Kit component metadata даёт точный component type;
-- validators проверяют component source и state coverage.
+- validators проверяют исходный компонент и покрытие состояний.
 
 ## Обязательные проверки валидатора
 
@@ -71,23 +71,23 @@ BRIDGE validator должен репортить:
 
 - page control не является Figma component instance;
 - page instance detached от UI Kit component;
-- один control identity использует разные component sources между breakpoint’ами;
+- один control identity использует разные исходные компоненты между breakpoint’ами;
 - required UI states отсутствуют в component set;
 - hover/focus/disabled/loading states нарисованы вручную на странице;
 - component instance overrides меняют структуру, а не content;
 - form fields не раскрывают data names;
 - icon-only component instances не имеют accessible labels.
 
-## Component source of truth
+## Источник правды о компоненте
 
 Предпочтительный порядок источников:
 
 1. Figma component instance metadata.
 2. Figma component set and variant properties.
 3. UI Kit documentation.
-4. BRIDGE tags только если metadata недоступна.
+4. BRIDGE-теги нужны только если метаданные недоступны.
 
-BRIDGE tags не должны дублировать информацию, которую Figma уже надёжно предоставляет.
+BRIDGE-теги не должны дублировать информацию, которую Figma уже надёжно предоставляет.
 
 ## Page state vs component state
 

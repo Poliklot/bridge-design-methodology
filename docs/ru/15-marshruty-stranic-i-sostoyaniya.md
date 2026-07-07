@@ -92,7 +92,7 @@ Addressable sections используют `[section=...]` и `[anchor=...]`:
 Contacts FAQ [section=contacts-faq] [anchor=faq]
 ```
 
-`[section=...]` — это reusable section/component contract. Human name слоя может быть page-specific:
+`[section=...]` — это переиспользуемый контракт секционного компонента. Human name слоя может зависеть от страницы:
 
 ```text
 Каталог [section=product-slider]
@@ -112,9 +112,9 @@ Contacts FAQ [section=contacts-faq] [anchor=faq]
 - одна section identity должна сохранять один anchor между breakpoint’ами;
 - anchors являются частью navigation и не должны изобретаться на этапе implementation.
 
-## Links and href resolution
+## Ссылки и разрешение href
 
-Links используют `href` как единственную destination truth:
+Ссылки используют `href` как единственный источник правды о назначении:
 
 ```text
 Contacts [link=nav-contacts] [href=/contacts]

@@ -25,7 +25,7 @@ Fixed height is valid for:
 Declare the reason:
 
 ```text
-card [card=feature-card] [height=fixed] [reason=equal-card-grid]
+feature-card [height=fixed] [reason=equal-card-grid]
 ```
 
 ## Text and fixed height
@@ -35,19 +35,19 @@ A text layer with fixed height must define what happens when content changes.
 Bad:
 
 ```text
-description [text=description] [height=fixed]
+description [height=fixed]
 ```
 
 Good:
 
 ```text
-description [text=description] [height=hug]
+description [height=hug]
 ```
 
 Or, if clipping is intentional:
 
 ```text
-description [text=description] [height=fixed] [overflow=truncate] [lines=3]
+description [height=fixed] [overflow=truncate] [lines=3]
 ```
 
 ## Text wrapping and manual line breaks
@@ -59,7 +59,7 @@ Do not use forced line breaks in a text layer, `<br>`, or breakpoint-specific co
 Bad:
 
 ```text
-Title [text=hero-title]
+hero-title
 "Launch your winter
 business faster"
 ```
@@ -69,10 +69,10 @@ when the break is only a visual workaround.
 Good:
 
 ```text
-Title [text=hero-title] [height=hug]
+hero-title [height=hug]
 ```
 
-The container, not the copy, defines the wrapping behavior:
+The text area width, not the copy, defines the wrapping behavior:
 
 - set an intentional width/max-width;
 - allow normal wrapping;
@@ -83,7 +83,7 @@ The container, not the copy, defines the wrapping behavior:
 Forced line breaks are valid only when they are part of the content semantics or an approved brand lockup: postal addresses, poems, legal copy with prescribed formatting, or a campaign headline that must break in a specific place. Mark that as an exception:
 
 ```text
-Headline [text=campaign-title] [bridge-exception=manual-line-break] [reason=brand-lockup]
+campaign-title [bridge-exception=manual-line-break] [reason=brand-lockup]
 ```
 
 ## Overflow policy

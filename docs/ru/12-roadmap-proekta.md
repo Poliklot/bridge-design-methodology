@@ -18,7 +18,7 @@ BRIDGE становится твёрдым, когда:
 
 Задачи:
 
-- [ ] Описать canonical tag grammar: typed identity tags (`[type=id]`), `[bp=...]`, `[href=...]`, `[action=...]`, `[layout=...]`, `[height=...]`, `[overflow=...]`, `[bridge-exception=...]`.
+- [ ] Описать canonical tag grammar: stable identities, метаданные Figma ownership, `[bp=...]`, `[href=...]`, `[action=...]`, `[height=...]`, `[overflow=...]`, `[bridge-exception=...]`.
 - [ ] Описать allowed element types: text, button, link, input, image, icon, asset, decor, modal, state, section, collection.
 - [ ] Разделить strict и flexible content classes: legal, price, CTA, marketing copy, decorative text.
 - [ ] Описать exception grammar и обязательный `reason`.
@@ -104,7 +104,7 @@ Deliverables:
 
 ## Phase 6 — Adapter capability profiles
 
-Цель: предотвратить target-specific surprises, не привязывая BRIDGE к одному target.
+Цель: предотвратить цель-specific surprises, не привязывая BRIDGE к одному цель.
 
 Задачи:
 

@@ -1,6 +1,6 @@
 {
   "methodology": "BRIDGE",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "severityLevels": [
     "error",
     "warning",
@@ -13,28 +13,28 @@
   ],
   "rules": [
     {
-      "id": "identity.missing-typed-identity",
+      "id": "identity.missing-stable-identity",
       "principle": "Identity",
       "severity": "error",
       "automation": "automatic",
-      "description": "Important transferable elements must have a typed identity tag.",
-      "fix": "Add `[type=id]` using English kebab-case."
+      "description": "Important transferable elements must have a stable identity: a layer name or a required BRIDGE tag.",
+      "fix": "Use an English kebab-case layer name when Figma metadata provides the type; use a BRIDGE tag only for intent Figma does not know."
     },
     {
       "id": "identity.duplicate-identity",
       "principle": "Identity",
       "severity": "error",
       "automation": "automatic",
-      "description": "Two elements inside the same breakpoint/view scope must not share one typed identity.",
-      "fix": "Rename identities or add instance indexes such as `[card=card-1]`, `[card=card-2]`."
+      "description": "Two elements inside the same breakpoint/view scope must not share one stable identity.",
+      "fix": "Rename identities or add instance indexes such as `product-card-1`, `product-card-2`."
     },
     {
       "id": "identity.same-identity-different-type",
       "principle": "Identity",
       "severity": "error",
       "automation": "automatic",
-      "description": "The same identity must not point to different logical element types across breakpoints.",
-      "fix": "Keep the logical type stable or model a separate entity."
+      "description": "The same identity must not resolve to different logical element types across breakpoints.",
+      "fix": "Keep the Figma node/component type stable or model a separate entity."
     },
     {
       "id": "identity.repeated-item-no-index",
@@ -42,7 +42,7 @@
       "severity": "error",
       "automation": "heuristic",
       "description": "Repeated list/grid items need stable instance identities.",
-      "fix": "Use identities such as `[card=feature-card-1]`, `[card=feature-card-2]`."
+      "fix": "Use indexed identities such as `feature-card-1`, `feature-card-2`."
     },
     {
       "id": "section.role-prefix-in-name",
@@ -50,7 +50,7 @@
       "severity": "warning",
       "automation": "heuristic",
       "description": "Section layer names should not repeat the role with prefixes such as `Section /` or `Секция /`.",
-      "fix": "Keep the human label concise and express the role with `[section=...]`."
+      "fix": "Keep the human label concise and express the section contract with `[section=...]`."
     },
     {
       "id": "section.identity-as-human-heading",
@@ -65,32 +65,32 @@
       "principle": "Roles",
       "severity": "warning",
       "automation": "heuristic",
-      "description": "Default names such as `Frame 53` or `Group 271` usually hide missing intent.",
-      "fix": "Rename the layer and add role tags where needed."
+      "description": "Default names such as `Frame 53` or `Group 271` usually hide missing structure or intent.",
+      "fix": "Rename the layer with a stable English kebab-case identity; add BRIDGE intent tags only where needed."
     },
     {
       "id": "layout.missing-role",
       "principle": "Roles",
       "severity": "error",
       "automation": "automatic",
-      "description": "Every layer must be classifiable as flow, absolute, or target.",
-      "fix": "Add layout role through structure or tags such as `flex`, `[abs]`, `[modal]`, `[state]`."
+      "description": "Every layer must be classifiable from Figma metadata or BRIDGE intent tags.",
+      "fix": "Fix the Figma structure/metadata first; add BRIDGE tags only for product intent such as `[section=...]`, `[link=...]`, `[control=...]`, `[field=...]`, `[decor=...]`, `[asset=...]`, `[modal=...]`, or `[state=...]`."
     },
     {
-      "id": "layout.absolute-without-tag",
+      "id": "layout.positioned-without-intent",
       "principle": "Exceptions",
       "severity": "warning",
       "automation": "automatic",
-      "description": "Absolute-positioned elements must be intentional and tagged.",
-      "fix": "Add `[abs]` plus a role such as `[decor]`, `[asset]`, or `[overlay]`."
+      "description": "Visually detached or overlapping elements must have clear intent.",
+      "fix": "Use Figma positioning for geometry and add intent only when needed: `[decor=...]`, `[asset=...]`, `[modal=...]`, `[state=...]`, or `[bridge-exception=...] [reason=...]`."
     },
     {
       "id": "layout.one-child-wrapper-without-role",
       "principle": "Roles",
       "severity": "warning",
       "automation": "heuristic",
-      "description": "A one-child wrapper without a role is likely unnecessary noise.",
-      "fix": "Remove the wrapper or add `[wrapper-role=...]`."
+      "description": "A one-child wrapper without a structural reason is likely unnecessary noise.",
+      "fix": "Remove the wrapper or make its Figma purpose clear through structure, naming, clipping, shared surface, target scope, or asset grouping."
     },
     {
       "id": "layout.wrapper-chain-too-deep",
@@ -98,15 +98,15 @@
       "severity": "warning",
       "automation": "heuristic",
       "description": "Deep wrapper chains often make responsive mapping fragile.",
-      "fix": "Flatten structure or annotate each wrapper role."
+      "fix": "Flatten structure or ensure each wrapper has a real Figma purpose."
     },
     {
       "id": "layout.overlap-without-overlay-role",
       "principle": "Geometry",
       "severity": "warning",
       "automation": "heuristic",
-      "description": "Overlapping bounds require explicit overlay/decor/absolute intent.",
-      "fix": "Add `[overlay]`, `[decor]`, `[abs]`, or a BRIDGE exception reason."
+      "description": "Overlapping bounds require clear overlay/decor/asset intent or an explicit exception.",
+      "fix": "Declare `[decor=...]`, `[asset=...]`, a target tag, or a BRIDGE exception reason. Positioning comes from Figma metadata."
     },
     {
       "id": "layout.z-index-ambiguous",

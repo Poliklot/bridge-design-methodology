@@ -20,11 +20,11 @@ The acronym is the methodology:
 | Letter | Principle | Rule |
 | --- | --- | --- |
 | **B** | **Breakpoints** | Responsive states are explicit and comparable as one logical tree. |
-| **R** | **Roles** | Every layer has a clear role: flow, absolute, or target. |
+| **R** | **Roles** | A layer role is clear from Figma structure, UI Kit metadata, or a required BRIDGE intent tag. |
 | **I** | **Identity** | Logical elements keep stable keys and tree positions across breakpoints. |
 | **D** | **Dependencies** | Links, modals, states, anchors, and actions are declared. |
 | **G** | **Geometry** | Position, size, spacing, and text metrics are reproducible. |
-| **E** | **Exceptions** | Assets, fixed heights, overflow, and absolute items are intentional. |
+| **E** | **Exceptions** | Assets, fixed heights, overflow, decor, and non-standard behavior are intentional. |
 
 ## Brand vocabulary
 
@@ -51,11 +51,12 @@ BRIDGE is not tied to any specific platform. It does not prescribe a particular 
 
 ## Core idea
 
-Every layer must have an explicit role:
+BRIDGE separates two things:
 
-1. **Flow item** — part of an explicit layout chain, usually Auto Layout / stack / row / grid.
-2. **Absolute item** — intentionally removed from flow, usually background, decor, overlay, or visual exception.
-3. **Declared target** — an interaction destination such as a modal, section, state, or external URL.
+1. **Figma metadata** — the technical truth of the design: node type, Auto Layout, hierarchy, constraints, positioning, component source, variants.
+2. **BRIDGE intent tags** — product meaning Figma does not know by itself: page, route, section, link, action, field, modal, state, decor, asset, exception.
+
+Designers do not duplicate technical properties by hand. They build proper structure in Figma and use tags only for transferable intent.
 
 No accidental free-floating layers. No mystery buttons. No responsive versions that silently change content meaning or rebuild the element tree.
 
@@ -90,20 +91,20 @@ bridge-figma-assistant
 ## Minimal example
 
 ```text
-Hero Section [section=hero-section] [bp=1200]
-  background [decor=hero-bg] [abs]
+Home Page [page=home] [route=/] [bp=1200] [view=default]
+  Hero [section=home-hero]
+    hero-bg [decor=hero-bg]
 
-  content [container=content] [layout=stack]
-    hero-copy [container=hero-copy] [layout=stack]
-      title [text=hero-title]
-      subtitle [text=hero-subtitle]
+    hero-copy
+      hero-title
+      hero-subtitle
 
-    button-row [container=button-group] [layout=row]
-      primary [link=primary-cta] [href=/pricing]
-      secondary [control=contact-cta] [action=modal:contact-modal]
+    button-group
+      primary-cta [link=primary-cta] [href=/pricing]
+      contact-cta [control=contact-cta] [action=modal:contact-modal]
 
-Modal Contact [modal=contact-modal]
-  modal-content [container=contact-modal-content] [layout=stack]
+Contact Modal [modal=contact-modal]
+  contact-modal-content
 ```
 
 ## License

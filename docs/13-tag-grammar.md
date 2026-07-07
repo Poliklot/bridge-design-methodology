@@ -1,130 +1,107 @@
 # BRIDGE tag grammar
 
-BRIDGE tags are small machine-readable annotations placed in layer names. The grammar must avoid duplicate truths and must be simple enough for designers to use.
+BRIDGE tags are short machine-readable annotations in layer names. In Figma, they are used only for transfer intent that is not present in Figma metadata.
 
-## Core rule
+## Core principle
 
-Use one identity tag per important transferable layer:
+Do not write a tag if it repeats what is already authored in Figma.
 
-```text
-[type=id]
-```
+Figma is the source of truth for technical layer properties:
 
-Use property tags for additional facts:
+- node type: text, image/vector, component instance;
+- Auto Layout, constraints, dimensions, gap, padding, alignment, wrap;
+- hierarchy: frames, groups, components;
+- positioning, clipping, masks;
+- fills, strokes, effects;
+- source component, variants, component properties.
+
+A BRIDGE tag is only for product or transfer meaning.
+
+## Syntax
+
+Use property tags for facts an agent or adapter must read:
 
 ```text
 [property=value]
 ```
 
-Examples:
+Stable identity inside Figma can be just the layer name:
 
 ```text
-Contacts Page [page=contacts] [route=/contacts] [bp=1200]
-Hero Title [text=hero-title]
-FAQ [link=nav-faq] [href=/contacts#faq]
-Contact us [control=contact-cta] [action=modal:contact-modal]
+hero-title
+product-photo
+close-icon
+button-group
 ```
 
-## One truth rules
+The name must be stable English kebab-case.
 
-- Navigation destination is always `[href=...]`.
-- Non-navigation behavior is always `[action=...]`.
-- Responsive breakpoints must not change text content.
-- Page instances must not manually describe component internals that Figma/UI Kit already owns.
-- Do not use `[to=...]`.
-- Do not use responsive content variants such as `mobile-short`.
+## Tags designers write
 
-## Identity tags
-
-### Page and target entities
+### Page and route
 
 ```text
-[page=contacts]
-[section=contacts-faq]
+[page=home]
+[route=/]
+[bp=1920]
+[view=default]
+[anchor=faq]
+```
+
+```text
+Home Page [page=home] [route=/] [bp=1920] [view=default]
+FAQ [anchor=faq]
+```
+
+### Section contract
+
+```text
+[section=product-slider]
+[section=home-hero]
+```
+
+`[section=...]` describes the reusable section/component contract, not the heading of a specific block.
+
+```text
+Catalog [section=product-slider]
+Related Products [section=product-slider]
+Recommended Products [section=product-slider]
+Hero [section=home-hero]
+```
+
+Do not use prefixes such as `Section /`: the tag already declares that it is a section.
+
+### Targets
+
+```text
 [modal=contact-modal]
 [state=mobile-menu-open]
 ```
 
-`[section=...]` describes the reusable section/component contract, not the heading of a specific block. The heading and human layer name may differ:
-
 ```text
-Catalog [section=product-slider]
-Related products [section=product-slider]
-Recommended products [section=product-slider]
-First screen [section=home-hero]
+Contact Modal [modal=contact-modal]
+Mobile Menu Open [state=mobile-menu-open]
 ```
 
-Do not use prefixes such as `Section /`: the tag already says that this is a section.
-
-### Layout entities
-
-```text
-[container=content]
-[container=hero-copy]
-[collection=products]
-[card=product-card-1]
-[form=lead-form]
-```
-
-### Content and visual entities
-
-```text
-[text=hero-title]
-[image=hero-photo]
-[icon=close-icon]
-[asset=hero-illustration]
-[decor=hero-glow]
-[shape=background-shape]
-```
-
-### Interaction entities
-
-```text
-[link=nav-contacts]
-[control=contact-cta]
-[field=email]
-```
-
-Use `[layout=stack]`, `[layout=row]`, `[layout=grid]`, or similar layout properties on containers when direction/arrangement matters. Use `[control=...]` for interactive elements that are not direct navigation links. Do not make designers choose from a long list of control subtypes in page layer names. The exact component/control type should come from the UI Kit component instance metadata whenever possible.
-
-## Page and route properties
-
-```text
-[route=/contacts]
-[bp=1200]
-[view=default]
-[view=empty]
-[view=loading]
-[view=error]
-[anchor=faq]
-```
-
-Examples:
-
-```text
-Catalog Page [page=catalog] [route=/catalog] [bp=1200] [view=default]
-Catalog Empty [page=catalog] [route=/catalog] [bp=1200] [view=empty]
-FAQ Section [section=contacts-faq] [anchor=faq]
-Related Products [section=product-slider]
-```
-
-Rules:
-
-- all breakpoints/views of one page share the same `[page=...]` and `[route=...]`;
-- one `[section=...]` may be used on different pages with different content/data when it is the same section component;
-- `[view=...]` describes page/data state, not component state;
-- `[anchor=...]` creates an addressable section anchor.
-
-## Links and href
+### Links
 
 Links use `href` as the only destination truth.
 
 ```text
-Contacts [link=nav-contacts] [href=/contacts]
-FAQ [link=nav-faq] [href=/contacts#faq]
-Telegram [link=social-telegram] [href=https://t.me/company]
-Email [link=email-sales] [href=mailto:sales@example.com]
-Phone [link=phone-main] [href=tel:+12025550123]
+[link=nav-contacts]
+[href=/contacts]
+[href=/contacts#faq]
+[href=https://t.me/company]
+[href=mailto:sales@example.com]
+[href=tel:+12025550123]
+```
+
+```text
+contacts-link [link=nav-contacts] [href=/contacts]
+faq-link [link=nav-faq] [href=/contacts#faq]
+telegram-link [link=social-telegram] [href=https://t.me/company]
+email-link [link=email-sales] [href=mailto:sales@example.com]
+phone-link [link=phone-main] [href=tel:+12025550123]
 ```
 
 Optional link behavior:
@@ -142,16 +119,25 @@ Validators classify href values:
 - `https://...` — external URL;
 - `mailto:` / `tel:` — external protocol.
 
-## Controls and actions
+### Controls and actions
 
 Controls use `action`.
 
 ```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
-Menu [control=mobile-menu-button] [action=state:mobile-menu-open]
-Submit [control=lead-submit] [action=submit:lead-form]
-Reset filters [control=reset-filters] [action=reset:catalog-filters]
-Disabled CTA [control=disabled-cta] [action=none]
+[control=contact-cta]
+[action=modal:contact-modal]
+[action=state:mobile-menu-open]
+[action=submit:lead-form]
+[action=reset:catalog-filters]
+[action=none]
+```
+
+```text
+contact-cta [control=contact-cta] [action=modal:contact-modal]
+menu-button [control=mobile-menu-button] [action=state:mobile-menu-open]
+lead-submit [control=lead-submit] [action=submit:lead-form]
+reset-filters [control=reset-filters] [action=reset:catalog-filters]
+disabled-cta [control=disabled-cta] [action=none]
 ```
 
 Allowed action forms:
@@ -164,23 +150,61 @@ Allowed action forms:
 [action=none]
 ```
 
-## Fields
+### Fields
 
-Fields require stable identity and data binding name.
-
-```text
-Email [field=email] [name=email]
-Country [field=country] [name=country]
-Message [field=message] [name=message]
-```
-
-Use `[field-type=...]` only when type cannot be inferred from UI Kit/native metadata:
+Fields require stable identity and a data binding name.
 
 ```text
-Country [field=country] [name=country] [field-type=select]
+email [field=email] [name=email]
+country [field=country] [name=country]
+message [field=message] [name=message]
 ```
 
-## Height and overflow
+Use `[field-type=...]` only when the type cannot be inferred from UI Kit/native metadata:
+
+```text
+country [field=country] [name=country] [field-type=select]
+```
+
+### Collections and repeated items
+
+Use collection/item tags only when a dynamic list or repeated data must be explicit.
+
+```text
+products [collection=products]
+product-card-1 [item=product]
+product-card-2 [item=product]
+```
+
+If the card is a component instance and repetition is obvious from the Figma structure, the extra tag is not required.
+
+### Visual intent
+
+A content image gets a stable layer name without a manual `[image=...]` tag.
+
+```text
+product-photo
+article-cover
+author-avatar
+```
+
+A decorative visual is marked with `[decor=...]`.
+
+```text
+snow-bg [decor=snow-bg]
+hero-glow [decor=hero-glow]
+```
+
+A whole exported visual is marked with `[asset=...]`.
+
+```text
+promo-poster [asset=promo-poster]
+lab-illustration [asset=lab-illustration]
+```
+
+### Height and overflow
+
+Use these tags only when behavior cannot be safely inferred from Figma or when dynamic content needs an explicit policy.
 
 ```text
 [height=hug]
@@ -194,17 +218,14 @@ Country [field=country] [name=country] [field-type=select]
 [lines=3]
 ```
 
-Examples:
-
 ```text
-Description [text=description] [height=hug]
-Description [text=description] [height=fixed] [overflow=truncate] [lines=3]
+description [height=hug]
+description [height=fixed] [overflow=truncate] [lines=3]
 ```
 
-## Absolute and exceptions
+### Exceptions
 
 ```text
-[abs]
 [bridge-exception=raster-text]
 [bridge-exception=overlap]
 [bridge-exception=fixed-height]
@@ -216,26 +237,68 @@ Description [text=description] [height=fixed] [overflow=truncate] [lines=3]
 
 Rules:
 
-- every exception needs `[reason=...]`;
-- `[abs]` should be paired with a meaningful entity type such as `[decor=...]`, `[asset=...]`, `[shape=...]`, or `[modal=...]`;
-- `[bridge-exception=manual-line-break]` is allowed only when the line break is semantic or an approved brand lockup, not as a layout workaround for dynamic text;
+- every exception requires `[reason=...]`;
+- `[bridge-exception=manual-line-break]` is allowed only when the line break is semantic or an approved brand lockup, not a workaround for dynamic text;
 - exceptions do not make a design better, they only make complexity explicit.
+
+## Tags not written in Figma
+
+For Figma designs, do not use:
+
+```text
+[text=...]
+[image=...]
+[icon=...]
+[container=...]
+[layout=...]
+[abs]
+[component=...]
+[to=...]
+```
+
+Rules:
+
+- a TEXT node gets identity from the layer name;
+- a content image gets identity from the layer name;
+- an icon gets identity from the layer name and/or component metadata;
+- structure is authored with frames, groups, components, and Auto Layout in Figma;
+- positioning is authored in Figma;
+- component source, variants, and states come from UI Kit component metadata;
+- navigation destination is always `[href=...]`, not `[to=...]`.
 
 ## Component ownership
 
-Do not tag page instances with `[component=...]` if Figma already knows the source component. Component source, variants, and UI states belong to the UI Kit and should be extracted from Figma component metadata.
+Do not mark page instances with `[component=...]` when Figma already knows the source component. Component source, variants, and UI states belong to the UI Kit and should be extracted from Figma component metadata.
 
 Page instance:
 
 ```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
+contact-cta [control=contact-cta] [action=modal:contact-modal]
 ```
 
-UI Kit component source defines states such as default, hover, focus, disabled, loading, error, etc.
+The UI Kit component source defines states: default, hover, focus, disabled, loading, error, and so on.
 
 See [Components and UI Kit](14-components-and-ui-kit.md).
 
 ## Invalid examples
+
+```text
+hero-title [text=hero-title]
+```
+
+Invalid for a Figma TEXT node: use the layer name `hero-title`.
+
+```text
+content [container=content] [layout=stack]
+```
+
+Invalid for Figma structure: use a `content` frame and Auto Layout in Figma.
+
+```text
+snow-bg [decor=snow-bg] [abs]
+```
+
+Invalid: `decor` is intent; positioning comes from Figma. Use `snow-bg [decor=snow-bg]`.
 
 ```text
 FAQ [link=nav-faq] [to=anchor:contacts-faq] [href=/contacts#faq]
@@ -244,23 +307,17 @@ FAQ [link=nav-faq] [to=anchor:contacts-faq] [href=/contacts#faq]
 Invalid: two destinations. Use only `[href=/contacts#faq]`.
 
 ```text
-Contact us [control=contact-cta]
+contact-cta [control=contact-cta]
 ```
 
-Invalid: control has no action.
+Invalid: control without action.
 
 ```text
 // desktop
-Contact us [control=contact-cta]
+contact-cta [control=contact-cta]
 
 // mobile
-Contact [control=contact-cta]
+contact-button [control=contact-cta]
 ```
 
-Invalid: same identity has different text across breakpoints.
-
-```text
-Contact us [control=contact-cta] [component=button]
-```
-
-Invalid for page instances: component source should come from Figma/UI Kit metadata, not a duplicated tag.
+Invalid: one identity has different layer names across breakpoints without a reason.
