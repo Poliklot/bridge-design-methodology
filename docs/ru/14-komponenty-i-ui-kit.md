@@ -1,16 +1,155 @@
-# Компоненты и UI Kit
+# Компоненты, UI Kit и Page Sections
 
-BRIDGE рассматривает компоненты как отдельный контракт. Page designs используют component instances. UI Kit владеет структурой компонентов, variants и states.
+BRIDGE разделяет повторяемые компоненты библиотеки на два уровня:
+
+- **UI Kit** — обычные элементы интерфейса;
+- **Page Sections** — готовые секционные блоки страницы.
+
+Это разделение нужно, чтобы не писать `[section=...]` на каждом экземпляре секционного компонента и не путать секции страницы с кнопками, карточками, полями и другими элементами интерфейса.
 
 ## Главное правило
 
-> Страница использует component instances. UI Kit определяет component states.
+> Экземпляр компонента из `Page Sections` считается секцией страницы. Экземпляр компонента из `UI Kit` секцией не считается.
 
-Страница не должна быть местом, где впервые изобретаются hover, focus, disabled, loading, error, selected, expanded или open states.
+Секционный компонент определяется не тем, где он лежит внутри страницы, а тем, от какого исходного компонента он создан.
 
-## Ответственность page instance
+## Два уровня библиотеки
 
-Page instance описывает только page-specific identity и behavior:
+В библиотеке Figma должны быть разделены обычные компоненты интерфейса и секционные компоненты страницы.
+
+```text
+UI Kit
+  button
+  input
+  select
+  checkbox
+  tabs
+  accordion
+  product-card
+  review-card
+  icon-button
+
+Page Sections
+  header
+  footer
+  hero
+  reviews
+  faq
+  product-slider
+  catalog-preview
+  cta
+```
+
+`UI Kit` содержит элементы, из которых собирается интерфейс.
+
+`Page Sections` содержит готовые крупные блоки страницы, которые могут повторяться на разных страницах с разным контентом.
+
+## Что это значит для страницы
+
+Если `footer`, `reviews` или `product-slider` — экземпляры компонентов из `Page Sections`, на странице они называются просто:
+
+```text
+footer
+reviews
+product-slider
+```
+
+Не нужно писать:
+
+```text
+footer [section=footer]
+reviews [section=reviews]
+product-slider [section=product-slider]
+```
+
+Секционный смысл берётся из исходного компонента:
+
+```text
+Page Sections / footer -> section=footer
+Page Sections / reviews -> section=reviews
+Page Sections / product-slider -> section=product-slider
+```
+
+## Как определяется секционный ключ
+
+Для компонента из `Page Sections` секционный ключ берётся из имени исходного компонента или набора вариантов компонента.
+
+```text
+Component set: footer
+  Breakpoint=1920
+  Breakpoint=1280
+  Breakpoint=768
+  Breakpoint=375
+```
+
+В этом случае секционный ключ — `footer`.
+
+`Breakpoint` является свойством варианта компонента и не входит в секционный ключ.
+
+## Зачем это лучше, чем `[section=...]` на каждом экземпляре
+
+Если писать `[section=...]` на каждом экземпляре, появляется дублирование:
+
+- Figma уже знает исходный компонент;
+- дизайнер повторяет тот же смысл руками;
+- тег на экземпляре может разойтись с исходным компонентом;
+- один и тот же компонент приходится размечать снова на каждой странице.
+
+BRIDGE избегает двух источников правды: если Figma уже знает исходный компонент, страница не повторяет это тегом.
+
+## Когда `[section=...]` всё ещё нужен
+
+`[section=...]` на слое страницы нужен только в трёх случаях:
+
+1. Секция сделана обычным фреймом, а не компонентом из `Page Sections`.
+2. Используется слишком общий компонент, и из его имени нельзя понять конкретную секцию.
+3. Нужно намеренно переопределить секционный смысл для конкретного места.
+
+```text
+Отзывы [section=reviews]
+```
+
+Такой тег — не обязательная пометка каждого компонента, а явное объяснение там, где без него Figma не даёт достаточно смысла.
+
+## Обёртки вокруг секций
+
+Секции не обязаны быть прямыми дочерними слоями корневого фрейма. Вокруг нескольких секций может быть общий фрейм для фона, отступов или визуальной области.
+
+```text
+page-root
+  dark-area
+    reviews
+    faq
+```
+
+`dark-area` — обёртка, а не секция.
+
+`reviews` и `faq` остаются секциями, если их исходные компоненты находятся в `Page Sections`.
+
+## Ответственность UI Kit
+
+`UI Kit` отвечает за обычные компоненты интерфейса и их состояния: кнопки, поля, ссылки, карточки, табы, аккордеоны, модалки и другие элементы.
+
+Страница не должна быть местом, где впервые изобретаются состояния hover, focus, disabled, loading, error, selected, expanded или open.
+
+Примеры покрытия состояний:
+
+| Семейство компонента | Нужные состояния |
+| --- | --- |
+| Кнопки | default, hover, focus, pressed, disabled, loading |
+| Ссылки | default, hover, focus, visited, disabled |
+| Поля ввода | empty, filled, focus, error, disabled, success |
+| Select | closed, open, selected, focus, error, disabled |
+| Переключатели | off, on, focus, disabled |
+| Tabs | default, active, hover, focus, disabled |
+| Accordion | collapsed, expanded, focus, disabled |
+| Modal/dialog | default, close behavior, backdrop behavior, focus trap |
+
+Точная структура компонентов может отличаться между дизайн-системами. BRIDGE не заставляет дизайнера вручную писать подробные роли каждого контрола в названии слоя страницы.
+
+## Ответственность экземпляра на странице
+
+Экземпляр на странице описывает только смысл, который относится к конкретной странице:
 
 ```text
 Contact us [control=contact-cta] [action=modal:contact-modal]
@@ -18,7 +157,7 @@ FAQ [link=nav-faq] [href=/contacts#faq]
 Email [field=email] [name=email]
 ```
 
-Не добавляй `[component=...]` на page instances, если Figma уже знает исходный компонент.
+Не добавляй `[component=...]`, если Figma уже знает исходный компонент.
 
 Плохо:
 
@@ -32,74 +171,44 @@ Contact us [control=contact-cta] [component=button] [action=modal:contact-modal]
 Contact us [control=contact-cta] [action=modal:contact-modal]
 ```
 
-Исходный компонент извлекается из Figma instance metadata.
+## Что должен проверять валидатор
 
-## Ответственность UI Kit
+Валидатор должен сообщать о таких проблемах:
 
-UI Kit должен определять reusable component behavior и visual states.
-
-Примеры state coverage:
-
-| Component family | Required states |
-| --- | --- |
-| Button-like controls | default, hover, focus, pressed, disabled, loading |
-| Ссылки | default, hover, focus, visited, disabled |
-| Text fields | empty, filled, focus, error, disabled, success |
-| Select-like fields | closed, open, selected, focus, error, disabled |
-| Toggles/switches | off, on, focus, disabled |
-| Tabs | default, active, hover, focus, disabled |
-| Disclosure/accordion | collapsed, expanded, focus, disabled |
-| Modal/dialog | default, close behavior, backdrop behavior, focus trap |
-
-Точная component taxonomy может отличаться между design systems. BRIDGE не должен заставлять каждого page designer писать подробные roles вроде `accordion-trigger` в layer names страницы.
-
-## Почему не role tags на каждом page control?
-
-Вариантов controls слишком много: tabs, accordions, menus, comboboxes, sliders, steppers, pagination, segmented controls, tree items, date pickers, uploaders и много custom controls.
-
-Если BRIDGE требует вручную называть их все на страницах, методология становится хрупкой.
-
-Вместо этого:
-
-- page layer names используют `[control=...]`, `[link=...]` или `[field=...]`;
-- UI Kit component metadata даёт точный component type;
-- validators проверяют исходный компонент и покрытие состояний.
-
-## Обязательные проверки валидатора
-
-BRIDGE validator должен репортить:
-
-- page control не является Figma component instance;
-- page instance detached от UI Kit component;
-- один control identity использует разные исходные компоненты между breakpoint’ами;
-- required UI states отсутствуют в component set;
-- hover/focus/disabled/loading states нарисованы вручную на странице;
-- component instance overrides меняют структуру, а не content;
-- form fields не раскрывают data names;
-- icon-only component instances не имеют accessible labels.
+- секционный блок на странице не является компонентом из `Page Sections` и не имеет `[section=...]`;
+- экземпляр компонента из `Page Sections` вручную дублирует `[section=...]` без причины;
+- компонент из `UI Kit` ошибочно используется как секция страницы;
+- один и тот же элемент на разных адаптивах связан с разными исходными компонентами;
+- экземпляр отсоединён от компонента библиотеки без причины;
+- обязательные состояния компонента отсутствуют в библиотеке;
+- состояния компонента нарисованы вручную на странице;
+- переопределения экземпляра меняют структуру компонента, а не только допустимый контент;
+- поля формы не раскрывают имена данных;
+- ссылки-иконки не имеют доступного текстового смысла.
 
 ## Источник правды о компоненте
 
 Предпочтительный порядок источников:
 
-1. Figma component instance metadata.
-2. Figma component set and variant properties.
-3. UI Kit documentation.
-4. BRIDGE-теги нужны только если метаданные недоступны.
+1. Метаданные экземпляра Figma.
+2. Исходный компонент или набор вариантов компонента.
+3. Страница библиотеки: `UI Kit` или `Page Sections`.
+4. Документация компонента.
+5. BRIDGE-тег только если Figma не даёт достаточно смысла.
 
 BRIDGE-теги не должны дублировать информацию, которую Figma уже надёжно предоставляет.
 
-## Page state vs component state
+## Состояние страницы и состояние компонента
 
-Не путай page/data state и component UI state.
+Не путай состояние страницы и состояние компонента.
 
-Page/data state:
+Состояние страницы:
 
 ```text
 Catalog Page [page=catalog] [route=/catalog] [bp=1200] [view=empty]
 ```
 
-Component UI state в UI Kit:
+Состояние компонента в библиотеке:
 
 ```text
 Button / Primary / Disabled
@@ -107,4 +216,4 @@ Input / Error
 Accordion / Expanded
 ```
 
-Страница может показывать реальный page state, например empty catalog, но component hover/focus/disabled variants должны жить в UI Kit.
+Страница может показывать реальное состояние данных, например пустой каталог. Но hover, focus, disabled и loading для компонентов должны жить в библиотеке компонентов.

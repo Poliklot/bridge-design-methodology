@@ -60,7 +60,25 @@ FAQ [anchor=faq]
 [section=home-hero]
 ```
 
-`[section=...]` describes the reusable section/component contract, not the heading of a specific block.
+`[section=...]` describes the stable key of the section component, not the heading of a specific block.
+
+If the block is an instance of a component from the `Page Sections` library page, the page instance does not need the tag:
+
+```text
+header
+reviews
+footer
+```
+
+In this case, the section key comes from the source component:
+
+```text
+Page Sections / header -> section=header
+Page Sections / reviews -> section=reviews
+Page Sections / footer -> section=footer
+```
+
+If the block is a regular frame or the component is too generic, use the tag explicitly:
 
 ```text
 Catalog [section=product-slider]
@@ -69,7 +87,7 @@ Recommended Products [section=product-slider]
 Hero [section=home-hero]
 ```
 
-Do not use prefixes such as `Section /`: the tag already declares that it is a section.
+Do not use prefixes such as `Section /`: the role is already clear from the tag or from the source component in `Page Sections`.
 
 ### Targets
 

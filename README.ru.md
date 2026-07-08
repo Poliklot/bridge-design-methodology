@@ -75,7 +75,7 @@ BRIDGE разделяет две вещи:
 - [Валидация и автопроверки](docs/ru/11-validaciya-i-avtoproverki.md)
 - [Roadmap проекта](docs/ru/12-roadmap-proekta.md)
 - [Грамматика тегов](docs/ru/13-grammatika-tegov.md)
-- [Компоненты и UI Kit](docs/ru/14-komponenty-i-ui-kit.md)
+- [Компоненты, UI Kit и Page Sections](docs/ru/14-komponenty-i-ui-kit.md)
 - [Маршруты страниц и состояния](docs/ru/15-marshruty-stranic-i-sostoyaniya.md)
 - [Оси вариативности](docs/ru/16-osi-variativnosti.md)
 - [BRIDGE-ready чеклист для дизайнеров](docs/ru/17-cheklist-dlya-dizaynerov.md)

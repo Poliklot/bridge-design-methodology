@@ -1,6 +1,6 @@
 # BRIDGE-ready чеклист для дизайнеров
 
-Этот чеклист нужен перед передачей макета в разработку, AI-агенту или design-to-code пайплайн.  
+Этот чеклист нужен перед передачей макета в разработку, AI-агенту или design-to-code пайплайн.
 Цель — сделать макет переносимым без догадок: что это за страница, какие у неё адаптивы, где секции, что кликается, какой контент динамический и что нужно экспортировать как asset.
 
 ---
@@ -9,7 +9,7 @@
 
 **Проверить:** у каждого screen/root frame понятно, какую страницу продукта он описывает, по какому маршруту она живёт и какое состояние страницы показано.
 
-**Зачем:** разработчик или агент должен отличать страницу, адаптив и состояние данных. Иначе один и тот же экран можно случайно перенести как разные страницы или смешать default/empty/loading/error состояния.
+**Зачем:** разработчик или агент должен отличать страницу, адаптив и состояние данных. Иначе один и тот же экран можно случайно перенести как разные страницы или смешать default, empty, loading, error состояния.
 
 **Минимальный формат:**
 
@@ -25,8 +25,8 @@
 - `[view=...]` — состояние страницы: `default`, `empty`, `loading`, `error` или другое явно заданное состояние.
 - Один и тот же экран на разных адаптивах сохраняет одинаковые `[page=...]`, `[route=...]`, `[view=...]`; меняется только `[bp=...]`.
 
-Подробнее:  
-[Маршруты страниц и состояния](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/15-marshruty-stranic-i-sostoyaniya.md)  
+Подробнее:
+[Маршруты страниц и состояния](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/15-marshruty-stranic-i-sostoyaniya.md)
 [Адаптивы и breakpoint’ы](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)
 
 ---
@@ -45,28 +45,30 @@
 - Текст, цена, юридические формулировки и продуктовые обещания не меняются между адаптивами.
 - Если структура действительно должна отличаться, это оформляется как состояние, вариант, правило коллекции или исключение.
 
-Подробнее:  
-[Адаптивы и breakpoint’ы](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)  
+Подробнее:
+[Адаптивы и breakpoint’ы](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)
 [Оси вариативности](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/16-osi-variativnosti.md)
 
 ---
 
-## 3. Секции размечены как переиспользуемые контракты
+## 3. Секции определяются через Page Sections или явный тег
 
-**Проверить:** крупные блоки страницы имеют `[section=...]`, а значение тега описывает тип секционного компонента, а не конкретный текст заголовка на странице.
+**Проверить:** повторяемые секционные блоки вынесены в компоненты на странице библиотеки `Page Sections`. Обычные элементы интерфейса остаются в `UI Kit`.
 
-**Зачем:** одна и та же секция может встречаться на разных страницах с разным контентом. Разработчику важно понять не только “как блок называется здесь”, а каким секционным компонентом он должен быть реализован.
+**Зачем:** если секционный компонент уже есть в Figma, не нужно повторять `[section=...]` на каждом экземпляре. Секционный смысл берётся из исходного компонента.
 
 **Правила:**
 
-- Human name слоя остаётся удобным для дизайнера и команды.
-- `[section=...]` остаётся стабильным для одного и того же секционного компонента.
-- Если блок визуально и структурно тот же, но контент другой, section id сохраняется.
-- Если блок уникален для конкретной страницы, ему задаётся отдельный section id.
-- Не нужно добавлять в human name роль блока, если она уже выражена тегом.
+- Компоненты секций лежат в `Page Sections`.
+- Кнопки, поля, карточки, иконки и другие элементы интерфейса лежат в `UI Kit`.
+- Экземпляр компонента из `Page Sections` на странице называется просто по имени компонента.
+- Секционный ключ берётся из имени исходного компонента или набора вариантов компонента.
+- `[section=...]` нужен для обычной секции, собранной фреймом, для слишком общего компонента или для явного переопределения.
+- Если блок визуально и структурно тот же, но контент другой, его секционный ключ сохраняется.
 
-Подробнее:  
-[Имена слоёв и идентичность](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/02-imena-sloev-i-identichnost.md)  
+Подробнее:
+[Имена слоёв и идентичность](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/02-imena-sloev-i-identichnost.md)
+[Компоненты, UI Kit и Page Sections](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/14-komponenty-i-ui-kit.md)
 [Грамматика тегов BRIDGE](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/13-grammatika-tegov.md)
 
 ---
@@ -83,9 +85,9 @@
 - Один логический элемент — одно имя на всех адаптивах.
 - Повторяющиеся элементы получают стабильные индексы или понятные item identities.
 - Нельзя оставлять важные элементы с техническими именами редактора.
-- Не нужно дублировать тип слоя тегом, если Figma уже знает, что это текст, картинка, иконка или instance компонента.
+- Не нужно дублировать тип слоя тегом, если Figma уже знает, что это текст, картинка, иконка или экземпляр компонента.
 
-Подробнее:  
+Подробнее:
 [Имена слоёв и идентичность](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/02-imena-sloev-i-identichnost.md)
 
 ---
@@ -104,12 +106,12 @@
 - размеров и позиционирования;
 - вложенности frames/groups/components;
 - clip content, masks, fills, strokes, effects;
-- source component, variants и component properties.
+- исходный компонент, варианты и свойства компонента.
 
 **BRIDGE-теги нужны только для смысла, которого Figma сама не знает:** страница, маршрут, адаптив, view, секция, ссылка, действие, поле формы, модалка, состояние, decor, asset, exception.
 
-Подробнее:  
-[Правила дизайна](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/01-pravila-dizajna.md)  
+Подробнее:
+[Правила дизайна](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/01-pravila-dizajna.md)
 [Грамматика тегов BRIDGE](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/13-grammatika-tegov.md)
 
 ---
@@ -128,8 +130,8 @@
 - Обёртка существует только если у неё есть реальная причина: группировка, список, сетка, clipping, общий фон, target, asset group.
 - Если обёртка появляется только на одном адаптиве, должна быть понятная причина.
 
-Подробнее:  
-[Политика обёрток](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/06-politika-obertok.md)  
+Подробнее:
+[Политика обёрток](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/06-politika-obertok.md)
 [Правила дизайна](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/01-pravila-dizajna.md)
 
 ---
@@ -158,7 +160,7 @@ name [control=control-id] [action=submit:form-id]
 name [control=control-id] [action=none]
 ```
 
-Подробнее:  
+Подробнее:
 [Интерактивность и цели](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/05-interaktivnost-i-celi.md)
 
 ---
@@ -174,11 +176,11 @@ name [control=control-id] [action=none]
 - Поле имеет `[field=...]` и `[name=...]`.
 - `[name=...]` соответствует будущему имени данных.
 - Submit-кнопка имеет action вида `submit:form-id`.
-- Если у формы есть error/loading/success состояния, они должны быть показаны или описаны.
-- Тип поля берётся из UI Kit/native metadata; отдельный тег нужен только если тип нельзя вывести автоматически.
+- Если у формы есть error, loading, success состояния, они должны быть показаны или описаны.
+- Тип поля берётся из метаданных UI Kit или native-поля; отдельный тег нужен только если тип нельзя вывести автоматически.
 
-Подробнее:  
-[Интерактивность и цели](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/05-interaktivnost-i-celi.md)  
+Подробнее:
+[Интерактивность и цели](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/05-interaktivnost-i-celi.md)
 [Компоненты и UI Kit](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/14-komponenty-i-ui-kit.md)
 
 ---
@@ -197,7 +199,7 @@ name [control=control-id] [action=none]
 - Truncate/scroll/hidden overflow — продуктовые решения, а не случайный эффект frame’а.
 - Нужно учитывать длинные слова, имена, цены, URL и локализацию.
 
-Подробнее:  
+Подробнее:
 [Высоты и overflow](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/07-vysoty-i-overflow.md)
 
 ---
@@ -216,34 +218,34 @@ name [control=control-id] [action=none]
 - Редактируемый текст не экспортируется картинкой без причины.
 - Если эффект невозможно надёжно воспроизвести в целевой среде, нужен asset или exception.
 
-Подробнее:  
-[Правила дизайна](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/01-pravila-dizajna.md)  
+Подробнее:
+[Правила дизайна](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/01-pravila-dizajna.md)
 [Грамматика тегов BRIDGE](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/13-grammatika-tegov.md)
 
 ---
 
-## 11. Компоненты используются как часть системы
+## 11. Компоненты разделены на UI Kit и Page Sections
 
-**Проверить:** элементы из дизайн-системы используются как component instances, а состояния компонентов не рисуются вручную внутри страницы.
+**Проверить:** библиотека не смешивает обычные элементы интерфейса и готовые секционные блоки страницы.
 
-**Зачем:** страница должна использовать компоненты, а UI Kit должен владеть их внутренней структурой, variants и states. Иначе реализация получит разрозненные визуальные копии вместо системных компонентов.
+**Зачем:** из одного только положения слоя в дереве нельзя надёжно понять, секция это или обычный блок. Разделение библиотеки даёт однозначный источник правды.
 
 **Правила:**
 
-- Кнопки, поля, карточки и повторяемые UI-элементы берутся из UI Kit, если они там есть.
-- Component source, variants и component properties не дублируются вручную в названии слоя.
-- Hover/focus/disabled/loading/error состояния принадлежат компоненту.
-- Page-level state и component-level state не смешиваются.
-- Если instance detached или переопределён слишком сильно, это должно быть исправлено или объяснено.
+- `UI Kit` хранит кнопки, поля, карточки, иконки, табы, аккордеоны и другие элементы интерфейса.
+- `Page Sections` хранит header, footer, hero, reviews, product-slider и другие крупные блоки страницы.
+- Состояния обычных компонентов живут в `UI Kit`, а не рисуются вручную на странице.
+- Исходный компонент, варианты и свойства компонента не дублируются вручную в названии слоя.
+- Если экземпляр отсоединён от компонента или сильно переопределён, это нужно исправить или объяснить.
 
-Подробнее:  
-[Компоненты и UI Kit](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/14-komponenty-i-ui-kit.md)
+Подробнее:
+[Компоненты, UI Kit и Page Sections](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/14-komponenty-i-ui-kit.md)
 
 ---
 
 ## 12. Альтернативные состояния не спрятаны в мусорных слоях
 
-**Проверить:** loading, empty, error, opened, selected и другие состояния оформлены как явные views/states/variants, а не лежат скрытыми слоями без правил.
+**Проверить:** loading, empty, error, opened, selected и другие состояния оформлены как явные views/состояния/варианты, а не лежат скрытыми слоями без правил.
 
 **Зачем:** hidden layer может быть черновиком, старой версией или реальным состоянием. Без явного описания это невозможно безопасно перенести.
 
@@ -255,8 +257,8 @@ name [control=control-id] [action=none]
 - Старые версии и черновики не остаются внутри handoff-структуры.
 - Если слой скрыт только на конкретном адаптиве, это не должно ломать identity и структуру.
 
-Подробнее:  
-[Маршруты страниц и состояния](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/15-marshruty-stranic-i-sostoyaniya.md)  
+Подробнее:
+[Маршруты страниц и состояния](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/15-marshruty-stranic-i-sostoyaniya.md)
 [Адаптивы и breakpoint’ы](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)
 
 ---
@@ -270,16 +272,16 @@ name [control=control-id] [action=none]
 **Финальные критерии:**
 
 - Страницы, маршруты, адаптивы и views объявлены.
-- Секции имеют стабильные section contracts.
+- Секционные компоненты лежат в `Page Sections`, а обычные компоненты интерфейса — в `UI Kit`.
 - Важные элементы имеют стабильные identities.
 - Структура собрана в Figma, а не объясняется тегами.
 - Интерактивность и targets описаны явно.
 - Динамический текст не зависит от ручных переносов.
 - Visual intent для content image/decor/asset понятен.
-- Компоненты используются из UI Kit.
+- Экземпляры из `Page Sections` не дублируют `[section=...]`, если секционный смысл уже понятен из исходного компонента.
 - Нет скрытых старых версий как источника правды.
 - Макет можно переносить без догадок.
 
-Подробнее:  
-[Preflight-чеклист](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/08-preflight-checklist.md)  
+Подробнее:
+[Preflight-чеклист](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/08-preflight-checklist.md)
 [Валидация и автопроверки](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/11-validaciya-i-avtoproverki.md)

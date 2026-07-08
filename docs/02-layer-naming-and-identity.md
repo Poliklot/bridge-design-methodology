@@ -90,7 +90,25 @@ review-card-2
 
 ## Section names
 
-For sections, the human-readable layer name and the `[section=...]` tag have different responsibilities.
+A section may be identified in two ways.
+
+First, it may be an instance of a section component from the `Page Sections` library page. In that case, the page instance does not need `[section=...]`:
+
+```text
+header
+reviews
+footer
+```
+
+The section meaning comes from the source component:
+
+```text
+Page Sections / header -> section=header
+Page Sections / reviews -> section=reviews
+Page Sections / footer -> section=footer
+```
+
+Second, it may be a regular frame section or an ambiguous component. In that case, use an explicit tag:
 
 ```text
 Recommended Products [section=product-slider]
@@ -98,13 +116,16 @@ Related Products [section=product-slider]
 Catalog [section=product-slider]
 ```
 
-- the layer name before tags is the contextual label for this page;
-- `[section=...]` is the reusable section/component contract that tells an agent or adapter which section component should transfer the block;
-- content, heading, and data may differ across pages while `[section=...]` stays the same;
-- if a section is unique to one page, use a specific section id such as `Hero [section=home-hero]`;
-- do not add prefixes such as `Section /` to the human name: the role is already declared by `[section=...]`.
+Rules:
 
-The same `[section=...]` across breakpoints of one page means the same section contract and should keep a comparable structure. The same `[section=...]` across different pages does not require identical content.
+- the layer name before tags is the contextual label for this page;
+- `[section=...]` is the stable key of the section component;
+- content, heading, and data may differ across pages while `[section=...]` stays the same;
+- if the section is already an instance of a component from `Page Sections`, do not duplicate `[section=...]` on the page;
+- if the section is a regular frame, use `[section=...]`;
+- if the component is too generic and its name does not identify the section, use `[section=...]` as an explicit clarification.
+
+The same section across breakpoints of one page means the same section block and should keep a comparable structure. The same section across different pages does not require identical content.
 
 ## Content identity
 

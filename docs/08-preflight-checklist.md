@@ -36,7 +36,9 @@ Immediate blockers:
 - [ ] The same logical element uses one identity across all breakpoints.
 - [ ] The same logical element keeps the same parent across all breakpoints.
 - [ ] Text, content image, and icon types come from Figma, not from manual tags.
-- [ ] Section roots use `[section=...]` as a reusable section/component contract, not as the human heading.
+- [ ] Section components live on the `Page Sections` library page, and ordinary interface components live in `UI Kit`.
+- [ ] Instances of components from `Page Sections` do not duplicate `[section=...]` on the page.
+- [ ] Regular frame sections and ambiguous components use explicit `[section=...]`.
 - [ ] Section human names do not repeat the role with prefixes such as `Section /`.
 
 ## Figma structure

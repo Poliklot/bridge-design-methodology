@@ -1,42 +1,136 @@
-# Components and UI Kit
+# Components, UI Kit, and Page Sections
 
-BRIDGE treats components as a separate contract. Page designs consume component instances. The UI Kit owns component structure, variants, and states.
+BRIDGE separates reusable library components into two levels:
+
+- **UI Kit** — ordinary interface components;
+- **Page Sections** — reusable page-level section blocks.
+
+This separation prevents designers from repeating `[section=...]` on every section component instance and prevents page sections from being confused with buttons, cards, fields, and other UI components.
 
 ## Core rule
 
-> Page design uses component instances. UI Kit defines component states.
+> An instance of a component from `Page Sections` is treated as a page section. An instance of a component from `UI Kit` is not treated as a page section.
 
-A page should not be the place where hover, focus, disabled, loading, error, selected, expanded, or open states are invented for the first time.
+A section component is identified by its source component, not by its position inside the page tree.
 
-## Page instance responsibility
+## Two library levels
 
-A page instance describes only page-specific identity and behavior:
-
-```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
-FAQ [link=nav-faq] [href=/contacts#faq]
-Email [field=email] [name=email]
-```
-
-Do not add `[component=...]` on page instances when Figma already knows the source component.
-
-Bad:
+The Figma library should separate ordinary UI components from page section components.
 
 ```text
-Contact us [control=contact-cta] [component=button] [action=modal:contact-modal]
+UI Kit
+  button
+  input
+  select
+  checkbox
+  tabs
+  accordion
+  product-card
+  review-card
+  icon-button
+
+Page Sections
+  header
+  footer
+  hero
+  reviews
+  faq
+  product-slider
+  catalog-preview
+  cta
 ```
 
-Good:
+`UI Kit` contains the interface elements used to build screens.
+
+`Page Sections` contains large reusable page blocks that may appear on different pages with different content.
+
+## What this means on a page
+
+If `footer`, `reviews`, or `product-slider` are instances of components from `Page Sections`, they stay clean on the page:
 
 ```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
+footer
+reviews
+product-slider
 ```
 
-The component source is extracted from the Figma instance metadata.
+Do not write:
+
+```text
+footer [section=footer]
+reviews [section=reviews]
+product-slider [section=product-slider]
+```
+
+The section meaning comes from the source component:
+
+```text
+Page Sections / footer -> section=footer
+Page Sections / reviews -> section=reviews
+Page Sections / product-slider -> section=product-slider
+```
+
+## How section id is resolved
+
+For a component from `Page Sections`, section id is resolved from the source component or component set name.
+
+```text
+Component set: footer
+  Breakpoint=1920
+  Breakpoint=1280
+  Breakpoint=768
+  Breakpoint=375
+```
+
+The section id is `footer`.
+
+`Breakpoint` is a component variant property and is not part of the section id.
+
+## Why this is better than `[section=...]` on every instance
+
+Repeating `[section=...]` on every instance creates duplication:
+
+- Figma already knows the source component;
+- the designer repeats the same meaning manually;
+- the instance tag can drift from the source component;
+- the same component has to be tagged again on every page.
+
+BRIDGE avoids two sources of truth: if Figma already knows the source component, the page does not repeat it with a tag.
+
+## When `[section=...]` is still required
+
+A page layer still needs `[section=...]` only in these cases:
+
+1. The section is a regular frame, not a component from `Page Sections`.
+2. The component is too generic and its name does not identify the concrete section.
+3. The page intentionally overrides the section meaning for this specific placement.
+
+```text
+Reviews [section=reviews]
+```
+
+The tag is not a mandatory mark for every component. It is an explicit explanation only where Figma does not provide enough meaning.
+
+## Wrappers around sections
+
+Sections do not have to be direct children of the root frame. A shared wrapper may group several sections for background, spacing, or visual scope.
+
+```text
+page-root
+  dark-area
+    reviews
+    faq
+```
+
+`dark-area` is a wrapper, not a section.
+
+`reviews` and `faq` remain sections when their source components live in `Page Sections`.
 
 ## UI Kit responsibility
 
-The UI Kit must define reusable component behavior and visual states.
+`UI Kit` owns ordinary interface components and their states: buttons, fields, links, cards, tabs, accordions, modals, and other elements.
+
+A page should not be the place where hover, focus, disabled, loading, error, selected, expanded, or open states are invented for the first time.
 
 Examples of state coverage:
 
@@ -51,55 +145,70 @@ Examples of state coverage:
 | Disclosure/accordion | collapsed, expanded, focus, disabled |
 | Modal/dialog | default, close behavior, backdrop behavior, focus trap |
 
-The exact component taxonomy may differ between design systems. BRIDGE should not force every page designer to write detailed roles such as `accordion-trigger` in page layer names.
+The exact component taxonomy may differ between design systems. BRIDGE should not force a designer to write detailed control roles in page layer names.
 
-## Why not role tags on every page control?
+## Page instance responsibility
 
-There are too many control variations: tabs, accordions, menus, comboboxes, sliders, steppers, pagination, segmented controls, tree items, date pickers, uploaders, and many custom controls.
+A page instance describes only the meaning that belongs to the specific page:
 
-If BRIDGE requires page designers to name all of them manually, the methodology becomes fragile.
+```text
+Contact us [control=contact-cta] [action=modal:contact-modal]
+FAQ [link=nav-faq] [href=/contacts#faq]
+Email [field=email] [name=email]
+```
 
-Instead:
+Do not add `[component=...]` when Figma already knows the source component.
 
-- page layer names use `[control=...]`, `[link=...]`, or `[field=...]`;
-- UI Kit component metadata provides the exact component type;
-- validators check the component source and state coverage.
+Bad:
 
-## Required validator checks
+```text
+Contact us [control=contact-cta] [component=button] [action=modal:contact-modal]
+```
+
+Good:
+
+```text
+Contact us [control=contact-cta] [action=modal:contact-modal]
+```
+
+## Validator checks
 
 A BRIDGE validator should report:
 
-- page control is not a Figma component instance;
-- page instance is detached from the UI Kit component;
-- same control identity uses different component sources across breakpoints;
-- required UI states are missing in the component set;
-- hover/focus/disabled/loading states are drawn manually on a page;
-- component instance overrides change structure rather than content;
+- page section block is not a component from `Page Sections` and does not have `[section=...]`;
+- component instance from `Page Sections` repeats `[section=...]` manually without a reason;
+- component from `UI Kit` is accidentally used as a page section;
+- same logical element uses different source components across breakpoints;
+- instance is detached from the library component without a reason;
+- required component states are missing in the library;
+- component states are drawn manually on a page;
+- instance overrides change component structure rather than allowed content;
 - form fields do not expose data names;
-- icon-only component instances lack accessible labels.
+- icon-only links do not expose accessible text meaning.
 
 ## Component source of truth
 
 Preferred source order:
 
-1. Figma component instance metadata.
-2. Figma component set and variant properties.
-3. UI Kit documentation.
-4. BRIDGE tags only when metadata is unavailable.
+1. Figma instance metadata.
+2. Source component or component set.
+3. Library page: `UI Kit` or `Page Sections`.
+4. Component documentation.
+5. BRIDGE tag only when Figma does not provide enough meaning.
 
 BRIDGE tags should not duplicate information that Figma already provides reliably.
 
 ## Page state vs component state
 
-Do not confuse page/data state with component UI state.
+Do not confuse page/data state with component state.
 
-Page/data state:
+Page state:
 
 ```text
 Catalog Page [page=catalog] [route=/catalog] [bp=1200] [view=empty]
 ```
 
-Component UI state in UI Kit:
+Component state in the library:
 
 ```text
 Button / Primary / Disabled
@@ -107,4 +216,4 @@ Input / Error
 Accordion / Expanded
 ```
 
-A page may show a real page state such as empty catalog, but component hover/focus/disabled variants belong in the UI Kit.
+A page may show a real data state such as empty catalog. But hover, focus, disabled, and loading for components belong in the component library.

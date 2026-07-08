@@ -1,6 +1,6 @@
 {
   "methodology": "BRIDGE",
-  "version": "0.1.4",
+  "version": "0.1.6",
   "severityLevels": [
     "error",
     "warning",
@@ -50,15 +50,39 @@
       "severity": "warning",
       "automation": "heuristic",
       "description": "Section layer names should not repeat the role with prefixes such as `Section /` or `Секция /`.",
-      "fix": "Keep the human label concise and express the section contract with `[section=...]`."
+      "fix": "Keep the human label concise. Resolve the section from the `Page Sections` source component when possible, or use `[section=...]` only for frame sections, generic components, or explicit overrides."
     },
     {
       "id": "section.identity-as-human-heading",
       "principle": "Identity",
       "severity": "warning",
       "automation": "heuristic",
-      "description": "`[section=...]` should describe the reusable section/component contract, not copy the page-specific heading.",
-      "fix": "Use the layer name for the contextual heading and keep `[section=...]` stable for the reusable section contract, for example `Related products [section=product-slider]`."
+      "description": "A section key should describe the reusable section component, not copy the page-specific heading.",
+      "fix": "Use the layer name for the contextual heading. Resolve the stable section key from `Page Sections` or use `[section=...]` only when an explicit fallback/override is needed."
+    },
+    {
+      "id": "section.component-source-unclassified",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "A page-level section component instance should come from the `Page Sections` library page, or the layer should declare an explicit `[section=...]` fallback.",
+      "fix": "Move the source component to `Page Sections`, register it as a section component, or add `[section=...]` only when the layer is a frame section, a generic component, or an explicit override."
+    },
+    {
+      "id": "section.redundant-instance-section-tag",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Instances of components from `Page Sections` should not repeat `[section=...]` on the page layer.",
+      "fix": "Remove the redundant page-layer `[section=...]`; resolve section id from the source component or component set name."
+    },
+    {
+      "id": "component.ui-kit-used-as-section",
+      "principle": "Roles",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Components from `UI Kit` are ordinary interface components and should not be inferred as page sections.",
+      "fix": "Use a component from `Page Sections` for a page-level section, or add `[section=...]` only for a deliberate frame section or override."
     },
     {
       "id": "naming.default-layer-name",
