@@ -27,15 +27,15 @@
 
 Подробнее:
 [Маршруты страниц и состояния](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/15-marshruty-stranic-i-sostoyaniya.md)
-[Адаптивы и breakpoint’ы](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)
+[Адаптивы и точки перелома](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)
 
 ---
 
 ## 2. Адаптивы — это одна и та же страница, а не разные версии макета
 
-**Проверить:** desktop, tablet и mobile описывают один и тот же логический экран: тот же набор важных элементов, та же вложенность, те же действия и тот же смысл текста.
+**Проверить:** широкий, планшетный и мобильный макеты описывают один и тот же логический экран: тот же набор важных элементов, та же вложенность, те же действия и тот же смысл текста.
 
-**Зачем:** адаптив должен менять раскладку, а не продуктовую правду. Если на mobile исчезает важный элемент, меняется текст CTA или перестраивается дерево, реализация начинает угадывать: это адаптив, отдельное состояние или ошибка.
+**Зачем:** адаптив должен менять раскладку, а не продуктовую правду. Если на мобильном исчезает важный элемент, меняется текст призыва к действию или перестраивается дерево, реализация начинает угадывать: это адаптив, отдельное состояние или ошибка.
 
 **Правила:**
 
@@ -43,10 +43,11 @@
 - Элемент не должен молча удаляться на одном адаптиве.
 - Один и тот же элемент не должен переезжать в другого родителя без причины.
 - Текст, цена, юридические формулировки и продуктовые обещания не меняются между адаптивами.
+- Количество товаров или карточек в списке не подгоняется под число колонок. Неполная строка допустима.
 - Если структура действительно должна отличаться, это оформляется как состояние, вариант, правило коллекции или исключение.
 
 Подробнее:
-[Адаптивы и breakpoint’ы](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)
+[Адаптивы и точки перелома](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)
 [Оси вариативности](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/16-osi-variativnosti.md)
 
 ---
@@ -259,7 +260,7 @@ name [control=control-id] [action=none]
 
 Подробнее:
 [Маршруты страниц и состояния](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/15-marshruty-stranic-i-sostoyaniya.md)
-[Адаптивы и breakpoint’ы](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)
+[Адаптивы и точки перелома](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/03-adaptivy-i-breakpointy.md)
 
 ---
 
