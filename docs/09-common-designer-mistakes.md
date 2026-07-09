@@ -16,7 +16,7 @@ Fix: preserve exact responsive content. Model locale, experiment, or product var
 
 Problem: a button is visually designed, but nobody knows what happens on click.
 
-Fix: add `[action=...]`.
+Fix: add `[action=...]` when the action is known, or `[control]` as a draft marker when it is not known yet.
 
 ## 4. Modal buttons without modal frames
 

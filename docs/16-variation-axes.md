@@ -13,7 +13,7 @@ If content or logical tree topology changes, the reason must be represented by a
 | Axis | Tag | Can content change? | Purpose |
 | --- | --- | --- | --- |
 | Page | `[page=...]` | No by itself | Logical page identity |
-| Route | `[route=...]` | No | Production URL path |
+| Route | `[route=...]` / `[route-pattern=...]` | No | Known production URL path/template; omit while draft-unknown |
 | Breakpoint | `[bp=...]` | No | Responsive layout |
 | View | `[view=...]` | Yes, if state-specific | Data/page state such as empty/loading/error |
 | Locale | `[locale=...]` | Yes | Translation and locale-specific formatting |

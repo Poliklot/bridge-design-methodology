@@ -61,7 +61,7 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 
 | Case | Why it is dangerous | BRIDGE response | Auto-check |
 | --- | --- | --- | --- |
-| Button has no action | Nobody knows what click does. | Every clickable element needs `[action=...]`. | Clickable-without-action. |
+| Button has no action | Nobody knows what click does. | Use `[action=...]` when known, or `[control]` as a draft TODO until it is known. Navigation uses `[href=...]` or draft `[link]`. | Clickable-without-action. |
 | Modal target is missing | Adapter cannot build the flow. | `action=modal:x` requires `[modal=x]`. | Interaction graph check. |
 | Modal has no close behavior | User can get trapped. | Declare close control, backdrop behavior, escape behavior. | Modal structure check. |
 | Form fields have no labels | Accessibility and backend mapping fail. | Declare labels, names, validation, submit target. | Form field checks. |

@@ -13,7 +13,7 @@ BRIDGE разделяет разные причины вариативности
 | Axis | Tag | Может ли меняться content? | Purpose |
 | --- | --- | --- | --- |
 | Page | `[page=...]` | Нет сама по себе | Logical page identity |
-| Route | `[route=...]` | Нет | Production URL path |
+| Route | `[route=...]` / `[route-pattern=...]` | Нет | Known production URL path/template; omit while draft-unknown |
 | Breakpoint | `[bp=...]` | Нет | Responsive layout |
 | View | `[view=...]` | Да, если state-specific | Data/page state: empty/loading/error |
 | Locale | `[locale=...]` | Да | Translation и locale-specific formatting |

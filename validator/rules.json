@@ -1,6 +1,6 @@
 {
   "methodology": "BRIDGE",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "severityLevels": [
     "error",
     "warning",
@@ -41,8 +41,8 @@
       "principle": "Identity",
       "severity": "error",
       "automation": "automatic",
-      "description": "BRIDGE identity values must describe logical elements, not responsive breakpoints. A resolved layer identity or identity-bearing tag value that ends with the current breakpoint suffix, such as `[control=button-reviews-box-375]` inside a `[bp=375]` root, is invalid.",
-      "fix": "Remove the breakpoint suffix from the child identity and keep the breakpoint only on the root frame: `reviews-box [control=button-reviews-box]` under `[bp=375]` and `[bp=768]`."
+      "description": "Optional BRIDGE identity values must describe logical elements, not responsive breakpoints. A value such as `[control=button-reviews-box-375]` inside a `[bp=375]` root is invalid when the suffix matches the current breakpoint.",
+      "fix": "Remove the breakpoint suffix from the optional id. For ordinary buttons/controls, remove the optional id completely and use `Отзывы мобилка [action=modal:marketplaces-modal]`."
     },
     {
       "id": "identity.repeated-item-no-index",
@@ -122,7 +122,7 @@
       "severity": "error",
       "automation": "automatic",
       "description": "Every layer must be classifiable from Figma metadata or BRIDGE intent tags.",
-      "fix": "Fix the Figma structure/metadata first; add BRIDGE tags only for product or transfer intent such as `[section=...]`, `[link=...]`, `[control=...]`, `[field=...]`, `[decor]`, `[asset]`, `[modal=...]`, or `[state=...]`."
+      "fix": "Fix the Figma structure/metadata first; add BRIDGE tags only for product or transfer intent such as `[section=...]`, `[href=...]`, `[link]`, `[action=...]`, `[control]`, `[field=...]`, `[decor]`, `[asset]`, `[modal=...]`, or `[state=...]`."
     },
     {
       "id": "layout.positioned-without-intent",
@@ -261,28 +261,52 @@
       "fix": "Move alternatives into declared states/variants or archive them."
     },
     {
+      "id": "interaction.clickable-without-action",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "A visually clickable element has no known interaction marker: no `[href=...]`, `[action=...]`, `[link]`, or `[control]`.",
+      "fix": "Add `[href=...]` for known navigation, `[action=...]` for known non-navigation behavior, `[link]` for an unknown draft destination, or `[control]` for an unknown draft action."
+    },
+    {
       "id": "interaction.control-without-action",
       "principle": "Dependencies",
-      "severity": "error",
+      "severity": "info",
       "automation": "automatic",
-      "description": "Controls must declare an action. Links must declare href instead.",
-      "fix": "Use `[href=...]` for links. Use `[action=modal:...]`, `[action=state:...]`, `[action=submit:...]`, `[action=reset:...]`, or `[action=none]` for controls."
+      "description": "Boolean `[control]` or advanced `[control=...]` without `[action=...]` is a valid draft marker for an unknown action, not a syntax error. Final handoff should resolve it.",
+      "fix": "If the action is known, replace the draft marker with `[action=modal:...]`, `[action=state:...]`, `[action=submit:...]`, `[action=reset:...]`, or `[action=none]`. Keep `[control=...]` only as an optional advanced id when a stable machine id is needed."
     },
     {
       "id": "interaction.link-without-href",
       "principle": "Dependencies",
-      "severity": "error",
+      "severity": "info",
       "automation": "automatic",
-      "description": "Link elements must declare href as the only destination truth.",
-      "fix": "Add `[href=...]`. Do not add `[to=...]` or `[action=link:...]`."
+      "description": "Boolean `[link]` or advanced `[link=...]` without `[href=...]` is a valid draft marker for an unknown destination, not a syntax error. Final handoff should resolve it.",
+      "fix": "If the destination is known, use `[href=...]`. Keep `[link=...]` only as an optional advanced id when a stable machine id is needed. Do not use `[href=#]` as a placeholder."
     },
     {
       "id": "interaction.link-has-second-destination",
       "principle": "Dependencies",
       "severity": "error",
       "automation": "automatic",
-      "description": "Links must not declare a second destination such as `[to=...]` or `[action=link:...]` alongside href.",
-      "fix": "Keep only `[href=...]` for navigation destination."
+      "description": "Links must not declare a second destination such as `[to=...]` or `[action=link:...]` alongside `[href=...]`.",
+      "fix": "Keep only `[href=...]` for navigation destination. `[href=...]` is already enough to classify the layer as a link."
+    },
+    {
+      "id": "interaction.href-placeholder-invalid",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "`[href=#]` is not a valid unknown href placeholder. `#faq` is a real same-page anchor; `#` alone does not declare a destination.",
+      "fix": "Use `[link]` while the destination is unknown, or replace `#` with a real href such as `[href=#faq]` or `[href=/contacts]`."
+    },
+    {
+      "id": "interaction.optional-id-value-invalid",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Advanced optional ids in `[link=...]` and `[control=...]` must be English kebab-case and must not include breakpoint names or width suffixes when a value is present.",
+      "fix": "Prefer no optional id for ordinary links/buttons: use `[href=...]`, `[link]`, `[action=...]`, or `[control]`. If an id is required, use a breakpoint-neutral kebab-case value."
     },
     {
       "id": "interaction.modal-target-missing",
@@ -431,10 +455,18 @@
     {
       "id": "routing.page-route-missing",
       "principle": "Dependencies",
+      "severity": "info",
+      "automation": "automatic",
+      "description": "A page root without `[route=...]` or `[route-pattern=...]` is a Draft TODO when the production route is not known yet, not a hard error.",
+      "fix": "Do not invent fake routes. Add `[route=/path]` or `[route-pattern=/path/:param]` only when the real production route is known."
+    },
+    {
+      "id": "routing.route-not-production-url",
+      "principle": "Dependencies",
       "severity": "error",
       "automation": "automatic",
-      "description": "Page roots must declare a concrete route or route pattern.",
-      "fix": "Add `[route=/path]` for concrete pages or `[route-pattern=/path/:param]` for templates."
+      "description": "When `[route=...]` or `[route-pattern=...]` is present, it must be a real production URL/path or route template, not a fake placeholder.",
+      "fix": "Remove the route while unknown, or replace it with the real production route such as `[route=/contacts]` or `[route-pattern=/catalog/:slug]`."
     },
     {
       "id": "routing.duplicate-route",
@@ -449,8 +481,8 @@
       "principle": "Dependencies",
       "severity": "error",
       "automation": "automatic",
-      "description": "Internal href points to a route that is not declared in the design contract.",
-      "fix": "Add a page with the matching `[route=...]` or correct the href."
+      "description": "Internal href points to a route that is not declared in the known route contract.",
+      "fix": "Add a page with the matching real `[route=...]` when known, correct the href, or leave route resolution as a draft TODO if page routes are not known yet."
     },
     {
       "id": "routing.href-anchor-missing",
@@ -465,8 +497,8 @@
       "principle": "Breakpoints",
       "severity": "error",
       "automation": "automatic",
-      "description": "Views or breakpoints of one page identity must not use different routes.",
-      "fix": "Keep one `[route=...]` across all `[view=...]` and `[bp=...]` variants of the page."
+      "description": "Views or breakpoints of one page identity must not use different known production routes.",
+      "fix": "Keep one known `[route=...]` across all `[view=...]` and `[bp=...]` variants of the page. If the route is unknown, omit it consistently until it is known."
     },
     {
       "id": "variation.breakpoint-content-drift",

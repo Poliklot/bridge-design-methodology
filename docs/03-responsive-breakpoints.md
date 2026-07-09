@@ -13,26 +13,26 @@ Home Page [bp=375] [view=default] [page=home] [route=/]
 
 A tool may infer the breakpoint from frame width, but an explicit tag is safer for handoff and comparison.
 
-`[bp=...]` belongs on the responsive root. Child layer names and identity-bearing tag values must not repeat the breakpoint name or width.
+`[bp=...]` belongs on the responsive root. Child layer names and optional identity values must not repeat the breakpoint name or width.
 
 Bad:
 
 ```text
 // root has [bp=768]
-Отзывы мобилка [control=button-reviews-box-768]
+Отзывы мобилка [control=button-reviews-box-768] [action=modal:marketplaces-modal]
 
 // root has [bp=375]
-Отзывы мобилка [control=button-reviews-box-375]
+Отзывы мобилка [control=button-reviews-box-375] [action=modal:marketplaces-modal]
 ```
 
 Good:
 
 ```text
 // root has [bp=768]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 
 // root has [bp=375]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 ```
 
 ## Same element set, different layout
@@ -74,13 +74,13 @@ If item count or nesting must change, this is not an ordinary breakpoint. Model 
 ```text
 // desktop
 button-group
-  primary-cta [link=primary-cta] [href=/pricing]
-  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
+  primary-cta [href=/pricing]
+  secondary-cta [action=modal:contact-modal]
 
 // mobile
 button-group
-  primary-cta [link=primary-cta] [href=/pricing]
-  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
+  primary-cta [href=/pricing]
+  secondary-cta [action=modal:contact-modal]
 ```
 
 The group direction and sizes may change in Figma, but the element set and nesting stay the same.

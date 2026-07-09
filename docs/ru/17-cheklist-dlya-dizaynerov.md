@@ -7,23 +7,24 @@
 
 ## 1. Страница описана как продуктовая единица
 
-**Проверить:** у каждого screen/root frame понятно, какую страницу продукта он описывает, по какому маршруту она живёт и какое состояние страницы показано.
+**Проверить:** у каждого screen/root frame понятно, какую страницу продукта он описывает, какое состояние страницы показано и какой production route используется, если он уже известен.
 
 **Зачем:** разработчик или агент должен отличать страницу, адаптив и состояние данных. Иначе один и тот же экран можно случайно перенести как разные страницы или смешать default, empty, loading, error состояния.
 
 **Минимальный формат:**
 
 ```text
-Название страницы [page=page-id] [route=/path] [bp=1440] [view=default]
+Название страницы [page=page-id] [bp=1440] [view=default]
 ```
 
 **Правила:**
 
 - `[page=...]` — стабильный id страницы.
-- `[route=...]` — реальный путь страницы в продукте.
+- `[route=...]` — реальный production path страницы; добавляется только когда route известен.
 - `[bp=...]` — ширина адаптива.
 - `[view=...]` — состояние страницы: `default`, `empty`, `loading`, `error` или другое явно заданное состояние.
-- Один и тот же экран на разных адаптивах сохраняет одинаковые `[page=...]`, `[route=...]`, `[view=...]`; меняется только `[bp=...]`.
+- Один и тот же экран на разных адаптивах сохраняет одинаковые `[page=...]` и `[view=...]`; меняется только `[bp=...]`.
+- Если route неизвестен, не выдумывай fake production URL: отсутствие route — Draft TODO.
 
 Подробнее:
 [Маршруты страниц и состояния](https://github.com/Poliklot/bridge-design-methodology/blob/main/docs/ru/15-marshruty-stranic-i-sostoyaniya.md)
@@ -84,7 +85,7 @@
 
 - Стабильные имена пишутся на английском в `kebab-case`.
 - Один логический элемент — одно имя на всех адаптивах.
-- Identity values не содержат breakpoint suffixes: не `[control=button-reviews-box-375]`, а `[control=button-reviews-box]`.
+- Optional identity values не содержат breakpoint suffixes: не `[control=button-reviews-box-375]`, а обычный `[action=...]` без optional id.
 - Повторяющиеся элементы получают стабильные индексы или понятные item identities.
 - Нельзя оставлять важные элементы с техническими именами редактора.
 - Не нужно дублировать тип слоя тегом, если Figma уже знает, что это текст, картинка, иконка или экземпляр компонента.
@@ -146,8 +147,11 @@
 
 **Правила:**
 
-- Навигационная ссылка использует `[link=...]` и `[href=...]`.
-- Ненавигационное действие использует `[control=...]` и `[action=...]`.
+- Навигационная ссылка с известным destination использует `[href=...]`.
+- Если destination неизвестен, используй draft marker `[link]`, а не `[href=#]`.
+- Ненавигационное действие с известным action использует `[action=...]`.
+- Если action неизвестен, используй draft marker `[control]`.
+- `[link=...]` и `[control=...]` нужны только как optional advanced machine ids, не как обычный дизайнерский путь.
 - Action должен вести на существующую цель в макете или на явно понятное действие.
 - Для modal/state должны существовать соответствующие target frames.
 - Для icon-only ссылок нужен доступный текстовый смысл.
@@ -155,11 +159,13 @@
 **Базовые формы:**
 
 ```text
-name [link=link-id] [href=/path]
-name [control=control-id] [action=modal:target-id]
-name [control=control-id] [action=state:target-id]
-name [control=control-id] [action=submit:form-id]
-name [control=control-id] [action=none]
+name [href=/path]
+name [link]
+name [action=modal:target-id]
+name [action=state:target-id]
+name [action=submit:form-id]
+name [action=none]
+name [control]
 ```
 
 Подробнее:

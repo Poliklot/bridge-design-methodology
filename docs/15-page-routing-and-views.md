@@ -1,21 +1,32 @@
 # Page routing and views
 
-BRIDGE treats pages, routes, anchors, and page/data states as first-class parts of the transfer contract. A design is not only a set of sections; it is a navigable product surface.
+BRIDGE treats pages, production routes, anchors, and page/data states as first-class parts of the transfer contract. A design is not only a set of sections; it is a navigable product surface.
 
-## Page identity
+## Page identity and optional route
 
-A page root uses `[page=...]` and `[route=...]`:
+A page root always needs a stable `[page=...]`. A route is added only when the real production URL or route pattern is known.
+
+Known route:
 
 ```text
 Contacts Page [page=contacts] [route=/contacts] [bp=1200]
 Contacts Page [page=contacts] [route=/contacts] [bp=320]
 ```
 
+Draft route unknown:
+
+```text
+Contacts Page [page=contacts] [bp=1200] [view=default]
+Contacts Page [page=contacts] [bp=320] [view=default]
+```
+
 Rules:
 
 - `[page=...]` is the stable page identity.
-- `[route=...]` is the production URL path.
-- all breakpoints of one page share the same page identity and route.
+- `[route=...]` is a production URL path, not a guess and not a placeholder.
+- `[route-pattern=...]` is a real production route template.
+- if the route is not known yet, omit it; the missing route is a Draft TODO, not a hard error.
+- all breakpoints/views of one routed page share the same route when the route is known.
 - route is unique across the site unless the page is an intentional route template.
 
 ## Route syntax
@@ -32,8 +43,9 @@ Recommended route forms:
 
 Rules:
 
-- use `[route=...]` for concrete pages;
-- use `[route-pattern=...]` for templates such as product detail pages;
+- use `[route=...]` only for concrete production pages;
+- use `[route-pattern=...]` only for real templates such as product detail pages;
+- do not invent fake routes to satisfy a checklist;
 - avoid trailing slashes except for root `/` unless the product explicitly requires them;
 - route values are case-sensitive in the contract, but lowercase kebab-case paths are recommended.
 
@@ -65,12 +77,12 @@ Rules:
 
 - every page should have `view=default`;
 - dynamic pages and collection pages should define empty, loading, and error views when applicable;
-- all views of the same page share `[page=...]` and `[route=...]`;
+- all views of the same page share `[page=...]` and the same `[route=...]` when the route is known;
 - views may have state-specific content, but responsive breakpoints of the same view must not change content.
 
 ## Bad page-state modeling
 
-Do not model page states as fake pages:
+Do not model page states as fake pages or fake routes:
 
 ```text
 Catalog Page [page=catalog] [route=/catalog] [view=default]
@@ -82,6 +94,13 @@ Correct:
 ```text
 Catalog Page [page=catalog] [route=/catalog] [view=default]
 Catalog Empty [page=catalog] [route=/catalog] [view=empty]
+```
+
+If the production route is unknown, keep one page identity and omit route:
+
+```text
+Catalog Page [page=catalog] [view=default]
+Catalog Empty [page=catalog] [view=empty]
 ```
 
 ## Sections and anchors
@@ -108,20 +127,28 @@ Rules:
 - do not write `Section /` in the layer name when `[section=...]` is present;
 - `[section=...]` should stay stable across breakpoints of one page;
 - the same `[section=...]` on different pages may have different headings, data, and content;
-- anchors are unique inside one page route;
+- anchors are unique inside one page route or page identity;
 - the same section identity should keep the same anchor across breakpoints;
 - anchors are part of navigation and should not be invented by implementation later.
 
 ## Links and href resolution
 
-Links use `href` as the only destination truth:
+Known links use `href` as the only destination truth and do not need `[link=...]`:
 
 ```text
-Contacts [link=nav-contacts] [href=/contacts]
-FAQ [link=nav-faq] [href=/contacts#faq]
-Same page FAQ [link=faq-link] [href=#faq]
-Telegram [link=social-telegram] [href=https://t.me/company]
+Contacts [href=/contacts]
+FAQ [href=/contacts#faq]
+Same page FAQ [href=#faq]
+Telegram [href=https://t.me/company]
 ```
+
+If the destination is unknown, use `[link]`:
+
+```text
+Contacts [link]
+```
+
+Do not use `[href=#]` as an unknown placeholder. `#faq` is a real same-page anchor; `#` alone is invalid.
 
 Validator resolution:
 
@@ -132,12 +159,20 @@ href=#faq           -> current page + section [anchor=faq]
 href=https://...    -> external URL, no internal route required
 ```
 
+If a target page is still missing its route because the design is in draft, route resolution can remain a TODO. Once `[route=...]` is present, it must be the production URL.
+
 ## View and breakpoint scope
 
-Uniqueness scope for top-level page roots:
+Uniqueness scope for top-level page roots with known routes:
 
 ```text
 page + route + bp + view
+```
+
+If route is unknown in draft, use:
+
+```text
+page + bp + view
 ```
 
 Example:
@@ -153,13 +188,15 @@ Catalog Empty [page=catalog] [route=/catalog] [bp=320] [view=empty]
 
 A BRIDGE validator should report:
 
-- page root has no route;
+- page root has no route as Draft TODO, not a hard error;
+- route value is not a production URL/path when route is specified;
 - duplicate concrete routes;
-- same page identity uses different routes across breakpoints;
+- same page identity uses different known routes across breakpoints;
 - same page view is missing on required breakpoint;
 - dynamic collection page has no empty/loading/error view;
-- internal href route does not exist;
+- `[href=#]` is used as an unknown placeholder;
+- internal href route does not exist when route data is known;
 - internal href anchor does not exist;
 - same-page anchor href has no matching section in current page;
-- anchor is duplicated inside one page route;
+- anchor is duplicated inside one page route/page identity;
 - page state is modeled as a separate fake route.

@@ -26,8 +26,8 @@ hero-copy
 ```text
 Главная страница [page=home] [route=/] [bp=1920] [view=default]
 Каталог [section=product-slider]
-primary-cta [link=primary-cta] [href=/catalog]
-menu-button [control=menu-button] [action=state:mobile-menu-open]
+primary-cta [href=/catalog]
+menu-button [action=state:mobile-menu-open]
 email [field=email] [name=email]
 snow-bg [decor]
 promo-poster [asset]
@@ -72,8 +72,8 @@ Desktop:
 ```text
 hero-title
 button-group
-  primary-cta [link=primary-cta] [href=/pricing]
-  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
+  primary-cta [href=/pricing]
+  secondary-cta [action=modal:contact-modal]
 ```
 
 Mobile:
@@ -81,8 +81,8 @@ Mobile:
 ```text
 hero-title
 button-group
-  primary-cta [link=primary-cta] [href=/pricing]
-  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
+  primary-cta [href=/pricing]
+  secondary-cta [action=modal:contact-modal]
 ```
 
 Раскладка в Figma может измениться, но identity остаётся той же.
@@ -101,31 +101,31 @@ sneg [decor] [asset]
 
 Если `sneg` отсутствует на mobile, это responsive identity error. Если на mobile есть `sneg`, но без `[decor] [asset]`, это visual intent drift, а не новая identity.
 
-## Не кодируй breakpoint в identity values
+## Не кодируй breakpoint в optional identity values
 
-BRIDGE identity values должны описывать логический элемент, а не адаптив. Breakpoint уже задан на page/root frame через `[bp=...]`.
+Optional BRIDGE identity values должны описывать логический элемент, а не адаптив. Breakpoint уже задан на page/root frame через `[bp=...]`.
 
 Плохо:
 
 ```text
 // [bp=768]
-Отзывы мобилка [control=button-reviews-box-768]
+Отзывы мобилка [control=button-reviews-box-768] [action=modal:marketplaces-modal]
 
 // [bp=375]
-Отзывы мобилка [control=button-reviews-box-375]
+Отзывы мобилка [control=button-reviews-box-375] [action=modal:marketplaces-modal]
 ```
 
 Хорошо:
 
 ```text
 // [bp=768]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 
 // [bp=375]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 ```
 
-Child ids вроде `[control=...]`, `[link=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids и fallback-значения `[decor=...]` / `[asset=...]` должны оставаться breakpoint-neutral. Если identity value заканчивается на suffix текущего breakpoint, например `-768`, `-375`, `-mobile` или `-desktop`, убери suffix и оставь breakpoint только на root.
+Optional child ids вроде `[control=...]`, `[link=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids и fallback-значения `[decor=...]` / `[asset=...]` должны оставаться breakpoint-neutral. Для обычных links/buttons лучше вообще не добавлять optional id: используй `[href=...]`, `[link]`, `[action=...]` или `[control]`. Если optional identity value заканчивается на suffix текущего breakpoint, например `-768`, `-375`, `-mobile` или `-desktop`, убери suffix и оставь breakpoint только на root.
 
 ## Соглашения по именованию
 

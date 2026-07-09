@@ -100,8 +100,8 @@ Home Page [page=home] [route=/] [bp=1200] [view=default]
       hero-subtitle
 
     button-group
-      primary-cta [link=primary-cta] [href=/pricing]
-      contact-cta [control=contact-cta] [action=modal:contact-modal]
+      primary-cta [href=/pricing]
+      contact-cta [action=modal:contact-modal]
 
 Contact Modal [modal=contact-modal]
   contact-modal-content

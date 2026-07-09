@@ -25,11 +25,13 @@ Use property tags for facts an agent or adapter must read:
 [property=value]
 ```
 
-Use boolean tags for visual-intent/policy flags that do not need a value:
+Use boolean tags for visual-intent/policy flags and draft markers that do not need a value:
 
 ```text
 [decor]
 [asset]
+[link]
+[control]
 ```
 
 Stable identity inside Figma can be just the layer name:
@@ -45,23 +47,21 @@ The name must be stable English kebab-case.
 
 If a property tag has an identity-like value, the value must be English kebab-case unless the tag explicitly defines another value syntax, such as `[route=/path]`, `[href=https://...]`, or `[action=modal:target-id]`.
 
-Identity values must not contain breakpoint names or widths. The breakpoint already belongs to the page/root frame via `[bp=...]`; child ids describe logical elements, not responsive variants.
+Optional identity values must not contain breakpoint names or widths. The breakpoint already belongs to the page/root frame via `[bp=...]`; child ids describe logical elements, not responsive variants.
 
 Bad:
 
 ```text
-Отзывы мобилка [control=button-reviews-box-768]
-Отзывы мобилка [control=button-reviews-box-375]
+Отзывы мобилка [control=button-reviews-box-768] [action=modal:marketplaces-modal]
 ```
 
 Good:
 
 ```text
-reviews-box [control=button-reviews-box]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 ```
 
-For identity-bearing values such as `[control=...]`, `[link=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids, and fallback `[decor=...]` / `[asset=...]` values, a suffix matching the current breakpoint, for example `-768`, `-375`, `-mobile`, or `-desktop`, is invalid.
+For optional identity-bearing values such as `[link=...]`, `[control=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids, and fallback `[decor=...]` / `[asset=...]` values, a suffix matching the current breakpoint, for example `-768`, `-375`, `-mobile`, or `-desktop`, is invalid.
 
 ## Tags designers write
 
@@ -79,6 +79,16 @@ For identity-bearing values such as `[control=...]`, `[link=...]`, `[field=...]`
 Home Page [page=home] [route=/] [bp=1920] [view=default]
 FAQ [anchor=faq]
 ```
+
+`[page=...]`, `[bp=...]`, and `[view=...]` define the draftable page root. Add `[route=...]` or `[route-pattern=...]` only when the real production URL is known:
+
+```text
+Contacts [page=contacts] [bp=1440] [view=default]
+Contacts [page=contacts] [route=/contacts] [bp=1440] [view=default]
+Product Detail [page=product-detail] [route-pattern=/catalog/:slug] [bp=1440] [view=default]
+```
+
+Do not invent fake production routes to satisfy a checklist.
 
 ### Section contract
 
@@ -130,30 +140,45 @@ Mobile Menu Open [state=mobile-menu-open]
 
 ### Links
 
-Links use `href` as the only destination truth.
+A known navigation destination is written as `[href=...]`. This tag is enough to classify the layer as a link; ordinary designer examples do not need `[link=...]`.
 
 ```text
-[link=nav-contacts]
 [href=/contacts]
 [href=/contacts#faq]
+[href=#faq]
 [href=https://t.me/company]
 [href=mailto:sales@example.com]
 [href=tel:+12025550123]
 ```
 
 ```text
-contacts-link [link=nav-contacts] [href=/contacts]
-faq-link [link=nav-faq] [href=/contacts#faq]
-telegram-link [link=social-telegram] [href=https://t.me/company]
-email-link [link=email-sales] [href=mailto:sales@example.com]
-phone-link [link=phone-main] [href=tel:+12025550123]
+contacts-link [href=/contacts]
+faq-link [href=/contacts#faq]
+same-page-faq [href=#faq]
+telegram-link [href=https://t.me/company]
+email-link [href=mailto:sales@example.com]
+phone-link [href=tel:+12025550123]
 ```
+
+If the destination is unknown, use the boolean draft marker `[link]`:
+
+```text
+contacts-link [link]
+```
+
+`[href=#]` is invalid. `#faq` is a real same-page anchor; `#` is not an unknown href placeholder.
 
 Optional link behavior:
 
 ```text
 [open=new-tab]
 [a11y-label=Telegram]
+```
+
+Advanced override only: use `[link=...]` when an explicit stable machine id is needed in addition to the layer name. Do not use it in ordinary designer examples.
+
+```text
+contacts-cta [link=nav-contacts-primary] [href=/contacts]
 ```
 
 Validators classify href values:
@@ -166,10 +191,9 @@ Validators classify href values:
 
 ### Controls and actions
 
-Controls use `action`.
+A known non-navigation action is written as `[action=...]`. This tag is enough to classify the layer as a control/button; ordinary designer examples do not need `[control=...]`.
 
 ```text
-[control=contact-cta]
 [action=modal:contact-modal]
 [action=state:mobile-menu-open]
 [action=submit:lead-form]
@@ -178,11 +202,23 @@ Controls use `action`.
 ```
 
 ```text
-contact-cta [control=contact-cta] [action=modal:contact-modal]
-menu-button [control=mobile-menu-button] [action=state:mobile-menu-open]
-lead-submit [control=lead-submit] [action=submit:lead-form]
-reset-filters [control=reset-filters] [action=reset:catalog-filters]
-disabled-cta [control=disabled-cta] [action=none]
+contact-cta [action=modal:contact-modal]
+menu-button [action=state:mobile-menu-open]
+lead-submit [action=submit:lead-form]
+reset-filters [action=reset:catalog-filters]
+disabled-cta [action=none]
+```
+
+If the action is unknown, use the boolean draft marker `[control]`:
+
+```text
+contact-cta [control]
+```
+
+Advanced override only: use `[control=...]` when an explicit stable machine id is needed in addition to the layer name. Do not use it in ordinary designer examples.
+
+```text
+contact-cta [control=contact-cta-primary] [action=modal:contact-modal]
 ```
 
 Allowed action forms:
@@ -353,7 +389,7 @@ Do not mark page instances with `[component=...]` when Figma already knows the s
 Page instance:
 
 ```text
-contact-cta [control=contact-cta] [action=modal:contact-modal]
+contact-cta [action=modal:contact-modal]
 ```
 
 The UI Kit component source defines states: default, hover, focus, disabled, loading, error, and so on.
@@ -381,23 +417,19 @@ snow-bg [decor] [abs]
 Invalid: `decor` is intent; positioning comes from Figma. Use `snow-bg [decor]`.
 
 ```text
-FAQ [link=nav-faq] [to=anchor:contacts-faq] [href=/contacts#faq]
+FAQ [to=anchor:contacts-faq] [href=/contacts#faq]
 ```
 
 Invalid: two destinations. Use only `[href=/contacts#faq]`.
 
 ```text
-contact-cta [control=contact-cta]
+unknown-link [href=#]
 ```
 
-Invalid: control without action.
+Invalid: `#` is not an unknown href placeholder. Use `unknown-link [link]`.
 
 ```text
-// desktop
-contact-cta [control=contact-cta]
-
-// mobile
-contact-button [control=contact-cta]
+Отзывы мобилка [control=button-reviews-box-768] [action=modal:marketplaces-modal]
 ```
 
-Invalid: one identity has different layer names across breakpoints without a reason.
+Invalid: optional ids must not contain breakpoint suffixes. Use `Отзывы мобилка [action=modal:marketplaces-modal]`.

@@ -152,8 +152,8 @@ page-root
 Экземпляр на странице описывает только смысл, который относится к конкретной странице:
 
 ```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
-FAQ [link=nav-faq] [href=/contacts#faq]
+Contact us [action=modal:contact-modal]
+FAQ [href=/contacts#faq]
 Email [field=email] [name=email]
 ```
 
@@ -162,13 +162,13 @@ Email [field=email] [name=email]
 Плохо:
 
 ```text
-Contact us [control=contact-cta] [component=button] [action=modal:contact-modal]
+Contact us [component=button] [action=modal:contact-modal]
 ```
 
 Хорошо:
 
 ```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
+Contact us [action=modal:contact-modal]
 ```
 
 ## Что должен проверять валидатор

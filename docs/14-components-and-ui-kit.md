@@ -152,8 +152,8 @@ The exact component taxonomy may differ between design systems. BRIDGE should no
 A page instance describes only the meaning that belongs to the specific page:
 
 ```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
-FAQ [link=nav-faq] [href=/contacts#faq]
+Contact us [action=modal:contact-modal]
+FAQ [href=/contacts#faq]
 Email [field=email] [name=email]
 ```
 
@@ -162,13 +162,13 @@ Do not add `[component=...]` when Figma already knows the source component.
 Bad:
 
 ```text
-Contact us [control=contact-cta] [component=button] [action=modal:contact-modal]
+Contact us [component=button] [action=modal:contact-modal]
 ```
 
 Good:
 
 ```text
-Contact us [control=contact-cta] [action=modal:contact-modal]
+Contact us [action=modal:contact-modal]
 ```
 
 ## Validator checks

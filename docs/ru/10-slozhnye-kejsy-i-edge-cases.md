@@ -62,7 +62,7 @@ BRIDGE становится полезным только тогда, когда
 
 | Ситуация | Почему опасно | Ответ BRIDGE | Автопроверка |
 | --- | --- | --- | --- |
-| Button без action | Никто не знает, что происходит по клику. | Каждый clickable element имеет `[action=...]`. | Clickable-without-action. |
+| Button без action | Никто не знает, что происходит по клику. | Используй `[action=...]`, когда action известен, или `[control]` как draft TODO. Навигация использует `[href=...]` или draft `[link]`. | Clickable-without-action. |
 | Modal цель отсутствует | Нельзя построить flow. | `action=modal:x` требует `[modal=x]`. | Interaction graph check. |
 | Modal без close behavior | Пользователь может застрять. | Close control, backdrop behavior, escape behavior. | Modal structure check. |
 | Form fields без labels | Accessibility и backend mapping ломаются. | Labels, names, validation, submit цель. | Form field checks. |

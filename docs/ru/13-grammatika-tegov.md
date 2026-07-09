@@ -25,11 +25,13 @@ BRIDGE-тег нужен только для продуктового смысл
 [property=value]
 ```
 
-Для boolean visual-intent/policy flags, которым не нужно значение, используй boolean-теги:
+Для boolean visual-intent/policy flags и draft markers, которым не нужно значение, используй boolean-теги:
 
 ```text
 [decor]
 [asset]
+[link]
+[control]
 ```
 
 Стабильная identity внутри Figma может быть просто именем слоя:
@@ -45,23 +47,21 @@ button-group
 
 Если property tag содержит identity-like значение, оно должно быть English kebab-case, кроме тегов с отдельным синтаксисом значения: например `[route=/path]`, `[href=https://...]` или `[action=modal:target-id]`.
 
-Identity values не должны содержать названия или ширину breakpoint. Breakpoint уже задан на page/root frame через `[bp=...]`; child ids описывают логические элементы, а не адаптивные варианты.
+Optional identity values не должны содержать названия или ширину breakpoint. Breakpoint уже задан на page/root frame через `[bp=...]`; child ids описывают логические элементы, а не адаптивные варианты.
 
 Плохо:
 
 ```text
-Отзывы мобилка [control=button-reviews-box-768]
-Отзывы мобилка [control=button-reviews-box-375]
+Отзывы мобилка [control=button-reviews-box-768] [action=modal:marketplaces-modal]
 ```
 
 Хорошо:
 
 ```text
-reviews-box [control=button-reviews-box]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 ```
 
-Для identity-bearing values вроде `[control=...]`, `[link=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids и fallback-значений `[decor=...]` / `[asset=...]` suffix текущего breakpoint, например `-768`, `-375`, `-mobile` или `-desktop`, невалиден.
+Для optional identity-bearing values вроде `[link=...]`, `[control=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids и fallback-значений `[decor=...]` / `[asset=...]` suffix текущего breakpoint, например `-768`, `-375`, `-mobile` или `-desktop`, невалиден.
 
 ## Теги, которые дизайнер пишет
 
@@ -79,6 +79,16 @@ reviews-box [control=button-reviews-box]
 Главная страница [page=home] [route=/] [bp=1920] [view=default]
 FAQ [anchor=faq]
 ```
+
+`[page=...]`, `[bp=...]` и `[view=...]` задают draftable page root. Добавляй `[route=...]` или `[route-pattern=...]` только когда известен реальный production URL:
+
+```text
+Contacts [page=contacts] [bp=1440] [view=default]
+Contacts [page=contacts] [route=/contacts] [bp=1440] [view=default]
+Product Detail [page=product-detail] [route-pattern=/catalog/:slug] [bp=1440] [view=default]
+```
+
+Не выдумывай fake production routes ради чеклиста.
 
 ### Секционный контракт
 
@@ -130,30 +140,45 @@ Mobile Menu Open [state=mobile-menu-open]
 
 ### Ссылки
 
-Ссылки используют `href` как единственный источник правды о назначении.
+Известное navigation destination записывается как `[href=...]`. Этого тега достаточно, чтобы считать слой ссылкой; обычные дизайнерские примеры не требуют `[link=...]`.
 
 ```text
-[link=nav-contacts]
 [href=/contacts]
 [href=/contacts#faq]
+[href=#faq]
 [href=https://t.me/company]
 [href=mailto:sales@example.com]
 [href=tel:+12025550123]
 ```
 
 ```text
-contacts-link [link=nav-contacts] [href=/contacts]
-faq-link [link=nav-faq] [href=/contacts#faq]
-telegram-link [link=social-telegram] [href=https://t.me/company]
-email-link [link=email-sales] [href=mailto:sales@example.com]
-phone-link [link=phone-main] [href=tel:+12025550123]
+contacts-link [href=/contacts]
+faq-link [href=/contacts#faq]
+same-page-faq [href=#faq]
+telegram-link [href=https://t.me/company]
+email-link [href=mailto:sales@example.com]
+phone-link [href=tel:+12025550123]
 ```
+
+Если destination неизвестен, используй boolean draft marker `[link]`:
+
+```text
+contacts-link [link]
+```
+
+`[href=#]` невалиден. `#faq` — реальный same-page anchor; `#` не является unknown href placeholder.
 
 Дополнительное поведение ссылки:
 
 ```text
 [open=new-tab]
 [a11y-label=Telegram]
+```
+
+Только advanced override: используй `[link=...]`, когда нужен явный stable machine id в дополнение к имени слоя. Не используй его в обычных дизайнерских примерах.
+
+```text
+contacts-cta [link=nav-contacts-primary] [href=/contacts]
 ```
 
 Валидаторы классифицируют значения `href`:
@@ -166,10 +191,9 @@ phone-link [link=phone-main] [href=tel:+12025550123]
 
 ### Контролы и действия
 
-Контролы используют `action`.
+Известный non-navigation action записывается как `[action=...]`. Этого тега достаточно, чтобы считать слой control/button; обычные дизайнерские примеры не требуют `[control=...]`.
 
 ```text
-[control=contact-cta]
 [action=modal:contact-modal]
 [action=state:mobile-menu-open]
 [action=submit:lead-form]
@@ -178,11 +202,23 @@ phone-link [link=phone-main] [href=tel:+12025550123]
 ```
 
 ```text
-contact-cta [control=contact-cta] [action=modal:contact-modal]
-menu-button [control=mobile-menu-button] [action=state:mobile-menu-open]
-lead-submit [control=lead-submit] [action=submit:lead-form]
-reset-filters [control=reset-filters] [action=reset:catalog-filters]
-disabled-cta [control=disabled-cta] [action=none]
+contact-cta [action=modal:contact-modal]
+menu-button [action=state:mobile-menu-open]
+lead-submit [action=submit:lead-form]
+reset-filters [action=reset:catalog-filters]
+disabled-cta [action=none]
+```
+
+Если action неизвестен, используй boolean draft marker `[control]`:
+
+```text
+contact-cta [control]
+```
+
+Только advanced override: используй `[control=...]`, когда нужен явный stable machine id в дополнение к имени слоя. Не используй его в обычных дизайнерских примерах.
+
+```text
+contact-cta [control=contact-cta-primary] [action=modal:contact-modal]
 ```
 
 Допустимые формы `action`:
@@ -353,7 +389,7 @@ description [height=fixed] [overflow=truncate] [lines=3]
 Instance на странице:
 
 ```text
-contact-cta [control=contact-cta] [action=modal:contact-modal]
+contact-cta [action=modal:contact-modal]
 ```
 
 Исходный компонент из UI Kit определяет состояния: default, hover, focus, disabled, loading, error и т.д.
@@ -381,23 +417,19 @@ snow-bg [decor] [abs]
 Невалидно: `decor` — это смысл, позиционирование берётся из Figma. Используй `snow-bg [decor]`.
 
 ```text
-FAQ [link=nav-faq] [to=anchor:contacts-faq] [href=/contacts#faq]
+FAQ [to=anchor:contacts-faq] [href=/contacts#faq]
 ```
 
 Невалидно: два назначения. Используй только `[href=/contacts#faq]`.
 
 ```text
-contact-cta [control=contact-cta]
+unknown-link [href=#]
 ```
 
-Невалидно: контрол без action.
+Невалидно: `#` не является unknown href placeholder. Используй `unknown-link [link]`.
 
 ```text
-// desktop
-contact-cta [control=contact-cta]
-
-// mobile
-contact-button [control=contact-cta]
+Отзывы мобилка [control=button-reviews-box-768] [action=modal:marketplaces-modal]
 ```
 
-Невалидно: один identity имеет разные layer names между breakpoint’ами без причины.
+Невалидно: optional ids не должны содержать breakpoint suffixes. Используй `Отзывы мобилка [action=modal:marketplaces-modal]`.

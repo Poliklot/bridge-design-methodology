@@ -26,8 +26,8 @@ A tag is required for intent that is not a technical layer property:
 ```text
 Home Page [page=home] [route=/] [bp=1920] [view=default]
 Catalog [section=product-slider]
-primary-cta [link=primary-cta] [href=/catalog]
-menu-button [control=menu-button] [action=state:mobile-menu-open]
+primary-cta [href=/catalog]
+menu-button [action=state:mobile-menu-open]
 email [field=email] [name=email]
 snow-bg [decor]
 promo-poster [asset]
@@ -72,8 +72,8 @@ Desktop:
 ```text
 hero-title
 button-group
-  primary-cta [link=primary-cta] [href=/pricing]
-  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
+  primary-cta [href=/pricing]
+  secondary-cta [action=modal:contact-modal]
 ```
 
 Mobile:
@@ -81,8 +81,8 @@ Mobile:
 ```text
 hero-title
 button-group
-  primary-cta [link=primary-cta] [href=/pricing]
-  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
+  primary-cta [href=/pricing]
+  secondary-cta [action=modal:contact-modal]
 ```
 
 The Figma layout may change, but identity stays the same.
@@ -101,31 +101,31 @@ sneg [decor] [asset]
 
 If `sneg` is missing on mobile, that is a responsive identity error. If mobile has `sneg` but drops `[decor] [asset]`, that is visual intent drift, not a new identity.
 
-## Do not encode breakpoints in identity values
+## Do not encode breakpoints in optional identity values
 
-BRIDGE identity values must describe the logical element, not the responsive breakpoint. Breakpoint data already belongs to the page/root frame through `[bp=...]`.
+Optional BRIDGE identity values must describe the logical element, not the responsive breakpoint. Breakpoint data already belongs to the page/root frame through `[bp=...]`.
 
 Bad:
 
 ```text
 // [bp=768]
-Отзывы мобилка [control=button-reviews-box-768]
+Отзывы мобилка [control=button-reviews-box-768] [action=modal:marketplaces-modal]
 
 // [bp=375]
-Отзывы мобилка [control=button-reviews-box-375]
+Отзывы мобилка [control=button-reviews-box-375] [action=modal:marketplaces-modal]
 ```
 
 Good:
 
 ```text
 // [bp=768]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 
 // [bp=375]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 ```
 
-Child ids such as `[control=...]`, `[link=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids, and fallback `[decor=...]` / `[asset=...]` values must stay breakpoint-neutral. If an identity value ends with the current breakpoint suffix, such as `-768`, `-375`, `-mobile`, or `-desktop`, remove the suffix and keep the breakpoint only on the root.
+Optional child ids such as `[control=...]`, `[link=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids, and fallback `[decor=...]` / `[asset=...]` values must stay breakpoint-neutral. For ordinary links/buttons, prefer no optional id at all: use `[href=...]`, `[link]`, `[action=...]`, or `[control]`. If an optional identity value ends with the current breakpoint suffix, such as `-768`, `-375`, `-mobile`, or `-desktop`, remove the suffix and keep the breakpoint only on the root.
 
 ## Naming conventions
 

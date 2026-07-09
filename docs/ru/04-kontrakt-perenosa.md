@@ -13,7 +13,7 @@ BRIDGE-ready макет раскрывает достаточно информа
 - Идентичность контента между адаптивами.
 - Вложенность элементов и порядок соседей по каждому адаптиву.
 - Видимость элементов по каждому адаптиву.
-- Interaction/action intent для clickable элементов.
+- Interaction intent для clickable элементов: известные `href` / `action` или draft `[link]` / `[control]` TODO markers.
 - Существование цель’ов для ссылок, модалок, anchors и states.
 - Asset export intent для сложных визуалов.
 - Height и overflow policy.

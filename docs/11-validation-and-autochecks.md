@@ -4,11 +4,11 @@ BRIDGE should become comfortable because a designer can run a preflight check be
 
 ## Validation layers
 
-1. **Syntax validation** — tags, boolean visual-intent flags, optional tag values, keys, action syntax, breakpoint tags.
+1. **Syntax validation** — tags, boolean visual-intent/draft flags, optional tag values, keys, href/action syntax, breakpoint tags.
 2. **Identity validation** — identity uniqueness, identity stability, breakpoint-neutral identity values, type stability, and correct exclusion of `[decor]`/`[asset]` flags from identity-tag counting.
 3. **Responsive validation** — identity coverage, tree topology/cardinality, parent-child stability, visibility changes, visual-intent drift, content drift, order changes, breakpoint completeness.
 4. **Structure validation** — Figma structure, wrappers, clipping, positioning intent, fixed heights, overlaps.
-5. **Interaction graph validation** — actions, targets, modals, states, forms.
+5. **Interaction graph validation** — href links, draft link/control markers, actions, targets, modals, states, forms.
 6. **Content validation** — text equality, strict legal/price content, rich text, localization risk; skip product-content drift checks for text inside decorative/root asset visuals.
 7. **Asset validation** — asset policy, native text misuse, export settings, focal points.
 8. **Accessibility validation** — contrast risk, touch targets, labels, focusable states, decorative layers hidden from the accessibility tree.
@@ -33,12 +33,12 @@ extract design tree
   -> normalize names, boolean visual-intent tags, optional tag values, keys, and Figma metadata
   -> group frames by section and breakpoint
   -> build identity map and type map
-  -> check identity-bearing values against current breakpoint names/widths
+  -> check optional identity-bearing values against current breakpoint names/widths
   -> compare responsive tree cardinality and parent identities
   -> compare visibility, sibling order, and visual-intent flags inside each parent
   -> compare product content across breakpoints, excluding decorative/root asset visuals
   -> classify structure, wrappers, and positioning intent
-  -> build action-target graph
+  -> build href/action-target graph
   -> inspect geometry, overflow, and fixed heights
   -> check assets and component states
   -> emit report with rule IDs, severity, location, and fix hints
@@ -67,13 +67,19 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 | Content | `content.manual-line-break-in-dynamic-text` | error | heuristic |
 | Structure | `layout.one-child-wrapper-without-role` | warning | heuristic |
 | Structure | `layout.overlap-without-overlay-role` | warning | heuristic |
-| Interaction | `interaction.clickable-without-action` | error | automatic |
+| Interaction | `interaction.clickable-without-action` | warning | heuristic |
+| Interaction | `interaction.link-without-href` | info | automatic |
+| Interaction | `interaction.control-without-action` | info | automatic |
+| Interaction | `interaction.href-placeholder-invalid` | error | automatic |
+| Interaction | `interaction.optional-id-value-invalid` | error | automatic |
 | Interaction | `interaction.modal-target-missing` | error | automatic |
+| Routing | `routing.page-route-missing` | info | automatic |
+| Routing | `routing.route-not-production-url` | error | automatic |
 | Height | `height.fixed-height-without-reason` | warning | automatic |
 | Overflow | `overflow.text-clipping-risk` | error | heuristic |
 | Asset | `asset.raster-text-without-reason` | error | heuristic/manual |
 | Accessibility | `accessibility.decorative-layer-exposed` | warning | automatic |
-| Accessibility | `accessibility.form-field-missing-label` | warning | automatic |
+| Interaction | `interaction.form-field-missing-label` | warning | automatic |
 
 ## Suggested report format
 
@@ -135,13 +141,16 @@ Use to prove that a target implementation path supports BRIDGE:
 
 - Missing stable identity on important elements.
 - Duplicate identities inside a breakpoint/view scope.
-- Breakpoint-specific identity value, for example `[control=button-reviews-box-375]` inside a `[bp=375]` root.
+- Breakpoint-specific optional identity value, for example `[control=button-reviews-box-375]` inside a `[bp=375]` root.
 - Same identity used for different logical types.
 - Stable decorative/asset root identity missing on a required breakpoint.
 - Responsive element tree cardinality or parent-child topology changes without a structural exception.
 - Visual intent drift such as `sneg [decor] [asset]` on desktop becoming plain `sneg` on mobile.
-- Clickable element without `[action=...]`.
+- Final clickable element without known `[href=...]` or `[action=...]`; draft `[link]` / `[control]` markers are TODOs, not syntax errors.
+- Invalid unknown href placeholder `[href=#]`; use `[link]` instead.
+- Fake or placeholder `[route=...]` value; omit route until the production URL is known.
 - Action target missing.
+- Page root without route is a Draft TODO (`routing.page-route-missing`), not a blocker.
 - Modal without close behavior.
 - Text fixed height with no overflow policy.
 - Dynamic text that relies on manual line breaks.

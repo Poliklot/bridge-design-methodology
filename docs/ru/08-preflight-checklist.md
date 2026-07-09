@@ -21,8 +21,8 @@
 - отсутствуют stable identities у важных элементов;
 - отсутствуют обязательные BRIDGE-теги там, где Figma не знает смысл;
 - duplicate identities внутри breakpoint/view scope;
-- breakpoint-specific identity values вроде `[control=button-reviews-box-375]`;
-- clickable elements без actions;
+- breakpoint-specific optional identity values вроде `[control=button-reviews-box-375]`;
+- final clickable elements без известных `[href=...]` или `[action=...]`;
 - action targets, которых не существует;
 - количество элементов или вложенность меняются между адаптивами без явного исключения;
 - stable decorative/asset identities отсутствуют на нужном адаптиве;
@@ -34,7 +34,7 @@
 
 - [ ] Каждый важный элемент имеет stable identity: либо имя слоя в English kebab-case, либо обязательный BRIDGE-тег.
 - [ ] Имена стабильных элементов написаны на английском в kebab-case.
-- [ ] BRIDGE identity values не содержат названия или ширину breakpoint; suffixes вроде `-768`, `-375`, `-mobile` или `-desktop` удалены.
+- [ ] Optional BRIDGE identity values не содержат названия или ширину breakpoint; suffixes вроде `-768`, `-375`, `-mobile` или `-desktop` удалены.
 - [ ] Внутри одного breakpoint/view scope нет duplicate identities.
 - [ ] Один и тот же логический элемент использует одну identity на всех адаптивах.
 - [ ] Один и тот же логический элемент сохраняет одного родителя на всех адаптивах.
@@ -68,10 +68,21 @@
 
 ## Interactions
 
-- [ ] Каждая кнопка имеет `[action=...]`.
-- [ ] Каждая ссылка имеет URL, anchor, state или цель.
+- [ ] Известные navigation links используют `[href=...]` без обязательного `[link=...]`.
+- [ ] Unknown draft links используют `[link]`, а не `[href=#]`.
+- [ ] Известные buttons/controls используют `[action=...]` без обязательного `[control=...]`.
+- [ ] Unknown draft controls используют `[control]`.
+- [ ] Optional `[link=...]` / `[control=...]` ids используются только когда реально нужен stable machine id, и их values написаны в kebab-case без breakpoint suffixes.
+- [ ] Final handoff не содержит unresolved `[link]` или `[control]` TODOs, если проект явно не принимает draft status.
 - [ ] Каждый modal action ведёт на существующий modal frame.
 - [ ] Каждый state action ведёт на существующий state цель.
+
+## Routing
+
+- [ ] Page roots имеют стабильные `[page=...]`, `[bp=...]` и `[view=...]`.
+- [ ] `[route=...]` / `[route-pattern=...]` указаны только когда известен реальный production route.
+- [ ] Page roots без route отслеживаются как Draft TODOs, а не чинятся fake production paths.
+- [ ] Если route указан, это production URL/path, стабильный между breakpoints/views одной страницы.
 
 ## Height и overflow
 

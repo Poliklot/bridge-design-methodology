@@ -13,26 +13,26 @@
 
 Инструмент может вывести точку перелома из ширины фрейма, но явный тег безопаснее для передачи макета и сравнения.
 
-`[bp=...]` ставится на responsive root. Имена дочерних слоёв и значения identity-тегов не должны повторять название или ширину breakpoint.
+`[bp=...]` ставится на responsive root. Имена дочерних слоёв и optional identity values не должны повторять название или ширину breakpoint.
 
 Плохо:
 
 ```text
 // root имеет [bp=768]
-Отзывы мобилка [control=button-reviews-box-768]
+Отзывы мобилка [control=button-reviews-box-768] [action=modal:marketplaces-modal]
 
 // root имеет [bp=375]
-Отзывы мобилка [control=button-reviews-box-375]
+Отзывы мобилка [control=button-reviews-box-375] [action=modal:marketplaces-modal]
 ```
 
 Хорошо:
 
 ```text
 // root имеет [bp=768]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 
 // root имеет [bp=375]
-reviews-box [control=button-reviews-box]
+Отзывы мобилка [action=modal:marketplaces-modal]
 ```
 
 ## Один набор элементов, разная раскладка
@@ -74,13 +74,13 @@ sneg [decor] [asset]
 ```text
 // широкий экран
 button-group
-  primary-cta [link=primary-cta] [href=/pricing]
-  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
+  primary-cta [href=/pricing]
+  secondary-cta [action=modal:contact-modal]
 
 // узкий экран
 button-group
-  primary-cta [link=primary-cta] [href=/pricing]
-  secondary-cta [control=secondary-cta] [action=modal:contact-modal]
+  primary-cta [href=/pricing]
+  secondary-cta [action=modal:contact-modal]
 ```
 
 В Figma направление и размеры группы могут измениться, но набор элементов и их вложенность остаются теми же.

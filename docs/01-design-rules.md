@@ -19,9 +19,11 @@ The adapter reads these from Figma. A manual tag is needed only when Figma does 
 
 Layer names declare only transfer intent:
 
-- page, route, breakpoint, and view;
+- page, real production route when known, breakpoint, and view;
 - section contract;
-- link, action, form field;
+- `href` for known links, `[link]` for draft unknown links;
+- `action` for known controls/buttons, `[control]` for draft unknown actions;
+- form field;
 - modal or state target;
 - decorative visual;
 - whole exported asset;
@@ -82,11 +84,17 @@ Group 91 [asset=promo-poster]
 
 ## 5. The root frame is a concrete page or section breakpoint
 
-The root frame should carry stable page/view/breakpoint data:
+The root frame should carry stable page/view/breakpoint data. Add `[route=...]` only when the real production route is known:
 
 ```text
 Home Page [bp=1920] [view=default] [page=home] [route=/]
 Home Page [bp=375] [view=default] [page=home] [route=/]
+```
+
+If the route is not known yet, omit it instead of inventing a fake production URL:
+
+```text
+Contacts Page [bp=1440] [view=default] [page=contacts]
 ```
 
 A breakpoint is the same page at another width, not a new version of meaning or structure.

@@ -101,8 +101,8 @@ bridge-figma-assistant
       hero-subtitle
 
     button-group
-      primary-cta [link=primary-cta] [href=/pricing]
-      contact-cta [control=contact-cta] [action=modal:contact-modal]
+      primary-cta [href=/pricing]
+      contact-cta [action=modal:contact-modal]
 
 Contact Modal [modal=contact-modal]
   contact-modal-content

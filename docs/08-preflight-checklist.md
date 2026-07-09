@@ -21,8 +21,8 @@ Immediate blockers:
 - missing stable identities on important elements;
 - missing required BRIDGE tags where Figma does not know the intent;
 - duplicate identities inside a breakpoint/view scope;
-- breakpoint-specific identity values such as `[control=button-reviews-box-375]`;
-- clickable elements without actions;
+- breakpoint-specific optional identity values such as `[control=button-reviews-box-375]`;
+- final clickable elements without known `[href=...]` or `[action=...]`;
 - action targets that do not exist;
 - item count or nesting changes between breakpoints without an explicit exception;
 - stable decorative/asset identities missing on a required breakpoint;
@@ -34,7 +34,7 @@ Immediate blockers:
 
 - [ ] Every important element has a stable identity: either an English kebab-case layer name or a required BRIDGE tag.
 - [ ] Stable element names use English kebab-case.
-- [ ] BRIDGE identity values do not contain breakpoint names or widths; remove suffixes such as `-768`, `-375`, `-mobile`, or `-desktop`.
+- [ ] Optional BRIDGE identity values do not contain breakpoint names or widths; remove suffixes such as `-768`, `-375`, `-mobile`, or `-desktop`.
 - [ ] There are no duplicate identities inside one breakpoint/view scope.
 - [ ] The same logical element uses one identity across all breakpoints.
 - [ ] The same logical element keeps the same parent across all breakpoints.
@@ -67,10 +67,21 @@ Immediate blockers:
 
 ## Interactions
 
-- [ ] Every button has `[action=...]`.
-- [ ] Every link has a URL, anchor, state, or target.
+- [ ] Known navigation links use `[href=...]` without requiring `[link=...]`.
+- [ ] Unknown draft links use `[link]`, not `[href=#]`.
+- [ ] Known buttons/controls use `[action=...]` without requiring `[control=...]`.
+- [ ] Unknown draft controls use `[control]`.
+- [ ] Optional `[link=...]` / `[control=...]` ids are used only when a stable machine id is actually needed, and their values are kebab-case without breakpoint suffixes.
+- [ ] Final handoff has no unresolved `[link]` or `[control]` TODOs unless the project explicitly accepts draft status.
 - [ ] Every modal action points to an existing modal frame.
 - [ ] Every state action points to an existing state target.
+
+## Routing
+
+- [ ] Page roots have stable `[page=...]`, `[bp=...]`, and `[view=...]`.
+- [ ] `[route=...]` / `[route-pattern=...]` are present only when the real production route is known.
+- [ ] Page roots without route are tracked as Draft TODOs, not fixed with fake production paths.
+- [ ] When route is present, it is a production URL/path and stays stable across breakpoints/views of the same page.
 
 ## Height and overflow
 
