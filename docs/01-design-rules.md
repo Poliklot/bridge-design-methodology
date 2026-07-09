@@ -43,18 +43,41 @@ If elements should adapt together, they must not be loose free-floating siblings
 
 A content image carries information. If removing it changes the meaning, give the layer a stable name.
 
-Decor is visual ornament. If removing it preserves meaning, mark it with `[decor=...]`.
+Decor is visual ornament. If removing it preserves meaning, mark it with the boolean visual-intent tag `[decor]`.
 
-An asset is a visual that should be exported as one whole file instead of being rebuilt from internal layers. Mark it with `[asset=...]`.
+`[decor]` means:
+
+- the layer is decorative, not product content;
+- it should not enter the accessibility tree and may be `aria-hidden`;
+- it does not need alt/content semantics;
+- it still keeps stable responsive identity and must not disappear between breakpoints.
+
+An asset is a visual that should be exported as one whole file instead of being rebuilt from internal layers. Mark it with the boolean policy tag `[asset]`.
+
+`[asset]` means:
+
+- export or use the visual as one whole unit;
+- do not rebuild it from internal layers;
+- the root asset layer still keeps stable responsive identity across breakpoints.
+
+When the layer already has a good stable name, prefer boolean tags:
 
 ```text
 product-photo
 article-cover
 author-avatar
-snow-bg [decor=snow-bg]
-hero-glow [decor=hero-glow]
-promo-poster [asset=promo-poster]
-lab-illustration [asset=lab-illustration]
+snow-bg [decor]
+hero-glow [decor]
+promo-poster [asset]
+lab-illustration [asset]
+sneg [decor] [asset]
+```
+
+The older value form is only a fallback for poor/default layer names:
+
+```text
+Frame 182 [decor=snow-bg]
+Group 91 [asset=promo-poster]
 ```
 
 ## 5. The root frame is a concrete page or section breakpoint

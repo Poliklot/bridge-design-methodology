@@ -94,7 +94,7 @@ bridge-figma-assistant
 ```text
 Главная страница [page=home] [route=/] [bp=1200] [view=default]
   Первый экран [section=home-hero]
-    hero-bg [decor=hero-bg]
+    hero-bg [decor]
 
     hero-copy
       hero-title

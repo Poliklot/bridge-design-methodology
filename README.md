@@ -93,7 +93,7 @@ bridge-figma-assistant
 ```text
 Home Page [page=home] [route=/] [bp=1200] [view=default]
   Hero [section=home-hero]
-    hero-bg [decor=hero-bg]
+    hero-bg [decor]
 
     hero-copy
       hero-title

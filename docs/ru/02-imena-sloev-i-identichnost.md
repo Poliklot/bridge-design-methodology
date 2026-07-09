@@ -29,9 +29,27 @@ hero-copy
 primary-cta [link=primary-cta] [href=/catalog]
 menu-button [control=menu-button] [action=state:mobile-menu-open]
 email [field=email] [name=email]
-snow-bg [decor=snow-bg]
-promo-poster [asset=promo-poster]
+snow-bg [decor]
+promo-poster [asset]
+sneg [decor] [asset]
 ```
+
+`[decor]` и `[asset]` — это boolean visual-intent/policy tags, а не обязательные identity-теги. Если слой уже нормально назван, stable responsive identity остаётся именем слоя:
+
+```text
+sneg [decor] [asset]
+```
+
+Здесь identity — `sneg`; `[decor]` говорит, что слой декоративный, не является контентом и может быть скрыт от accessibility tree, а `[asset]` говорит, что визуал переносится цельно.
+
+Старый формат со значением допустим только как fallback для плохих/default имён слоёв:
+
+```text
+Frame 182 [decor=snow-bg]
+Group 91 [asset=promo-poster]
+```
+
+Если значение в `[decor=...]` или `[asset=...]` всё-таки есть, оно должно быть English kebab-case. Boolean `[decor]` и `[asset]` без значения валидны, и валидатор не должен ругаться на отсутствие значения.
 
 ## Что не пишется тегами в Figma
 
@@ -68,6 +86,46 @@ button-group
 ```
 
 Раскладка в Figma может измениться, но identity остаётся той же.
+
+Visual-intent tags тоже должны оставаться семантически стабильными. Если на desktop есть:
+
+```text
+sneg [decor] [asset]
+```
+
+то на mobile должны сохраниться та же identity и тот же визуальный intent:
+
+```text
+sneg [decor] [asset]
+```
+
+Если `sneg` отсутствует на mobile, это responsive identity error. Если на mobile есть `sneg`, но без `[decor] [asset]`, это visual intent drift, а не новая identity.
+
+## Не кодируй breakpoint в identity values
+
+BRIDGE identity values должны описывать логический элемент, а не адаптив. Breakpoint уже задан на page/root frame через `[bp=...]`.
+
+Плохо:
+
+```text
+// [bp=768]
+Отзывы мобилка [control=button-reviews-box-768]
+
+// [bp=375]
+Отзывы мобилка [control=button-reviews-box-375]
+```
+
+Хорошо:
+
+```text
+// [bp=768]
+reviews-box [control=button-reviews-box]
+
+// [bp=375]
+reviews-box [control=button-reviews-box]
+```
+
+Child ids вроде `[control=...]`, `[link=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids и fallback-значения `[decor=...]` / `[asset=...]` должны оставаться breakpoint-neutral. Если identity value заканчивается на suffix текущего breakpoint, например `-768`, `-375`, `-mobile` или `-desktop`, убери suffix и оставь breakpoint только на root.
 
 ## Соглашения по именованию
 

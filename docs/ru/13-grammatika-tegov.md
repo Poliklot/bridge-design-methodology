@@ -25,6 +25,13 @@ BRIDGE-тег нужен только для продуктового смысл
 [property=value]
 ```
 
+Для boolean visual-intent/policy flags, которым не нужно значение, используй boolean-теги:
+
+```text
+[decor]
+[asset]
+```
+
 Стабильная identity внутри Figma может быть просто именем слоя:
 
 ```text
@@ -35,6 +42,26 @@ button-group
 ```
 
 Имя должно быть стабильным English kebab-case.
+
+Если property tag содержит identity-like значение, оно должно быть English kebab-case, кроме тегов с отдельным синтаксисом значения: например `[route=/path]`, `[href=https://...]` или `[action=modal:target-id]`.
+
+Identity values не должны содержать названия или ширину breakpoint. Breakpoint уже задан на page/root frame через `[bp=...]`; child ids описывают логические элементы, а не адаптивные варианты.
+
+Плохо:
+
+```text
+Отзывы мобилка [control=button-reviews-box-768]
+Отзывы мобилка [control=button-reviews-box-375]
+```
+
+Хорошо:
+
+```text
+reviews-box [control=button-reviews-box]
+reviews-box [control=button-reviews-box]
+```
+
+Для identity-bearing values вроде `[control=...]`, `[link=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids и fallback-значений `[decor=...]` / `[asset=...]` suffix текущего breakpoint, например `-768`, `-375`, `-mobile` или `-desktop`, невалиден.
 
 ## Теги, которые дизайнер пишет
 
@@ -206,19 +233,54 @@ article-cover
 author-avatar
 ```
 
-Декоративный визуал помечается `[decor=...]`.
+`[decor]` и `[asset]` — boolean visual-intent/policy tags, а не обязательные identity-теги. Они могут стоять вместе и не должны считаться “multiple identity tags”.
+
+Декоративный визуал помечается `[decor]`.
+
+`[decor]` означает:
+
+- слой декоративный;
+- он не является продуктовым контентом;
+- он не должен попадать в accessibility tree и может быть `aria-hidden`;
+- ему не нужны alt/content semantics;
+- он всё равно сохраняет stable responsive identity и не имеет права исчезать между адаптивами.
 
 ```text
-snow-bg [decor=snow-bg]
-hero-glow [decor=hero-glow]
+sneg [decor]
+snow-bg [decor]
+hero-glow [decor]
 ```
 
-Экспортируемый цельный визуал помечается `[asset=...]`.
+Экспортируемый цельный визуал помечается `[asset]`.
+
+`[asset]` означает:
+
+- визуал нужно экспортировать или использовать цельно;
+- его нельзя пересобирать из внутренних слоёв;
+- root asset всё равно сохраняет stable responsive identity между адаптивами.
 
 ```text
-promo-poster [asset=promo-poster]
-lab-illustration [asset=lab-illustration]
+promo-poster [asset]
+lab-illustration [asset]
+snow-bg [decor] [asset]
 ```
+
+Если у слоя уже есть stable name, предпочитай boolean-форму:
+
+```text
+sneg [decor] [asset]
+```
+
+Identity здесь — `sneg`. `[decor]` и `[asset]` только добавляют visual intent и transfer policy.
+
+Старый формат со значением остаётся валидным только как fallback для плохих/default layer names:
+
+```text
+Frame 182 [decor=snow-bg]
+Group 91 [asset=promo-poster]
+```
+
+Если значение в `[decor=...]` или `[asset=...]` есть, валидируй его как English kebab-case. Boolean `[decor]` и `[asset]` без значения валидны.
 
 ### Высота и overflow
 
@@ -313,10 +375,10 @@ content [container=content] [layout=stack]
 Невалидно для структуры Figma: используй frame `content` и Auto Layout в Figma.
 
 ```text
-snow-bg [decor=snow-bg] [abs]
+snow-bg [decor] [abs]
 ```
 
-Невалидно: `decor` — это смысл, позиционирование берётся из Figma. Используй `snow-bg [decor=snow-bg]`.
+Невалидно: `decor` — это смысл, позиционирование берётся из Figma. Используй `snow-bg [decor]`.
 
 ```text
 FAQ [link=nav-faq] [to=anchor:contacts-faq] [href=/contacts#faq]

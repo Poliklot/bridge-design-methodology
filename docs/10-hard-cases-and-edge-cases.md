@@ -40,7 +40,7 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 | Related items are free-floating siblings | Responsive transfer cannot infer grouping. | Meaningful Figma structure: frames/groups/components, Auto Layout, or constraints. | Geometry clustering heuristic. |
 | Wrapper maze | Layout tree is deep but meaningless. | Every wrapper needs `[wrapper-role=...]`. | Detect one-child/deep wrappers. |
 | Fixed height clips real content | Localization/CMS content breaks layout. | Use hug/min-height or explicit overflow policy. | Fixed-height text/card checks. |
-| Visually detached element behaves like ordinary content | It will not adapt with the group. | Move it into the shared structure or mark intent as `[decor=...]`, `[asset=...]`, `[modal=...]`, or an exception. | Positioning + intent check. |
+| Visually detached element behaves like ordinary content | It will not adapt with the group. | Move it into the shared structure or mark intent as `[decor]`, `[asset]`, `[modal=...]`, or an exception. | Positioning + intent check. |
 | Overlap is accidental | z-order differs across targets. | Declare overlay/decor/asset intent or collision reason. | Bounding-box overlap heuristic. |
 | Parent clips child unintentionally | Decor, tooltip, focus ring, or text is cut. | Declare overflow policy. | Clip + child overflow check. |
 | Negative spacing or constraints fight Auto Layout | The adapter cannot reproduce intent deterministically. | Use tokens/gaps or mark exception. | Geometry + layout metadata. |

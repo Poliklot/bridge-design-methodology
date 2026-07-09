@@ -13,6 +13,28 @@ Home Page [bp=375] [view=default] [page=home] [route=/]
 
 A tool may infer the breakpoint from frame width, but an explicit tag is safer for handoff and comparison.
 
+`[bp=...]` belongs on the responsive root. Child layer names and identity-bearing tag values must not repeat the breakpoint name or width.
+
+Bad:
+
+```text
+// root has [bp=768]
+Отзывы мобилка [control=button-reviews-box-768]
+
+// root has [bp=375]
+Отзывы мобилка [control=button-reviews-box-375]
+```
+
+Good:
+
+```text
+// root has [bp=768]
+reviews-box [control=button-reviews-box]
+
+// root has [bp=375]
+reviews-box [control=button-reviews-box]
+```
+
 ## Same element set, different layout
 
 A responsive breakpoint is the same screen laid out for another width. It is not a second screen and not a new structure.
@@ -34,6 +56,18 @@ Order and visibility are breakpoint properties:
 - a visible element must not be replaced by a separate mobile-only or desktop-only copy.
 
 The forbidden case is not “the element is currently hidden”. The forbidden case is “this key exists in one breakpoint but is completely absent in another” or “this key moved to another parent”.
+
+Decorative and asset layers follow the same rule. `[decor]` changes semantic importance and accessibility behavior; it does not allow the layer to disappear on mobile. `[asset]` changes transfer/export policy; it does not remove the need for a stable root identity.
+
+```text
+// desktop
+sneg [decor] [asset]
+
+// mobile
+sneg [decor] [asset]
+```
+
+If `sneg` exists on desktop but is absent on mobile, the validator must report a responsive identity error. If desktop has `sneg [decor] [asset]` but mobile has only `sneg`, the validator must report visual intent drift.
 
 If item count or nesting must change, this is not an ordinary breakpoint. Model it as a state, component variant, collection rule, platform variant, or explicit BRIDGE exception.
 

@@ -21,9 +21,11 @@ Immediate blockers:
 - missing stable identities on important elements;
 - missing required BRIDGE tags where Figma does not know the intent;
 - duplicate identities inside a breakpoint/view scope;
+- breakpoint-specific identity values such as `[control=button-reviews-box-375]`;
 - clickable elements without actions;
 - action targets that do not exist;
 - item count or nesting changes between breakpoints without an explicit exception;
+- stable decorative/asset identities missing on a required breakpoint;
 - fixed-height text without overflow policy;
 - dynamic text relies on manual line breaks;
 - hidden keyed layers are used as the source of truth.
@@ -32,9 +34,11 @@ Immediate blockers:
 
 - [ ] Every important element has a stable identity: either an English kebab-case layer name or a required BRIDGE tag.
 - [ ] Stable element names use English kebab-case.
+- [ ] BRIDGE identity values do not contain breakpoint names or widths; remove suffixes such as `-768`, `-375`, `-mobile`, or `-desktop`.
 - [ ] There are no duplicate identities inside one breakpoint/view scope.
 - [ ] The same logical element uses one identity across all breakpoints.
 - [ ] The same logical element keeps the same parent across all breakpoints.
+- [ ] `[decor]` and `[asset]` are treated as visual-intent/policy flags, not as extra identities.
 - [ ] Text, content image, and icon types come from Figma, not from manual tags.
 - [ ] Section components live on the `Page Sections` library page, and ordinary interface components live in `UI Kit`.
 - [ ] Instances of components from `Page Sections` do not duplicate `[section=...]` on the page.
@@ -52,11 +56,14 @@ Immediate blockers:
 ## Breakpoints
 
 - [ ] Every responsive root frame has `[bp=...]`.
+- [ ] Breakpoint width/name is declared only on the root, not repeated in child ids.
 - [ ] Important keys exist on the required breakpoints.
 - [ ] Breakpoints preserve one logical element set and the same list/collection structure.
 - [ ] Hidden elements still keep their keys and parents on each required breakpoint.
 - [ ] Elements that changed order remain inside the same parent.
 - [ ] Text meaning does not silently change between breakpoints.
+- [ ] Decorative/asset root identities do not disappear between breakpoints.
+- [ ] Visual-intent flags do not drift: `sneg [decor] [asset]` does not become plain `sneg` on another breakpoint.
 
 ## Interactions
 
@@ -77,5 +84,8 @@ Immediate blockers:
 
 - [ ] Content images have stable layer names.
 - [ ] Editable text is not exported as an image without a reason.
-- [ ] Complex visuals that must be exported whole are marked as `[asset=...]`.
-- [ ] Decorative visuals are marked as `[decor=...]`.
+- [ ] Complex visuals that must be exported whole are marked as `[asset]`.
+- [ ] Decorative visuals are marked as `[decor]`.
+- [ ] `[decor]` layers are excluded from accessibility/content semantics and may be `aria-hidden`.
+- [ ] Text inside `[decor]` or root `[asset]` visuals is not checked as product content drift, while the root identity is still checked responsively.
+- [ ] Value forms such as `[decor=snow-bg]` or `[asset=promo-poster]` are used only as fallback for poor/default layer names, and the value is English kebab-case.

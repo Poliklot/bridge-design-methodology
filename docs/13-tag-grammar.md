@@ -25,6 +25,13 @@ Use property tags for facts an agent or adapter must read:
 [property=value]
 ```
 
+Use boolean tags for visual-intent/policy flags that do not need a value:
+
+```text
+[decor]
+[asset]
+```
+
 Stable identity inside Figma can be just the layer name:
 
 ```text
@@ -35,6 +42,26 @@ button-group
 ```
 
 The name must be stable English kebab-case.
+
+If a property tag has an identity-like value, the value must be English kebab-case unless the tag explicitly defines another value syntax, such as `[route=/path]`, `[href=https://...]`, or `[action=modal:target-id]`.
+
+Identity values must not contain breakpoint names or widths. The breakpoint already belongs to the page/root frame via `[bp=...]`; child ids describe logical elements, not responsive variants.
+
+Bad:
+
+```text
+Отзывы мобилка [control=button-reviews-box-768]
+Отзывы мобилка [control=button-reviews-box-375]
+```
+
+Good:
+
+```text
+reviews-box [control=button-reviews-box]
+reviews-box [control=button-reviews-box]
+```
+
+For identity-bearing values such as `[control=...]`, `[link=...]`, `[field=...]`, `[modal=...]`, `[state=...]`, `[section=...]`, collection/item ids, and fallback `[decor=...]` / `[asset=...]` values, a suffix matching the current breakpoint, for example `-768`, `-375`, `-mobile`, or `-desktop`, is invalid.
 
 ## Tags designers write
 
@@ -206,19 +233,54 @@ article-cover
 author-avatar
 ```
 
-A decorative visual is marked with `[decor=...]`.
+`[decor]` and `[asset]` are boolean visual-intent/policy tags, not mandatory identity tags. They may appear together and must not be reported as “multiple identity tags”.
+
+A decorative visual is marked with `[decor]`.
+
+`[decor]` means:
+
+- the layer is decorative;
+- it is not product content;
+- it should not enter the accessibility tree and may be `aria-hidden`;
+- it does not require alt/content semantics;
+- it still preserves stable responsive identity and must not disappear between breakpoints.
 
 ```text
-snow-bg [decor=snow-bg]
-hero-glow [decor=hero-glow]
+sneg [decor]
+snow-bg [decor]
+hero-glow [decor]
 ```
 
-A whole exported visual is marked with `[asset=...]`.
+A whole exported visual is marked with `[asset]`.
+
+`[asset]` means:
+
+- export or use the visual as one whole unit;
+- do not rebuild it from internal layers;
+- the root asset still preserves stable responsive identity between breakpoints.
 
 ```text
-promo-poster [asset=promo-poster]
-lab-illustration [asset=lab-illustration]
+promo-poster [asset]
+lab-illustration [asset]
+snow-bg [decor] [asset]
 ```
+
+If the layer already has a stable name, prefer the boolean form:
+
+```text
+sneg [decor] [asset]
+```
+
+The identity is `sneg`. `[decor]` and `[asset]` only add visual intent and transfer policy.
+
+The old value form remains valid only as a fallback for poor/default layer names:
+
+```text
+Frame 182 [decor=snow-bg]
+Group 91 [asset=promo-poster]
+```
+
+If a value is present in `[decor=...]` or `[asset=...]`, validate it as English kebab-case. Boolean `[decor]` and `[asset]` without values are valid.
 
 ### Height and overflow
 
@@ -313,10 +375,10 @@ content [container=content] [layout=stack]
 Invalid for Figma structure: use a `content` frame and Auto Layout in Figma.
 
 ```text
-snow-bg [decor=snow-bg] [abs]
+snow-bg [decor] [abs]
 ```
 
-Invalid: `decor` is intent; positioning comes from Figma. Use `snow-bg [decor=snow-bg]`.
+Invalid: `decor` is intent; positioning comes from Figma. Use `snow-bg [decor]`.
 
 ```text
 FAQ [link=nav-faq] [to=anchor:contacts-faq] [href=/contacts#faq]

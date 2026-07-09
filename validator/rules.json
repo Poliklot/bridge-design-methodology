@@ -1,6 +1,6 @@
 {
   "methodology": "BRIDGE",
-  "version": "0.1.6",
+  "version": "0.1.8",
   "severityLevels": [
     "error",
     "warning",
@@ -17,8 +17,8 @@
       "principle": "Identity",
       "severity": "error",
       "automation": "automatic",
-      "description": "Important transferable elements must have a stable identity: a layer name or a required BRIDGE tag.",
-      "fix": "Use an English kebab-case layer name when Figma metadata provides the type; use a BRIDGE tag only for intent Figma does not know."
+      "description": "Important transferable elements, including decorative and asset roots, must have a stable identity: a stable layer name or an identity-bearing fallback tag value.",
+      "fix": "Use an English kebab-case layer name when Figma metadata provides the type. Boolean `[decor]` and `[asset]` are visual-intent/policy flags and are not enough by themselves to identify a poorly named layer."
     },
     {
       "id": "identity.duplicate-identity",
@@ -37,12 +37,36 @@
       "fix": "Keep the Figma node/component type stable or model a separate entity."
     },
     {
+      "id": "identity.breakpoint-specific-id",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "BRIDGE identity values must describe logical elements, not responsive breakpoints. A resolved layer identity or identity-bearing tag value that ends with the current breakpoint suffix, such as `[control=button-reviews-box-375]` inside a `[bp=375]` root, is invalid.",
+      "fix": "Remove the breakpoint suffix from the child identity and keep the breakpoint only on the root frame: `reviews-box [control=button-reviews-box]` under `[bp=375]` and `[bp=768]`."
+    },
+    {
       "id": "identity.repeated-item-no-index",
       "principle": "Identity",
       "severity": "error",
       "automation": "heuristic",
       "description": "Repeated list/grid items need stable instance identities.",
       "fix": "Use indexed identities such as `feature-card-1`, `feature-card-2`."
+    },
+    {
+      "id": "syntax.decor-asset-value-not-kebab-case",
+      "principle": "Roles",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Boolean `[decor]` and `[asset]` are valid without values. If a fallback value is present in `[decor=...]` or `[asset=...]`, it must be English kebab-case.",
+      "fix": "Prefer a stable layer identity plus boolean flags, for example `sneg [decor] [asset]`. Use value form only for poor/default layer names, for example `Frame 182 [decor=snow-bg]`."
+    },
+    {
+      "id": "identity.decor-asset-flags-not-identities",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "`[decor]` and `[asset]` are visual-intent/policy flags and must not be counted as identity tags or as multiple identities when they appear together.",
+      "fix": "Resolve identity from the stable layer name such as `sneg`; keep `[decor]` and `[asset]` as flags. Use `[decor=...]` or `[asset=...]` only as fallback for poor/default layer names."
     },
     {
       "id": "section.role-prefix-in-name",
@@ -98,7 +122,7 @@
       "severity": "error",
       "automation": "automatic",
       "description": "Every layer must be classifiable from Figma metadata or BRIDGE intent tags.",
-      "fix": "Fix the Figma structure/metadata first; add BRIDGE tags only for product intent such as `[section=...]`, `[link=...]`, `[control=...]`, `[field=...]`, `[decor=...]`, `[asset=...]`, `[modal=...]`, or `[state=...]`."
+      "fix": "Fix the Figma structure/metadata first; add BRIDGE tags only for product or transfer intent such as `[section=...]`, `[link=...]`, `[control=...]`, `[field=...]`, `[decor]`, `[asset]`, `[modal=...]`, or `[state=...]`."
     },
     {
       "id": "layout.positioned-without-intent",
@@ -106,7 +130,7 @@
       "severity": "warning",
       "automation": "automatic",
       "description": "Visually detached or overlapping elements must have clear intent.",
-      "fix": "Use Figma positioning for geometry and add intent only when needed: `[decor=...]`, `[asset=...]`, `[modal=...]`, `[state=...]`, or `[bridge-exception=...] [reason=...]`."
+      "fix": "Use Figma positioning for geometry and add intent only when needed: `[decor]`, `[asset]`, `[modal=...]`, `[state=...]`, or `[bridge-exception=...] [reason=...]`."
     },
     {
       "id": "layout.one-child-wrapper-without-role",
@@ -130,7 +154,7 @@
       "severity": "warning",
       "automation": "heuristic",
       "description": "Overlapping bounds require clear overlay/decor/asset intent or an explicit exception.",
-      "fix": "Declare `[decor=...]`, `[asset=...]`, a target tag, or a BRIDGE exception reason. Positioning comes from Figma metadata."
+      "fix": "Declare `[decor]`, `[asset]`, a target tag, or a BRIDGE exception reason. Positioning comes from Figma metadata."
     },
     {
       "id": "layout.z-index-ambiguous",
@@ -181,12 +205,28 @@
       "fix": "Preserve semantic order or declare an order strategy."
     },
     {
+      "id": "responsive.visual-intent-drift",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "The same responsive identity has different visual-intent/policy tags across breakpoints, for example `sneg [decor] [asset]` on desktop and plain `sneg` on mobile.",
+      "fix": "Keep visual-intent flags stable across breakpoints, or model the difference as an explicit state, variant, target-specific rule, or BRIDGE exception."
+    },
+    {
       "id": "content.text-changed-between-breakpoints",
       "principle": "Identity",
       "severity": "error",
       "automation": "heuristic",
-      "description": "The same text identity has different content across breakpoints.",
-      "fix": "Keep responsive text identical. Model locale, experiment, or product variants outside breakpoint variants."
+      "description": "The same product text identity has different content across breakpoints. Text inside decorative or root asset visuals is excluded from product-content drift checks.",
+      "fix": "Keep responsive product text identical. Model locale, experiment, or product variants outside breakpoint variants. For decorative or root asset visuals, preserve the root identity and visual-intent tags instead of comparing inner text as product content."
+    },
+    {
+      "id": "content.decorative-asset-text-excluded-from-product-drift",
+      "principle": "Dependencies",
+      "severity": "info",
+      "automation": "automatic",
+      "description": "Text inside `[decor]` layers or root `[asset]` visuals is not product content and should not be reported as product-content drift.",
+      "fix": "Skip inner text product-drift comparison for decorative/root asset visuals, but still validate root identity coverage and visual-intent stability across breakpoints."
     },
     {
       "id": "content.manual-line-break-in-dynamic-text",
@@ -365,6 +405,14 @@
       "fix": "Adjust colors or document intentional exception."
     },
     {
+      "id": "accessibility.decorative-layer-exposed",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "A `[decor]` layer should not be exposed as product content in the accessibility tree.",
+      "fix": "Treat the transferred decorative layer as `aria-hidden` or otherwise exclude it from accessibility/content semantics."
+    },
+    {
       "id": "component.page-instance-declares-component-tag",
       "principle": "Dependencies",
       "severity": "warning",
@@ -425,8 +473,8 @@
       "principle": "Breakpoints",
       "severity": "error",
       "automation": "heuristic",
-      "description": "Content changed across breakpoints without a non-responsive variation axis.",
-      "fix": "Keep breakpoint content identical, or model the change with `[view=...]`, `[locale=...]`, `[experiment=...]`, or another explicit axis."
+      "description": "Product content changed across breakpoints without a non-responsive variation axis. Decorative and root asset text is not product content drift.",
+      "fix": "Keep breakpoint product content identical, or model the change with `[view=...]`, `[locale=...]`, `[experiment=...]`, or another explicit axis. Preserve decorative/asset root identities and tags across breakpoints."
     },
     {
       "id": "variation.theme-content-drift",

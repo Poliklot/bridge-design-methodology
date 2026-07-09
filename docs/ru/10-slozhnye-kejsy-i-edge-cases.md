@@ -41,7 +41,7 @@ BRIDGE становится полезным только тогда, когда
 | Связанные элементы лежат free-floating siblings | Responsive перенос не поймёт grouping. | Осмысленная структура в Figma: frames/groups/components, Auto Layout или constraints. | Geometry clustering heuristic. |
 | Wrapper maze | Дерево глубокое, но бессмысленное. | Каждая обёртка имеет реальную структурную причину. | One-child/deep wrappers. |
 | Fixed height клипает реальный контент | Локализация/CMS ломает layout. | Hug/min-height или explicit overflow policy. | Fixed-height text/card checks. |
-| Визуально вынесенный элемент ведёт себя как обычный контент | Он не будет адаптироваться вместе с группой. | Перенести в общую структуру или пометить intent как `[decor=...]`, `[asset=...]`, `[modal=...]` или exception. | Positioning + intent check. |
+| Визуально вынесенный элемент ведёт себя как обычный контент | Он не будет адаптироваться вместе с группой. | Перенести в общую структуру или пометить intent как `[decor]`, `[asset]`, `[modal=...]` или exception. | Positioning + intent check. |
 | Overlap случайный | Z-order отличается между цель environments. | Явный overlay/decor/asset intent или collision reason. | Bounding-box overlap heuristic. |
 | Parent случайно clips child | Декор, tooltip, focus ring или текст обрезаются. | Explicit overflow policy. | Clip + child overflow check. |
 | Negative spacing или конфликтующие constraints | Смысл нельзя воспроизвести детерминированно. | Tokens/gaps или declared exception. | Geometry + layout metadata. |
