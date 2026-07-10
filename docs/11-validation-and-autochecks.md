@@ -63,6 +63,7 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 | Section | `section.redundant-instance-section-tag` | warning | heuristic |
 | Component | `component.ui-kit-used-as-section` | warning | heuristic |
 | Responsive | `responsive.identity-missing-in-required-breakpoint` | error | automatic |
+| Responsive | `responsive.view-missing-required-breakpoint` | error | automatic |
 | Responsive | `responsive.tree-cardinality-changed` | error | automatic |
 | Responsive | `responsive.parent-changed-across-breakpoints` | error | automatic |
 | Responsive | `responsive.visual-intent-drift` | error | automatic |

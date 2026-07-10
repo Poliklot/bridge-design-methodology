@@ -80,6 +80,7 @@ Rules:
 - all views of the same page share `[page=...]` and the same `[route=...]` when the route is known;
 - views may have state-specific content, but responsive breakpoints of the same view must not change content.
 - responsive identity, type, parent, cardinality, and content checks run inside one view only; `view=default` is never compared as a responsive counterpart of `view=empty` or `view=error`.
+- the breakpoint set is shared by the page contract: every declared view needs a root for every required page breakpoint.
 
 ## Bad page-state modeling
 

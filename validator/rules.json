@@ -1,6 +1,6 @@
 {
   "methodology": "BRIDGE",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "severityLevels": [
     "error",
     "warning",
@@ -203,6 +203,14 @@
       "automation": "automatic",
       "description": "Responsive root frames must declare `[bp=...]`.",
       "fix": "Add explicit breakpoint tags to root frames."
+    },
+    {
+      "id": "responsive.view-missing-required-breakpoint",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Every declared page view must have a root for each required breakpoint in that page contract.",
+      "fix": "Add the missing `[page=...] [view=...] [bp=...]` root, or remove the breakpoint/view from the declared page contract when it is not actually required."
     },
     {
       "id": "responsive.identity-missing-in-required-breakpoint",
