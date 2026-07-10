@@ -56,6 +56,7 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 | Identity | `identity.decor-asset-flags-not-identities` | error | automatic |
 | Identity | `identity.multiple-identity-tags` | warning | automatic |
 | Syntax | `syntax.decor-asset-value-not-kebab-case` | error | automatic |
+| Syntax | `syntax.identity-value-not-kebab-case` | warning | automatic |
 | Syntax | `syntax.duplicate-tag` | error | automatic |
 | Syntax | `syntax.figma-metadata-tag-invalid` | error | automatic |
 | Section | `section.component-source-unclassified` | warning | heuristic |

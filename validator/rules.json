@@ -69,6 +69,14 @@
       "fix": "Prefer a stable layer identity plus boolean flags, for example `sneg [decor] [asset]`. Use value form only for poor/default layer names, for example `Frame 182 [decor=snow-bg]`."
     },
     {
+      "id": "syntax.identity-value-not-kebab-case",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Authored identity-like tag values, anchors, and views should use stable English kebab-case so validators and adapters can compare them deterministically.",
+      "fix": "Replace spaces, localized words, uppercase characters, and punctuation with a stable English kebab-case value such as `product-card-1`, `contact-modal`, `faq`, or `not-found`."
+    },
+    {
       "id": "identity.decor-asset-flags-not-identities",
       "principle": "Identity",
       "severity": "error",
