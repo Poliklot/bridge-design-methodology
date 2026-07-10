@@ -17,6 +17,19 @@ Languages: [English](README.md) · [Русский](README.ru.md)
 > **BRIDGE is not a tool and not a platform adapter.**  
 > BRIDGE is the contract that makes a design understandable before anyone tries to implement it.
 
+## Where to start
+
+Do not read the documentation front to back. Choose your task:
+
+| I want to… | Start here | Then use |
+| --- | --- | --- |
+| prepare a design for the first time | **[Designer quick start](docs/00-designer-quick-start.md)** | [BRIDGE by example](examples/README.md) |
+| review a design before handoff | **[Preflight checklist](docs/08-preflight-checklist.md)** | [Common designer mistakes](docs/09-common-designer-mistakes.md) |
+| resolve one specific question | **[Example catalog](examples/README.md)** | [Tag grammar](docs/13-tag-grammar.md) |
+| build a validator or adapter | **[Transfer contract](docs/04-transfer-contract.md)** | [Validation and autochecks](docs/11-validation-and-autochecks.md) |
+
+> **Recommended designer path:** quick start → matching example → checklist. The full specification is reference material, not a prerequisite.
+
 ## The name
 
 **BRIDGE** means that the design is no longer an isolated picture. It becomes a bridge between intention and implementation.
@@ -68,26 +81,36 @@ Designers do not duplicate technical properties by hand. They build proper struc
 
 No accidental free-floating layers. No mystery buttons. No responsive versions that silently change content meaning or rebuild the element tree.
 
-## Start here
+## Full documentation
+
+### Practice
+
+- [Designer quick start](docs/00-designer-quick-start.md)
+- [BRIDGE by example](examples/README.md)
+- [Preflight checklist](docs/08-preflight-checklist.md)
+- [Common designer mistakes](docs/09-common-designer-mistakes.md)
+- [Hard cases and edge cases](docs/10-hard-cases-and-edge-cases.md)
+
+### Core rules
 
 - [Design rules](docs/01-design-rules.md)
 - [Layer naming and identity](docs/02-layer-naming-and-identity.md)
 - [Responsive breakpoints](docs/03-responsive-breakpoints.md)
-- [Transfer contract](docs/04-transfer-contract.md)
 - [Interactions and targets](docs/05-interactions-and-targets.md)
 - [Wrapper policy](docs/06-wrapper-policy.md)
 - [Height and overflow](docs/07-height-and-overflow.md)
-- [Preflight checklist](docs/08-preflight-checklist.md)
-- [Common designer mistakes](docs/09-common-designer-mistakes.md)
-- [Hard cases and edge cases](docs/10-hard-cases-and-edge-cases.md)
-- [Validation and autochecks](docs/11-validation-and-autochecks.md)
-- [Project roadmap](docs/12-project-roadmap.md)
-- [Tag grammar](docs/13-tag-grammar.md)
 - [Components, UI Kit, and Page Sections](docs/14-components-and-ui-kit.md)
 - [Page routing and views](docs/15-page-routing-and-views.md)
+
+### Reference and tooling
+
+- [Tag grammar](docs/13-tag-grammar.md)
+- [Transfer contract](docs/04-transfer-contract.md)
 - [Variation axes](docs/16-variation-axes.md)
-- [Brand system](docs/brand-system.md)
+- [Validation and autochecks](docs/11-validation-and-autochecks.md)
 - [Validator rule catalog](validator/rules.json)
+- [Project roadmap](docs/12-project-roadmap.md)
+- [Brand system](docs/brand-system.md)
 
 ## Tooling
 
@@ -109,7 +132,7 @@ Home Page [page=home] [route=/] [bp=1200] [view=default]
       hero-subtitle
 
     button-group
-      primary-cta [href=/pricing]
+      email-link [href=mailto:sales@example.com]
       contact-cta [action=modal:contact-modal]
 
 Contact Modal [modal=contact-modal]
