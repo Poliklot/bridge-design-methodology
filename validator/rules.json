@@ -1,6 +1,6 @@
 {
   "methodology": "BRIDGE",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "severityLevels": [
     "error",
     "warning",
@@ -53,6 +53,14 @@
       "fix": "Use indexed identities such as `feature-card-1`, `feature-card-2`."
     },
     {
+      "id": "identity.multiple-identity-tags",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "One layer must not declare multiple competing identity tags such as `[section=...]` and `[modal=...]`.",
+      "fix": "Keep the one tag that represents the layer's logical identity. Express behavior and visual intent with non-identity tags such as `[href=...]`, `[action=...]`, `[decor]`, or `[asset]`."
+    },
+    {
       "id": "syntax.decor-asset-value-not-kebab-case",
       "principle": "Roles",
       "severity": "error",
@@ -67,6 +75,22 @@
       "automation": "automatic",
       "description": "`[decor]` and `[asset]` are visual-intent/policy flags and must not be counted as identity tags or as multiple identities when they appear together.",
       "fix": "Resolve identity from the stable layer name such as `sneg`; keep `[decor]` and `[asset]` as flags. Use `[decor=...]` or `[asset=...]` only as fallback for poor/default layer names."
+    },
+    {
+      "id": "syntax.duplicate-tag",
+      "principle": "Roles",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A layer must not repeat the same BRIDGE tag key.",
+      "fix": "Keep one canonical value for the key. If two values describe different concerns, model them with the appropriate distinct tags or split the logical entities."
+    },
+    {
+      "id": "syntax.figma-metadata-tag-invalid",
+      "principle": "Roles",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Tags derived from native Figma metadata, including `[text]`, `[image]`, `[icon]`, `[container]`, `[layout]`, `[abs]`, and `[component]`, must not be authored in layer names.",
+      "fix": "Remove the metadata tag and express the property through the native Figma node type, component source, layout mode, positioning, fills, or export settings."
     },
     {
       "id": "section.role-prefix-in-name",
@@ -309,6 +333,30 @@
       "fix": "Prefer no optional id for ordinary links/buttons: use `[href=...]`, `[link]`, `[action=...]`, or `[control]`. If an id is required, use a breakpoint-neutral kebab-case value."
     },
     {
+      "id": "interaction.href-invalid",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "An `[href=...]` value must be a supported real destination: an internal path, same-page anchor, `http`/`https` URL, `mailto:` URL, or `tel:` URL.",
+      "fix": "Correct the destination syntax. If the destination is not known yet, remove `[href=...]` and use the boolean draft marker `[link]`."
+    },
+    {
+      "id": "interaction.action-invalid",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "An `[action=...]` value must use a supported action grammar: `modal:target-id`, `state:target-id`, `submit:form-id`, `reset:target-id`, or `none`.",
+      "fix": "Correct the action value and use a breakpoint-neutral kebab-case target id. If the action is not known yet, remove `[action=...]` and use the boolean draft marker `[control]`."
+    },
+    {
+      "id": "interaction.control-action-duplicate",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "One control must not declare more than one `[action=...]` value.",
+      "fix": "Keep one canonical action. Model alternative behavior as an explicit state, variant, or separate control."
+    },
+    {
       "id": "interaction.modal-target-missing",
       "principle": "Dependencies",
       "severity": "error",
@@ -323,6 +371,22 @@
       "automation": "automatic",
       "description": "A state action must point to an existing state target.",
       "fix": "Create `[state=target-id]` target or change the action."
+    },
+    {
+      "id": "interaction.form-target-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A submit action must point to an existing form target in the same page contract.",
+      "fix": "Create `[form=target-id]` or change `[action=submit:...]` to the correct form id."
+    },
+    {
+      "id": "interaction.reset-target-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "A reset action should point to an existing state, form, or other declared reset target in the same page contract.",
+      "fix": "Create the declared target or change `[action=reset:...]` to the identity that owns the resettable state."
     },
     {
       "id": "interaction.modal-missing-close",
@@ -459,6 +523,22 @@
       "automation": "automatic",
       "description": "A page root without `[route=...]` or `[route-pattern=...]` is a Draft TODO when the production route is not known yet, not a hard error.",
       "fix": "Do not invent fake routes. Add `[route=/path]` or `[route-pattern=/path/:param]` only when the real production route is known."
+    },
+    {
+      "id": "routing.page-root-required",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Page preflight requires at least one root frame with a stable `[page=...]` identity.",
+      "fix": "Add `[page=page-id]` to every responsive root frame that belongs to the page, then run preflight for that page identity."
+    },
+    {
+      "id": "routing.default-view-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Every page identity should declare a `view=default` root for its normal product state.",
+      "fix": "Add `[view=default]` to the normal page roots, or create the default view before modeling empty, loading, error, or permission-specific views."
     },
     {
       "id": "routing.route-not-production-url",

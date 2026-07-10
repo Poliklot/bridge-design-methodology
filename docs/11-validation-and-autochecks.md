@@ -31,10 +31,10 @@ BRIDGE should become comfortable because a designer can run a preflight check be
 ```text
 extract design tree
   -> normalize names, boolean visual-intent tags, optional tag values, keys, and Figma metadata
-  -> group frames by section and breakpoint
+  -> group roots by page, then by view, then by breakpoint
   -> build identity map and type map
   -> check optional identity-bearing values against current breakpoint names/widths
-  -> compare responsive tree cardinality and parent identities
+  -> compare responsive tree cardinality and parent identities only inside one page/view group
   -> compare visibility, sibling order, and visual-intent flags inside each parent
   -> compare product content across breakpoints, excluding decorative/root asset visuals
   -> classify structure, wrappers, and positioning intent
@@ -54,7 +54,10 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 | Identity | `identity.same-identity-different-type` | error | automatic |
 | Identity | `identity.breakpoint-specific-id` | error | automatic |
 | Identity | `identity.decor-asset-flags-not-identities` | error | automatic |
+| Identity | `identity.multiple-identity-tags` | warning | automatic |
 | Syntax | `syntax.decor-asset-value-not-kebab-case` | error | automatic |
+| Syntax | `syntax.duplicate-tag` | error | automatic |
+| Syntax | `syntax.figma-metadata-tag-invalid` | error | automatic |
 | Section | `section.component-source-unclassified` | warning | heuristic |
 | Section | `section.redundant-instance-section-tag` | warning | heuristic |
 | Component | `component.ui-kit-used-as-section` | warning | heuristic |
@@ -71,9 +74,16 @@ The machine-readable seed lives in [`../validator/rules.json`](../validator/rule
 | Interaction | `interaction.link-without-href` | info | automatic |
 | Interaction | `interaction.control-without-action` | info | automatic |
 | Interaction | `interaction.href-placeholder-invalid` | error | automatic |
+| Interaction | `interaction.href-invalid` | error | automatic |
 | Interaction | `interaction.optional-id-value-invalid` | error | automatic |
+| Interaction | `interaction.action-invalid` | error | automatic |
+| Interaction | `interaction.control-action-duplicate` | error | automatic |
 | Interaction | `interaction.modal-target-missing` | error | automatic |
+| Interaction | `interaction.form-target-missing` | error | automatic |
+| Interaction | `interaction.reset-target-missing` | warning | automatic |
 | Routing | `routing.page-route-missing` | info | automatic |
+| Routing | `routing.page-root-required` | error | automatic |
+| Routing | `routing.default-view-missing` | warning | automatic |
 | Routing | `routing.route-not-production-url` | error | automatic |
 | Height | `height.fixed-height-without-reason` | warning | automatic |
 | Overflow | `overflow.text-clipping-risk` | error | heuristic |
@@ -141,6 +151,7 @@ Use to prove that a target implementation path supports BRIDGE:
 
 - Missing stable identity on important elements.
 - Duplicate identities inside a breakpoint/view scope.
+- Responsive trees compared across different `[view=...]` values. Each view is a separate responsive contract and is compared only across its own breakpoints.
 - Breakpoint-specific optional identity value, for example `[control=button-reviews-box-375]` inside a `[bp=375]` root.
 - Same identity used for different logical types.
 - Stable decorative/asset root identity missing on a required breakpoint.

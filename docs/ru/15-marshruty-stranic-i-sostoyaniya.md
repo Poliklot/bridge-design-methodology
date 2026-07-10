@@ -79,6 +79,7 @@ success
 - dynamic pages и collection pages должны иметь empty, loading и error views, если применимо;
 - все views одной страницы имеют один `[page=...]` и один `[route=...]`, когда route известен;
 - views могут иметь state-specific content, но responsive breakpoints одного view не должны менять content.
+- responsive-проверки identity, type, parent, cardinality и content выполняются только внутри одного view; `view=default` никогда не сравнивается как responsive counterpart с `view=empty` или `view=error`.
 
 ## Плохое моделирование page states
 
