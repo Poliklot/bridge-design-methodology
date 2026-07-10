@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 604 128" role="img" aria-labelledby="title desc">
+  <title id="title">BRIDGE</title>
+  <desc id="desc">BRIDGE logo for light backgrounds.</desc>
+  <rect width="128" height="128" rx="28" fill="#1E1E1E"/>
+  <g>
+    <rect x="28" y="26" width="34" height="20" rx="3" fill="#0D99FF"/>
+    <path d="M68 26h14c11.046 0 20 8.954 20 20H68V26Z" fill="#FFFFFF"/>
+    <rect x="28" y="54" width="34" height="20" rx="3" fill="#FFFFFF"/>
+    <path d="M68 54h14c11.046 0 20 8.954 20 20H68V54Z" fill="#0D99FF"/>
+    <rect x="28" y="82" width="34" height="20" rx="3" fill="#0D99FF"/>
+    <path d="M68 82h14c11.046 0 20 8.954 20 20H68V82Z" fill="#FFFFFF"/>
+  </g>
+  <text x="164" y="84" fill="#1E1E1E" font-family="Inter, Arial, Helvetica, sans-serif" font-size="58" font-weight="700" letter-spacing="5">BRIDGE</text>
+</svg>

@@ -1,4 +1,10 @@
-# BRIDGE
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/bridge-lockup-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/brand/bridge-lockup-light.svg">
+    <img alt="BRIDGE" src="assets/brand/bridge-lockup-light.svg" width="420">
+  </picture>
+</h1>
 
 ## Breakpoints · Roles · Identity · Dependencies · Geometry · Exceptions
 
@@ -36,6 +42,8 @@ Use the name consistently:
 - **BRIDGE Adapter** — a target-specific implementation layer.
 - **BRIDGE Linter** — a future validator for design mistakes.
 - **BRIDGE Exception** — an intentional deviation with an explicit reason.
+
+The visual mark follows the same contract: six stable modules stand for the six BRIDGE principles and form one transferable identity. See the [brand system](docs/brand-system.md) for meaning, colors, clear space, and source assets.
 
 Short formula:
 
@@ -78,11 +86,12 @@ No accidental free-floating layers. No mystery buttons. No responsive versions t
 - [Components, UI Kit, and Page Sections](docs/14-components-and-ui-kit.md)
 - [Page routing and views](docs/15-page-routing-and-views.md)
 - [Variation axes](docs/16-variation-axes.md)
+- [Brand system](docs/brand-system.md)
 - [Validator rule catalog](validator/rules.json)
 
 ## Tooling
 
-BRIDGE Assistant, the Figma helper plugin for this methodology, is maintained in a separate private/local repository:
+BRIDGE Assistant, the Figma helper plugin for this methodology, is maintained in a separate repository:
 
 ```text
 bridge-figma-assistant
