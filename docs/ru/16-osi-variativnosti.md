@@ -1,174 +1,155 @@
 # Оси вариативности
 
-BRIDGE разделяет разные причины вариативности. Это не даёт дизайнерам прятать изменения контента внутри responsive breakpoints.
+BRIDGE разделяет причины, по которым макет может меняться. Это не позволяет скрывать новый текст, состояние или структуру внутри обычного адаптива.
 
 ## Главное правило
 
-> Адаптив — это тот же набор элементов, разложенный под другую ширину. Это не вариант текста и не новая структура.
+> Адаптив — тот же набор логических элементов, разложенный для другой ширины. Это не новая версия текста и не другое состояние продукта.
 
-Если меняется текст, смысл или структура элементов, причина должна быть выражена другой осью: view, locale, theme, experiment, role, data scenario, правило коллекции, вариант компонента или явное исключение.
+Если меняется смысл, содержимое или состав элементов, у изменения должна быть отдельная причина: состояние страницы, язык, тема, эксперимент, роль пользователя, сценарий данных, вариант компонента, правило коллекции или явное исключение.
 
-## Каноничные оси
+## Канонические оси
 
-| Axis | Tag | Может ли меняться content? | Purpose |
+| Ось | Тег | Может ли меняться содержимое | Назначение |
 | --- | --- | --- | --- |
-| Page | `[page=...]` | Нет сама по себе | Logical page identity |
-| Route | `[route=...]` / `[route-pattern=...]` | Нет | Known production URL path/template; omit while draft-unknown |
-| Breakpoint | `[bp=...]` | Нет | Responsive layout |
-| View | `[view=...]` | Да, если state-specific | Data/page state: empty/loading/error |
-| Locale | `[locale=...]` | Да | Translation и locale-specific formatting |
-| Theme | `[theme=...]` | Нет | Visual theme: light/dark |
-| Experiment | `[experiment=...]` | Да, controlled | A/B или product experiment |
-| Role | `[role-view=...]` | Да, controlled | User role или permission view |
-| Data scenario | `[data=...]` | Только sample content | Stress cases: long names, max items |
+| Страница | `[page=...]` | нет | стабильный идентификатор страницы |
+| Маршрут | `[route=...]` / `[route-pattern=...]` | нет | настоящий адрес или шаблон адреса |
+| Контрольная ширина | `[bp=...]` | нет | адаптивная раскладка |
+| Состояние страницы | `[view=...]` | да | обычное, пустое, загружаемое, ошибочное состояние |
+| Язык и регион | `[locale=...]` | да | перевод и региональное форматирование |
+| Тема оформления | `[theme=...]` | нет | светлая, тёмная или другая визуальная тема |
+| Эксперимент | `[experiment=...]` | да, контролируемо | продуктовый эксперимент |
+| Роль пользователя | `[role-view=...]` | да, контролируемо | права и доступные действия |
+| Сценарий данных | `[data=...]` | только тестовые данные | длинный текст, максимум элементов и другие проверки |
 
-## Ось адаптива
-
-Адаптив меняет только раскладку:
+## Контрольная ширина
 
 ```text
-Hero [section=hero] [bp=1200]
-Hero [section=hero] [bp=320]
+Первый экран [section=hero] [bp=1200]
+Первый экран [section=hero] [bp=320]
 ```
 
 Можно менять:
 
 - направление раскладки;
-- отступы;
-- размер шрифта;
-- переносы;
-- порядок элементов внутри одного родителя;
-- видимость, если это намеренно.
+- отступы и размеры;
+- размер шрифта и автоматические переносы;
+- порядок внутри одного родителя;
+- намеренную видимость.
 
-Нельзя менять:
+Нельзя без отдельной причины:
 
 - добавлять или удалять логические элементы;
-- менять вложенность элементов;
-- заменять один ключ отдельной копией только для mobile или desktop;
-- заголовок;
-- сокращённый CTA только для mobile;
-- юридический текст;
-- цену;
-- продуктовый claim.
+- менять вложенность;
+- создавать отдельную мобильную или широкую копию одного элемента;
+- менять заголовок, призыв к действию, цену или юридический текст.
 
-## View axis
+## Состояние страницы
 
-Views описывают state-specific page/data content:
+`[view]` описывает содержимое, связанное с состоянием страницы или данных:
 
 ```text
-Catalog [page=catalog] [route=/catalog] [bp=1200] [view=default]
-Catalog Empty [page=catalog] [route=/catalog] [bp=1200] [view=empty]
-Catalog Error [page=catalog] [route=/catalog] [bp=1200] [view=error]
+Каталог [page=catalog] [route=/catalog] [bp=1200] [view=default]
+Пустой каталог [page=catalog] [route=/catalog] [bp=1200] [view=empty]
+Ошибка каталога [page=catalog] [route=/catalog] [bp=1200] [view=error]
 ```
 
-`view=empty` может иметь другой content относительно `view=default`, потому что состояние страницы другое.
+`view=empty` может отличаться от `view=default`, потому что это разные состояния одной страницы. Адаптивы внутри каждого состояния по-прежнему должны быть согласованы между собой.
 
-## Locale axis
-
-Locale намеренно меняет текст и formatting:
+## Язык и регион
 
 ```text
-Contacts [page=contacts] [route=/contacts] [bp=1200] [locale=en-US]
-Contacts [page=contacts] [route=/contacts] [bp=1200] [locale=ru-RU]
+Контакты [page=contacts] [route=/contacts] [bp=1200] [locale=en-US]
+Контакты [page=contacts] [route=/contacts] [bp=1200] [locale=ru-RU]
 ```
 
-Правила:
+- языковые варианты не смешиваются с адаптивами;
+- раскладка проверяется на длинном переводе;
+- `[locale]` нельзя использовать как способ спрятать сокращённый мобильный текст.
 
-- locale variants не должны смешиваться с breakpoint variants;
-- layout нужно проверять на длинном localized text;
-- locale не является обходом для mobile copy drift.
+## Тема оформления
 
-## Theme axis
-
-Theme меняет visual tokens, а не content:
+Тема меняет визуальные токены, но не продуктовый текст:
 
 ```text
-Dashboard [page=dashboard] [route=/dashboard] [bp=1200] [theme=light]
-Dashboard [page=dashboard] [route=/dashboard] [bp=1200] [theme=dark]
+Панель управления [page=dashboard] [route=/dashboard] [bp=1200] [theme=light]
+Панель управления [page=dashboard] [route=/dashboard] [bp=1200] [theme=dark]
 ```
 
-Text content должен оставаться одинаковым между themes.
+## Эксперимент
 
-## Experiment axis
-
-Experiment variants могут менять content, но только если явно объявлены:
+Варианты эксперимента могут менять содержимое только при явном объявлении:
 
 ```text
-Pricing [page=pricing] [route=/pricing] [bp=1200] [experiment=cta-a]
-Pricing [page=pricing] [route=/pricing] [bp=1200] [experiment=cta-b]
+Тарифы [page=pricing] [route=/pricing] [bp=1200] [experiment=cta-a]
+Тарифы [page=pricing] [route=/pricing] [bp=1200] [experiment=cta-b]
 ```
 
-Правила:
+Название эксперимента должно быть согласовано с продуктом, аналитикой и реализацией.
 
-- experiments не должны маскироваться под responsive breakpoints;
-- experiment names должны быть product-approved;
-- analytics и implementation должны знать experiment axis.
+## Роль пользователя
 
-## Role axis
-
-Role или permission views могут менять content и доступные actions:
+Роль может менять доступное содержимое и действия:
 
 ```text
-Dashboard [page=dashboard] [route=/dashboard] [bp=1200] [role-view=guest]
-Dashboard [page=dashboard] [route=/dashboard] [bp=1200] [role-view=admin]
+Панель [page=dashboard] [route=/dashboard] [bp=1200] [role-view=guest]
+Панель [page=dashboard] [route=/dashboard] [bp=1200] [role-view=admin]
 ```
 
-Используй это для authenticated/unauthenticated, admin/user, owner/viewer или permission-specific UI.
+Ось подходит для гостя и авторизованного пользователя, администратора и обычного пользователя, владельца и наблюдателя.
 
-## Data scenario axis
+## Сценарий данных
 
-Data scenarios — это design QA fixtures, а не production content variants:
+Сценарии данных нужны для проверки макета, а не для описания разных рабочих версий содержимого:
 
 ```text
-Product Card [card=product-card] [data=short]
-Product Card [card=product-card] [data=long]
-Product Grid [collection=products] [data=max-items]
+Карточка товара [card=product-card] [data=short]
+Карточка товара [card=product-card] [data=long]
+Сетка товаров [collection=products] [data=max-items]
 ```
 
-Используй data scenarios, чтобы тестировать overflow, long names, empty images, max item count и localization stress.
+Используйте их для длинных имён, отсутствующих картинок, максимального количества элементов и проверки локализации.
 
-## Axis composition
+## Сочетание осей
 
-Полный context может сочетать оси:
+Один контекст может сочетать несколько причин вариативности:
 
 ```text
-Catalog [page=catalog] [route=/catalog] [bp=320] [view=empty] [locale=ru-RU] [theme=dark]
+Каталог [page=catalog] [route=/catalog] [bp=320] [view=empty] [locale=ru-RU] [theme=dark]
 ```
 
-Но у каждой оси должна быть одна причина. Нельзя использовать одну ось, чтобы спрятать другой вид вариативности.
+Каждая ось должна отвечать только за свою причину изменения.
 
-## Невалидные примеры
+## Недопустимые примеры
 
-Mobile copy drift:
+Текст меняется только на мобильном:
 
 ```text
-// desktop
+// широкий адаптив
 hero-title = "Launch your store in one day"
 
-// mobile
+// мобильный адаптив
 hero-title = "Launch faster"
 ```
 
-Fake locale как responsive workaround:
+Вымышленный язык используется ради короткой строки:
 
 ```text
-Hero [section=hero] [bp=320] [locale=mobile-short]
+Первый экран [section=hero] [bp=320] [locale=mobile-short]
 ```
 
-Theme меняет content:
+Тема меняет содержимое:
 
 ```text
-Dashboard [theme=light] = "Welcome back"
-Dashboard [theme=dark] = "Good evening"
+Панель [theme=light] = "Welcome back"
+Панель [theme=dark] = "Good evening"
 ```
 
-## Validator rules
+## Что проверяет валидатор
 
-BRIDGE validator должен репортить:
-
-- text content changes across breakpoints of the same context;
-- text content changes across themes;
-- locale changes mixed into breakpoint-only frames;
-- experiment variants without explicit experiment axis;
-- view-specific content modeled as separate pages/routes;
-- data stress examples used as production content variants.
+- текст меняется между адаптивами одного контекста;
+- текст меняется между темами;
+- язык смешан с фреймами, отличающимися только шириной;
+- эксперимент не объявлен отдельной осью;
+- состояние оформлено отдельной страницей или маршрутом;
+- тестовый сценарий данных используется как рабочий вариант содержимого.

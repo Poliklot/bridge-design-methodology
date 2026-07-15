@@ -1,145 +1,111 @@
-# Roadmap проекта
+# План развития проекта
 
-Этот roadmap превращает BRIDGE из набора документов в твёрдую методологию с чеклистами, примерами, схемами и автопроверками.
+BRIDGE должен развиваться от методологии к проверяемому открытому контракту. Каждый этап ниже имеет наблюдаемый результат, а не только список намерений.
 
-## Определение твёрдой методологии
+## Когда методологию можно считать устойчивой
 
-BRIDGE становится твёрдым, когда:
+Устойчивая версия BRIDGE должна:
 
-- дизайнер понимает, что исправить, не читая всю документацию;
-- reviewer может стабильно approve/reject handoff;
-- adapters получают один явный contract;
-- validator ловит большинство структурных ошибок;
-- сложные кейсы решаются named exceptions, а не устными договорённостями.
+- использовать один словарь во всех документах;
+- однозначно разделять метаданные Figma и BRIDGE-теги;
+- описывать страницы, адаптивы, состояния, компоненты и исключения;
+- содержать примеры и антипримеры для основных правил;
+- иметь машиночитаемый каталог проверок;
+- позволять адаптеру явно заявить поддерживаемые возможности;
+- поддерживать английскую и русскую документацию без смысловых расхождений.
 
-## Phase 1 — Vocabulary and strict contract
+## Этап 1 — Единый словарь и строгий контракт
 
-Цель: сделать core concepts однозначными.
+Цель — убрать двусмысленность из основных понятий.
 
-Задачи:
+- Зафиксировать терминологию BRIDGE.
+- Определить канонический синтаксис тегов.
+- Разделить обязательные теги, необязательные идентификаторы и признаки назначения.
+- Описать область уникальности ключей.
+- Определить, что считается блокирующей ошибкой.
 
-- [ ] Описать canonical tag grammar: stable identities, метаданные Figma ownership, `[bp=...]`, `[href=...]`, `[action=...]`, `[height=...]`, `[overflow=...]`, `[bridge-exception=...]`.
-- [ ] Описать allowed element types: text, button, link, input, image, icon, asset, decor, modal, state, section, collection.
-- [ ] Разделить strict и flexible content classes: legal, price, CTA, marketing copy, decorative text.
-- [ ] Описать exception grammar и обязательный `reason`.
-- [ ] Добавить formal JSON schema для BRIDGE Contract.
+**Результат:** два независимых исполнителя одинаково понимают один и тот же макет.
 
-Deliverables:
+## Этап 2 — Усиление чеклистов
 
-- `docs/13-tag-grammar.md`
-- `schema/bridge-contract.schema.json`
-- examples for valid/invalid tags
+Цель — превратить правила в повторяемый процесс передачи.
 
-## Phase 2 — Усиление чеклистов
+- Короткий чеклист для дизайнера.
+- Полная проверка для ревьюера.
+- Проверка возможностей адаптера.
+- Явные уровни серьёзности и способы проверки.
+- Ссылки от каждого пункта к правилу и способу исправления.
 
-Цель: сделать preflight практичным для дизайнеров и reviewers.
+**Результат:** макет можно проверить без участия автора методологии.
 
-Задачи:
+## Этап 3 — Примеры и антипримеры
 
-- [ ] Разделить checklist на quick, strict и adapter-certification modes.
-- [ ] Добавить severity labels к пунктам чеклиста.
-- [ ] Добавить “how to fix” hints для каждого blocker.
-- [ ] Добавить printable one-page checklist.
-- [ ] Добавить score model: BRIDGE-ready / needs review / blocked.
+Цель — показать правила на реальных структурах.
 
-Deliverables:
+- Адаптивы одной страницы.
+- Секции из `Page Sections` и обычных фреймов.
+- Ссылки, действия, модальные окна и формы.
+- Динамический текст, коллекции и локализация.
+- Декор, экспортируемые ресурсы и исключения.
+- Пограничные случаи и исправления.
 
-- improved `docs/08-preflight-checklist.md`
-- improved `docs/ru/08-preflight-checklist.md`
-- `checklists/bridge-preflight.md`
+**Результат:** дизайнер сначала находит похожий пример и только затем обращается к полной спецификации.
 
-## Phase 3 — Examples and anti-examples
+## Этап 4 — Первая версия валидатора
 
-Цель: учить через контраст.
+Цель — автоматически находить однозначные ошибки.
 
-Задачи:
+- Разбор тегов.
+- Проверка уникальности и стабильности идентификаторов.
+- Сравнение состава и родителей между адаптивами.
+- Проверка действий и существования целей.
+- Поиск фиксированной высоты текста и ручных переносов.
+- Формирование отчёта по `validator/rules.json`.
 
-- [ ] Добавить bad/good examples для wrappers, actions, modals, fixed heights, responsive copy, collections, forms и states.
-- [ ] Добавить before/after layer trees.
-- [ ] Добавить expected validator report для каждого bad example.
-- [ ] Добавить минимальные “BRIDGE-ready component” examples.
+**Результат:** валидатор выдаёт воспроизводимый отчёт с идентификаторами правил.
 
-Deliverables:
+## Этап 5 — Извлечение данных из Figma
 
-- `examples/good/`
-- `examples/bad/`
-- `examples/reports/`
+Цель — получать техническую правду напрямую из файла.
 
-## Phase 4 — Validator MVP
+- Типы и иерархия слоёв.
+- Auto Layout, ограничения, геометрия и видимость.
+- Исходные компоненты, варианты и переопределения.
+- Текст и форматирование.
+- Настройки экспорта.
 
-Цель: сделать методологию проверяемой.
+**Результат:** дизайнер не дублирует технические свойства в названиях слоёв.
 
-Задачи:
+## Этап 6 — Профили возможностей адаптеров
 
-- [ ] Расширить `validator/rules.json` до stable rule catalog.
-- [ ] Описать input format для extracted design trees.
-- [ ] Собрать CLI, который валидирует JSON exports.
-- [ ] Генерировать human-readable Markdown reports.
-- [ ] Сделать rule severity configurable.
+Цель — отделить универсальный контракт от ограничений конкретной среды.
 
-Deliverables:
+Каждый адаптер публикует:
 
-- `validator/rules.json`
-- `validator/input.schema.json`
-- `validator/report.schema.json`
-- CLI prototype
+- поддерживаемые теги и действия;
+- правила преобразования адаптивов;
+- поддержку тем, состояний и сложных визуальных функций;
+- запасное поведение;
+- список функций, требующих ручной реализации.
 
-## Phase 5 — Figma extraction path
+**Результат:** предупреждение о несовместимости не ошибочно объявляется нарушением BRIDGE.
 
-Цель: валидировать реальные Figma files.
+## Этап 7 — Участие сообщества и управление проектом
 
-Задачи:
+Цель — сделать развитие методологии прозрачным.
 
-- [ ] Описать, какие данные надо извлекать из Figma nodes.
-- [ ] Смэппить Figma Auto Layout, constraints, variables, components, variants и hidden layers в BRIDGE concepts.
-- [ ] Детектить component overrides.
-- [ ] Детектить hidden source-of-truth layers.
-- [ ] Генерировать BRIDGE Contract JSON из выбранной page/frame.
+- Шаблоны предложений и сообщений об ошибках.
+- Правила изменения грамматики.
+- Версионирование контракта и каталога проверок.
+- История несовместимых изменений.
+- Требования к английской и русской версиям.
 
-Deliverables:
+**Результат:** изменения обсуждаются, проверяются и выпускаются предсказуемо.
 
-- `extractors/figma/README.md`
-- extraction data model
-- Figma plugin or script prototype
+## Ближайшие задачи
 
-## Phase 6 — Adapter capability profiles
-
-Цель: предотвратить цель-specific surprises, не привязывая BRIDGE к одному цель.
-
-Задачи:
-
-- [ ] Описать adapter capability profile format.
-- [ ] Дать adapters возможность объявлять supported actions, layout modes, media, effects и fallback behavior.
-- [ ] Валидировать design против выбранного adapter profile.
-- [ ] Показывать unsupported effects до начала implementation.
-
-Deliverables:
-
-- `adapters/profile.schema.json`
-- sample generic HTML/CSS profile
-- sample strict no-code profile
-
-## Phase 7 — Contribution and governance
-
-Цель: сделать методологию maintainable.
-
-Задачи:
-
-- [ ] Добавить contribution rules для новых checks и docs.
-- [ ] Добавить naming/versioning policy для rules.
-- [ ] Добавить changelog.
-- [ ] Добавить decision records для спорных правил.
-
-Deliverables:
-
-- `CONTRIBUTING.md`
-- `CHANGELOG.md`
-- `decisions/`
-
-## Следующий логичный commit после этого roadmap
-
-Реализовать Phase 1 foundations:
-
-```text
-docs: define BRIDGE tag grammar and contract schema
-```
+1. Завершить редактуру русской документации и закрепить словарь.
+2. Опубликовать двуязычный сайт с быстрым стартом, примерами и поиском.
+3. Превратить короткий чеклист в интерактивную проверку.
+4. Добавить автоматическую проверку качества документации.
+5. Связать каталог правил с интерфейсом сайта и будущим валидатором.
