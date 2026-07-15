@@ -65,6 +65,7 @@ html {
 
 body {
   font-variant-numeric: lining-nums;
+  overscroll-behavior-y: contain;
   text-rendering: optimizeLegibility;
 }
 
@@ -74,6 +75,7 @@ input,
 select,
 summary {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 a:focus-visible,
@@ -170,6 +172,10 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   color: var(--sl-color-text);
 }
 
+.bridge-mobile-utils {
+  display: none;
+}
+
 .content-panel:has(.bridge-home),
 .content-panel:has(.preflight),
 .content-panel:has(.rules-explorer) {
@@ -183,9 +189,9 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-home {
-  width: min(100%, 90rem);
+  width: min(100%, 82rem);
   margin-inline: auto;
-  padding-inline: clamp(1rem, 4vw, 4rem);
+  padding-inline: clamp(1rem, 4vw, 3rem);
 }
 
 .bridge-eyebrow {
@@ -216,27 +222,27 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 .bridge-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(24rem, 0.92fr);
-  gap: clamp(2rem, 6vw, 6.5rem);
+  gap: clamp(2rem, 5vw, 4.5rem);
   align-items: center;
-  min-height: min(52rem, calc(100vh - var(--sl-nav-height)));
-  padding-block: clamp(4rem, 9vw, 8rem);
+  min-height: min(46rem, calc(100svh - var(--sl-nav-height)));
+  padding-block: clamp(3rem, 6vw, 5rem);
 }
 
 .bridge-hero h1 {
-  max-width: 12ch;
+  max-width: 11ch;
   margin: 0;
   color: var(--sl-color-white);
-  font-size: clamp(3rem, 6.8vw, 6.65rem);
+  font-size: clamp(3rem, 5vw, 4.75rem);
   font-weight: 690;
-  letter-spacing: -0.065em;
-  line-height: 0.94;
+  letter-spacing: -0.055em;
+  line-height: 0.96;
 }
 
 .bridge-lead {
   max-width: 42rem;
-  margin: 2rem 0 0;
+  margin: 1.5rem 0 0;
   color: var(--bridge-muted);
-  font-size: clamp(1.08rem, 1.6vw, 1.32rem);
+  font-size: clamp(1.02rem, 1.4vw, 1.18rem);
   line-height: 1.6;
 }
 
@@ -244,7 +250,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 
 .bridge-button {
@@ -285,23 +291,11 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   color: var(--sl-color-white);
 }
 
-.bridge-button-light {
-  border-color: #ffffff;
-  background: #ffffff;
-  color: #111416;
-}
-
-.bridge-button-light:hover {
-  border-color: #84ceff;
-  background: #eaf6ff;
-  color: #111416;
-}
-
 .bridge-promises {
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem 1.25rem;
-  margin: 1.4rem 0 0;
+  margin: 1.1rem 0 0;
   padding: 0;
   color: var(--bridge-muted);
   font-family: var(--sl-font-mono);
@@ -327,9 +321,9 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   position: relative;
   overflow: hidden;
   border: 1px solid #3a4145;
-  border-radius: 1.15rem;
+  border-radius: 0.75rem;
   background: #171a1c;
-  box-shadow: 0 1.8rem 4rem rgb(0 0 0 / 18%);
+  box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 14%);
   color: #dce4e9;
 }
 
@@ -401,7 +395,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-tree pre {
-  min-height: 21rem;
+  min-height: 17rem;
   margin: 0;
   padding: 1rem;
   border: 1px solid #30373b;
@@ -433,7 +427,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-tree > p:last-child {
-  min-height: 2.5rem;
+  min-height: 0;
   margin: 0.85rem 0 0;
   color: #9aa7af;
   font-size: 0.78rem;
@@ -478,7 +472,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-section {
-  padding-block: clamp(5rem, 10vw, 9rem);
+  padding-block: clamp(3.75rem, 7vw, 6rem);
   border-top: 1px solid var(--bridge-line);
 }
 
@@ -487,7 +481,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   max-width: 18ch;
   margin: 0;
   color: var(--sl-color-white);
-  font-size: clamp(2.25rem, 5vw, 4.6rem);
+  font-size: clamp(2.15rem, 4vw, 3.65rem);
   font-weight: 680;
   letter-spacing: -0.055em;
   line-height: 1;
@@ -496,16 +490,16 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 .bridge-paths {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
   border-block: 1px solid var(--bridge-line);
 }
 
 .bridge-path {
   display: flex;
-  min-height: 22rem;
+  min-height: 12.5rem;
   flex-direction: column;
   border-inline-end: 1px solid var(--bridge-line);
-  padding: clamp(1.35rem, 3vw, 2.25rem);
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
   color: inherit;
   text-decoration: none;
   transition: background-color 180ms ease, color 180ms ease;
@@ -520,21 +514,15 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   color: inherit;
 }
 
-.bridge-path-index {
-  color: var(--bridge-blue-deep);
-  font-family: var(--sl-font-mono);
-  font-size: 0.72rem;
-}
-
 .bridge-path h3 {
-  margin: auto 0 0;
+  margin: 0;
   color: var(--sl-color-white);
   font-size: clamp(1.55rem, 2.4vw, 2.2rem);
   letter-spacing: -0.035em;
 }
 
 .bridge-path p {
-  min-height: 3.2rem;
+  min-height: 0;
   margin: 0.8rem 0 0;
   color: var(--bridge-muted);
   font-size: 0.94rem;
@@ -542,7 +530,8 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-path-action {
-  margin-top: 1.8rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
   color: var(--bridge-blue-deep);
   font-size: 0.82rem;
   font-weight: 650;
@@ -551,7 +540,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 .bridge-method {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(24rem, 1.15fr);
-  gap: clamp(3rem, 8vw, 8rem);
+  gap: clamp(2.5rem, 6vw, 5rem);
 }
 
 .bridge-method ol {
@@ -590,13 +579,13 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 .bridge-principles {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
   border-top: 1px solid var(--bridge-line);
   border-inline-start: 1px solid var(--bridge-line);
 }
 
 .bridge-principles article {
-  min-height: 15rem;
+  min-height: 11.5rem;
   border-inline-end: 1px solid var(--bridge-line);
   border-bottom: 1px solid var(--bridge-line);
   padding: clamp(1.35rem, 3vw, 2rem);
@@ -615,7 +604,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-principles h3 {
-  margin: 3rem 0 0;
+  margin: 2rem 0 0;
   color: var(--sl-color-white);
   font-size: 1.25rem;
 }
@@ -632,18 +621,19 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   gap: 2rem;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: clamp(1rem, 4vw, 4rem);
-  border-radius: 1rem;
-  background: var(--bridge-ink);
-  padding: clamp(2rem, 6vw, 5rem);
-  color: #ffffff;
+  margin-bottom: clamp(1rem, 4vw, 3rem);
+  border-block: 1px solid var(--bridge-line);
+  border-radius: 0;
+  background: transparent;
+  padding: clamp(3rem, 6vw, 4.5rem) 0;
+  color: var(--sl-color-text);
 }
 
 .bridge-final h2 {
   max-width: 14ch;
   margin: 0;
-  color: #ffffff;
-  font-size: clamp(2.2rem, 4.8vw, 4.5rem);
+  color: var(--sl-color-white);
+  font-size: clamp(2.1rem, 4vw, 3.65rem);
   font-weight: 680;
   letter-spacing: -0.055em;
   line-height: 0.98;
@@ -652,15 +642,15 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 .bridge-final p {
   max-width: 42rem;
   margin: 1.3rem 0 0;
-  color: #aeb9c0;
+  color: var(--bridge-muted);
   line-height: 1.6;
 }
 
 .preflight,
 .rules-explorer {
-  width: min(calc(100% - 2rem), 76rem);
+  width: min(calc(100% - 2rem), 70rem);
   margin-inline: auto;
-  padding-block: clamp(3rem, 7vw, 7rem);
+  padding-block: clamp(3rem, 6vw, 5rem);
 }
 
 .preflight-intro {
@@ -672,10 +662,10 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 
 .preflight-intro h1,
 .rules-explorer > header h1 {
-  max-width: 13ch;
+  max-width: 15ch;
   margin: 0;
   color: var(--sl-color-white);
-  font-size: clamp(2.7rem, 6vw, 5.8rem);
+  font-size: clamp(2.5rem, 5vw, 4.75rem);
   font-weight: 690;
   letter-spacing: -0.06em;
   line-height: 0.96;
@@ -713,7 +703,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 .preflight-progress {
   overflow: hidden;
   height: 0.4rem;
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
   border-radius: 1rem;
   background: var(--bridge-line);
 }
@@ -729,20 +719,21 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 .preflight-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
   border-top: 1px solid var(--bridge-line);
   border-inline-start: 1px solid var(--bridge-line);
 }
 
 .preflight-item {
+  position: relative;
   display: grid;
-  grid-template-columns: 1.7rem 1.65rem 1fr;
-  gap: 0.8rem;
-  min-height: 8.5rem;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.9rem;
+  min-height: 7rem;
   align-items: start;
   border-inline-end: 1px solid var(--bridge-line);
   border-bottom: 1px solid var(--bridge-line);
-  padding: 1.4rem;
+  padding: 1.15rem;
   cursor: pointer;
   transition: background-color 160ms ease;
 }
@@ -752,14 +743,19 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   background: var(--bridge-sky);
 }
 
+.preflight-item:has(input:focus-visible) {
+  outline: 3px solid color-mix(in srgb, var(--bridge-blue) 55%, transparent);
+  outline-offset: -3px;
+}
+
 .preflight-item.is-done {
   background: color-mix(in srgb, var(--bridge-success) 8%, transparent);
 }
 
 .preflight-item input {
+  position: absolute;
   width: 1.2rem;
   height: 1.2rem;
-  margin: 0.14rem 0 0;
   opacity: 0;
 }
 
@@ -770,7 +766,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   place-items: center;
   border: 1.5px solid var(--bridge-muted);
   border-radius: 0.35rem;
-  margin-inline-start: -2.5rem;
+  margin: 0.05rem 0 0;
   background: var(--bridge-paper);
 }
 
@@ -838,7 +834,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .rules-explorer > header {
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
   border-bottom: 1px solid var(--bridge-line);
 }
 
@@ -850,11 +846,11 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   grid-template-columns: minmax(15rem, 1fr) 13rem 13rem;
   gap: 0.7rem;
   margin-top: 1.5rem;
-  border: 1px solid var(--bridge-line);
-  border-radius: 0.7rem;
-  background: color-mix(in srgb, var(--bridge-paper) 94%, transparent);
-  padding: 0.7rem;
-  backdrop-filter: blur(16px);
+  border: 0;
+  border-bottom: 1px solid var(--bridge-line);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--bridge-paper) 97%, transparent);
+  padding: 0 0 1rem;
 }
 
 .rules-controls label > span:not(.sr-only) {
@@ -869,7 +865,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 .rules-controls input,
 .rules-controls select {
   width: 100%;
-  min-height: 2.7rem;
+  min-height: 2.85rem;
   border: 1px solid var(--bridge-line);
   border-radius: 0.45rem;
   background: var(--bridge-paper);
@@ -892,13 +888,13 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 
 .rule-card {
   position: relative;
-  padding: 1.6rem 0 1.7rem 1.35rem;
+  padding: 1.35rem 0 1.4rem 1.2rem;
   border-bottom: 1px solid var(--bridge-line);
 }
 
 .rule-card::before {
   position: absolute;
-  inset: 1.75rem auto auto 0;
+  inset: 1.55rem auto auto 0;
   width: 0.35rem;
   height: 0.35rem;
   border-radius: 50%;
@@ -926,6 +922,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .rule-card code {
+  overflow-wrap: anywhere;
   color: var(--bridge-muted);
   font-family: var(--sl-font-mono);
   font-size: 0.68rem;
@@ -997,6 +994,16 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   text-align: center;
 }
 
+.rules-more {
+  display: flex;
+  justify-content: center;
+  padding-top: 1.5rem;
+}
+
+.rules-more:has(button[hidden]) {
+  display: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1015,19 +1022,6 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 @media (max-width: 68rem) {
-  .bridge-hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-
-  .bridge-hero h1 {
-    max-width: 13ch;
-  }
-
-  .bridge-inspector {
-    width: min(100%, 40rem);
-  }
-
   .bridge-method {
     grid-template-columns: 1fr;
   }
@@ -1041,17 +1035,127 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   }
 }
 
+@media (max-width: 60rem) {
+  .bridge-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .bridge-hero h1 {
+    max-width: 13ch;
+  }
+
+  .bridge-inspector {
+    width: min(100%, 40rem);
+  }
+}
+
 @media (max-width: 50rem) {
+  .bridge-mobile-utils {
+    display: flex;
+    width: min(calc(100% - 2rem), 70rem);
+    min-height: 2.75rem;
+    gap: 0.25rem;
+    justify-content: flex-end;
+    align-items: center;
+    margin-inline: auto;
+    border-bottom: 1px solid var(--bridge-line);
+  }
+
+  .bridge-home > .bridge-mobile-utils {
+    width: 100%;
+  }
+
+  .bridge-mobile-utils a,
+  .bridge-mobile-utils button {
+    display: inline-flex;
+    min-height: 2.75rem;
+    gap: 0.35rem;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    padding: 0 0.55rem;
+    color: var(--bridge-muted);
+    font: inherit;
+    font-size: 0.76rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .bridge-mobile-utils a:hover,
+  .bridge-mobile-utils button:hover {
+    color: var(--sl-color-white);
+  }
+
+  .bridge-mobile-utils svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+  }
+
+  .bridge-mobile-utils svg path {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .sl-markdown-content {
+    font-size: 1rem;
+    line-height: 1.68;
+  }
+
+  .sl-markdown-content h2 {
+    margin-top: 2.75rem;
+  }
+
+  .sl-markdown-content h2,
+  .sl-markdown-content h3,
+  [id^='bridge-'],
+  .bridge-section > h2 {
+    scroll-margin-top: calc(var(--sl-nav-height) + 4rem);
+  }
+
+  site-search button[data-open-modal],
+  starlight-menu-button button {
+    width: 2.75rem !important;
+    min-width: 2.75rem;
+    height: 2.75rem !important;
+    border-radius: 0.45rem !important;
+    box-shadow: none !important;
+  }
+
+  #starlight__mobile-toc summary {
+    min-height: 2.75rem;
+  }
+
+  #starlight__mobile-toc summary .toggle {
+    border: 0;
+    background: transparent;
+    padding-inline: 0;
+  }
+
   .bridge-home {
     padding-inline: 1rem;
   }
 
   .bridge-hero {
-    padding-block: 3.5rem 5rem;
+    gap: 2.5rem;
+    padding-block: 2rem 3.75rem;
   }
 
   .bridge-hero h1 {
-    font-size: clamp(2.75rem, 13vw, 4.8rem);
+    max-width: 12ch;
+    font-size: clamp(2.55rem, 11.5vw, 3.5rem);
+    letter-spacing: -0.05em;
+  }
+
+  .bridge-lead {
+    margin-top: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .bridge-actions {
+    margin-top: 1.25rem;
   }
 
   .bridge-paths,
@@ -1061,13 +1165,14 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   }
 
   .bridge-paths {
-    border-inline: 1px solid var(--bridge-line);
+    border-inline: 0;
   }
 
   .bridge-path {
-    min-height: 16rem;
+    min-height: 9.5rem;
     border-inline-end: 0;
     border-bottom: 1px solid var(--bridge-line);
+    padding: 1.3rem 0;
   }
 
   .bridge-path:last-child {
@@ -1075,16 +1180,28 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   }
 
   .bridge-principles {
-    border-inline: 1px solid var(--bridge-line);
+    border-inline: 0;
   }
 
   .bridge-principles article {
-    min-height: 12rem;
+    display: grid;
+    min-height: 0;
+    grid-template-columns: 2.4rem 1fr;
+    column-gap: 1rem;
     border-inline-end: 0;
+    padding: 1.15rem 0;
+  }
+
+  .bridge-principles article > span {
+    grid-row: 1 / 3;
   }
 
   .bridge-principles h3 {
-    margin-top: 2rem;
+    margin: 0;
+  }
+
+  .bridge-principles p {
+    margin-top: 0.35rem;
   }
 
   .bridge-final,
@@ -1102,16 +1219,25 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   }
 
   .preflight-intro {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    display: block;
   }
 
   .preflight-score {
+    display: flex;
+    gap: 0.6rem;
+    align-items: baseline;
+    margin-top: 1.2rem;
+    padding: 0;
     text-align: start;
   }
 
+  .preflight-score strong {
+    font-size: 2rem;
+  }
+
   .preflight-item {
-    min-height: 7.5rem;
+    min-height: 0;
+    padding: 1.05rem 0.9rem;
   }
 
   .preflight-actions > div {
@@ -1125,6 +1251,14 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   .rule-badges {
     justify-content: flex-start;
   }
+
+  .rule-card-head {
+    gap: 0.9rem;
+  }
+
+  .rule-card h2 {
+    margin: 0.35rem 0 0;
+  }
 }
 
 @media (max-width: 36rem) {
@@ -1135,13 +1269,31 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   }
 
   .bridge-inspector-head {
-    align-items: flex-start;
-    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    flex-direction: row;
+    padding: 0.7rem 0.75rem 0.7rem 1rem;
+  }
+
+  .bridge-inspector-head p {
+    max-width: 9rem;
+    line-height: 1.35;
+  }
+
+  .bridge-inspector-tabs button {
+    min-height: 2.75rem;
+    padding-inline: 0.5rem;
   }
 
   .bridge-tree pre {
-    min-height: 19rem;
-    font-size: 0.62rem;
+    min-height: 16rem;
+    padding: 0.8rem;
+    font-size: 0.66rem;
+    line-height: 1.65;
+  }
+
+  .bridge-tree {
+    padding: 1rem;
   }
 
   .bridge-module-rail span {
@@ -1155,6 +1307,10 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 
   .rules-search {
     grid-column: auto;
+  }
+
+  .rules-more .bridge-button {
+    width: 100%;
   }
 }
 

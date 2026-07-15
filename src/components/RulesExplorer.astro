@@ -1,4 +1,5 @@
 ---
+import MobileUtilityNav from './MobileUtilityNav.astro';
 import catalog from '../../validator/rules.json';
 
 interface Props {
@@ -113,19 +114,34 @@ const humanize = (id: string) => {
   return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
+const russianSearchAliases = (id: string) => [
+  id.includes('modal') && 'модальное окно модалка',
+  /(responsive|breakpoint)/u.test(id) && 'адаптив контрольная ширина',
+  /(text|content)/u.test(id) && 'текст содержимое контент',
+  /(interaction|action|href|link)/u.test(id) && 'ссылка действие интерактивность',
+  /(identity|naming)/u.test(id) && 'идентификатор имя название',
+  /(layout|wrapper)/u.test(id) && 'структура обёртка',
+  id.includes('component') && 'компонент библиотека',
+  /(route|routing)/u.test(id) && 'маршрут страница адрес',
+  /(asset|image|media)/u.test(id) && 'изображение ресурс экспорт',
+  /(overflow|height)/u.test(id) && 'переполнение высота',
+].filter(Boolean).join(' ');
+
 const copy = locale === 'ru'
   ? {
       eyebrow: 'Машиночитаемый справочник',
       title: 'Каталог правил валидатора',
       lead: `${catalog.rules.length} правил из validator/rules.json. Фильтруйте по идентификатору, принципу, серьёзности и способу проверки.`,
       search: 'Поиск по правилу',
-      searchPlaceholder: 'Например: modal, breakpoint, text…',
+      searchPlaceholder: 'Например: модальное окно, адаптив…',
       severityLabel: 'Серьёзность',
       automationLabel: 'Способ проверки',
       severity: 'Любая серьёзность',
       automation: 'Любая проверка',
-      results: 'правил показано',
-      canonical: 'Каноническое описание на английском',
+      shown: 'Показано',
+      of: 'из',
+      loadMore: 'Показать ещё',
+      canonical: 'Описание из спецификации',
       fix: 'Как исправить',
       empty: 'Правила с такими условиями не найдены.',
     }
@@ -139,14 +155,18 @@ const copy = locale === 'ru'
       automationLabel: 'Automation',
       severity: 'Any severity',
       automation: 'Any automation',
-      results: 'rules shown',
+      shown: 'Showing',
+      of: 'of',
+      loadMore: 'Show more',
       canonical: 'Description',
       fix: 'How to fix',
       empty: 'No rules match these filters.',
     };
 ---
 
-<section class="rules-explorer" data-rules-explorer>
+<MobileUtilityNav locale={locale} route="rules" />
+
+<section class="rules-explorer" data-rules-explorer data-page-size="12">
   <header>
     <p class="bridge-eyebrow">{copy.eyebrow}</p>
     <h1>{copy.title}</h1>
@@ -174,12 +194,23 @@ const copy = locale === 'ru'
     </label>
   </div>
 
-  <div class="rules-meta" aria-live="polite"><strong data-rule-count>{catalog.rules.length}</strong> {copy.results}</div>
+  <div class="rules-meta" aria-live="polite">
+    {copy.shown} <strong data-rule-count>12</strong> {copy.of} <strong data-rule-total>{catalog.rules.length}</strong>
+  </div>
 
   <div class="rules-list">
-    {catalog.rules.map((rule) => {
+    {catalog.rules.map((rule, index) => {
       const title = locale === 'ru' ? (ruTitles[rule.id] || humanize(rule.id)) : humanize(rule.id);
-      const searchable = [rule.id, title, rule.principle, rule.severity, rule.automation, rule.description, rule.fix].join(' ').toLowerCase();
+      const searchable = [
+        rule.id,
+        title,
+        locale === 'ru' ? russianSearchAliases(rule.id) : '',
+        rule.principle,
+        rule.severity,
+        rule.automation,
+        rule.description,
+        rule.fix,
+      ].join(' ').toLowerCase();
       return (
         <article
           class={`rule-card rule-${rule.severity}`}
@@ -187,6 +218,7 @@ const copy = locale === 'ru'
           data-severity={rule.severity}
           data-automation={rule.automation}
           data-search={searchable}
+          hidden={index >= 12}
         >
           <div class="rule-card-head">
             <div>
@@ -213,6 +245,10 @@ const copy = locale === 'ru'
     })}
   </div>
 
+  <div class="rules-more">
+    <button class="bridge-button bridge-button-secondary" type="button" data-rule-more>{copy.loadMore}</button>
+  </div>
+
   <p class="rules-empty" data-rules-empty hidden>{copy.empty}</p>
 </section>
 
@@ -225,12 +261,17 @@ const copy = locale === 'ru'
     const automation = root.querySelector('[data-rule-automation]');
     const cards = [...root.querySelectorAll('[data-rule]')];
     const count = root.querySelector('[data-rule-count]');
+    const total = root.querySelector('[data-rule-total]');
+    const more = root.querySelector('[data-rule-more]');
     const empty = root.querySelector('[data-rules-empty]');
+    const pageSize = Number(root.dataset.pageSize || 12);
+    let limit = pageSize;
 
     const filter = () => {
       const query = search instanceof HTMLInputElement ? search.value.trim().toLowerCase() : '';
       const severityValue = severity instanceof HTMLSelectElement ? severity.value : '';
       const automationValue = automation instanceof HTMLSelectElement ? automation.value : '';
+      let matching = 0;
       let visible = 0;
 
       for (const card of cards) {
@@ -238,17 +279,31 @@ const copy = locale === 'ru'
         const matches = (!query || card.dataset.search?.includes(query))
           && (!severityValue || card.dataset.severity === severityValue)
           && (!automationValue || card.dataset.automation === automationValue);
-        card.hidden = !matches;
-        if (matches) visible += 1;
+        if (matches) matching += 1;
+        const isVisible = Boolean(matches) && visible < limit;
+        card.hidden = !isVisible;
+        if (isVisible) visible += 1;
       }
 
       if (count) count.textContent = String(visible);
-      if (empty instanceof HTMLElement) empty.hidden = visible !== 0;
+      if (total) total.textContent = String(matching);
+      if (empty instanceof HTMLElement) empty.hidden = matching !== 0;
+      if (more instanceof HTMLButtonElement) more.hidden = visible >= matching;
     };
 
-    search?.addEventListener('input', filter);
-    severity?.addEventListener('change', filter);
-    automation?.addEventListener('change', filter);
+    const resetAndFilter = () => {
+      limit = pageSize;
+      filter();
+    };
+
+    search?.addEventListener('input', resetAndFilter);
+    severity?.addEventListener('change', resetAndFilter);
+    automation?.addEventListener('change', resetAndFilter);
+    more?.addEventListener('click', () => {
+      limit += pageSize;
+      filter();
+    });
+    filter();
   };
 
   for (const root of document.querySelectorAll('[data-rules-explorer]')) initializeRuleExplorer(root);

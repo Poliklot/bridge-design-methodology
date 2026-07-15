@@ -1,4 +1,6 @@
 ---
+import MobileUtilityNav from './MobileUtilityNav.astro';
+
 interface Props {
   locale: 'ru' | 'en';
 }
@@ -69,6 +71,8 @@ const copy = locale === 'ru'
       ],
     };
 ---
+
+<MobileUtilityNav locale={locale} route="check" />
 
 <section class="preflight" data-preflight data-locale={locale} data-report-title={copy.reportTitle} data-unresolved={copy.unresolved} data-report-progress={copy.reportProgress}>
   <header class="preflight-intro">

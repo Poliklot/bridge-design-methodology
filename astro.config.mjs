@@ -33,6 +33,9 @@ export default defineConfig({
         },
       ],
       customCss: ['/src/styles/bridge.css'],
+      components: {
+        MobileMenuToggle: './src/components/AccessibleMobileMenuToggle.astro',
+      },
       lastUpdated: false,
       credits: false,
       pagefind: true,
