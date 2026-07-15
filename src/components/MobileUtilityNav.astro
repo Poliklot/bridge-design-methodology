@@ -1,0 +1,58 @@
+---
+interface Props {
+  locale: 'ru' | 'en';
+  route?: string;
+}
+
+const { locale, route = '' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
+const otherLocale = locale === 'ru' ? 'en' : 'ru';
+const normalizedRoute = route ? `${route.replace(/^\//u, '').replace(/\/$/u, '')}/` : '';
+const languageUrl = `${base}/${otherLocale}/${normalizedRoute}`;
+const copy = locale === 'ru'
+  ? { label: 'Настройки страницы', language: 'English', theme: 'Тема', light: 'Включить светлую тему', dark: 'Включить тёмную тему' }
+  : { label: 'Page preferences', language: 'Русский', theme: 'Theme', light: 'Use light theme', dark: 'Use dark theme' };
+---
+
+<nav class="bridge-mobile-utils" aria-label={copy.label}>
+  <a href={languageUrl} hreflang={otherLocale}>{copy.language}</a>
+  <a href="https://github.com/Poliklot/bridge-design-methodology">GitHub</a>
+  <button type="button" data-mobile-theme data-light-label={copy.light} data-dark-label={copy.dark}>
+    <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+      <circle cx="10" cy="10" r="6.5"></circle>
+      <path d="M10 3.5a6.5 6.5 0 0 1 0 13z"></path>
+    </svg>
+    <span>{copy.theme}</span>
+  </button>
+</nav>
+
+<script>
+  type ThemeProvider = { updatePickers: (theme: 'light' | 'dark') => void };
+
+  const initializeThemeButton = (button: Element) => {
+    if (!(button instanceof HTMLButtonElement) || button.dataset.ready === 'true') return;
+    button.dataset.ready = 'true';
+
+    const update = () => {
+      const isDark = document.documentElement.dataset.theme === 'dark';
+      button.setAttribute('aria-label', isDark ? (button.dataset.lightLabel || '') : (button.dataset.darkLabel || ''));
+    };
+
+    button.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem('starlight-theme', next);
+      const provider = (window as Window & { StarlightThemeProvider?: ThemeProvider }).StarlightThemeProvider;
+      provider?.updatePickers(next);
+      for (const item of document.querySelectorAll('[data-mobile-theme]')) {
+        if (item instanceof HTMLButtonElement) {
+          item.setAttribute('aria-label', next === 'dark' ? (item.dataset.lightLabel || '') : (item.dataset.darkLabel || ''));
+        }
+      }
+    });
+
+    update();
+  };
+
+  for (const button of document.querySelectorAll('[data-mobile-theme]')) initializeThemeButton(button);
+</script>

@@ -1,0 +1,22 @@
+---
+import MobileMenuToggle from '@astrojs/starlight/components/MobileMenuToggle.astro';
+---
+
+<MobileMenuToggle />
+
+<script>
+  const synchronizeExpandedState = (host: Element) => {
+    const button = host.querySelector('button[aria-controls="starlight__sidebar"]');
+    if (!(button instanceof HTMLButtonElement)) return;
+    button.setAttribute('aria-expanded', host.getAttribute('aria-expanded') === 'true' ? 'true' : 'false');
+  };
+
+  customElements.whenDefined('starlight-menu-button').then(() => {
+    for (const host of document.querySelectorAll('starlight-menu-button')) {
+      synchronizeExpandedState(host);
+      new MutationObserver(() => synchronizeExpandedState(host)).observe(host, {
+        attributeFilter: ['aria-expanded'],
+      });
+    }
+  });
+</script>

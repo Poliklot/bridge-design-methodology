@@ -1,4 +1,6 @@
 ---
+import MobileUtilityNav from './MobileUtilityNav.astro';
+
 interface Props {
   locale: 'ru' | 'en';
 }
@@ -10,7 +12,7 @@ const url = (path: string) => `${base}/${locale}/${path.replace(/^\//u, '')}`;
 const copy = locale === 'ru'
   ? {
       eyebrow: 'Открытая методология передачи макетов',
-      title: 'Передайте макет так, чтобы его не пришлось объяснять.',
+      title: 'Макет, который не нужно объяснять.',
       lead: 'BRIDGE фиксирует структуру, адаптивы, действия и исключения до начала разработки — прямо там, где принимаются дизайнерские решения.',
       primary: 'Подготовить первый макет',
       secondary: 'Посмотреть пример',
@@ -54,7 +56,7 @@ const copy = locale === 'ru'
     }
   : {
       eyebrow: 'Open design handoff methodology',
-      title: 'Hand off a design that does not need to be decoded.',
+      title: 'A design that needs no explanation.',
       lead: 'BRIDGE makes structure, breakpoints, actions, and exceptions explicit before implementation — at the point where design decisions are made.',
       primary: 'Prepare your first design',
       secondary: 'See an example',
@@ -99,6 +101,7 @@ const copy = locale === 'ru'
 ---
 
 <div class="bridge-home">
+  <MobileUtilityNav locale={locale} />
   <section class="bridge-hero" aria-labelledby="bridge-home-title">
     <div class="bridge-hero-copy">
       <p class="bridge-eyebrow">{copy.eyebrow}</p>
@@ -160,9 +163,8 @@ const copy = locale === 'ru'
     <p class="bridge-eyebrow">{copy.pathsEyebrow}</p>
     <h2 id="paths-title">{copy.pathsTitle}</h2>
     <div class="bridge-paths">
-      {copy.paths.map(([title, description, action, href], index) => (
+      {copy.paths.map(([title, description, action, href]) => (
         <a class="bridge-path" href={url(href)}>
-          <span class="bridge-path-index">0{index + 1}</span>
           <h3>{title}</h3>
           <p>{description}</p>
           <span class="bridge-path-action">{action}<span aria-hidden="true"> →</span></span>
@@ -193,9 +195,9 @@ const copy = locale === 'ru'
     </div>
   </section>
 
-  <section class="bridge-final">
+  <section class="bridge-final" id="bridge-final">
     <div><h2>{copy.finalTitle}</h2><p>{copy.finalText}</p></div>
-    <a class="bridge-button bridge-button-light" href={url('check/')}>{copy.finalAction}</a>
+    <a class="bridge-button bridge-button-primary" href={url('check/')}>{copy.finalAction}</a>
   </section>
 </div>
 
