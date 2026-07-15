@@ -14,6 +14,8 @@ BRIDGE is a target-independent methodology for making interface designs transfer
 
 Languages: [English](README.md) · [Русский](README.ru.md)
 
+**Documentation site:** [poliklot.github.io/bridge-design-methodology](https://poliklot.github.io/bridge-design-methodology/)
+
 > **BRIDGE is not a tool and not a platform adapter.**  
 > BRIDGE is the contract that makes a design understandable before anyone tries to implement it.
 
