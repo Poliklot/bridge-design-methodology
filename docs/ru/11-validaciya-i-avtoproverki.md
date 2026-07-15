@@ -1,99 +1,77 @@
-# Валидация и автопроверки
+# Валидация и автоматические проверки
 
-BRIDGE должен стать удобным потому, что дизайнер может запустить preflight перед передачей и увидеть конкретные исправимые проблемы. Поэтому методология должна описывать не только советы, но и правила, которые можно проверить машинно.
+Методология становится удобной, когда дизайнер может проверить файл до передачи и получить список конкретных исправлений. Поэтому BRIDGE описывает не только рекомендации, но и правила, которые можно проверять по данным макета.
 
-## Слои валидации
+## Группы проверок
 
-1. **Синтаксис validation** — tags, boolean visual-intent flags, optional tag values, keys, action syntax, breakpoint tags.
-2. **Identity validation** — уникальность identities, стабильность identities, breakpoint-neutral identity values, стабильность типов и правильное исключение `[decor]`/`[asset]` flags из подсчёта identity-тегов.
-3. **Проверка адаптивов** — покрытие по breakpoint’ам, одинаковое количество элементов, стабильная вложенность, изменения видимости, visual-intent drift, изменения текста, изменения порядка, полнота адаптивов.
-4. **Structure validation** — структура Figma, wrappers, clipping, positioning intent, fixed heights, overlaps.
-5. **Interaction graph validation** — href links, draft link/control markers, actions, targets, modals, states, forms.
-6. **Content validation** — text equality, strict legal/price content, rich text, localization risk; product-content drift не проверяется для текста внутри decorative/root asset visuals.
-7. **Asset validation** — asset policy, native text misuse, export settings, focal points.
-8. **Accessibility validation** — contrast risk, touch targets, labels, focusable states, decorative layers hidden from accessibility tree.
-9. **Adapter capability validation** — unsupported features конкретной целевой среды.
+1. **Синтаксис** — теги, значения, ключи, действия и контрольные ширины записаны корректно.
+2. **Идентификаторы** — ключи уникальны, стабильны и не зависят от ширины.
+3. **Адаптивы** — состав элементов, вложенность, видимость, порядок и содержимое согласованы.
+4. **Структура** — обёртки, обрезка, позиционирование и фиксированные размеры имеют смысл.
+5. **Интерактивность** — ссылки, действия, цели, модальные окна, состояния и формы образуют полный граф.
+6. **Содержимое** — текст согласован между адаптивами и выдерживает локализацию.
+7. **Экспорт** — назначение сложных визуалов и настройки экспорта определены.
+8. **Доступность** — проверяются подписи, контраст, области взаимодействия и декоративные слои.
+9. **Возможности адаптера** — используемые функции поддерживаются выбранной средой реализации.
 
-## Уровни автоматизации
+## Способы проверки
 
-- **Automatic** — проверяется детерминированно по extracted design data.
-- **Heuristic** — определяется с высокой вероятностью, но может требовать подтверждения дизайнера.
-- **Manual** — проверяет человек, но чеклист должен явно подсветить вопрос.
+- **Автоматический** — результат однозначно определяется по извлечённым данным.
+- **Эвристический** — валидатор находит вероятную проблему, но решение подтверждает человек.
+- **Ручной** — вопрос требует содержательной оценки человека.
 
-## Severity отчёта
+## Уровни серьёзности
 
-- **error** — блокирует BRIDGE-ready статус.
-- **warning** — требует объяснения или исправления перед серьёзным переносом.
-- **info** — полезный контекст для implementers и adapters.
+- `error` — ошибка блокирует статус соответствия BRIDGE;
+- `warning` — предупреждение нужно исправить или объяснить;
+- `info` — справочная заметка для дизайнера, ревьюера или адаптера.
 
-## Минимальный pipeline валидатора
+## Как работает валидатор
 
 ```text
-extract design tree
-  -> normalize names, boolean visual-intent tags, optional tag values, keys, and метаданные Figma
-  -> group roots by page, затем by view, затем by breakpoint
-  -> build identity map and type map
-  -> check optional identity-bearing values against current breakpoint names/widths
-  -> compare element counts and parent identities только внутри одной page/view group
-  -> compare visibility, sibling order, and visual-intent flags inside each parent
-  -> compare product content across breakpoints, excluding decorative/root asset visuals
-  -> classify structure, wrappers, and positioning intent
-  -> build action-цель graph
-  -> inspect geometry, overflow, and fixed heights
-  -> check assets and component states
-  -> emit report with rule IDs, severity, location, and fix hints
+извлечь дерево макета
+  → нормализовать имена, теги, ключи и метаданные Figma
+  → сгруппировать корневые фреймы по странице, состоянию и контрольной ширине
+  → построить карту идентификаторов и типов
+  → проверить значения идентификаторов на зависимость от ширины
+  → сравнить состав элементов и родителей внутри одной группы страницы и состояния
+  → сравнить видимость, порядок и назначение визуальных слоёв
+  → сравнить продуктовое содержимое, исключив корневые декоративные ресурсы
+  → проверить структуру, обёртки и позиционирование
+  → построить граф действий и целей
+  → проверить геометрию, переполнение и фиксированные размеры
+  → проверить экспорт и состояния компонентов
+  → создать отчёт с идентификаторами правил, серьёзностью, местом и способом исправления
 ```
 
-## Обзор rule catalog
+## Каталог правил
 
-Machine-readable seed лежит в [`../../validator/rules.json`](../../validator/rules.json).
+Машиночитаемый каталог находится в [`../../validator/rules.json`](../../validator/rules.json).
 
-| Group | Example rule | Severity | Automation |
+| Группа | Пример правила | Серьёзность | Проверка |
 | --- | --- | --- | --- |
-| Identity | `identity.missing-stable-identity` | error | automatic |
-| Identity | `identity.same-identity-different-type` | error | automatic |
-| Identity | `identity.breakpoint-specific-id` | error | automatic |
-| Identity | `identity.decor-asset-flags-not-identities` | error | automatic |
-| Identity | `identity.multiple-identity-tags` | warning | automatic |
-| Syntax | `syntax.decor-asset-value-not-kebab-case` | error | automatic |
-| Syntax | `syntax.identity-value-not-kebab-case` | warning | automatic |
-| Syntax | `syntax.duplicate-tag` | error | automatic |
-| Syntax | `syntax.figma-metadata-tag-invalid` | error | automatic |
-| Section | `section.component-source-unclassified` | warning | heuristic |
-| Section | `section.redundant-instance-section-tag` | warning | heuristic |
-| Component | `component.ui-kit-used-as-section` | warning | heuristic |
-| Responsive | `responsive.identity-missing-in-required-breakpoint` | error | automatic |
-| Responsive | `responsive.view-missing-required-breakpoint` | error | automatic |
-| Responsive | `responsive.tree-cardinality-changed` | error | automatic |
-| Responsive | `responsive.parent-changed-across-breakpoints` | error | automatic |
-| Responsive | `responsive.visual-intent-drift` | error | automatic |
-| Content | `content.text-changed-between-breakpoints` | error | heuristic |
-| Content | `content.decorative-asset-text-excluded-from-product-drift` | info | automatic |
-| Content | `content.manual-line-break-in-dynamic-text` | error | heuristic |
-| Structure | `layout.one-child-wrapper-without-role` | warning | heuristic |
-| Structure | `layout.overlap-without-overlay-role` | warning | heuristic |
-| Interaction | `interaction.clickable-without-action` | warning | heuristic |
-| Interaction | `interaction.link-without-href` | info | automatic |
-| Interaction | `interaction.control-without-action` | info | automatic |
-| Interaction | `interaction.href-placeholder-invalid` | error | automatic |
-| Interaction | `interaction.href-invalid` | error | automatic |
-| Interaction | `interaction.optional-id-value-invalid` | error | automatic |
-| Interaction | `interaction.action-invalid` | error | automatic |
-| Interaction | `interaction.control-action-duplicate` | error | automatic |
-| Interaction | `interaction.modal-target-missing` | error | automatic |
-| Interaction | `interaction.form-target-missing` | error | automatic |
-| Interaction | `interaction.reset-target-missing` | warning | automatic |
-| Routing | `routing.page-route-missing` | info | automatic |
-| Routing | `routing.page-root-required` | error | automatic |
-| Routing | `routing.default-view-missing` | warning | automatic |
-| Routing | `routing.route-not-production-url` | error | automatic |
-| Height | `height.fixed-height-without-reason` | warning | automatic |
-| Overflow | `overflow.text-clipping-risk` | error | heuristic |
-| Asset | `asset.raster-text-without-reason` | error | heuristic/manual |
-| Accessibility | `accessibility.decorative-layer-exposed` | warning | automatic |
-| Interaction | `interaction.form-field-missing-label` | warning | automatic |
+| Идентификаторы | `identity.missing-stable-identity` | `error` | автоматическая |
+| Идентификаторы | `identity.same-identity-different-type` | `error` | автоматическая |
+| Идентификаторы | `identity.breakpoint-specific-id` | `error` | автоматическая |
+| Синтаксис | `syntax.duplicate-tag` | `error` | автоматическая |
+| Секции | `section.component-source-unclassified` | `warning` | эвристическая |
+| Компоненты | `component.ui-kit-used-as-section` | `warning` | эвристическая |
+| Адаптивы | `responsive.identity-missing-in-required-breakpoint` | `error` | автоматическая |
+| Адаптивы | `responsive.tree-cardinality-changed` | `error` | автоматическая |
+| Адаптивы | `responsive.parent-changed-across-breakpoints` | `error` | автоматическая |
+| Содержимое | `content.text-changed-between-breakpoints` | `error` | эвристическая |
+| Структура | `layout.one-child-wrapper-without-role` | `warning` | эвристическая |
+| Интерактивность | `interaction.clickable-without-action` | `warning` | эвристическая |
+| Интерактивность | `interaction.modal-target-missing` | `error` | автоматическая |
+| Маршруты | `routing.page-root-required` | `error` | автоматическая |
+| Высота | `height.fixed-height-without-reason` | `warning` | автоматическая |
+| Переполнение | `overflow.text-clipping-risk` | `error` | эвристическая |
+| Экспорт | `asset.raster-text-without-reason` | `error` | эвристическая или ручная |
+| Доступность | `accessibility.decorative-layer-exposed` | `warning` | автоматическая |
 
-## Предлагаемый формат отчёта
+Полный список и точные параметры определяются JSON-каталогом.
+
+## Формат отчёта
 
 ```json
 {
@@ -117,65 +95,61 @@ Machine-readable seed лежит в [`../../validator/rules.json`](../../validat
 }
 ```
 
-## Режимы чеклиста
+Поля данных и идентификаторы правил остаются английскими. Пользовательские `message` и `fix` локализуются в интерфейсе валидатора.
 
-### Designer quick check
+## Режимы проверки
 
-Перед тем как показывать файл разработке:
+### Быстрая проверка дизайнером
 
-- missing identities;
-- missing actions;
-- очевидный fixed-height text;
-- missing modal/state targets;
-- changed mobile copy.
+До обсуждения файла достаточно проверить:
 
-### Reviewer strict check
+- отсутствующие идентификаторы;
+- неизвестные действия;
+- фиксированную высоту текста;
+- отсутствующие цели модальных окон и состояний;
+- отличия текста между адаптивами.
 
-Перед approve handoff:
+### Полная проверка ревьюером
 
-- полный rule catalog;
-- edge-case checklist;
-- state coverage;
-- accessibility warnings;
-- adapter capability notes.
+Перед началом реализации проверяются:
 
-### Adapter certification check
+- весь каталог правил;
+- пограничные случаи;
+- покрытие состояний;
+- доступность;
+- предупреждения о возможностях адаптера.
 
-Чтобы доказать, что конкретный путь реализации поддерживает BRIDGE:
+### Проверка возможностей адаптера
 
-- supported tags;
-- supported actions;
-- unsupported visual features;
-- asset fallback behavior;
-- responsive mapping rules.
+Чтобы подтвердить поддержку BRIDGE конкретной средой, нужно описать:
 
-## Что должно сразу блокировать handoff
+- поддерживаемые теги и действия;
+- неподдерживаемые визуальные функции;
+- запасное поведение для экспортируемых ресурсов;
+- правила преобразования адаптивов.
 
-- Нет stable identity у важного элемента.
-- Duplicate identities внутри breakpoint/view scope.
-- Responsive trees нельзя сравнивать между разными `[view=...]`. Каждый view — отдельный responsive contract и сравнивается только между собственными breakpoint’ами.
-- Breakpoint-specific optional identity value, например `[control=button-reviews-box-375]` внутри root `[bp=375]`.
-- Одна identity используется для разных logical types.
-- Stable decorative/asset root identity отсутствует на нужном адаптиве.
-- В адаптивах меняется количество элементов или их вложенность без явного исключения.
-- Visual intent drift, например `sneg [decor] [asset]` на desktop превращается в обычный `sneg` на mobile.
-- Final clickable element без известных `[href=...]` или `[action=...]`; draft `[link]` / `[control]` markers — TODOs, а не syntax errors.
-- Invalid unknown href placeholder `[href=#]`; вместо него используй `[link]`.
-- Fake или placeholder `[route=...]`; убери route, пока production URL неизвестен.
-- Action цель отсутствует.
-- Page root без route — Draft TODO (`routing.page-route-missing`), а не blocker.
-- Modal без close behavior.
-- Text fixed height без overflow policy.
-- Динамический текст зависит от ручных переносов строк.
-- Hidden keyed layers используются как источник правды.
-- Rasterized text без explicit reason.
+## Что блокирует передачу
 
-## False positives допустимы
+- У важного элемента нет стабильного идентификатора.
+- В одной области сравнения повторяются идентификаторы.
+- Идентификатор содержит текущую ширину или тип устройства.
+- Один идентификатор используется для разных логических типов.
+- Обязательный элемент отсутствует на одной контрольной ширине.
+- Между адаптивами меняется назначение `[decor]` или `[asset]`.
+- Финальный интерактивный элемент не имеет известной ссылки или действия.
+- Действие ссылается на отсутствующую цель.
+- Для модального окна не описано закрытие.
+- Текст имеет фиксированную высоту без правил обработки переполнения.
+- Динамический текст зависит от ручного переноса строки.
+- Скрытый слой используется как источник правды.
+- Редактируемый текст экспортируется изображением без причины.
 
-Валидатор должен предпочитать полезное трение молчаливой поломке. False positives допустимы, если report объясняет, как пометить намеренное исключение:
+Отсутствующий рабочий маршрут сам по себе не блокирует черновой макет. Это задача на будущее, пока `[route]` не заявлен как часть финального контракта.
+
+## Ложные срабатывания допустимы
+
+Валидатор должен предпочитать полезное предупреждение молчаливой поломке. Если необычное решение принято намеренно, отчёт должен объяснять, как оформить исключение:
 
 ```text
 [bridge-exception=overlap] [reason=decorative-layered-composition]
 ```
-
-Цель не запретить сложный дизайн. Цель — сделать сложность явной.

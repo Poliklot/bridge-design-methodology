@@ -1,160 +1,136 @@
-# Интерактивность и цели
+# Интерактивность и цели действий
 
-BRIDGE использует одну правду на каждое взаимодействие. Навигация описывается через `href`. Ненавигационное поведение — через `action`.
-
-Простой дизайнерский путь не требует machine ids для обычных ссылок и кнопок.
+BRIDGE использует один источник правды для каждого взаимодействия. Переходы описываются через `href`, а изменения интерфейса — через `action`.
 
 ```text
-Contacts [href=/contacts]
-Contact us [action=modal:marketplaces-modal]
+Контакты [href=/contacts]
+Связаться с нами [action=modal:contact-modal]
 ```
+
+Обычным ссылкам и кнопкам не нужны дополнительные машинные идентификаторы.
 
 ## Ссылки используют `href`
 
-Известное navigation destination записывается прямо как `[href=...]`. Этого тега достаточно, чтобы считать слой ссылкой.
+Известный адрес записывается прямо в `[href=...]`:
 
 ```text
-Contacts [href=/contacts]
-FAQ [href=/contacts#faq]
-Same page FAQ [href=#faq]
+Контакты [href=/contacts]
+Вопросы и ответы [href=/contacts#faq]
+К разделу на этой странице [href=#faq]
 Telegram [href=https://t.me/company]
-Email [href=mailto:sales@example.com]
-Phone [href=tel:+12025550123]
+Почта [href=mailto:sales@example.com]
+Телефон [href=tel:+12025550123]
 ```
 
 Правила:
 
-- `[href=...]` — одновременно marker ссылки и единственная правда, куда она ведёт.
-- Не добавляй `[link=...]` только ради того, чтобы сказать, что слой является ссылкой.
-- Internal routes начинаются с `/`.
-- Same-page anchors начинаются с `#` и должны называть настоящий anchor, например `#faq`.
-- `[href=#]` не является placeholder для неизвестной ссылки и невалиден.
-- External URLs начинаются с `http://` или `https://`.
-- `mailto:` и `tel:` — валидные external protocols.
-- Не добавляй вторую semantic destination вроде `[to=...]`.
+- `[href=...]` одновременно обозначает ссылку и её адрес;
+- внутренний маршрут начинается с `/`;
+- якорь на текущей странице начинается с `#` и указывает на существующую секцию;
+- `[href=#]` недопустим как заглушка;
+- внешний адрес начинается с `http://` или `https://`;
+- `mailto:` и `tel:` считаются допустимыми протоколами;
+- не добавляйте второй тег адреса вроде `[to=...]`.
 
-Если destination пока неизвестен, используй boolean draft marker `[link]`, а не fake href:
+Если адрес пока неизвестен, используйте черновую отметку:
 
 ```text
-Contacts [link]
+Контакты [link]
 ```
 
-`[link]` означает: “тут будет ссылка, но href пока неизвестен”. Это валидная draft-разметка, но TODO перед финальным handoff.
+`[link]` означает, что слой станет ссылкой, но адрес ещё не определён. Перед финальной передачей такую задачу нужно разрешить.
 
-Optional behavior tags могут описывать, как ссылка открывается, но не куда ведёт:
+Дополнительные теги могут описывать способ открытия, но не цель перехода:
 
 ```text
 Telegram [href=https://t.me/company] [open=new-tab] [a11y-label=Telegram]
 ```
 
-### Optional advanced link id
+### Необязательный идентификатор ссылки
 
-`[link=...]` разрешён только как advanced override, если реализации, аналитике или automation pipeline нужен явный stable machine id, отличный от имени слоя.
+`[link=...]` нужен только тогда, когда реализации, аналитике или автоматизации требуется отдельный стабильный идентификатор:
 
 ```text
-Contacts CTA [link=nav-contacts-primary] [href=/contacts]
+Контакты [link=nav-contacts-primary] [href=/contacts]
 ```
 
-Значение должно быть English kebab-case и не должно содержать breakpoint suffixes вроде `-768`, `-375`, `-mobile` или `-desktop`.
+Значение пишется в `kebab-case` и не содержит суффиксы ширины или устройства.
 
-## Controls используют `action`
+## Элементы управления используют `action`
 
-Control — интерактивный элемент, который делает что-то кроме прямой навигации. Известное non-navigation поведение записывается прямо как `[action=...]`. Этого тега достаточно, чтобы считать слой control/button.
+Элемент управления меняет интерфейс, отправляет форму, сбрасывает данные или выполняет другое ненавигационное действие.
 
 ```text
-Contact us [action=modal:marketplaces-modal]
-Menu [action=state:mobile-menu-open]
-Reset filters [action=state:catalog-default]
-Submit [action=submit:lead-form]
-Disabled CTA [action=none]
+Связаться [action=modal:contact-modal]
+Меню [action=state:mobile-menu-open]
+Сбросить фильтры [action=reset:catalog-filters]
+Отправить [action=submit:lead-form]
+Недоступная кнопка [action=none]
 ```
 
 Правила:
 
-- `[action=...]` — одновременно marker control и единственная правда о действии.
-- Не добавляй `[control=...]` только ради того, чтобы сказать, что слой является кнопкой/control.
-- Не заставляй page designers писать подробные роли вроде `accordion-trigger` или `menu-button` в имени слоя страницы.
-- Точный component/control type должен приходить из UI Kit component instance metadata, когда это возможно.
+- `[action=...]` одновременно обозначает элемент управления и его действие;
+- не добавляйте `[control=...]` только ради того, чтобы назвать слой кнопкой;
+- точный тип элемента лучше получать из компонента `UI Kit`;
+- действие на модальное окно, состояние или форму должно ссылаться на существующую цель.
 
-Если action пока неизвестен, используй boolean draft marker `[control]`:
-
-```text
-Contact us [control]
-```
-
-`[control]` означает: “тут будет control/button, но action пока неизвестен”. Это валидная draft-разметка, но TODO перед финальным handoff.
-
-Допустимые формы action:
+Если действие неизвестно, используйте `[control]`:
 
 ```text
-[action=modal:contact-modal]
-[action=state:mobile-menu-open]
-[action=submit:lead-form]
-[action=reset:catalog-filters]
-[action=none]
+Связаться [control]
 ```
 
-### Optional advanced control id
+Это допустимая черновая отметка, но не финальное описание.
 
-`[control=...]` разрешён только как advanced override, если реализации, аналитике или automation pipeline нужен явный stable machine id, отличный от имени слоя.
+### Необязательный идентификатор элемента управления
+
+`[control=...]` используется только при реальной потребности в отдельном машинном ключе:
 
 ```text
-Contact us [control=contact-cta-primary] [action=modal:marketplaces-modal]
+Связаться [control=contact-cta-primary] [action=modal:contact-modal]
 ```
 
-Значение должно быть English kebab-case и не должно содержать breakpoint suffixes вроде `-768`, `-375`, `-mobile` или `-desktop`.
-
-Плохо:
-
-```text
-Отзывы мобилка [control=button-reviews-box-768] [action=modal:marketplaces-modal]
-```
-
-Хорошо:
-
-```text
-Отзывы мобилка [action=modal:marketplaces-modal]
-```
+Не добавляйте в значение `-768`, `-375`, `-mobile` или `-desktop`.
 
 ## Поля используют `field` и `name`
 
-Form fields требуют stable identity и data binding.
+Полю формы нужны стабильный идентификатор и имя данных:
 
 ```text
-Email [field=email] [name=email]
-Country [field=country] [name=country]
-Message [field=message] [name=message]
+Почта [field=email] [name=email]
+Страна [field=country] [name=country]
+Сообщение [field=message] [name=message]
 ```
 
-Используй `[field-type=...]` только если тип нельзя вывести из UI Kit component или native field metadata:
+Используйте `[field-type=...]` только тогда, когда тип нельзя получить из компонента или встроенных метаданных поля:
 
 ```text
-Country [field=country] [name=country] [field-type=select]
+Страна [field=country] [name=country] [field-type=select]
 ```
 
-## Modals и states
+## Модальные окна и состояния
 
-Известные actions должны указывать на существующие цели:
+Каждая известная цель действия должна существовать:
 
 ```text
-Contact us [action=modal:contact-modal]
-Contact Modal [modal=contact-modal]
+Связаться [action=modal:contact-modal]
+Окно обратной связи [modal=contact-modal]
 
-Menu [action=state:mobile-menu-open]
-Mobile Menu [state=mobile-menu-open]
+Меню [action=state:mobile-menu-open]
+Открытое мобильное меню [state=mobile-menu-open]
 ```
 
-Если modal или state цель не существует, дизайн не BRIDGE-ready.
+Если цель отсутствует, макет не соответствует BRIDGE.
 
-## Что должен проверять валидатор
+## Что проверяет валидатор
 
-- `[href=...]` без `[link=...]` — валидная ссылка.
-- `[action=...]` без `[control=...]` — валидный control.
-- `[link]` и `[control]` — валидные draft markers; их нужно репортить как TODO, а не syntax errors.
-- `[link=...]` и `[control=...]` — optional advanced ids; kebab-case и breakpoint suffixes проверяются только если value задан.
-- `[href=#]` невалиден; если destination неизвестен, используй `[link]`.
-- Internal href routes резолвятся в declared routes, когда routes известны.
-- Internal href anchors резолвятся в declared sections/anchors.
-- Modal/state/submit/reset action targets существуют.
-- Social/icon-only links имеют accessible label.
-- Page instances не изобретают component states; states живут в UI Kit.
+- `[href=...]` без `[link=...]` является полноценной ссылкой;
+- `[action=...]` без `[control=...]` является полноценным действием;
+- `[link]` и `[control]` считаются черновыми задачами, а не ошибками синтаксиса;
+- значения `[link=...]` и `[control=...]` проверяются на `kebab-case` и отсутствие суффиксов ширины;
+- `[href=#]` считается недопустимым;
+- внутренний маршрут или якорь должен разрешаться в существующую цель;
+- цели модальных окон, состояний, отправки и сброса должны существовать;
+- ссылка, состоящая только из иконки, должна иметь доступное название;
+- состояния компонентов должны определяться в `UI Kit`, а не изобретаться отдельно на каждой странице.
