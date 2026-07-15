@@ -14,6 +14,8 @@
 
 Языки: [English](README.md) · [Русский](README.ru.md)
 
+**Сайт документации:** [poliklot.github.io/bridge-design-methodology](https://poliklot.github.io/bridge-design-methodology/)
+
 > **BRIDGE — не отдельный инструмент и не адаптер для конкретной платформы.**
 > Это общий контракт, благодаря которому макет становится понятным до начала реализации.
 

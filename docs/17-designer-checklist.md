@@ -1,0 +1,74 @@
+# Designer checklist before handoff
+
+Use this short checklist before handing a design to a developer, an AI agent, or an automated implementation tool. The goal is simple: another person should understand the file without a call with its author.
+
+For a strict review, use the [full preflight checklist](08-preflight-checklist.md).
+
+## 1. Identify the page
+
+- [ ] Each root frame has stable `[page]`, `[bp]`, and `[view]` values.
+- [ ] `[route]` is present only when the real production route is known.
+- [ ] Breakpoints of one page keep the same `[page]` and `[view]`.
+
+## 2. Keep breakpoints logically equivalent
+
+- [ ] Important elements exist at every required breakpoint.
+- [ ] One logical element keeps one identity and one logical parent.
+- [ ] Product copy, prices, legal text, and actions do not silently change.
+- [ ] Collection cardinality is not adjusted to make the grid look full.
+
+## 3. Classify sections
+
+- [ ] Reusable page sections come from `Page Sections`.
+- [ ] Ordinary interface components remain in `UI Kit`.
+- [ ] Frame-built sections have an explicit `[section=...]`.
+- [ ] Instances from `Page Sections` do not repeat a redundant section tag.
+
+## 4. Use stable identities
+
+- [ ] Important layer names use English `kebab-case`.
+- [ ] Names do not contain viewport widths or device labels.
+- [ ] Repeated items have distinct keys.
+- [ ] No identity is reused for different logical types.
+
+## 5. Keep technical truth in Figma
+
+- [ ] Layer names do not duplicate node type, Auto Layout, constraints, clipping, or component source.
+- [ ] BRIDGE tags express only product and transfer intent that Figma does not know.
+
+## 6. Build meaningful structure
+
+- [ ] Related elements have a meaningful parent.
+- [ ] Every wrapper has a real layout, grouping, clipping, surface, or interaction purpose.
+- [ ] One-breakpoint-only wrappers are explained.
+
+## 7. Declare interactions
+
+- [ ] Navigation uses `[href]`.
+- [ ] Interface changes use `[action]`.
+- [ ] Draft links and controls use `[link]` and `[control]`, not fake destinations.
+- [ ] Every modal, state, and form action resolves to an existing target.
+
+## 8. Prepare real forms and content
+
+- [ ] Form fields have data names, labels, and relevant states.
+- [ ] Dynamic text wraps without manual line breaks.
+- [ ] Fixed text height has an explicit reason and overflow behavior.
+- [ ] Long text, localization, and real CMS content have been tested.
+
+## 9. Distinguish content, decor, and assets
+
+- [ ] Content images have stable names.
+- [ ] Decorative layers use `[decor]`.
+- [ ] Whole exported visuals use `[asset]`.
+- [ ] Editable text is not rasterized without an explicit reason.
+
+## 10. Make states explicit
+
+- [ ] Empty, loading, and error page states use `[view]`.
+- [ ] Component states live in `UI Kit` variants or explicit state models.
+- [ ] Hidden old versions are not part of the handoff tree.
+
+## Final test
+
+Ask someone who did not prepare the file to identify the page, its breakpoints, reusable sections, interactions, targets, dynamic content, exported visuals, and intentional exceptions. If any answer requires spoken context, the design is not ready yet.

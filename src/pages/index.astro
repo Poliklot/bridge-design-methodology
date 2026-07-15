@@ -1,0 +1,18 @@
+---
+const target = `${import.meta.env.BASE_URL}ru/`;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="refresh" content={`0;url=${target}`} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={target} />
+    <title>BRIDGE</title>
+  </head>
+  <body>
+    <p><a href={target}>Открыть BRIDGE</a></p>
+  </body>
+</html>

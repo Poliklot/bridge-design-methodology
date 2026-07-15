@@ -1,0 +1,184 @@
+---
+interface Props {
+  locale: 'ru' | 'en';
+}
+
+const { locale } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
+const detailsUrl = `${base}/${locale}/check/designer-checklist/`;
+
+const copy = locale === 'ru'
+  ? {
+      eyebrow: 'Интерактивная проверка',
+      title: 'Готов ли макет к передаче?',
+      lead: 'Отметьте только те пункты, которые можно подтвердить по самому файлу. Прогресс хранится локально в этом браузере.',
+      done: 'выполнено',
+      reset: 'Сбросить',
+      copy: 'Скопировать отчёт',
+      copied: 'Отчёт скопирован',
+      details: 'Открыть подробный чеклист',
+      ready: 'Макет готов к проверке другим человеком.',
+      pending: 'Осталось проверить',
+      reportTitle: 'Проверка макета по BRIDGE',
+      unresolved: 'Не подтверждено',
+      reportProgress: 'готово',
+      items: [
+        ['Страница и состояние объявлены', 'У корневых фреймов есть стабильные `[page]`, `[bp]` и `[view]`.'],
+        ['Адаптивы описывают один экран', 'Состав, смысл и логические родители элементов согласованы.'],
+        ['Секции определяются однозначно', 'Использованы `Page Sections` или явные `[section]`.'],
+        ['Важные элементы имеют стабильные имена', 'Имена не содержат ширину, устройство или случайный номер редактора.'],
+        ['Техническая правда остаётся в Figma', 'Теги не дублируют Auto Layout, тип слоя и источник компонента.'],
+        ['Структура выражает реальные отношения', 'У обёрток и родителей есть понятная задача.'],
+        ['Интерактивность описана', 'Известны ссылки, действия и существующие цели.'],
+        ['Формы готовы к реализации', 'У полей есть имена, подписи, состояния и отправка.'],
+        ['Текст выдерживает реальные данные', 'Нет случайной фиксированной высоты и ручных переносов.'],
+        ['Контент, декор и экспорт различены', 'Назначение `[decor]` и `[asset]` не приходится угадывать.'],
+        ['Компоненты имеют источник правды', 'Состояния принадлежат библиотеке, а не случайным копиям.'],
+        ['Старые версии не спрятаны внутри файла', 'Скрытые слои не используются как источник актуального состояния.'],
+        ['Макет понятен без автора', 'Другой человек может объяснить страницу, действия и исключения.'],
+      ],
+    }
+  : {
+      eyebrow: 'Interactive preflight',
+      title: 'Is the design ready for handoff?',
+      lead: 'Check only what can be confirmed from the file itself. Progress is stored locally in this browser.',
+      done: 'complete',
+      reset: 'Reset',
+      copy: 'Copy report',
+      copied: 'Report copied',
+      details: 'Open detailed checklist',
+      ready: 'The design is ready for an independent review.',
+      pending: 'Still to verify',
+      reportTitle: 'BRIDGE design preflight',
+      unresolved: 'Not confirmed',
+      reportProgress: 'complete',
+      items: [
+        ['Page and view are declared', 'Root frames have stable `[page]`, `[bp]`, and `[view]` values.'],
+        ['Breakpoints describe one screen', 'Element set, meaning, and logical parents remain consistent.'],
+        ['Sections are unambiguous', 'Use `Page Sections` or explicit `[section]` values.'],
+        ['Important elements have stable names', 'Names do not contain widths, devices, or editor defaults.'],
+        ['Technical truth remains in Figma', 'Tags do not duplicate Auto Layout, node type, or component source.'],
+        ['Structure expresses real relationships', 'Every wrapper and parent has an understandable job.'],
+        ['Interactions are declared', 'Links, actions, and existing targets are known.'],
+        ['Forms are implementation-ready', 'Fields have names, labels, states, and submit behavior.'],
+        ['Text survives real data', 'No accidental fixed heights or manual line breaks.'],
+        ['Content, decor, and assets are distinct', 'The purpose of `[decor]` and `[asset]` is explicit.'],
+        ['Components have a source of truth', 'States belong to the library rather than detached copies.'],
+        ['Old versions are outside the handoff tree', 'Hidden layers are not the source of current state.'],
+        ['The file works without its author', 'Another person can explain the page, actions, and exceptions.'],
+      ],
+    };
+---
+
+<section class="preflight" data-preflight data-locale={locale} data-report-title={copy.reportTitle} data-unresolved={copy.unresolved} data-report-progress={copy.reportProgress}>
+  <header class="preflight-intro">
+    <div>
+      <p class="bridge-eyebrow">{copy.eyebrow}</p>
+      <h1>{copy.title}</h1>
+      <p>{copy.lead}</p>
+    </div>
+    <div class="preflight-score" aria-live="polite">
+      <strong data-progress-value>0%</strong>
+      <span>{copy.done}</span>
+    </div>
+  </header>
+
+  <div class="preflight-progress" aria-hidden="true"><span data-progress-bar></span></div>
+
+  <div class="preflight-list">
+    {copy.items.map(([title, description], index) => (
+      <label class="preflight-item">
+        <input type="checkbox" value={String(index)} />
+        <span class="preflight-check" aria-hidden="true"></span>
+        <span><strong>{title}</strong><small>{description}</small></span>
+      </label>
+    ))}
+  </div>
+
+  <div class="preflight-summary" data-summary aria-live="polite">
+    <strong>{copy.pending}: {copy.items.length}</strong>
+  </div>
+
+  <footer class="preflight-actions">
+    <div>
+      <button class="bridge-button bridge-button-secondary" type="button" data-reset>{copy.reset}</button>
+      <button class="bridge-button bridge-button-primary" type="button" data-copy>{copy.copy}</button>
+    </div>
+    <a href={detailsUrl}>{copy.details}<span aria-hidden="true"> →</span></a>
+  </footer>
+
+  <p class="sr-only" data-ready-text>{copy.ready}</p>
+  <p class="sr-only" data-pending-text>{copy.pending}</p>
+  <p class="sr-only" data-copied-text>{copy.copied}</p>
+</section>
+
+<script>
+  const initPreflight = (root: Element) => {
+    if (!(root instanceof HTMLElement) || root.dataset.ready === 'true') return;
+    root.dataset.ready = 'true';
+
+    const locale = root.dataset.locale || 'en';
+    const key = `bridge-preflight-${locale}`;
+    const inputs = [...root.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')];
+    const value = root.querySelector('[data-progress-value]');
+    const bar = root.querySelector('[data-progress-bar]');
+    const summary = root.querySelector('[data-summary]');
+    const readyText = root.querySelector('[data-ready-text]')?.textContent || '';
+    const pendingText = root.querySelector('[data-pending-text]')?.textContent || '';
+    const copiedText = root.querySelector('[data-copied-text]')?.textContent || '';
+
+    try {
+      const stored = JSON.parse(localStorage.getItem(key) || '[]');
+      for (const input of inputs) input.checked = stored.includes(input.value);
+    } catch {
+      localStorage.removeItem(key);
+    }
+
+    const update = () => {
+      const checked = inputs.filter((input) => input.checked);
+      const percent = Math.round((checked.length / inputs.length) * 100);
+      const remaining = inputs.length - checked.length;
+
+      if (value) value.textContent = `${percent}%`;
+      if (bar instanceof HTMLElement) bar.style.width = `${percent}%`;
+      if (summary) {
+        summary.innerHTML = remaining === 0
+          ? `<strong>${readyText}</strong>`
+          : `<strong>${pendingText}: ${remaining}</strong>`;
+      }
+
+      for (const input of inputs) input.closest('label')?.classList.toggle('is-done', input.checked);
+      localStorage.setItem(key, JSON.stringify(checked.map((input) => input.value)));
+    };
+
+    for (const input of inputs) input.addEventListener('change', update);
+
+    root.querySelector('[data-reset]')?.addEventListener('click', () => {
+      for (const input of inputs) input.checked = false;
+      update();
+    });
+
+    root.querySelector('[data-copy]')?.addEventListener('click', async (event) => {
+      const unresolved = inputs
+        .filter((input) => !input.checked)
+        .map((input) => input.closest('label')?.querySelector('strong')?.textContent?.trim())
+        .filter(Boolean);
+      const heading = root.dataset.reportTitle || 'BRIDGE preflight';
+      const label = root.dataset.unresolved || 'Not confirmed';
+      const progressLabel = root.dataset.reportProgress || 'complete';
+      const report = [`# ${heading}`, '', `${value?.textContent || '0%'} ${progressLabel}`, '', `## ${label}`, ...unresolved.map((item) => `- [ ] ${item}`)].join('\n');
+
+      await navigator.clipboard.writeText(report);
+      if (event.currentTarget instanceof HTMLButtonElement) {
+        const button = event.currentTarget;
+        const original = button.textContent;
+        button.textContent = copiedText;
+        window.setTimeout(() => { button.textContent = original; }, 1800);
+      }
+    });
+
+    update();
+  };
+
+  for (const root of document.querySelectorAll('[data-preflight]')) initPreflight(root);
+</script>
