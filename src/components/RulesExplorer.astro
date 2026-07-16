@@ -1,5 +1,4 @@
 ---
-import MobileUtilityNav from './MobileUtilityNav.astro';
 import catalog from '../../validator/rules.json';
 
 interface Props {
@@ -163,8 +162,6 @@ const copy = locale === 'ru'
       empty: 'No rules match these filters.',
     };
 ---
-
-<MobileUtilityNav locale={locale} route="rules" />
 
 <section class="rules-explorer" data-rules-explorer data-page-size="12">
   <header>

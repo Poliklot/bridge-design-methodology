@@ -1,0 +1,274 @@
+---
+import config from 'virtual:starlight/user-config';
+
+import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro';
+import Search from '@astrojs/starlight/components/Search.astro';
+import SiteTitle from '@astrojs/starlight/components/SiteTitle.astro';
+import ThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro';
+import SocialIcons from './ExternalSocialIcons.astro';
+
+const shouldRenderSearch = config.pagefind
+  || config.components.Search !== '@astrojs/starlight/components/Search.astro';
+const locale = Astro.locals.starlightRoute.locale === 'en' ? 'en' : 'ru';
+const hasSidebar = Astro.locals.starlightRoute.hasSidebar;
+const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
+const currentPath = Astro.url.pathname.replace(/\/$/u, '');
+const labels = locale === 'ru'
+  ? {
+      nav: 'Основная навигация',
+      menu: 'Открыть разделы сайта',
+      menuTitle: 'Разделы сайта',
+      overview: 'Обзор',
+      start: 'Быстрый старт',
+      rules: 'Правила',
+      check: 'Проверка',
+    }
+  : {
+      nav: 'Primary navigation',
+      menu: 'Open site sections',
+      menuTitle: 'Site sections',
+      overview: 'Overview',
+      start: 'Quick start',
+      rules: 'Rules',
+      check: 'Preflight',
+    };
+const items = [
+  [labels.overview, `${base}/${locale}/`],
+  [labels.start, `${base}/${locale}/start/designer-quick-start/`],
+  [labels.rules, `${base}/${locale}/rules/`],
+  [labels.check, `${base}/${locale}/check/`],
+];
+const isCurrent = (href: string) => currentPath === href.replace(/\/$/u, '');
+---
+
+<div class="bridge-global-header">
+  <div class="bridge-title-wrapper"><SiteTitle /></div>
+  <div class="bridge-header-search print:hidden">{shouldRenderSearch && <Search />}</div>
+
+  <nav class="bridge-primary-nav print:hidden" aria-label={labels.nav}>
+    {items.map(([label, href]) => (
+      <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>
+    ))}
+  </nav>
+
+  <div class="bridge-header-preferences print:hidden">
+    <div class="bridge-header-social"><SocialIcons /></div>
+    <ThemeSelect />
+    <LanguageSelect />
+  </div>
+
+  {!hasSidebar && (
+    <details class="bridge-section-menu print:hidden">
+      <summary aria-label={labels.menu}>
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+      </summary>
+      <div class="bridge-section-menu-panel">
+        <strong>{labels.menuTitle}</strong>
+        <nav aria-label={labels.nav}>
+          {items.map(([label, href]) => (
+            <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>
+          ))}
+          <a href="https://github.com/Poliklot/bridge-design-methodology" target="_blank" rel="noopener noreferrer">
+            GitHub <span aria-hidden="true">↗</span>
+          </a>
+        </nav>
+        <div class="bridge-section-menu-preferences">
+          <ThemeSelect />
+          <LanguageSelect />
+        </div>
+      </div>
+    </details>
+  )}
+</div>
+
+<style>
+  .bridge-global-header {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  .bridge-title-wrapper {
+    min-width: 0;
+    flex: none;
+    overflow: clip;
+    margin: -0.25rem;
+    padding: 0.25rem;
+  }
+
+  .bridge-header-search {
+    width: min(24rem, 28vw);
+    flex: 0 1 24rem;
+  }
+
+  .bridge-primary-nav {
+    display: flex;
+    gap: 0.15rem;
+    align-items: center;
+    margin-inline-start: auto;
+  }
+
+  .bridge-primary-nav a {
+    border-radius: 0.42rem;
+    padding: 0.55rem 0.72rem;
+    color: var(--sl-color-gray-2);
+    font-size: 0.82rem;
+    font-weight: 580;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .bridge-primary-nav a:hover,
+  .bridge-primary-nav a[aria-current='page'] {
+    background: var(--bridge-sky);
+    color: var(--sl-color-white);
+  }
+
+  .bridge-header-preferences,
+  .bridge-header-social {
+    display: flex;
+    gap: 0.9rem;
+    align-items: center;
+  }
+
+  .bridge-header-social::after {
+    width: 1px;
+    height: 1.75rem;
+    background: var(--bridge-line);
+    content: '';
+  }
+
+  .bridge-section-menu {
+    position: relative;
+    display: none;
+    flex: none;
+  }
+
+  .bridge-section-menu summary {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border-radius: 0.45rem;
+    color: var(--sl-color-white);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .bridge-section-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .bridge-section-menu summary:hover,
+  .bridge-section-menu[open] summary {
+    background: var(--bridge-sky);
+  }
+
+  .bridge-section-menu svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-width: 1.7;
+  }
+
+  .bridge-section-menu-panel {
+    position: absolute;
+    z-index: 30;
+    top: calc(100% + 0.65rem);
+    right: 0;
+    width: min(21rem, calc(100vw - 2rem));
+    border: 1px solid var(--bridge-line);
+    border-radius: 0.65rem;
+    background: color-mix(in srgb, var(--bridge-paper) 92%, transparent);
+    box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 14%);
+    padding: 0.8rem;
+    backdrop-filter: blur(18px) saturate(135%);
+  }
+
+  .bridge-section-menu-panel > strong {
+    display: block;
+    padding: 0.45rem 0.55rem 0.7rem;
+    color: var(--bridge-muted);
+    font-family: var(--sl-font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .bridge-section-menu-panel nav {
+    display: grid;
+  }
+
+  .bridge-section-menu-panel nav a {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--bridge-line);
+    padding-inline: 0.55rem;
+    color: var(--sl-color-white);
+    font-size: 0.9rem;
+    font-weight: 580;
+    text-decoration: none;
+  }
+
+  .bridge-section-menu-panel nav a:hover,
+  .bridge-section-menu-panel nav a[aria-current='page'] {
+    color: var(--bridge-blue-deep);
+  }
+
+  .bridge-section-menu-preferences {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: space-between;
+    border-top: 1px solid var(--bridge-line);
+    margin-top: 0.5rem;
+    padding: 0.8rem 0.4rem 0.2rem;
+  }
+
+  @media (max-width: 75rem) {
+    .bridge-primary-nav {
+      display: none;
+    }
+
+    .bridge-section-menu {
+      display: block;
+    }
+  }
+
+  @media (max-width: 50rem) {
+    .bridge-global-header {
+      gap: 0.25rem;
+    }
+
+    .bridge-title-wrapper {
+      width: 2.75rem;
+    }
+
+    .bridge-title-wrapper :global(.site-title) {
+      width: 2.75rem;
+      height: 2.75rem;
+      align-items: center;
+    }
+
+    .bridge-title-wrapper :global(.site-title img) {
+      width: 9.44rem !important;
+      max-width: none !important;
+    }
+
+    .bridge-header-search {
+      width: auto;
+      flex: none;
+      margin-inline-start: auto;
+    }
+
+    .bridge-header-preferences {
+      display: none;
+    }
+  }
+</style>
