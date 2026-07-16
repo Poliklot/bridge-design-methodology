@@ -1,6 +1,4 @@
 ---
-import MobileUtilityNav from './MobileUtilityNav.astro';
-
 interface Props {
   locale: 'ru' | 'en';
 }
@@ -11,21 +9,28 @@ const url = (path: string) => `${base}/${locale}/${path.replace(/^\//u, '')}`;
 
 const copy = locale === 'ru'
   ? {
-      eyebrow: 'Открытая методология передачи макетов',
+      eyebrow: 'Методология передачи макетов',
       title: 'Макет, который не нужно объяснять.',
       lead: 'BRIDGE фиксирует структуру, адаптивы, действия и исключения до начала разработки — прямо там, где принимаются дизайнерские решения.',
       primary: 'Подготовить первый макет',
       secondary: 'Посмотреть пример',
-      promise: ['15 минут до первого результата', 'Без привязки к платформе', 'Проверяемый контракт'],
-      inspectorTitle: 'Один макет. Два уровня ясности.',
-      before: 'До BRIDGE',
-      after: 'После BRIDGE',
-      beforeNote: 'Связи приходится восстанавливать по внешнему виду.',
-      afterNote: 'Страница, адаптив и действие читаются из структуры.',
-      treeBeforeDesktop: 'Главная — финал',
-      treeBeforeMobile: 'Главная — мобильная',
-      treePage: 'Главная',
-      treeSection: 'Первый экран',
+      inspectorTitle: 'Что можно узнать из файла',
+      before: 'Без BRIDGE',
+      after: 'С BRIDGE',
+      beforeNote: 'Разработчику приходится восстанавливать эти связи самостоятельно.',
+      afterNote: 'Ключевые решения объявлены и доступны для проверки.',
+      beforeFacts: [
+        ['Страница', 'не объявлена'],
+        ['Адаптивы', 'не связаны'],
+        ['Секция', 'не определена'],
+        ['Действие', 'нужно угадать'],
+      ],
+      afterFacts: [
+        ['Страница', 'home'],
+        ['Адаптивы', '1440 · 375'],
+        ['Секция', 'home-hero'],
+        ['Действие', 'modal → contact-modal'],
+      ],
       pathsEyebrow: 'Не читайте всё подряд',
       pathsTitle: 'Начните со своей задачи',
       paths: [
@@ -34,21 +39,23 @@ const copy = locale === 'ru'
         ['Разработчик инструмента', 'Используйте теги, контракт и каталог правил.', 'Открыть справочник', 'reference/transfer-contract/'],
       ],
       methodEyebrow: 'Как это работает',
-      methodTitle: 'Сначала структура. Затем смысл. После — проверка.',
+      methodTitle: 'Три шага к готовому макету',
       method: [
         ['01', 'Соберите техническую правду', 'Фреймы, Auto Layout, компоненты и геометрия остаются в Figma.'],
         ['02', 'Добавьте недостающий смысл', 'Теги описывают страницу, действие, цель, декор, экспорт и исключения.'],
         ['03', 'Проверьте без автора', 'Другой человек должен понять файл без созвона и дополнительных пояснений.'],
       ],
-      principlesEyebrow: 'Контракт BRIDGE',
-      principlesTitle: 'Шесть вопросов, на которые отвечает готовый макет',
+      principlesEyebrow: 'Шесть принципов',
+      principlesTitle: 'Что означает каждая буква BRIDGE',
+      principlesIntro: 'BRIDGE — это первые буквы шести английских терминов. Для каждого показаны оригинальное название, русский смысл и вопрос, на который должен отвечать макет.',
+      translationLabel: 'По-русски',
       principles: [
-        ['B', 'Адаптивы', 'Какие ширины и состояния подготовлены?'],
-        ['R', 'Назначение', 'Для чего нужен каждый значимый слой?'],
-        ['I', 'Идентификаторы', 'Как узнать один элемент на разных ширинах?'],
-        ['D', 'Связи', 'Куда ведут ссылки и что делают кнопки?'],
-        ['G', 'Геометрия', 'Можно ли воспроизвести размеры и отступы?'],
-        ['E', 'Исключения', 'Какие отклонения сделаны намеренно?'],
+        ['B', 'Breakpoints', 'Адаптивы и контрольные ширины', 'Какие ширины и состояния подготовлены?'],
+        ['R', 'Roles', 'Назначение слоёв', 'Для чего нужен каждый значимый слой?'],
+        ['I', 'Identity', 'Стабильные идентификаторы', 'Как узнать один элемент на разных ширинах?'],
+        ['D', 'Dependencies', 'Связи и действия', 'Куда ведут ссылки и что делают кнопки?'],
+        ['G', 'Geometry', 'Воспроизводимая геометрия', 'Можно ли повторить размеры, отступы и параметры текста?'],
+        ['E', 'Exceptions', 'Осознанные исключения', 'Какие отклонения сделаны намеренно?'],
       ],
       finalTitle: 'Проверьте реальный макет, а не идеальный пример.',
       finalText: 'Интерактивный чеклист сохранит прогресс в браузере и подготовит отчёт по оставшимся вопросам.',
@@ -60,16 +67,23 @@ const copy = locale === 'ru'
       lead: 'BRIDGE makes structure, breakpoints, actions, and exceptions explicit before implementation — at the point where design decisions are made.',
       primary: 'Prepare your first design',
       secondary: 'See an example',
-      promise: ['15 minutes to a first result', 'Target-independent', 'Machine-checkable contract'],
-      inspectorTitle: 'One design. Two levels of clarity.',
-      before: 'Before BRIDGE',
-      after: 'After BRIDGE',
-      beforeNote: 'Relationships must be inferred from appearance.',
-      afterNote: 'Page, breakpoint, and action are explicit in the tree.',
-      treeBeforeDesktop: 'Home — final',
-      treeBeforeMobile: 'Home — mobile',
-      treePage: 'Home',
-      treeSection: 'Hero',
+      inspectorTitle: 'What the file can tell you',
+      before: 'Without BRIDGE',
+      after: 'With BRIDGE',
+      beforeNote: 'The implementer has to reconstruct these relationships manually.',
+      afterNote: 'Key decisions are declared and available for validation.',
+      beforeFacts: [
+        ['Page', 'not declared'],
+        ['Breakpoints', 'not connected'],
+        ['Section', 'not defined'],
+        ['Action', 'must be inferred'],
+      ],
+      afterFacts: [
+        ['Page', 'home'],
+        ['Breakpoints', '1440 · 375'],
+        ['Section', 'home-hero'],
+        ['Action', 'modal → contact-modal'],
+      ],
       pathsEyebrow: 'Do not read everything',
       pathsTitle: 'Start with the job in front of you',
       paths: [
@@ -78,21 +92,23 @@ const copy = locale === 'ru'
         ['Tool builder', 'Use the tag grammar, contract, and rule catalog.', 'Open reference', 'reference/transfer-contract/'],
       ],
       methodEyebrow: 'How it works',
-      methodTitle: 'Structure first. Intent second. Validation last.',
+      methodTitle: 'Three steps to a transferable design',
       method: [
         ['01', 'Build technical truth', 'Frames, Auto Layout, components, and geometry remain native Figma data.'],
         ['02', 'Declare missing intent', 'Tags describe pages, actions, targets, decor, assets, and exceptions.'],
         ['03', 'Review without the author', 'Someone else should understand the file without a call or private context.'],
       ],
-      principlesEyebrow: 'The BRIDGE contract',
-      principlesTitle: 'Six questions a transferable design can answer',
+      principlesEyebrow: 'Six principles',
+      principlesTitle: 'What every BRIDGE letter means',
+      principlesIntro: 'BRIDGE takes its name from six English terms. Each one names a part of the handoff contract and a question the design must answer.',
+      translationLabel: '',
       principles: [
-        ['B', 'Breakpoints', 'Which widths and responsive states exist?'],
-        ['R', 'Roles', 'What is every important layer for?'],
-        ['I', 'Identity', 'How is one element recognized across variants?'],
-        ['D', 'Dependencies', 'Where do links and actions lead?'],
-        ['G', 'Geometry', 'Can size, spacing, and text metrics be reproduced?'],
-        ['E', 'Exceptions', 'Which deviations are intentional?'],
+        ['B', 'Breakpoints', '', 'Which widths and responsive states exist?'],
+        ['R', 'Roles', '', 'What is every important layer for?'],
+        ['I', 'Identity', '', 'How is one element recognized across variants?'],
+        ['D', 'Dependencies', '', 'Where do links and actions lead?'],
+        ['G', 'Geometry', '', 'Can size, spacing, and text metrics be reproduced?'],
+        ['E', 'Exceptions', '', 'Which deviations are intentional?'],
       ],
       finalTitle: 'Review a real design, not an ideal example.',
       finalText: 'The interactive checklist stores progress locally and prepares a report of unresolved questions.',
@@ -101,7 +117,6 @@ const copy = locale === 'ru'
 ---
 
 <div class="bridge-home">
-  <MobileUtilityNav locale={locale} />
   <section class="bridge-hero" aria-labelledby="bridge-home-title">
     <div class="bridge-hero-copy">
       <p class="bridge-eyebrow">{copy.eyebrow}</p>
@@ -111,9 +126,6 @@ const copy = locale === 'ru'
         <a class="bridge-button bridge-button-primary" href={url('start/designer-quick-start/')}>{copy.primary}</a>
         <a class="bridge-button bridge-button-secondary" href={url('examples/')}>{copy.secondary}</a>
       </div>
-      <ul class="bridge-promises" aria-label={locale === 'ru' ? 'Преимущества' : 'Highlights'}>
-        {copy.promise.map((item) => <li>{item}</li>)}
-      </ul>
     </div>
 
     <div class="bridge-inspector" data-inspector>
@@ -124,38 +136,18 @@ const copy = locale === 'ru'
           <button type="button" data-inspector-mode="after" aria-pressed="true">{copy.after}</button>
         </div>
       </div>
-      <div class="bridge-tree bridge-tree-before" data-inspector-panel="before">
-        <p class="bridge-tree-label">{copy.before}</p>
-        <pre><code><span>{copy.treeBeforeDesktop}</span>
-  <i>Frame 42</i>
-    Group 18
-      Heading
-      Text
-    Button
-
-<span>{copy.treeBeforeMobile}</span>
-  Group 91
-    Title mobile
-    Button copy</code></pre>
+      <div class="bridge-contract-panel bridge-contract-before" data-inspector-panel="before">
+        <dl>
+          {copy.beforeFacts.map(([label, value]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}
+        </dl>
         <p>{copy.beforeNote}</p>
       </div>
-      <div class="bridge-tree bridge-tree-after is-active" data-inspector-panel="after">
-        <p class="bridge-tree-label">{copy.after}</p>
-        <pre><code><span>{copy.treePage} [page=home]</span>
-  [bp=1440] [view=default]
-  <i>{copy.treeSection} [section=home-hero]</i>
-    hero-copy
-      hero-title
-    contact-button
-      <b>[action=modal:contact-modal]</b>
-
-<span>{copy.treePage} [page=home]</span>
-  [bp=375] [view=default]</code></pre>
+      <div class="bridge-contract-panel bridge-contract-after is-active" data-inspector-panel="after">
+        <dl>
+          {copy.afterFacts.map(([label, value]) => <div><dt>{label}</dt><dd><code>{value}</code></dd></div>)}
+        </dl>
         <p>{copy.afterNote}</p>
       </div>
-      <ol class="bridge-module-rail" aria-label="BRIDGE">
-        {copy.principles.map(([letter, label]) => <li title={label}><b>{letter}</b><span>{label}</span></li>)}
-      </ol>
     </div>
   </section>
 
@@ -188,9 +180,19 @@ const copy = locale === 'ru'
   <section class="bridge-section" aria-labelledby="principles-title">
     <p class="bridge-eyebrow">{copy.principlesEyebrow}</p>
     <h2 id="principles-title">{copy.principlesTitle}</h2>
+    <p class="bridge-principles-intro">{copy.principlesIntro}</p>
     <div class="bridge-principles">
-      {copy.principles.map(([letter, title, description]) => (
-        <article><span>{letter}</span><h3>{title}</h3><p>{description}</p></article>
+      {copy.principles.map(([letter, english, translation, description]) => (
+        <article>
+          <span>{letter}</span>
+          <div class="bridge-principle-copy">
+            <h3>
+              <span lang="en">{english}</span>
+              {translation && <small><em>{copy.translationLabel}:</em> {translation}</small>}
+            </h3>
+            <p>{description}</p>
+          </div>
+        </article>
       ))}
     </div>
   </section>

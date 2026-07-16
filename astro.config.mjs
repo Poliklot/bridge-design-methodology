@@ -34,7 +34,9 @@ export default defineConfig({
       ],
       customCss: ['/src/styles/bridge.css'],
       components: {
+        Header: './src/components/BridgeHeader.astro',
         MobileMenuToggle: './src/components/AccessibleMobileMenuToggle.astro',
+        SocialIcons: './src/components/ExternalSocialIcons.astro',
       },
       lastUpdated: false,
       credits: false,
