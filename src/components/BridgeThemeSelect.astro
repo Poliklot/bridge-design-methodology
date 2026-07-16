@@ -1,0 +1,158 @@
+---
+const locale = Astro.locals.starlightRoute.locale === 'en' ? 'en' : 'ru';
+const copy = locale === 'ru'
+  ? { label: 'Тема оформления', dark: 'Тёмная', light: 'Светлая', auto: 'Системная' }
+  : { label: 'Color theme', dark: 'Dark', light: 'Light', auto: 'System' };
+---
+
+<bridge-theme-select class="bridge-utility-select" data-choice="auto">
+  <label>
+    <span class="sr-only">{copy.label}</span>
+    <span class="bridge-utility-icon" aria-hidden="true">
+      <svg data-theme-icon="auto" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="6.25"></circle>
+        <path d="M10 3.75a6.25 6.25 0 0 0 0 12.5Z"></path>
+      </svg>
+      <svg data-theme-icon="dark" viewBox="0 0 20 20">
+        <path d="M15.9 12.5A6.7 6.7 0 0 1 7.5 4.1 6.7 6.7 0 1 0 15.9 12.5Z"></path>
+      </svg>
+      <svg data-theme-icon="light" viewBox="0 0 20 20">
+        <circle cx="10" cy="10" r="3.25"></circle>
+        <path d="M10 1.75v1.5M10 16.75v1.5M1.75 10h1.5M16.75 10h1.5M4.17 4.17l1.06 1.06M14.77 14.77l1.06 1.06M15.83 4.17l-1.06 1.06M5.23 14.77l-1.06 1.06"></path>
+      </svg>
+    </span>
+    <select autocomplete="off" aria-label={copy.label}>
+      <option value="dark">{copy.dark}</option>
+      <option value="light">{copy.light}</option>
+      <option value="auto" selected>{copy.auto}</option>
+    </select>
+    <svg class="bridge-utility-caret" aria-hidden="true" viewBox="0 0 20 20">
+      <path d="m6.5 8 3.5 3.5L13.5 8"></path>
+    </svg>
+  </label>
+</bridge-theme-select>
+
+<script>
+  type Theme = 'auto' | 'dark' | 'light';
+  const storageKey = 'starlight-theme';
+  const parseTheme = (value: unknown): Theme => (
+    value === 'dark' || value === 'light' || value === 'auto' ? value : 'auto'
+  );
+  const preferredTheme = (): 'dark' | 'light' => (
+    matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+  );
+  const storedTheme = (): Theme => parseTheme(localStorage.getItem(storageKey) || 'auto');
+
+  const synchronizeThemePickers = (theme: Theme) => {
+    for (const picker of document.querySelectorAll('bridge-theme-select')) {
+      const select = picker.querySelector('select');
+      if (select instanceof HTMLSelectElement) select.value = theme;
+      if (picker instanceof HTMLElement) picker.dataset.choice = theme;
+    }
+  };
+
+  const applyTheme = (theme: Theme) => {
+    document.documentElement.dataset.theme = theme === 'auto' ? preferredTheme() : theme;
+    if (theme === 'auto') localStorage.removeItem(storageKey);
+    else localStorage.setItem(storageKey, theme);
+    synchronizeThemePickers(theme);
+  };
+
+  if (!customElements.get('bridge-theme-select')) {
+    customElements.define('bridge-theme-select', class extends HTMLElement {
+      connectedCallback() {
+        if (this.dataset.ready === 'true') return;
+        this.dataset.ready = 'true';
+        synchronizeThemePickers(storedTheme());
+        this.querySelector('select')?.addEventListener('change', (event) => {
+          if (event.currentTarget instanceof HTMLSelectElement) applyTheme(parseTheme(event.currentTarget.value));
+        });
+      }
+    });
+
+    matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+      if (storedTheme() === 'auto') applyTheme('auto');
+    });
+  }
+</script>
+
+<style>
+  .bridge-utility-select {
+    display: inline-block;
+    flex: none;
+  }
+
+  .bridge-utility-select label {
+    position: relative;
+    display: flex;
+    min-width: 7.7rem;
+    height: 2.75rem;
+    align-items: center;
+    color: var(--sl-color-gray-2);
+    transition: color 0.1s ease-in-out;
+  }
+
+  .bridge-utility-select label:hover {
+    color: var(--sl-color-white);
+  }
+
+  .bridge-utility-select select {
+    width: 100%;
+    height: 100%;
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0.45rem;
+    background: transparent;
+    padding: 0 2rem 0 2rem;
+    color: inherit;
+    font: inherit;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .bridge-utility-icon,
+  .bridge-utility-caret {
+    position: absolute;
+    z-index: 1;
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+  }
+
+  .bridge-utility-icon {
+    left: 0.6rem;
+  }
+
+  .bridge-utility-icon svg {
+    display: none;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.45;
+  }
+
+  .bridge-utility-icon svg[data-theme-icon='auto'] path,
+  .bridge-utility-icon svg[data-theme-icon='dark'] path {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  :global(bridge-theme-select[data-choice='auto']) [data-theme-icon='auto'],
+  :global(bridge-theme-select[data-choice='dark']) [data-theme-icon='dark'],
+  :global(bridge-theme-select[data-choice='light']) [data-theme-icon='light'] {
+    display: block;
+  }
+
+  .bridge-utility-caret {
+    right: 0.55rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+</style>

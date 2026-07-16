@@ -22,6 +22,10 @@
   --bridge-error: #d83a3a;
   --bridge-warning: #b46a09;
   --bridge-success: #16845b;
+  --bridge-container: 82rem;
+  --bridge-gutter: clamp(1rem, 3vw, 2.5rem);
+  --bridge-control-height: 3rem;
+  --bridge-focus: #0d99ff;
 }
 
 :root[data-theme='light'] {
@@ -61,6 +65,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--sl-nav-height) + 1.5rem);
 }
 
 body {
@@ -78,13 +83,25 @@ summary {
   touch-action: manipulation;
 }
 
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-summary:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--bridge-blue) 55%, transparent);
-  outline-offset: 3px;
+:where(a, button, input, select, summary, [role='button'], [role='tab']) {
+  transition-duration: 0.1s !important;
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+  transition-timing-function: ease-in-out !important;
+}
+
+:where(a, button, select, summary, [role='button'], [role='tab']):focus-visible {
+  outline: 4px dashed var(--bridge-focus);
+  outline-offset: 4px;
+}
+
+input:focus-visible {
+  border-color: var(--bridge-focus) !important;
+  outline: 0;
+  box-shadow: inset 0 0 0 1px var(--bridge-focus);
+}
+
+:where(h1, h2, h3, [id]) {
+  scroll-margin-top: calc(var(--sl-nav-height) + 1.5rem);
 }
 
 header.header {
@@ -113,7 +130,7 @@ header.header {
 }
 
 /* Custom application pages supply their own semantic hero title. */
-main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-panel:first-child {
+main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-explorer)) > .content-panel:first-child {
   display: none;
 }
 
@@ -171,27 +188,30 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-home,
+.plugin-page,
 .preflight,
 .rules-explorer {
   color: var(--sl-color-text);
 }
 
 .content-panel:has(.bridge-home),
+.content-panel:has(.plugin-page),
 .content-panel:has(.preflight),
 .content-panel:has(.rules-explorer) {
   padding: 0;
 }
 
 .content-panel:has(.bridge-home) > .sl-container,
+.content-panel:has(.plugin-page) > .sl-container,
 .content-panel:has(.preflight) > .sl-container,
 .content-panel:has(.rules-explorer) > .sl-container {
   max-width: none;
 }
 
 .bridge-home {
-  width: min(100%, 82rem);
+  width: min(100%, calc(var(--bridge-container) + 2 * var(--bridge-gutter)));
   margin-inline: auto;
-  padding-inline: clamp(1rem, 4vw, 3rem);
+  padding-inline: var(--bridge-gutter);
 }
 
 .bridge-eyebrow {
@@ -229,7 +249,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-hero h1 {
-  max-width: 18ch;
+  max-width: none;
   margin: 0;
   color: var(--sl-color-white);
   font-size: clamp(3.1rem, 4.2vw, 4.35rem);
@@ -266,9 +286,13 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   line-height: 1;
   text-align: center;
   text-decoration: none;
-  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out, color 0.1s ease-in-out;
   white-space: nowrap;
   cursor: pointer;
+}
+
+.bridge-button > span[aria-hidden='true'] {
+  margin-inline-start: 0.35rem;
 }
 
 .bridge-button-primary {
@@ -294,125 +318,194 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-inspector {
-  position: relative;
   overflow: hidden;
-  border: 1px solid #3a4145;
-  border-radius: 0.75rem;
-  background: #171a1c;
-  box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 14%);
-  color: #dce4e9;
+  border: 1px solid #424242;
+  border-radius: 0.65rem;
+  background: #2c2c2c;
+  box-shadow: 0 1.25rem 3rem rgb(0 0 0 / 16%);
+  color: #f5f5f5;
+  font-family: Inter, var(--sl-font), sans-serif;
 }
 
-.bridge-inspector::before {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: var(--bridge-blue);
-  content: '';
-}
-
-.bridge-inspector-head {
+.bridge-inspector-bar {
   display: flex;
-  gap: 1rem;
-  justify-content: space-between;
+  min-height: 2.75rem;
   align-items: center;
-  border-bottom: 1px solid #30373b;
-  padding: 0.9rem 1rem 0.9rem 1.25rem;
+  justify-content: space-between;
+  border-bottom: 1px solid #444444;
+  padding: 0 0.75rem;
 }
 
-.bridge-inspector-head p {
+.bridge-inspector-bar strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.bridge-inspector-bar > span {
   margin: 0;
-  color: #aeb9c0;
-  font-family: var(--sl-font-mono);
-  font-size: 0.7rem;
+  color: #a5a5a5;
+  font-size: 0.64rem;
+}
+
+.bridge-figma-mark {
+  display: grid;
+  width: 1.35rem;
+  height: 1.35rem;
+  place-items: center;
+  border-radius: 0.3rem;
+  background: var(--bridge-blue);
+  color: #071118;
+  font-size: 0.68rem;
+  font-weight: 700;
 }
 
 .bridge-inspector-tabs {
-  display: flex;
-  gap: 0.2rem;
-  border: 1px solid #3d464b;
-  border-radius: 0.42rem;
-  padding: 0.2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #444444;
+  background: #2c2c2c;
 }
 
 .bridge-inspector-tabs button {
+  position: relative;
+  min-height: 2.75rem;
   border: 0;
-  border-radius: 0.28rem;
+  border-inline-end: 1px solid #444444;
+  border-radius: 0;
   background: transparent;
-  padding: 0.38rem 0.58rem;
-  color: #9aa7af;
-  font-family: var(--sl-font-mono);
-  font-size: 0.66rem;
+  padding: 0 0.75rem;
+  color: #b3b3b3;
+  font-size: 0.7rem;
+  font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
 }
 
-.bridge-inspector-tabs button[aria-pressed='true'] {
-  background: #eaf6ff;
-  color: #0c171e;
+.bridge-inspector-tabs button:last-child {
+  border-inline-end: 0;
 }
 
-.bridge-contract-panel {
+.bridge-inspector-tabs button:hover {
+  background: #333333;
+  color: #ffffff;
+}
+
+.bridge-inspector-tabs button[aria-selected='true'] {
+  background: #333333;
+  color: #ffffff;
+}
+
+.bridge-inspector-tabs button[aria-selected='true']::after {
+  position: absolute;
+  right: 0.75rem;
+  bottom: -1px;
+  left: 0.75rem;
+  height: 2px;
+  background: var(--bridge-blue);
+  content: '';
+}
+
+.bridge-layers-panel {
+  background: #2c2c2c;
+  animation: bridge-layers-in 0.1s ease-in-out both;
+}
+
+.bridge-layers-panel[hidden] {
   display: none;
-  padding: 1rem 1.35rem 1.2rem;
-  animation: bridge-contract-in 240ms ease both;
 }
 
-.bridge-contract-panel.is-active {
-  display: block;
+.bridge-layer-tree {
+  min-height: 19.5rem;
+  padding: 0.5rem 0;
 }
 
-.bridge-contract-panel dl {
-  margin: 0;
-  border: 1px solid #30373b;
-  border-radius: 0.6rem;
-  background: #101214;
-}
-
-.bridge-contract-panel dl > div {
-  display: grid;
-  grid-template-columns: minmax(6.5rem, 0.72fr) minmax(0, 1.28fr);
-  gap: 1rem;
-  align-items: center;
-  border-bottom: 1px solid #30373b;
-  padding: 0.85rem 1rem;
-}
-
-.bridge-contract-panel dl > div:last-child {
-  border-bottom: 0;
-}
-
-.bridge-contract-panel dt {
-  color: #71818b;
-  font-family: var(--sl-font-mono);
-  font-size: 0.67rem;
-}
-
-.bridge-contract-panel dd {
+.bridge-layer-row {
+  display: flex;
+  min-height: 1.85rem;
   min-width: 0;
-  margin: 0;
-  color: #dce4e9;
-  font-size: 0.84rem;
-  text-align: end;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.75rem 0.15rem calc(0.7rem + var(--layer-depth) * 0.9rem);
+  color: #e6e6e6;
+  font-size: 0.7rem;
+  transition: background-color 0.1s ease-in-out;
 }
 
-.bridge-contract-panel code {
-  overflow-wrap: anywhere;
-  color: #50b7ff;
+.bridge-layer-row:hover {
+  background: #383838;
+}
+
+.bridge-layer-chevron {
+  width: 0.42rem;
+  height: 0.42rem;
+  flex: none;
+  border-right: 1px solid #b3b3b3;
+  border-bottom: 1px solid #b3b3b3;
+  transform: translateY(-0.1rem) rotate(45deg);
+}
+
+.bridge-layer-chevron.is-empty {
+  visibility: hidden;
+}
+
+.bridge-layer-glyph {
+  display: grid;
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  place-items: center;
+  color: #b3b3b3;
   font-family: var(--sl-font-mono);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
+  line-height: 1;
 }
 
-.bridge-contract-before dd {
-  color: #84939c;
+.bridge-layer-glyph.is-frame,
+.bridge-layer-glyph.is-section {
+  color: #0d99ff;
+  font-weight: 500;
 }
 
-.bridge-contract-panel > p:last-child {
-  min-height: 0;
-  margin: 0.85rem 0 0;
-  color: #9aa7af;
-  font-size: 0.78rem;
-  line-height: 1.5;
+.bridge-layer-glyph.is-component {
+  color: #a259ff;
+  font-size: 0.95rem;
+}
+
+.bridge-layer-glyph.is-text {
+  color: #f5f5f5;
+  font-family: Inter, sans-serif;
+  font-size: 0.65rem;
+}
+
+.bridge-layer-name {
+  min-width: 0;
+  flex: none;
+  white-space: nowrap;
+}
+
+.bridge-layer-row code {
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: #5cc3ff;
+  font-family: var(--sl-font-mono);
+  font-size: 0.59rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bridge-layers-panel > p {
+  min-height: 3.45rem;
+  margin: 0;
+  border-top: 1px solid #444444;
+  padding: 0.8rem 0.9rem;
+  color: #b3b3b3;
+  font-size: 0.7rem;
+  line-height: 1.45;
 }
 
 .bridge-section {
@@ -422,7 +515,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 
 .bridge-section > h2,
 .bridge-method h2 {
-  max-width: 18ch;
+  max-width: 24ch;
   margin: 0;
   color: var(--sl-color-white);
   font-size: clamp(2.15rem, 4vw, 3.65rem);
@@ -446,7 +539,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   padding: clamp(1.25rem, 2.5vw, 1.75rem);
   color: inherit;
   text-decoration: none;
-  transition: background-color 180ms ease, color 180ms ease;
+  transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
 }
 
 .bridge-path:last-child {
@@ -529,7 +622,11 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-principles article {
-  min-height: 11.5rem;
+  display: grid;
+  min-height: 12rem;
+  grid-template-rows: 2.35rem 1fr;
+  gap: 1.5rem;
+  align-content: start;
   border-inline-end: 1px solid var(--bridge-line);
   border-bottom: 1px solid var(--bridge-line);
   padding: clamp(1.35rem, 3vw, 2rem);
@@ -548,7 +645,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-principles h3 {
-  margin: 2rem 0 0;
+  margin: 0;
   color: var(--sl-color-white);
   font-size: 1.25rem;
 }
@@ -584,6 +681,11 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   line-height: 1.55;
 }
 
+.bridge-principle-copy {
+  display: grid;
+  align-content: start;
+}
+
 .bridge-principles-intro {
   max-width: 54rem;
   margin: 1.25rem 0 0;
@@ -593,7 +695,8 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-final {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 2rem;
   justify-content: space-between;
   align-items: flex-end;
@@ -606,7 +709,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .bridge-final h2 {
-  max-width: 14ch;
+  max-width: 24ch;
   margin: 0;
   color: var(--sl-color-white);
   font-size: clamp(2.1rem, 4vw, 3.65rem);
@@ -622,10 +725,262 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   line-height: 1.6;
 }
 
+.plugin-page {
+  width: min(100%, calc(var(--bridge-container) + 2 * var(--bridge-gutter)));
+  margin-inline: auto;
+  padding-inline: var(--bridge-gutter);
+}
+
+.plugin-hero {
+  display: grid;
+  grid-template-columns: minmax(23rem, 0.82fr) minmax(30rem, 1.18fr);
+  gap: clamp(2.5rem, 6vw, 5.5rem);
+  align-items: center;
+  min-height: min(44rem, calc(100svh - var(--sl-nav-height)));
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+}
+
+.plugin-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.35rem;
+}
+
+.plugin-identity img {
+  flex: none;
+  border-radius: 0.7rem;
+  box-shadow: 0 0 0 1px var(--bridge-line);
+}
+
+.plugin-identity > span {
+  display: grid;
+  color: var(--sl-color-white);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.plugin-identity small {
+  margin-top: 0.15rem;
+  color: var(--bridge-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.plugin-hero h1 {
+  margin: 0;
+  color: var(--sl-color-white);
+  font-size: clamp(3rem, 4.6vw, 4.8rem);
+  font-weight: 690;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+}
+
+.plugin-lead {
+  max-width: 43rem;
+  margin: 1.5rem 0 0;
+  color: var(--bridge-muted);
+  font-size: clamp(1rem, 1.35vw, 1.16rem);
+  line-height: 1.62;
+}
+
+.plugin-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.25rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  color: var(--bridge-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.68rem;
+  list-style: none;
+}
+
+.plugin-facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.plugin-facts li > span {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: var(--bridge-success);
+}
+
+.plugin-preview {
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid var(--bridge-line);
+  border-radius: 0.8rem;
+  background: var(--bridge-surface);
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 14%);
+}
+
+.plugin-preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.plugin-preview figcaption {
+  border-top: 1px solid var(--bridge-line);
+  padding: 0.8rem 1rem;
+  color: var(--bridge-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.65rem;
+}
+
+.plugin-features,
+.plugin-workflow {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(2.5rem, 7vw, 6rem);
+}
+
+.plugin-section-heading h2 {
+  max-width: 18ch;
+  margin: 0;
+  color: var(--sl-color-white);
+  font-size: clamp(2.15rem, 4vw, 3.65rem);
+  font-weight: 680;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.plugin-feature-list {
+  border-top: 1px solid var(--bridge-line);
+}
+
+.plugin-feature-list article {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(8rem, 0.45fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+  border-bottom: 1px solid var(--bridge-line);
+  padding: 1.45rem 0;
+}
+
+.plugin-feature-list article > span,
+.plugin-workflow li > span {
+  color: var(--bridge-blue-deep);
+  font-family: var(--sl-font-mono);
+  font-size: 0.68rem;
+}
+
+.plugin-feature-list h3,
+.plugin-workflow h3 {
+  margin: 0;
+  color: var(--sl-color-white);
+  font-size: 1.05rem;
+}
+
+.plugin-feature-list p,
+.plugin-workflow p {
+  margin: 0;
+  color: var(--bridge-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.plugin-workflow ol {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--bridge-line);
+  list-style: none;
+}
+
+.plugin-workflow li {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  gap: 1rem;
+  border-bottom: 1px solid var(--bridge-line);
+  padding: 1.5rem 0;
+}
+
+.plugin-workflow p {
+  margin-top: 0.5rem;
+}
+
+.plugin-privacy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: clamp(1rem, 4vw, 3rem);
+  border-block: 1px solid var(--bridge-line);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.plugin-privacy > div:first-child {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.plugin-privacy-icon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  border-radius: 0.6rem;
+  background: var(--bridge-sky);
+  color: var(--bridge-blue-deep);
+}
+
+.plugin-privacy-icon svg {
+  width: 1.4rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.plugin-privacy h2 {
+  margin: 0;
+  color: var(--sl-color-white);
+  font-size: clamp(1.6rem, 3vw, 2.35rem);
+  letter-spacing: -0.035em;
+}
+
+.plugin-privacy p {
+  max-width: 48rem;
+  margin: 0.7rem 0 0;
+  color: var(--bridge-muted);
+  line-height: 1.6;
+}
+
+.plugin-privacy-actions {
+  display: grid;
+  gap: 0.7rem;
+  justify-items: end;
+}
+
+.plugin-privacy-actions a {
+  color: var(--bridge-blue-deep);
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.plugin-privacy-actions a:hover {
+  color: var(--sl-color-white);
+}
+
 .preflight,
 .rules-explorer {
-  width: min(calc(100% - 2rem), 70rem);
+  width: min(100%, calc(var(--bridge-container) + 2 * var(--bridge-gutter)));
   margin-inline: auto;
+  padding-inline: var(--bridge-gutter);
   padding-block: clamp(3rem, 6vw, 5rem);
 }
 
@@ -638,7 +993,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 
 .preflight-intro h1,
 .rules-explorer > header h1 {
-  max-width: 15ch;
+  max-width: 21ch;
   margin: 0;
   color: var(--sl-color-white);
   font-size: clamp(2.5rem, 5vw, 4.75rem);
@@ -689,7 +1044,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   width: 0;
   height: 100%;
   background: var(--bridge-blue);
-  transition: width 220ms ease;
+  transition: width 0.1s ease-in-out;
 }
 
 .preflight-list {
@@ -711,7 +1066,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   border-bottom: 1px solid var(--bridge-line);
   padding: 1.15rem;
   cursor: pointer;
-  transition: background-color 160ms ease;
+  transition: background-color 0.1s ease-in-out;
 }
 
 .preflight-item:hover,
@@ -720,8 +1075,8 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 .preflight-item:has(input:focus-visible) {
-  outline: 3px solid color-mix(in srgb, var(--bridge-blue) 55%, transparent);
-  outline-offset: -3px;
+  outline: 4px dashed var(--bridge-focus);
+  outline-offset: -4px;
 }
 
 .preflight-item.is-done {
@@ -821,12 +1176,21 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   display: grid;
   grid-template-columns: minmax(15rem, 1fr) 13rem 13rem;
   gap: 0.7rem;
+  align-items: end;
   margin-top: 1.5rem;
   border: 0;
   border-bottom: 1px solid var(--bridge-line);
   border-radius: 0;
   background: color-mix(in srgb, var(--bridge-paper) 97%, transparent);
   padding: 0 0 1rem;
+}
+
+.rules-controls > label {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .rules-controls label > span:not(.sr-only) {
@@ -841,14 +1205,34 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 .rules-controls input,
 .rules-controls select {
   width: 100%;
-  min-height: 2.85rem;
+  height: var(--bridge-control-height);
   border: 1px solid var(--bridge-line);
   border-radius: 0.45rem;
   background: var(--bridge-paper);
-  padding: 0.6rem 0.75rem;
+  padding: 0 0.85rem;
   color: var(--sl-color-white);
   font: inherit;
   font-size: 0.84rem;
+}
+
+.rules-controls select {
+  appearance: none;
+  padding-inline-end: 2.75rem;
+  cursor: pointer;
+}
+
+.rules-select::after {
+  position: absolute;
+  right: 1rem;
+  bottom: 1.2rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  color: var(--bridge-muted);
+  content: '';
+  pointer-events: none;
+  transform: rotate(45deg);
 }
 
 .rules-meta {
@@ -992,13 +1376,15 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
   white-space: nowrap;
 }
 
-@keyframes bridge-contract-in {
+@keyframes bridge-layers-in {
   from { opacity: 0; transform: translateY(0.35rem); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 68rem) {
-  .bridge-method {
+  .bridge-method,
+  .plugin-features,
+  .plugin-workflow {
     grid-template-columns: 1fr;
   }
 
@@ -1012,17 +1398,22 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 }
 
 @media (max-width: 60rem) {
-  .bridge-hero {
+  .bridge-hero,
+  .plugin-hero {
     grid-template-columns: 1fr;
     min-height: auto;
   }
 
   .bridge-hero h1 {
-    max-width: 18ch;
+    max-width: none;
   }
 
   .bridge-inspector {
     width: min(100%, 40rem);
+  }
+
+  .plugin-preview {
+    width: min(100%, 52rem);
   }
 }
 
@@ -1062,17 +1453,19 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
     padding-inline: 0;
   }
 
-  .bridge-home {
+  .bridge-home,
+  .plugin-page {
     padding-inline: 1rem;
   }
 
-  .bridge-hero {
+  .bridge-hero,
+  .plugin-hero {
     gap: 2rem;
     padding-block: 2.25rem 3rem;
   }
 
   .bridge-hero h1 {
-    max-width: 17ch;
+    max-width: none;
     font-size: clamp(2rem, 9.5vw, 3.15rem);
     letter-spacing: -0.045em;
     line-height: 1;
@@ -1113,8 +1506,9 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
 
   .bridge-section > h2,
   .bridge-method h2,
-  .bridge-final h2 {
-    max-width: 16ch;
+  .bridge-final h2,
+  .plugin-section-heading h2 {
+    max-width: none;
     font-size: 2rem;
     line-height: 1.04;
   }
@@ -1181,6 +1575,7 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
     display: grid;
     min-height: 0;
     grid-template-columns: 2.4rem 1fr;
+    grid-template-rows: auto;
     column-gap: 1rem;
     border-inline-end: 0;
     padding: 1rem 0;
@@ -1231,6 +1626,40 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
     gap: 1.25rem;
     margin-bottom: 1rem;
     padding-block: 2.5rem;
+  }
+
+  .plugin-hero h1 {
+    font-size: clamp(2.35rem, 10vw, 3.4rem);
+    line-height: 1;
+  }
+
+  .plugin-identity {
+    margin-bottom: 1rem;
+  }
+
+  .plugin-preview {
+    border-radius: 0.6rem;
+    box-shadow: none;
+  }
+
+  .plugin-feature-list article {
+    grid-template-columns: 2rem 1fr;
+    gap: 0.8rem;
+    padding-block: 1.2rem;
+  }
+
+  .plugin-feature-list article p {
+    grid-column: 2;
+    margin-top: -0.25rem;
+  }
+
+  .plugin-privacy {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .plugin-privacy-actions {
+    justify-items: start;
   }
 
   .bridge-final p {
@@ -1346,36 +1775,31 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
     width: 1.35rem;
   }
 
-  .bridge-inspector-head {
-    gap: 0.5rem;
-    align-items: center;
-    flex-direction: row;
-    padding: 0.7rem 0.75rem 0.7rem 1rem;
-  }
-
-  .bridge-inspector-head p {
-    max-width: 9rem;
-    line-height: 1.35;
-  }
-
   .bridge-inspector-tabs button {
     min-height: 2.75rem;
     padding-inline: 0.5rem;
   }
 
-  .bridge-contract-panel {
-    padding: 0.8rem;
+  .bridge-layer-tree {
+    min-height: 18rem;
   }
 
-  .bridge-contract-panel dl > div {
-    grid-template-columns: 5.5rem minmax(0, 1fr);
-    gap: 0.65rem;
-    padding: 0.75rem;
+  .bridge-layer-row {
+    padding-inline-end: 0.5rem;
+    padding-inline-start: calc(0.5rem + var(--layer-depth) * 0.72rem);
+    font-size: 0.65rem;
   }
 
-  .bridge-contract-panel > p:last-child {
-    margin-top: 0.65rem;
-    font-size: 0.72rem;
+  .bridge-layer-row code {
+    font-size: 0.54rem;
+  }
+
+  .plugin-privacy > div:first-child {
+    grid-template-columns: 1fr;
+  }
+
+  .plugin-facts {
+    display: grid;
   }
 
   .rules-controls {
@@ -1410,22 +1834,6 @@ main:is(:has(.bridge-home), :has(.preflight), :has(.rules-explorer)) > .content-
     color: var(--sl-color-white);
   }
 
-}
-
-@media (max-width: 21rem) {
-  .bridge-inspector-head {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .bridge-inspector-head p {
-    max-width: none;
-  }
-
-  .bridge-inspector-tabs {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

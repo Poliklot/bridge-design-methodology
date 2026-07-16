@@ -14,28 +14,40 @@ const copy = locale === 'ru'
       lead: 'BRIDGE фиксирует структуру, адаптивы, действия и исключения до начала разработки — прямо там, где принимаются дизайнерские решения.',
       primary: 'Подготовить первый макет',
       secondary: 'Посмотреть пример',
-      inspectorTitle: 'Что можно узнать из файла',
+      inspectorTitle: 'Сравнение структуры слоёв',
+      layersLabel: 'Слои',
+      fileLabel: 'Главная · Figma',
       before: 'Без BRIDGE',
       after: 'С BRIDGE',
-      beforeNote: 'Разработчику приходится восстанавливать эти связи самостоятельно.',
-      afterNote: 'Ключевые решения объявлены и доступны для проверки.',
-      beforeFacts: [
-        ['Страница', 'не объявлена'],
-        ['Адаптивы', 'не связаны'],
-        ['Секция', 'не определена'],
-        ['Действие', 'нужно угадать'],
+      beforeNote: 'Названия описывают внешний вид, но не объясняют связи между фреймами.',
+      afterNote: 'Та же структура: страница, адаптив, секция и действие читаются прямо из Layers.',
+      beforeTree: [
+        [0, 'frame', 'Главная — финал', '', true],
+        [1, 'frame', 'Frame 42', '', true],
+        [2, 'group', 'Group 18', '', true],
+        [3, 'text', 'Heading', '', false],
+        [3, 'text', 'Text', '', false],
+        [2, 'component', 'Button', '', false],
+        [0, 'frame', 'Главная — mobile', '', true],
+        [1, 'group', 'Group 91', '', true],
+        [2, 'text', 'Title mobile', '', false],
+        [2, 'component', 'Button copy', '', false],
       ],
-      afterFacts: [
-        ['Страница', 'home'],
-        ['Адаптивы', '1440 · 375'],
-        ['Секция', 'home-hero'],
-        ['Действие', 'modal → contact-modal'],
+      afterTree: [
+        [0, 'frame', 'Главная', '[page=home]', true],
+        [1, 'frame', 'Desktop', '[bp=1440] [view=default]', true],
+        [2, 'section', 'Первый экран', '[section=home-hero]', true],
+        [3, 'group', 'hero-copy', '', true],
+        [4, 'text', 'hero-title', '', false],
+        [3, 'component', 'contact-button', '[action=modal:contact-modal]', false],
+        [1, 'frame', 'Mobile', '[bp=375] [view=default]', true],
+        [2, 'section', 'Первый экран', '[section=home-hero]', false],
       ],
       pathsEyebrow: 'Не читайте всё подряд',
       pathsTitle: 'Начните со своей задачи',
       paths: [
         ['Дизайнер', 'Подготовьте первый файл по пяти шагам.', 'Открыть быстрый старт', 'start/designer-quick-start/'],
-        ['Ревьюер', 'Проверьте готовность макета перед передачей.', 'Запустить проверку', 'check/'],
+        ['Плагин BRIDGE', 'Добавьте теги, откройте карту файла и запустите Preflight прямо в Figma.', 'Открыть плагин', 'check/'],
         ['Разработчик инструмента', 'Используйте теги, контракт и каталог правил.', 'Открыть справочник', 'reference/transfer-contract/'],
       ],
       methodEyebrow: 'Как это работает',
@@ -57,9 +69,9 @@ const copy = locale === 'ru'
         ['G', 'Geometry', 'Воспроизводимая геометрия', 'Можно ли повторить размеры, отступы и параметры текста?'],
         ['E', 'Exceptions', 'Осознанные исключения', 'Какие отклонения сделаны намеренно?'],
       ],
-      finalTitle: 'Проверьте реальный макет, а не идеальный пример.',
-      finalText: 'Интерактивный чеклист сохранит прогресс в браузере и подготовит отчёт по оставшимся вопросам.',
-      finalAction: 'Проверить макет',
+      finalTitle: 'Проверьте макет прямо в Figma.',
+      finalText: 'Официальный плагин BRIDGE размечает связи, показывает карту файла и находит вопросы до передачи в разработку.',
+      finalAction: 'Открыть плагин',
     }
   : {
       eyebrow: 'Open design handoff methodology',
@@ -67,28 +79,40 @@ const copy = locale === 'ru'
       lead: 'BRIDGE makes structure, breakpoints, actions, and exceptions explicit before implementation — at the point where design decisions are made.',
       primary: 'Prepare your first design',
       secondary: 'See an example',
-      inspectorTitle: 'What the file can tell you',
+      inspectorTitle: 'Layer structure comparison',
+      layersLabel: 'Layers',
+      fileLabel: 'Home · Figma',
       before: 'Without BRIDGE',
       after: 'With BRIDGE',
-      beforeNote: 'The implementer has to reconstruct these relationships manually.',
-      afterNote: 'Key decisions are declared and available for validation.',
-      beforeFacts: [
-        ['Page', 'not declared'],
-        ['Breakpoints', 'not connected'],
-        ['Section', 'not defined'],
-        ['Action', 'must be inferred'],
+      beforeNote: 'Names describe appearance, but not the relationships between frames.',
+      afterNote: 'The same structure: page, breakpoint, section, and action are visible in Layers.',
+      beforeTree: [
+        [0, 'frame', 'Home — final', '', true],
+        [1, 'frame', 'Frame 42', '', true],
+        [2, 'group', 'Group 18', '', true],
+        [3, 'text', 'Heading', '', false],
+        [3, 'text', 'Text', '', false],
+        [2, 'component', 'Button', '', false],
+        [0, 'frame', 'Home — mobile', '', true],
+        [1, 'group', 'Group 91', '', true],
+        [2, 'text', 'Title mobile', '', false],
+        [2, 'component', 'Button copy', '', false],
       ],
-      afterFacts: [
-        ['Page', 'home'],
-        ['Breakpoints', '1440 · 375'],
-        ['Section', 'home-hero'],
-        ['Action', 'modal → contact-modal'],
+      afterTree: [
+        [0, 'frame', 'Home', '[page=home]', true],
+        [1, 'frame', 'Desktop', '[bp=1440] [view=default]', true],
+        [2, 'section', 'Hero', '[section=home-hero]', true],
+        [3, 'group', 'hero-copy', '', true],
+        [4, 'text', 'hero-title', '', false],
+        [3, 'component', 'contact-button', '[action=modal:contact-modal]', false],
+        [1, 'frame', 'Mobile', '[bp=375] [view=default]', true],
+        [2, 'section', 'Hero', '[section=home-hero]', false],
       ],
       pathsEyebrow: 'Do not read everything',
       pathsTitle: 'Start with the job in front of you',
       paths: [
         ['Designer', 'Prepare a first file in five practical steps.', 'Open quick start', 'start/designer-quick-start/'],
-        ['Reviewer', 'Check whether a design is ready for implementation.', 'Run preflight', 'check/'],
+        ['BRIDGE plugin', 'Add tags, open the file map, and run Preflight directly in Figma.', 'Open plugin', 'check/'],
         ['Tool builder', 'Use the tag grammar, contract, and rule catalog.', 'Open reference', 'reference/transfer-contract/'],
       ],
       methodEyebrow: 'How it works',
@@ -110,13 +134,13 @@ const copy = locale === 'ru'
         ['G', 'Geometry', '', 'Can size, spacing, and text metrics be reproduced?'],
         ['E', 'Exceptions', '', 'Which deviations are intentional?'],
       ],
-      finalTitle: 'Review a real design, not an ideal example.',
-      finalText: 'The interactive checklist stores progress locally and prepares a report of unresolved questions.',
-      finalAction: 'Check a design',
+      finalTitle: 'Review the design directly in Figma.',
+      finalText: 'The official BRIDGE plugin declares relationships, maps the file, and finds unresolved questions before handoff.',
+      finalAction: 'Open plugin',
     };
 ---
 
-<div class="bridge-home">
+<div class="bridge-home not-content">
   <section class="bridge-hero" aria-labelledby="bridge-home-title">
     <div class="bridge-hero-copy">
       <p class="bridge-eyebrow">{copy.eyebrow}</p>
@@ -129,23 +153,38 @@ const copy = locale === 'ru'
     </div>
 
     <div class="bridge-inspector" data-inspector>
-      <div class="bridge-inspector-head">
-        <p>{copy.inspectorTitle}</p>
-        <div class="bridge-inspector-tabs" role="group" aria-label={copy.inspectorTitle}>
-          <button type="button" data-inspector-mode="before" aria-pressed="false">{copy.before}</button>
-          <button type="button" data-inspector-mode="after" aria-pressed="true">{copy.after}</button>
-        </div>
+      <div class="bridge-inspector-bar">
+        <strong><span class="bridge-figma-mark" aria-hidden="true">F</span>{copy.layersLabel}</strong>
+        <span>{copy.fileLabel}</span>
       </div>
-      <div class="bridge-contract-panel bridge-contract-before" data-inspector-panel="before">
-        <dl>
-          {copy.beforeFacts.map(([label, value]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}
-        </dl>
+      <div class="bridge-inspector-tabs" role="tablist" aria-label={copy.inspectorTitle}>
+        <button id="layers-before-tab" type="button" role="tab" data-inspector-mode="before" aria-selected="false" aria-controls="layers-before-panel" tabindex="-1">{copy.before}</button>
+        <button id="layers-after-tab" type="button" role="tab" data-inspector-mode="after" aria-selected="true" aria-controls="layers-after-panel">{copy.after}</button>
+      </div>
+      <div id="layers-before-panel" class="bridge-layers-panel" role="tabpanel" aria-labelledby="layers-before-tab" data-inspector-panel="before" hidden>
+        <div class="bridge-layer-tree">
+          {copy.beforeTree.map(([depth, type, name, tag, branch]) => (
+            <div class="bridge-layer-row" style={`--layer-depth:${depth}`}>
+              <span class:list={['bridge-layer-chevron', { 'is-empty': !branch }]} aria-hidden="true"></span>
+              <span class={`bridge-layer-glyph is-${type}`} aria-hidden="true">{type === 'text' ? 'T' : type === 'component' ? '◇' : type === 'group' ? '□' : '#'}</span>
+              <span class="bridge-layer-name">{name}</span>
+              {tag && <code>{tag}</code>}
+            </div>
+          ))}
+        </div>
         <p>{copy.beforeNote}</p>
       </div>
-      <div class="bridge-contract-panel bridge-contract-after is-active" data-inspector-panel="after">
-        <dl>
-          {copy.afterFacts.map(([label, value]) => <div><dt>{label}</dt><dd><code>{value}</code></dd></div>)}
-        </dl>
+      <div id="layers-after-panel" class="bridge-layers-panel is-active" role="tabpanel" aria-labelledby="layers-after-tab" data-inspector-panel="after">
+        <div class="bridge-layer-tree">
+          {copy.afterTree.map(([depth, type, name, tag, branch]) => (
+            <div class="bridge-layer-row" style={`--layer-depth:${depth}`}>
+              <span class:list={['bridge-layer-chevron', { 'is-empty': !branch }]} aria-hidden="true"></span>
+              <span class={`bridge-layer-glyph is-${type}`} aria-hidden="true">{type === 'text' ? 'T' : type === 'component' ? '◇' : type === 'group' ? '□' : '#'}</span>
+              <span class="bridge-layer-name">{name}</span>
+              {tag && <code>{tag}</code>}
+            </div>
+          ))}
+        </div>
         <p>{copy.afterNote}</p>
       </div>
     </div>
@@ -205,15 +244,33 @@ const copy = locale === 'ru'
 
 <script>
   for (const inspector of document.querySelectorAll('[data-inspector]')) {
-    const buttons = inspector.querySelectorAll('[data-inspector-mode]');
-    const panels = inspector.querySelectorAll('[data-inspector-panel]');
+    const buttons = [...inspector.querySelectorAll<HTMLButtonElement>('[data-inspector-mode]')];
+    const panels = [...inspector.querySelectorAll<HTMLElement>('[data-inspector-panel]')];
+
+    const activate = (button: HTMLButtonElement) => {
+      const mode = button.dataset.inspectorMode;
+      for (const item of buttons) {
+        const active = item === button;
+        item.setAttribute('aria-selected', String(active));
+        item.tabIndex = active ? 0 : -1;
+      }
+      for (const panel of panels) {
+        const active = panel.dataset.inspectorPanel === mode;
+        panel.hidden = !active;
+        panel.classList.toggle('is-active', active);
+      }
+    };
 
     for (const button of buttons) {
-      button.addEventListener('click', () => {
-        const mode = button.getAttribute('data-inspector-mode');
-        for (const item of buttons) item.setAttribute('aria-pressed', String(item === button));
-        for (const panel of panels) {
-          panel.classList.toggle('is-active', panel.getAttribute('data-inspector-panel') === mode);
+      button.addEventListener('click', () => activate(button));
+      button.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        const direction = event.key === 'ArrowRight' ? 1 : -1;
+        const next = buttons[(buttons.indexOf(button) + direction + buttons.length) % buttons.length];
+        if (next) {
+          activate(next);
+          next.focus();
         }
       });
     }
