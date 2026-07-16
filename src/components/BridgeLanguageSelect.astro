@@ -1,0 +1,112 @@
+---
+import config from 'virtual:starlight/user-config';
+
+const locale = Astro.locals.starlightRoute.locale === 'en' ? 'en' : 'ru';
+const label = locale === 'ru' ? 'Язык сайта' : 'Site language';
+const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
+const localizedPathname = (code: string) => {
+  const marker = `/${locale}/`;
+  return Astro.url.pathname.includes(marker)
+    ? Astro.url.pathname.replace(marker, `/${code}/`)
+    : `${base}/${code}/`;
+};
+---
+
+{config.isMultilingual && (
+  <bridge-language-select class="bridge-language-select">
+    <label>
+      <span class="sr-only">{label}</span>
+      <svg class="bridge-language-icon" aria-hidden="true" viewBox="0 0 20 20">
+        <path d="M3.25 5.25h8.5M7.5 3.25v2M5.1 5.25c.7 3.15 2.7 5.4 5.65 6.75M10.15 5.25c-.75 3.35-3 5.85-6.15 7.15M12.15 16.5l2.25-6 2.35 6M13 14.25h3"></path>
+      </svg>
+      <select autocomplete="off" aria-label={label}>
+        {Object.entries(config.locales).map(([code, item]) => (
+          <option value={localizedPathname(code)} selected={code === Astro.locals.starlightRoute.locale}>
+            {item!.label}
+          </option>
+        ))}
+      </select>
+      <svg class="bridge-language-caret" aria-hidden="true" viewBox="0 0 20 20">
+        <path d="m6.5 8 3.5 3.5L13.5 8"></path>
+      </svg>
+    </label>
+  </bridge-language-select>
+)}
+
+<script>
+  if (!customElements.get('bridge-language-select')) {
+    customElements.define('bridge-language-select', class extends HTMLElement {
+      connectedCallback() {
+        if (this.dataset.ready === 'true') return;
+        this.dataset.ready = 'true';
+        const select = this.querySelector('select');
+        select?.addEventListener('change', (event) => {
+          if (event.currentTarget instanceof HTMLSelectElement) window.location.pathname = event.currentTarget.value;
+        });
+        window.addEventListener('pageshow', (event) => {
+          if (!event.persisted || !(select instanceof HTMLSelectElement)) return;
+          const selected = select.querySelector<HTMLOptionElement>('option[selected]');
+          if (selected) select.selectedIndex = selected.index;
+        });
+      }
+    });
+  }
+</script>
+
+<style>
+  .bridge-language-select {
+    display: inline-block;
+    flex: none;
+  }
+
+  .bridge-language-select label {
+    position: relative;
+    display: flex;
+    min-width: 8.35rem;
+    height: 2.75rem;
+    align-items: center;
+    color: var(--sl-color-gray-2);
+    transition: color 0.1s ease-in-out;
+  }
+
+  .bridge-language-select label:hover {
+    color: var(--sl-color-white);
+  }
+
+  .bridge-language-select select {
+    width: 100%;
+    height: 100%;
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0.45rem;
+    background: transparent;
+    padding: 0 2rem 0 2rem;
+    color: inherit;
+    font: inherit;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .bridge-language-icon,
+  .bridge-language-caret {
+    position: absolute;
+    z-index: 1;
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.4;
+    pointer-events: none;
+  }
+
+  .bridge-language-icon {
+    left: 0.6rem;
+  }
+
+  .bridge-language-caret {
+    right: 0.55rem;
+  }
+</style>

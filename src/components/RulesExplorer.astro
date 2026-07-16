@@ -163,7 +163,7 @@ const copy = locale === 'ru'
     };
 ---
 
-<section class="rules-explorer" data-rules-explorer data-page-size="12">
+<section class="rules-explorer not-content" data-rules-explorer data-page-size="12">
   <header>
     <p class="bridge-eyebrow">{copy.eyebrow}</p>
     <h1>{copy.title}</h1>
@@ -175,15 +175,15 @@ const copy = locale === 'ru'
       <span>{copy.search}</span>
       <input type="search" placeholder={copy.searchPlaceholder} data-rule-search />
     </label>
-    <label>
-      <span class="sr-only">{copy.severityLabel}</span>
+    <label class="rules-select">
+      <span>{copy.severityLabel}</span>
       <select data-rule-severity>
         <option value="">{copy.severity}</option>
         {catalog.severityLevels.map((level) => <option value={level}>{locale === 'ru' ? severityRu[level] : level}</option>)}
       </select>
     </label>
-    <label>
-      <span class="sr-only">{copy.automationLabel}</span>
+    <label class="rules-select">
+      <span>{copy.automationLabel}</span>
       <select data-rule-automation>
         <option value="">{copy.automation}</option>
         {catalog.automationLevels.map((level) => <option value={level}>{locale === 'ru' ? automationRu[level] : level}</option>)}

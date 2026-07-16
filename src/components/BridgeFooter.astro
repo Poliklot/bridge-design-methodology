@@ -1,0 +1,183 @@
+---
+import Pagination from '@astrojs/starlight/components/Pagination.astro';
+import packageInfo from '../../package.json';
+
+const locale = Astro.locals.starlightRoute.locale === 'en' ? 'en' : 'ru';
+const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
+const url = (path = '') => `${base}/${locale}/${path}`;
+const copy = locale === 'ru'
+  ? {
+      description: 'Открытая методология и плагин для передачи интерфейсных макетов без скрытых предположений.',
+      sections: 'Разделы',
+      resources: 'Ресурсы',
+      overview: 'Обзор',
+      start: 'Быстрый старт',
+      plugin: 'Плагин для Figma',
+      rules: 'Каталог правил',
+      docs: 'Документация на GitHub',
+      support: 'Поддержка плагина',
+      license: 'Открытый проект · MIT License',
+    }
+  : {
+      description: 'An open methodology and Figma plugin for handing off interface designs without hidden assumptions.',
+      sections: 'Sections',
+      resources: 'Resources',
+      overview: 'Overview',
+      start: 'Quick start',
+      plugin: 'Figma plugin',
+      rules: 'Rule catalog',
+      docs: 'Documentation on GitHub',
+      support: 'Plugin support',
+      license: 'Open source · MIT License',
+    };
+---
+
+<div class="bridge-footer-pagination"><Pagination /></div>
+
+<footer class="bridge-site-footer">
+  <div class="bridge-footer-main">
+    <div class="bridge-footer-brand">
+      <a class="bridge-footer-logo" href={url()} aria-label="BRIDGE">
+        <img src={`${base}/assets/brand/bridge-mark.svg`} width="34" height="34" alt="" />
+        <strong>BRIDGE</strong>
+      </a>
+      <p>{copy.description}</p>
+    </div>
+
+    <nav aria-label={copy.sections}>
+      <strong>{copy.sections}</strong>
+      <a href={url()}>{copy.overview}</a>
+      <a href={url('start/designer-quick-start/')}>{copy.start}</a>
+      <a href={url('check/')}>{copy.plugin}</a>
+      <a href={url('rules/')}>{copy.rules}</a>
+    </nav>
+
+    <nav aria-label={copy.resources}>
+      <strong>{copy.resources}</strong>
+      <a href="https://www.figma.com/community/plugin/1654485530503673254/bridge" target="_blank" rel="noopener noreferrer">
+        Figma Community <span aria-hidden="true">↗</span>
+      </a>
+      <a href="https://github.com/Poliklot/bridge-design-methodology" target="_blank" rel="noopener noreferrer">
+        {copy.docs} <span aria-hidden="true">↗</span>
+      </a>
+      <a href="https://github.com/Poliklot/bridge-figma-assistant/issues" target="_blank" rel="noopener noreferrer">
+        {copy.support} <span aria-hidden="true">↗</span>
+      </a>
+    </nav>
+  </div>
+
+  <div class="bridge-footer-meta">
+    <span>© 2026 Poliklot</span>
+    <span>{copy.license}</span>
+    <span>v{packageInfo.version}</span>
+  </div>
+</footer>
+
+<style>
+  .bridge-footer-pagination:empty {
+    display: none;
+  }
+
+  .bridge-site-footer {
+    width: min(100%, calc(var(--bridge-container) + 2 * var(--bridge-gutter)));
+    margin: clamp(2rem, 5vw, 4rem) auto 0;
+    border-top: 1px solid var(--bridge-line);
+    padding: clamp(2.5rem, 5vw, 4rem) var(--bridge-gutter) 1.5rem;
+    color: var(--bridge-muted);
+  }
+
+  .bridge-footer-main {
+    display: grid;
+    grid-template-columns: minmax(14rem, 1.4fr) minmax(8rem, 0.65fr) minmax(11.5rem, 0.9fr);
+    gap: clamp(1.5rem, 3vw, 4rem);
+  }
+
+  .bridge-footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--sl-color-white);
+    text-decoration: none;
+  }
+
+  .bridge-footer-logo img {
+    flex: none;
+    border-radius: 0.45rem;
+  }
+
+  .bridge-footer-logo strong {
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+  }
+
+  .bridge-footer-brand p {
+    max-width: 34rem;
+    margin: 1rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .bridge-site-footer nav {
+    display: grid;
+    align-content: start;
+    gap: 0.7rem;
+  }
+
+  .bridge-site-footer nav > strong {
+    margin-bottom: 0.25rem;
+    color: var(--sl-color-white);
+    font-family: var(--sl-font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .bridge-site-footer nav a {
+    width: fit-content;
+    color: var(--bridge-muted);
+    font-size: 0.86rem;
+    text-decoration: none;
+  }
+
+  .bridge-site-footer nav a:hover {
+    color: var(--sl-color-white);
+  }
+
+  .bridge-footer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1.5rem;
+    justify-content: space-between;
+    border-top: 1px solid var(--bridge-line);
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    padding-top: 1.25rem;
+    font-family: var(--sl-font-mono);
+    font-size: 0.67rem;
+  }
+
+  @media (max-width: 50rem) {
+    .bridge-footer-main {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .bridge-footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .bridge-footer-main {
+      grid-template-columns: 1fr;
+    }
+
+    .bridge-footer-brand {
+      grid-column: auto;
+    }
+
+    .bridge-footer-meta {
+      display: grid;
+      justify-content: start;
+    }
+  }
+</style>

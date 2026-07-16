@@ -1,10 +1,10 @@
 ---
 import config from 'virtual:starlight/user-config';
 
-import LanguageSelect from '@astrojs/starlight/components/LanguageSelect.astro';
 import Search from '@astrojs/starlight/components/Search.astro';
 import SiteTitle from '@astrojs/starlight/components/SiteTitle.astro';
-import ThemeSelect from '@astrojs/starlight/components/ThemeSelect.astro';
+import LanguageSelect from './BridgeLanguageSelect.astro';
+import ThemeSelect from './BridgeThemeSelect.astro';
 import SocialIcons from './ExternalSocialIcons.astro';
 
 const shouldRenderSearch = config.pagefind
@@ -21,7 +21,7 @@ const labels = locale === 'ru'
       overview: 'Обзор',
       start: 'Быстрый старт',
       rules: 'Правила',
-      check: 'Проверка',
+      plugin: 'Плагин',
     }
   : {
       nav: 'Primary navigation',
@@ -30,18 +30,18 @@ const labels = locale === 'ru'
       overview: 'Overview',
       start: 'Quick start',
       rules: 'Rules',
-      check: 'Preflight',
+      plugin: 'Plugin',
     };
 const items = [
   [labels.overview, `${base}/${locale}/`],
   [labels.start, `${base}/${locale}/start/designer-quick-start/`],
   [labels.rules, `${base}/${locale}/rules/`],
-  [labels.check, `${base}/${locale}/check/`],
+  [labels.plugin, `${base}/${locale}/check/`],
 ];
 const isCurrent = (href: string) => currentPath === href.replace(/\/$/u, '');
 ---
 
-<div class="bridge-global-header">
+<div class:list={['bridge-global-header', { 'has-sidebar': hasSidebar }]}>
   <div class="bridge-title-wrapper"><SiteTitle /></div>
   <div class="bridge-header-search print:hidden">{shouldRenderSearch && <Search />}</div>
 
@@ -87,9 +87,15 @@ const isCurrent = (href: string) => currentPath === href.replace(/\/$/u, '');
   .bridge-global-header {
     display: flex;
     width: 100%;
+    max-width: var(--bridge-container);
     height: 100%;
-    gap: 1.25rem;
+    gap: 1rem;
     align-items: center;
+    margin-inline: auto;
+  }
+
+  .bridge-global-header.has-sidebar {
+    max-width: none;
   }
 
   .bridge-title-wrapper {
@@ -101,8 +107,8 @@ const isCurrent = (href: string) => currentPath === href.replace(/\/$/u, '');
   }
 
   .bridge-header-search {
-    width: min(24rem, 28vw);
-    flex: 0 1 24rem;
+    width: min(22rem, 25vw);
+    flex: 0 1 22rem;
   }
 
   .bridge-primary-nav {
@@ -131,7 +137,7 @@ const isCurrent = (href: string) => currentPath === href.replace(/\/$/u, '');
   .bridge-header-preferences,
   .bridge-header-social {
     display: flex;
-    gap: 0.9rem;
+    gap: 0.35rem;
     align-items: center;
   }
 
@@ -231,13 +237,19 @@ const isCurrent = (href: string) => currentPath === href.replace(/\/$/u, '');
     padding: 0.8rem 0.4rem 0.2rem;
   }
 
-  @media (max-width: 75rem) {
+  @media (max-width: 84rem) {
     .bridge-primary-nav {
       display: none;
     }
 
     .bridge-section-menu {
       display: block;
+    }
+  }
+
+  @media (max-width: 64rem) {
+    .bridge-header-preferences {
+      display: none;
     }
   }
 
@@ -267,8 +279,5 @@ const isCurrent = (href: string) => currentPath === href.replace(/\/$/u, '');
       margin-inline-start: auto;
     }
 
-    .bridge-header-preferences {
-      display: none;
-    }
   }
 </style>

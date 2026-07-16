@@ -1,0 +1,143 @@
+---
+interface Props {
+  locale: 'ru' | 'en';
+}
+
+const { locale } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
+const url = (path: string) => `${base}/${locale}/${path.replace(/^\//u, '')}`;
+const pluginUrl = 'https://www.figma.com/community/plugin/1654485530503673254/bridge';
+const supportUrl = 'https://github.com/Poliklot/bridge-figma-assistant/issues';
+
+const copy = locale === 'ru'
+  ? {
+      eyebrow: 'Официальный плагин для Figma',
+      title: 'Проверьте макет прямо в Figma.',
+      lead: 'Помечайте страницы, адаптивы, секции и действия, переходите по карте файла и запускайте Preflight — без ручного переноса данных в отдельный чеклист.',
+      open: 'Открыть в Figma',
+      start: 'Начать за 5 шагов',
+      facts: ['Работает локально', 'Не требует аккаунта', 'Не имеет доступа к сети'],
+      previewAlt: 'Официальное превью плагина BRIDGE в Figma Community',
+      previewCaption: 'Опубликовано в Figma Community · версия 1',
+      featuresEyebrow: 'Что делает плагин',
+      featuresTitle: 'От объявления намерения до проверки файла.',
+      features: [
+        ['Теги без опечаток', 'Добавляйте ссылки, действия, секции, модальные окна, формы, маршруты и корневые адаптивы из интерфейса плагина.'],
+        ['Карта файла', 'Переходите между объявленными страницами и целями, не разыскивая нужный фрейм вручную.'],
+        ['Готовые цели', 'Копируйте объявленные идентификаторы и вставляйте их в связанные слои без повторного набора.'],
+        ['Preflight', 'Находите отсутствующие идентификаторы, расхождения адаптивов, ошибки маршрутов и действий, изменения контента и незавершённые поля.'],
+      ],
+      workflowEyebrow: 'Рабочий процесс',
+      workflowTitle: 'Три действия внутри текущего Figma-файла.',
+      workflow: [
+        ['01', 'Объявите', 'Выберите значимый слой и добавьте только тот смысл, которого нет в нативной структуре Figma.'],
+        ['02', 'Свяжите', 'Используйте карту файла и существующие цели, чтобы страница, действие и адаптив читались однозначно.'],
+        ['03', 'Проверьте', 'Запустите Preflight и исправьте вопросы до передачи макета разработчику.'],
+      ],
+      privacyTitle: 'Макет остаётся в вашем файле.',
+      privacyText: 'BRIDGE работает локально в текущем документе Figma, не требует отдельной регистрации и не отправляет содержимое файла по сети.',
+      support: 'Сообщить о проблеме',
+      methodology: 'Открыть методологию',
+    }
+  : {
+      eyebrow: 'Official Figma plugin',
+      title: 'Review the design directly in Figma.',
+      lead: 'Tag pages, breakpoints, sections, and actions, navigate the file map, and run Preflight — without moving design data into a separate browser checklist.',
+      open: 'Open in Figma',
+      start: 'Start in 5 steps',
+      facts: ['Runs locally', 'No account required', 'No network access'],
+      previewAlt: 'Official BRIDGE plugin preview on Figma Community',
+      previewCaption: 'Published on Figma Community · Version 1',
+      featuresEyebrow: 'What the plugin does',
+      featuresTitle: 'From declared intent to a reviewed file.',
+      features: [
+        ['Tags without typos', 'Add links, actions, sections, modals, forms, routes, and responsive roots from the plugin UI.'],
+        ['File map', 'Navigate declared pages and targets without hunting for the right frame by hand.'],
+        ['Reusable targets', 'Copy declared identifiers into related layers without typing the same value again.'],
+        ['Preflight', 'Find missing identities, breakpoint inconsistencies, route and interaction errors, content drift, and unfinished draft fields.'],
+      ],
+      workflowEyebrow: 'Workflow',
+      workflowTitle: 'Three actions inside the current Figma file.',
+      workflow: [
+        ['01', 'Declare', 'Select a meaningful layer and add only the intent that is missing from native Figma structure.'],
+        ['02', 'Connect', 'Use the file map and existing targets so the page, action, and breakpoint are unambiguous.'],
+        ['03', 'Review', 'Run Preflight and resolve questions before handing the design to implementation.'],
+      ],
+      privacyTitle: 'The design stays in your file.',
+      privacyText: 'BRIDGE runs locally in the current Figma document, requires no separate account, and does not send file contents over the network.',
+      support: 'Report an issue',
+      methodology: 'Open the methodology',
+    };
+---
+
+<div class="plugin-page not-content">
+  <section class="plugin-hero" aria-labelledby="plugin-title">
+    <div class="plugin-hero-copy">
+      <p class="bridge-eyebrow">{copy.eyebrow}</p>
+      <div class="plugin-identity">
+        <img src={`${base}/assets/plugin/bridge-plugin-icon.png`} width="52" height="52" alt="" />
+        <span>BRIDGE <small>for Figma</small></span>
+      </div>
+      <h1 id="plugin-title">{copy.title}</h1>
+      <p class="plugin-lead">{copy.lead}</p>
+      <div class="bridge-actions">
+        <a class="bridge-button bridge-button-primary" href={pluginUrl} target="_blank" rel="noopener noreferrer">
+          {copy.open}<span aria-hidden="true"> ↗</span>
+        </a>
+        <a class="bridge-button bridge-button-secondary" href={url('start/designer-quick-start/')}>{copy.start}</a>
+      </div>
+      <ul class="plugin-facts" aria-label={locale === 'ru' ? 'Приватность плагина' : 'Plugin privacy'}>
+        {copy.facts.map((fact) => <li><span aria-hidden="true"></span>{fact}</li>)}
+      </ul>
+    </div>
+
+    <figure class="plugin-preview">
+      <img src={`${base}/assets/plugin/bridge-preview.png`} width="1920" height="1080" alt={copy.previewAlt} loading="eager" />
+      <figcaption>{copy.previewCaption}</figcaption>
+    </figure>
+  </section>
+
+  <section class="bridge-section plugin-features" aria-labelledby="plugin-features-title">
+    <div class="plugin-section-heading">
+      <p class="bridge-eyebrow">{copy.featuresEyebrow}</p>
+      <h2 id="plugin-features-title">{copy.featuresTitle}</h2>
+    </div>
+    <div class="plugin-feature-list">
+      {copy.features.map(([title, description], index) => (
+        <article>
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="bridge-section plugin-workflow" aria-labelledby="plugin-workflow-title">
+    <div class="plugin-section-heading">
+      <p class="bridge-eyebrow">{copy.workflowEyebrow}</p>
+      <h2 id="plugin-workflow-title">{copy.workflowTitle}</h2>
+    </div>
+    <ol>
+      {copy.workflow.map(([number, title, description]) => (
+        <li>
+          <span>{number}</span>
+          <div><h3>{title}</h3><p>{description}</p></div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="plugin-privacy" aria-labelledby="plugin-privacy-title">
+    <div>
+      <span class="plugin-privacy-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10M6 10h12v10H6z"></path></svg>
+      </span>
+      <div><h2 id="plugin-privacy-title">{copy.privacyTitle}</h2><p>{copy.privacyText}</p></div>
+    </div>
+    <div class="plugin-privacy-actions">
+      <a href={supportUrl} target="_blank" rel="noopener noreferrer">{copy.support}<span aria-hidden="true"> ↗</span></a>
+      <a href={url('reference/transfer-contract/')}>{copy.methodology}<span aria-hidden="true"> →</span></a>
+    </div>
+  </section>
+</div>
