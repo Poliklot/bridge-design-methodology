@@ -513,6 +513,16 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   border-top: 1px solid var(--bridge-line);
 }
 
+.bridge-home :is(h1, h2, h3),
+.plugin-page :is(h1, h2, h3) {
+  text-wrap: balance;
+}
+
+.bridge-home h3,
+.plugin-page h3 {
+  line-height: 1.12;
+}
+
 .bridge-section > h2,
 .bridge-method h2 {
   max-width: 24ch;
@@ -556,6 +566,8 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   color: var(--sl-color-white);
   font-size: clamp(1.55rem, 2.4vw, 2.2rem);
   letter-spacing: -0.035em;
+  line-height: 1.08;
+  text-wrap: balance;
 }
 
 .bridge-path p {
@@ -733,8 +745,8 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 
 .plugin-hero {
   display: grid;
-  grid-template-columns: minmax(23rem, 0.82fr) minmax(30rem, 1.18fr);
-  gap: clamp(2.5rem, 6vw, 5.5rem);
+  grid-template-columns: minmax(27rem, 1fr) minmax(30rem, 1fr);
+  gap: clamp(2.5rem, 4vw, 4rem);
   align-items: center;
   min-height: min(44rem, calc(100svh - var(--sl-nav-height)));
   padding-block: clamp(3.5rem, 7vw, 6rem);
@@ -773,7 +785,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 .plugin-hero h1 {
   margin: 0;
   color: var(--sl-color-white);
-  font-size: clamp(3rem, 4.6vw, 4.8rem);
+  font-size: clamp(3rem, 4.6vw, 4.6rem);
   font-weight: 690;
   letter-spacing: -0.055em;
   line-height: 0.98;
@@ -886,7 +898,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 }
 
 .plugin-feature-list p,
-.plugin-workflow p {
+.plugin-workflow li p {
   margin: 0;
   color: var(--bridge-muted);
   font-size: 0.9rem;
@@ -909,7 +921,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   padding: 1.5rem 0;
 }
 
-.plugin-workflow p {
+.plugin-workflow li p {
   margin-top: 0.5rem;
 }
 
@@ -954,6 +966,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   color: var(--sl-color-white);
   font-size: clamp(1.6rem, 3vw, 2.35rem);
   letter-spacing: -0.035em;
+  line-height: 1.1;
 }
 
 .plugin-privacy p {
@@ -984,36 +997,43 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 .bridge-contract-heading,
 .plugin-showcase-heading,
 .plugin-demo-heading {
-  display: grid;
-  grid-template-columns: minmax(18rem, 0.8fr) minmax(0, 1.2fr);
-  gap: clamp(2rem, 7vw, 6rem);
-  align-items: end;
+  display: block;
 }
 
 .bridge-contract-heading .bridge-eyebrow,
 .plugin-showcase-heading .bridge-eyebrow,
 .plugin-demo-heading .bridge-eyebrow {
-  grid-column: 1 / -1;
-  margin-bottom: calc(-1 * clamp(1rem, 2vw, 2rem));
+  margin-bottom: 1.25rem;
+}
+
+.bridge-contract-heading > div,
+.plugin-showcase-heading > div,
+.plugin-demo-heading > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(22rem, 0.75fr);
+  column-gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
 }
 
 .bridge-contract-heading h2,
 .plugin-showcase-heading h2,
 .plugin-demo-heading h2 {
-  max-width: 17ch;
+  max-width: none;
   margin: 0;
   color: var(--sl-color-white);
-  font-size: clamp(2.15rem, 4vw, 3.65rem);
+  font-size: clamp(2.15rem, 3.4vw, 3.35rem);
   font-weight: 680;
   letter-spacing: -0.055em;
-  line-height: 1;
+  line-height: 0.98;
+  text-wrap: balance;
 }
 
-.bridge-contract-heading > p:last-child,
+.bridge-contract-heading > div > p,
 .plugin-showcase-heading > div > p,
 .plugin-demo-heading > div > p {
   max-width: 47rem;
   margin: 0;
+  justify-self: end;
   color: var(--bridge-muted);
   font-size: 1rem;
   line-height: 1.65;
@@ -1031,7 +1051,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 .bridge-contract-equation::before {
   position: absolute;
   z-index: 0;
-  top: 1.6rem;
+  top: calc(1.375rem - 1px);
   right: 8%;
   left: 8%;
   height: 2px;
@@ -1227,6 +1247,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   color: var(--sl-color-white);
   font-size: clamp(1.2rem, 2vw, 1.45rem);
   letter-spacing: -0.03em;
+  line-height: 1.1;
 }
 
 .bridge-contract-card ul {
@@ -1263,6 +1284,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 }
 
 .bridge-contract-operator span {
+  position: relative;
   display: grid;
   width: 2.75rem;
   height: 2.75rem;
@@ -1271,8 +1293,36 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   border-radius: 50%;
   background: var(--bridge-paper);
   color: var(--bridge-blue-deep);
-  font-family: var(--sl-font-mono);
-  font-size: 1rem;
+}
+
+.bridge-contract-operator span::before,
+.bridge-contract-operator span::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: currentColor;
+  content: '';
+  transform: translate(-50%, -50%);
+}
+
+.bridge-contract-operator.is-plus span::before,
+.bridge-contract-operator.is-equals span::before,
+.bridge-contract-operator.is-equals span::after {
+  width: 0.8rem;
+  height: 1px;
+}
+
+.bridge-contract-operator.is-plus span::after {
+  width: 1px;
+  height: 0.8rem;
+}
+
+.bridge-contract-operator.is-equals span::before {
+  margin-top: -0.18rem;
+}
+
+.bridge-contract-operator.is-equals span::after {
+  margin-top: 0.18rem;
 }
 
 .bridge-contract-caption {
@@ -1287,14 +1337,12 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   text-align: end;
 }
 
-.bridge-contract-caption span {
-  color: var(--bridge-blue-deep);
+.sl-markdown-content .bridge-contract-caption {
+  max-width: none;
 }
 
-.plugin-showcase-heading > div,
-.plugin-demo-heading > div {
-  display: grid;
-  gap: 1.1rem;
+.bridge-contract-caption span {
+  color: var(--bridge-blue-deep);
 }
 
 .plugin-showcase-shell {
@@ -1583,19 +1631,16 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 }
 
 .plugin-workflow .plugin-section-heading {
-  display: grid;
-  grid-template-columns: minmax(18rem, 0.8fr) minmax(0, 1.2fr);
-  gap: clamp(2rem, 7vw, 6rem);
-  align-items: end;
+  display: block;
 }
 
 .plugin-workflow .plugin-section-heading .bridge-eyebrow {
-  grid-column: 1 / -1;
-  margin-bottom: calc(-1 * clamp(1rem, 2vw, 2rem));
+  margin-bottom: 1.25rem;
 }
 
 .plugin-workflow .plugin-section-heading h2 {
-  max-width: 18ch;
+  max-width: 28ch;
+  text-wrap: balance;
 }
 
 .plugin-workflow ol {
@@ -1649,7 +1694,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   font-size: 1.2rem;
 }
 
-.plugin-workflow p {
+.plugin-workflow li p {
   min-height: 5.8rem;
   margin-top: 0.6rem;
 }
@@ -2081,6 +2126,15 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
     grid-template-columns: 1fr;
   }
 
+  .plugin-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .plugin-preview {
+    width: min(100%, 52rem);
+  }
+
   .rules-controls {
     grid-template-columns: 1fr 1fr;
   }
@@ -2109,6 +2163,32 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
     width: min(100%, 52rem);
   }
 
+  .bridge-contract-heading > div,
+  .plugin-showcase-heading > div,
+  .plugin-demo-heading > div {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .bridge-contract-heading > div > p,
+  .plugin-showcase-heading > div > p,
+  .plugin-demo-heading > div > p {
+    justify-self: start;
+  }
+
+  .plugin-workflow .plugin-section-heading {
+    display: block;
+  }
+
+  .plugin-workflow .plugin-section-heading .bridge-eyebrow {
+    margin-bottom: 1rem;
+  }
+
+  .plugin-workflow .plugin-section-heading h2 {
+    max-width: none;
+  }
+
   .bridge-contract-equation {
     width: min(100%, 44rem);
     grid-template-columns: 1fr;
@@ -2116,10 +2196,10 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   }
 
   .bridge-contract-equation::before {
-    top: 1.4rem;
+    top: 1.375rem;
     right: auto;
-    bottom: 1.4rem;
-    left: 1.35rem;
+    bottom: 1.375rem;
+    left: calc(1.375rem - 1px);
     width: 2px;
     height: auto;
   }
@@ -2132,6 +2212,108 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
     min-height: 2.75rem;
     place-items: center start;
   }
+
+  .plugin-showcase-shell {
+    display: block;
+    margin-top: 2rem;
+    border-radius: 0.6rem;
+    box-shadow: none;
+  }
+
+  .plugin-showcase-tabs {
+    display: flex;
+    overflow-x: auto;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--bridge-line);
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    scroll-snap-type: x mandatory;
+  }
+
+  .plugin-showcase-tabs button {
+    width: 14.5rem;
+    min-width: 14.5rem;
+    flex: 0 0 auto;
+    border-right: 1px solid var(--bridge-line);
+    border-bottom: 0;
+    padding: 0.85rem 0.9rem;
+    scroll-snap-align: start;
+  }
+
+  .plugin-showcase-tabs button:last-child {
+    border-right: 0;
+  }
+
+  .plugin-showcase-tabs button::before {
+    top: auto;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    width: auto;
+    height: 3px;
+  }
+
+  .plugin-showcase-stage {
+    border-radius: 0 0 0.55rem 0.55rem;
+  }
+
+  .plugin-showcase-stage picture {
+    display: grid;
+    min-height: 23rem;
+    place-items: center;
+    background: #edf1f3;
+    padding: 1rem;
+  }
+
+  .plugin-showcase-stage img {
+    width: auto;
+    max-width: min(100%, 34rem);
+    max-height: 72svh;
+    border-radius: 0.45rem;
+    background: #2c2c2c;
+    box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 18%);
+    object-fit: contain;
+  }
+
+  .plugin-showcase-stage figcaption {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .plugin-showcase-stage figcaption code {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 54rem) {
+  .bridge-paths {
+    grid-template-columns: 1fr;
+    border-inline: 0;
+  }
+
+  .bridge-path {
+    min-height: 7.5rem;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--bridge-line);
+    padding: 1.05rem 0;
+  }
+
+  .bridge-path:last-child {
+    border-bottom: 0;
+  }
+
+  .bridge-path h3 {
+    font-size: 1.35rem;
+  }
+
+  .bridge-path p {
+    margin-top: 0.45rem;
+    font-size: 0.88rem;
+  }
+
+  .bridge-path-action {
+    padding-top: 0.75rem;
+  }
 }
 
 @media (max-width: 50rem) {
@@ -2140,7 +2322,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
     line-height: 1.68;
   }
 
-  .sl-markdown-content h2 {
+  .sl-markdown-content h2:not(:where(.not-content *)) {
     margin-top: 2.75rem;
   }
 
@@ -2233,23 +2415,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
     line-height: 1.04;
   }
 
-  .bridge-contract-heading,
-  .plugin-showcase-heading,
-  .plugin-demo-heading,
-  .plugin-workflow .plugin-section-heading {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .bridge-contract-heading .bridge-eyebrow,
-  .plugin-showcase-heading .bridge-eyebrow,
-  .plugin-demo-heading .bridge-eyebrow,
-  .plugin-workflow .plugin-section-heading .bridge-eyebrow {
-    grid-column: auto;
-    margin-bottom: 0;
-  }
-
-  .bridge-contract-heading > p:last-child,
+  .bridge-contract-heading > div > p,
   .plugin-showcase-heading > div > p,
   .plugin-demo-heading > div > p {
     font-size: 0.9rem;
@@ -2280,76 +2446,6 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
     justify-content: flex-start;
     font-size: 0.62rem;
     text-align: start;
-  }
-
-  .plugin-showcase-shell {
-    display: block;
-    margin-top: 2rem;
-    border-radius: 0.6rem;
-    box-shadow: none;
-  }
-
-  .plugin-showcase-tabs {
-    display: flex;
-    overflow-x: auto;
-    border-inline-end: 0;
-    border-bottom: 1px solid var(--bridge-line);
-    overscroll-behavior-x: contain;
-    scrollbar-width: thin;
-    scroll-snap-type: x mandatory;
-  }
-
-  .plugin-showcase-tabs button {
-    width: 14.5rem;
-    min-width: 14.5rem;
-    flex: 0 0 auto;
-    border-right: 1px solid var(--bridge-line);
-    border-bottom: 0;
-    padding: 0.85rem 0.9rem;
-    scroll-snap-align: start;
-  }
-
-  .plugin-showcase-tabs button:last-child {
-    border-right: 0;
-  }
-
-  .plugin-showcase-tabs button::before {
-    top: auto;
-    right: 0;
-    bottom: -1px;
-    left: 0;
-    width: auto;
-    height: 3px;
-  }
-
-  .plugin-showcase-stage {
-    border-radius: 0 0 0.55rem 0.55rem;
-  }
-
-  .plugin-showcase-stage picture {
-    display: grid;
-    min-height: 23rem;
-    place-items: center;
-    background: #edf1f3;
-    padding: 1rem;
-  }
-
-  .plugin-showcase-stage img {
-    width: min(100%, 34rem);
-    max-height: 72svh;
-    border-radius: 0.45rem;
-    background: #2c2c2c;
-    box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 18%);
-    object-fit: contain;
-  }
-
-  .plugin-showcase-stage figcaption {
-    grid-template-columns: 1fr;
-    gap: 0.7rem;
-  }
-
-  .plugin-showcase-stage figcaption code {
-    justify-self: start;
   }
 
   .plugin-demo-frame {
@@ -2398,42 +2494,13 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
     margin-top: 0;
   }
 
-  .plugin-workflow p {
+  .plugin-workflow li p {
     min-height: 0;
   }
 
-  .bridge-paths,
   .bridge-principles,
   .preflight-list {
     grid-template-columns: 1fr;
-  }
-
-  .bridge-paths {
-    border-inline: 0;
-  }
-
-  .bridge-path {
-    min-height: 7.5rem;
-    border-inline-end: 0;
-    border-bottom: 1px solid var(--bridge-line);
-    padding: 1.05rem 0;
-  }
-
-  .bridge-path:last-child {
-    border-bottom: 0;
-  }
-
-  .bridge-path h3 {
-    font-size: 1.35rem;
-  }
-
-  .bridge-path p {
-    margin-top: 0.45rem;
-    font-size: 0.88rem;
-  }
-
-  .bridge-path-action {
-    padding-top: 0.75rem;
   }
 
   .bridge-method {

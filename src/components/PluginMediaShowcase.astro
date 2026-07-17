@@ -7,41 +7,43 @@ interface Props {
 const { locale, compact = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
 const pageUrl = (path: string) => `${base}/${locale}/${path.replace(/^\//u, '')}`;
-const asset = (path: string) => `${base}/assets/plugin/showcase/${path}`;
+const showcaseLocale = locale === 'ru' ? 'ru/' : '';
+const asset = (path: string) => `${base}/assets/plugin/showcase/${showcaseLocale}${path}`;
 
 const copy = locale === 'ru'
   ? {
       home: {
-        eyebrow: 'Плагин в реальном файле',
-        title: 'Намерение → связь → проверка.',
-        lead: 'Три действия превращают методологию в повседневный рабочий цикл — без ручного синтаксиса и отдельного чеклиста.',
-        action: 'Посмотреть весь рабочий цикл',
+        eyebrow: 'Что проверяет BRIDGE',
+        title: 'Вопросы к макету — до начала разработки.',
+        lead: 'Укажите роль слоя и свяжите действие с целью без ручного синтаксиса. BRIDGE соберёт карту файла, сопоставит адаптивы и покажет конкретно: чего не хватает, в каком слое и по какому правилу это исправить.',
+        action: 'Посмотреть путь от слоя до исправления',
+        stageLabel: 'Роль слоя → цель → проверка страницы',
       },
       plugin: {
-        eyebrow: 'Весь рабочий цикл',
-        title: 'От выбранного слоя до точного правила.',
-        lead: 'Каждый экран отвечает на один вопрос и ведёт к следующему действию. Никакой магии: только явные связи и детерминированная проверка.',
+        eyebrow: 'От разметки к исправлению',
+        title: 'Не просто список ошибок — точный слой и правило.',
+        lead: 'BRIDGE показывает, где нарушена структура или связь. Из отчёта вы переходите к затронутому слою в Figma, а затем — к правилу с причиной и способом исправления.',
         action: '',
+        stageLabel: 'Тег → карта → проверка страницы → исправление',
       },
       tabsLabel: 'Экраны рабочего цикла BRIDGE',
-      stageLabel: 'BRIDGE · текущий Figma-файл',
       slides: {
         intent: {
-          title: 'Объявите смысл',
+          title: 'Задайте роль слоя',
           label: 'Выбранный слой',
           description: 'Укажите, что делает слой. BRIDGE сам соберёт корректный тег и сохранит его в имени слоя.',
           evidence: '[action=modal:contact-modal]',
           alt: 'Интерфейс BRIDGE для добавления роли и действия выбранному слою',
         },
         targets: {
-          title: 'Свяжите цель',
+          title: 'Свяжите действие с целью',
           label: 'Готовые идентификаторы',
           description: 'Скопируйте страницу, секцию или модальное окно и вставьте связь без повторного набора ID.',
           evidence: 'contact-button → contact-modal',
           alt: 'Интерфейс BRIDGE со списком объявленных целей для копирования',
         },
         map: {
-          title: 'Увидьте контракт файла',
+          title: 'Проверьте карту файла',
           label: 'Карта и черновики',
           description: 'Карта показывает объявленные страницы и цели — вместе с черновиками, по которым ещё нужно принять решение.',
           evidence: '3 страницы · 2 модальных окна · 2 черновика',
@@ -56,10 +58,10 @@ const copy = locale === 'ru'
         },
         preflight: {
           title: 'Найдите разрывы заранее',
-          label: 'Page Check',
+          label: 'Проверка страницы',
           description: 'Проверка отделяет ошибки, черновики и предупреждения до того, как файл попадёт в разработку.',
           evidence: 'ошибки · черновики · предупреждения',
-          alt: 'Отчёт Page Check в BRIDGE с ошибками, черновиками и предупреждениями',
+          alt: 'Отчёт проверки страницы в BRIDGE с ошибками, черновиками и предупреждениями',
         },
         layer: {
           title: 'Перейдите к точному слою',
@@ -70,7 +72,7 @@ const copy = locale === 'ru'
         },
         rule: {
           title: 'Откройте точное правило',
-          label: 'Каноническое исправление',
+          label: 'Правило и способ исправления',
           description: 'Если нужен контекст, вопрос ведёт не в начало документации, а сразу к правилу с причиной и исправлением.',
           evidence: 'issue → rule → fix',
           alt: 'Переход из вопроса BRIDGE к точному правилу в каталоге методологии',
@@ -79,19 +81,20 @@ const copy = locale === 'ru'
     }
   : {
       home: {
-        eyebrow: 'The plugin in a real file',
-        title: 'Intent → connection → review.',
-        lead: 'Three actions turn the methodology into a daily workflow — without handwritten syntax or a separate checklist.',
-        action: 'See the complete workflow',
+        eyebrow: 'What BRIDGE checks',
+        title: 'Surface design questions before implementation starts.',
+        lead: 'Declare a layer’s role and connect an action to its target without writing tag syntax. BRIDGE maps the file, compares breakpoints, and shows exactly what is missing, which layer contains it, and which rule explains the fix.',
+        action: 'See the path from layer to fix',
+        stageLabel: 'Layer role → target → Page Check',
       },
       plugin: {
-        eyebrow: 'The complete workflow',
-        title: 'From the selected layer to the exact rule.',
-        lead: 'Every screen answers one question and leads to the next action. No magic: only explicit relationships and deterministic checks.',
+        eyebrow: 'From tagging to fix',
+        title: 'Not just an error list—the exact layer and rule.',
+        lead: 'BRIDGE shows where structure or a relationship breaks. From the report, you can open the affected Figma layer and then the rule that explains why it matters and how to fix it.',
         action: '',
+        stageLabel: 'Tag → map → Page Check → fix',
       },
       tabsLabel: 'BRIDGE workflow screens',
-      stageLabel: 'BRIDGE · current Figma file',
       slides: {
         intent: {
           title: 'Declare intent',
@@ -194,7 +197,7 @@ const heading = copy[mode];
 
     <div class="plugin-showcase-stage">
       <div class="plugin-showcase-stage-bar">
-        <span><i aria-hidden="true"></i>{copy.stageLabel}</span>
+        <span><i aria-hidden="true"></i>{heading.stageLabel}</span>
         <span data-showcase-count>{`01 / ${String(slides.length).padStart(2, '0')}`}</span>
       </div>
       {slides.map((slide, index) => (
@@ -209,10 +212,10 @@ const heading = copy[mode];
         >
           <picture>
             <source
-              media="(max-width: 50rem)"
+              media="(max-width: 60rem)"
               srcset={asset(slide.mobile)}
-              width={slide.mobileWidth}
-              height={slide.mobileHeight}
+              width={locale === 'ru' ? 900 : slide.mobileWidth}
+              height={locale === 'ru' ? 1200 : slide.mobileHeight}
             />
             <img
               src={asset(slide.desktop)}

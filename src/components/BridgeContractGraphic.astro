@@ -7,9 +7,9 @@ const { locale } = Astro.props;
 
 const copy = locale === 'ru'
   ? {
-      eyebrow: 'Что именно передаёт BRIDGE',
-      title: 'Figma хранит геометрию. BRIDGE добавляет намерение.',
-      lead: 'Методология не дублирует то, что редактор уже знает. Она добавляет недостающие связи — и превращает файл в контракт, который можно проверить.',
+      eyebrow: 'Что не теряется при передаче',
+      title: 'Figma хранит макет. BRIDGE фиксирует договорённости.',
+      lead: 'Какая это страница, какие фреймы являются одним адаптивным набором, куда ведёт действие и какие отклонения намеренны — всё это остаётся в файле и проверяется до разработки.',
       nativeLabel: 'Нативная структура Figma',
       nativeTitle: 'Техническая правда',
       nativeItems: ['Auto Layout и размеры', 'Компоненты и варианты', 'Иерархия и стили'],
@@ -25,9 +25,9 @@ const copy = locale === 'ru'
       caption: 'BRIDGE описывает только то, чего нельзя надёжно вывести из пикселей и структуры слоя.',
     }
   : {
-      eyebrow: 'What BRIDGE actually transfers',
-      title: 'Figma stores geometry. BRIDGE adds intent.',
-      lead: 'The methodology does not duplicate what the editor already knows. It adds missing relationships and turns the file into a contract that can be checked.',
+      eyebrow: 'What survives the handoff',
+      title: 'Figma stores the design. BRIDGE records the decisions.',
+      lead: 'Which page this is, which frames form one responsive set, where an action leads, and which deviations are intentional—all of it stays in the file and can be checked before implementation.',
       nativeLabel: 'Native Figma structure',
       nativeTitle: 'Technical truth',
       nativeItems: ['Auto Layout and size', 'Components and variants', 'Hierarchy and styles'],
@@ -47,8 +47,10 @@ const copy = locale === 'ru'
 <section class="bridge-section bridge-contract" aria-labelledby="bridge-contract-title">
   <header class="bridge-contract-heading">
     <p class="bridge-eyebrow">{copy.eyebrow}</p>
-    <h2 id="bridge-contract-title">{copy.title}</h2>
-    <p>{copy.lead}</p>
+    <div>
+      <h2 id="bridge-contract-title">{copy.title}</h2>
+      <p>{copy.lead}</p>
+    </div>
   </header>
 
   <div class="bridge-contract-equation">
@@ -67,8 +69,8 @@ const copy = locale === 'ru'
       <ul>{copy.nativeItems.map((item) => <li>{item}</li>)}</ul>
     </article>
 
-    <div class="bridge-contract-operator" role="img" aria-label={copy.equationPlus}>
-      <span aria-hidden="true">+</span>
+    <div class="bridge-contract-operator is-plus" role="img" aria-label={copy.equationPlus}>
+      <span aria-hidden="true"></span>
     </div>
 
     <article class="bridge-contract-card is-intent">
@@ -86,8 +88,8 @@ const copy = locale === 'ru'
       <ul>{copy.intentItems.map((item) => <li>{item}</li>)}</ul>
     </article>
 
-    <div class="bridge-contract-operator" role="img" aria-label={copy.equationEquals}>
-      <span aria-hidden="true">=</span>
+    <div class="bridge-contract-operator is-equals" role="img" aria-label={copy.equationEquals}>
+      <span aria-hidden="true"></span>
     </div>
 
     <article class="bridge-contract-card is-result">

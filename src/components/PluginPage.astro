@@ -8,40 +8,42 @@ interface Props {
 const { locale } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
 const url = (path: string) => `${base}/${locale}/${path.replace(/^\//u, '')}`;
+const showcaseLocale = locale === 'ru' ? 'ru/' : '';
+const showcaseAsset = (path: string) => `${base}/assets/plugin/showcase/${showcaseLocale}${path}`;
 const pluginUrl = 'https://www.figma.com/community/plugin/1654485530503673254/bridge';
 const supportUrl = 'https://github.com/Poliklot/bridge-figma-assistant/issues';
 
 const copy = locale === 'ru'
   ? {
       eyebrow: 'Официальный плагин для Figma',
-      title: 'Проверьте макет прямо в Figma.',
-      lead: 'Помечайте страницы, адаптивы, секции и действия, переходите по карте файла и запускайте Preflight — без ручного переноса данных в отдельный чеклист.',
+      title: 'Найдите разрывы до разработки.',
+      lead: 'В BRIDGE вы связываете страницы, адаптивы, действия и цели. Проверка страницы показывает незавершённую разметку и сломанные связи — с переходом к нужному слою и правилу.',
       open: 'Открыть в Figma',
       start: 'Начать за 5 шагов',
-      facts: ['Работает локально', 'Не требует аккаунта', 'Не имеет доступа к сети', 'Детерминированные проверки'],
-      previewAlt: 'Отчёт Page Check в плагине BRIDGE для Figma',
-      previewCaption: 'Реальный интерфейс · Figma Community',
-      demoEyebrow: 'Демонстрация продукта',
-      demoTitle: 'От выбранного слоя до готового Page Check — за 30 секунд.',
-      demoText: 'Объявите адаптивы, добавьте намерение, свяжите цель и откройте точное правило — не покидая текущий Figma-файл.',
+      facts: ['Работает локально', 'Не требует аккаунта', 'Не имеет доступа к сети', 'Проверки по открытым правилам'],
+      previewAlt: 'Отчёт проверки страницы в плагине BRIDGE для Figma',
+      previewCaption: 'Отчёт проверки страницы · интерфейс BRIDGE',
+      demoEyebrow: '30 секунд в BRIDGE',
+      demoTitle: 'От тега слоя до правила — за 30 секунд.',
+      demoText: 'Видео показывает весь цикл: связать адаптивы одной страницей, добавить действие, вставить готовую цель, запустить проверку страницы и перейти из результата к слою и правилу.',
       demoLabel: 'Видео-демонстрация плагина BRIDGE. Интерфейс и озвучка на английском, доступны русские субтитры.',
       demoCaption: '00:30 · интерфейс на английском · русские и английские субтитры',
       transcriptLabel: 'Что происходит за 30 секунд',
       demoSteps: [
-        ['0:00', 'Корневые адаптивы получают общую identity страницы.'],
+        ['0:00', 'Адаптивы помечаются как версии одной страницы.'],
         ['0:04', 'Выбранный слой получает действие без ручного синтаксиса.'],
         ['0:08', 'Готовая цель вставляется без повторного набора ID.'],
         ['0:12', 'Карта файла открывает нужный объект.'],
-        ['0:15', 'Page Check находит разрывы, черновики и предупреждения.'],
-        ['0:20', 'Вопрос ведёт к точному каноническому правилу.'],
-        ['0:25', 'Локальный и открытый цикл замыкает дизайн и код.'],
+        ['0:15', 'Проверка страницы находит разрывы, черновики и предупреждения.'],
+        ['0:20', 'Вопрос открывает правило с причиной и способом исправления.'],
+        ['0:25', 'Все проверки выполняются локально по открытым правилам BRIDGE.'],
       ],
-      workflowEyebrow: 'Рабочий процесс',
-      workflowTitle: 'Три действия внутри текущего Figma-файла.',
+      workflowEyebrow: 'Как работает BRIDGE',
+      workflowTitle: 'Задайте роль. Свяжите цель. Проверьте файл.',
       workflow: [
-        ['01', 'Объявите', 'Выберите значимый слой и добавьте только тот смысл, которого нет в нативной структуре Figma.', '[action=modal:contact-modal]'],
-        ['02', 'Свяжите', 'Используйте карту файла и существующие цели, чтобы страница, действие и адаптив читались однозначно.', 'contact-button → contact-modal'],
-        ['03', 'Проверьте', 'Запустите Page Check и исправьте вопросы до передачи макета разработчику.', 'issue → layer → rule → fix'],
+        ['01', 'Задайте роль', 'Выберите слой и укажите, чем он является или что делает. BRIDGE сам запишет валидный тег в имя слоя.', '[action=modal:contact-modal]'],
+        ['02', 'Свяжите действие', 'Возьмите существующий ID страницы, секции или модального окна из карты файла — без ручного набора и опечаток.', 'contact-button → contact-modal'],
+        ['03', 'Исправьте найденное', 'Проверка страницы группирует ошибки, черновики и предупреждения; из результата можно перейти к слою и правилу.', 'issue → layer → rule → fix'],
       ],
       privacyTitle: 'Макет остаётся в вашем файле.',
       privacyText: 'BRIDGE работает локально в текущем документе Figma, не требует отдельной регистрации и не отправляет содержимое файла по сети.',
@@ -50,34 +52,34 @@ const copy = locale === 'ru'
     }
   : {
       eyebrow: 'Official Figma plugin',
-      title: 'Review the design directly in Figma.',
-      lead: 'Tag pages, breakpoints, sections, and actions, navigate the file map, and run Preflight — without moving design data into a separate browser checklist.',
+      title: 'Catch gaps before implementation.',
+      lead: 'Use BRIDGE to connect pages, breakpoints, actions, and targets. Page Check surfaces incomplete tagging and broken relationships, with direct links to the affected layer and relevant rule.',
       open: 'Open in Figma',
       start: 'Start in 5 steps',
-      facts: ['Runs locally', 'No account required', 'No network access', 'Deterministic checks'],
+      facts: ['Runs locally', 'No account required', 'No network access', 'Checks against open rules'],
       previewAlt: 'BRIDGE Page Check report in Figma',
-      previewCaption: 'Real product interface · Figma Community',
-      demoEyebrow: 'Product demo',
-      demoTitle: 'From the selected layer to a complete Page Check in 30 seconds.',
-      demoText: 'Declare breakpoints, add intent, connect a target, and open the exact rule — without leaving the current Figma file.',
+      previewCaption: 'Page Check report · BRIDGE interface',
+      demoEyebrow: '30 seconds in BRIDGE',
+      demoTitle: 'From a layer tag to the rule—in 30 seconds.',
+      demoText: 'See the full cycle: group breakpoints under one page identity, add an action, paste a declared target, run Page Check, and jump from the result to the affected layer and rule.',
       demoLabel: 'BRIDGE plugin video demo with English interface and voiceover. English captions are available.',
       demoCaption: '00:30 · English interface · English and Russian captions',
       transcriptLabel: 'What happens in 30 seconds',
       demoSteps: [
-        ['0:00', 'Responsive roots receive one shared page identity.'],
+        ['0:00', 'Breakpoint roots are marked as versions of one page.'],
         ['0:04', 'The selected layer receives an action without handwritten syntax.'],
         ['0:08', 'A declared target is pasted without retyping its ID.'],
         ['0:12', 'The file map opens the exact object.'],
         ['0:15', 'Page Check finds gaps, drafts, and warnings.'],
-        ['0:20', 'The issue opens the exact canonical rule.'],
-        ['0:25', 'A local, open loop keeps design and code aligned.'],
+        ['0:20', 'The issue opens the rule that explains the problem and fix.'],
+        ['0:25', 'All checks run locally against BRIDGE’s open rules.'],
       ],
-      workflowEyebrow: 'Workflow',
-      workflowTitle: 'Three actions inside the current Figma file.',
+      workflowEyebrow: 'How BRIDGE works',
+      workflowTitle: 'Define the role. Connect the target. Review the file.',
       workflow: [
-        ['01', 'Declare', 'Select a meaningful layer and add only the intent that is missing from native Figma structure.', '[action=modal:contact-modal]'],
-        ['02', 'Connect', 'Use the file map and existing targets so the page, action, and breakpoint are unambiguous.', 'contact-button → contact-modal'],
-        ['03', 'Review', 'Run Page Check and resolve questions before handing the design to implementation.', 'issue → layer → rule → fix'],
+        ['01', 'Define the role', 'Select a layer and specify what it is or what it does. BRIDGE writes the valid tag into the layer name.', '[action=modal:contact-modal]'],
+        ['02', 'Connect the action', 'Choose an existing page, section, or modal ID from the file map instead of retyping it.', 'contact-button → contact-modal'],
+        ['03', 'Fix what Page Check finds', 'Page Check groups errors, drafts, and warnings; a result can link directly to the affected layer and relevant rule.', 'issue → layer → rule → fix'],
       ],
       privacyTitle: 'The design stays in your file.',
       privacyText: 'BRIDGE runs locally in the current Figma document, requires no separate account, and does not send file contents over the network.',
@@ -109,8 +111,13 @@ const copy = locale === 'ru'
 
     <figure class="plugin-preview">
       <picture>
-        <source media="(max-width: 50rem)" srcset={`${base}/assets/plugin/showcase/ui/preflight.png`} width="680" height="760" />
-        <img src={`${base}/assets/plugin/showcase/01-preflight.png`} width="1920" height="1080" alt={copy.previewAlt} loading="eager" />
+        <source
+          media="(max-width: 50rem)"
+          srcset={showcaseAsset('ui/preflight.png')}
+          width={locale === 'ru' ? 900 : 680}
+          height={locale === 'ru' ? 1200 : 760}
+        />
+        <img src={showcaseAsset('01-preflight.png')} width="1920" height="1080" alt={copy.previewAlt} loading="eager" />
       </picture>
       <figcaption>{copy.previewCaption}</figcaption>
     </figure>
@@ -126,7 +133,7 @@ const copy = locale === 'ru'
         controls
         playsinline
         preload="metadata"
-        poster={`${base}/assets/plugin/showcase/01-preflight.png`}
+        poster={showcaseAsset('01-preflight.png')}
         aria-label={copy.demoLabel}
       >
         <source src={`${base}/assets/plugin/showcase/bridge-product-demo.mp4`} type="video/mp4" />
