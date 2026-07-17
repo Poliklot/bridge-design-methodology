@@ -17,16 +17,20 @@ const copy = locale === 'ru'
         title: 'Вопросы к макету — до начала разработки.',
         lead: 'Укажите роль слоя и свяжите действие с целью без ручного синтаксиса. BRIDGE соберёт карту файла, сопоставит адаптивы и покажет конкретно: чего не хватает, в каком слое и по какому правилу это исправить.',
         action: 'Посмотреть путь от слоя до исправления',
-        stageLabel: 'Роль слоя → цель → проверка страницы',
+        stageLabel: 'Проверка страницы → роль слоя → цель',
       },
       plugin: {
         eyebrow: 'От разметки к исправлению',
         title: 'Не просто список ошибок — точный слой и правило.',
         lead: 'BRIDGE показывает, где нарушена структура или связь. Из отчёта вы переходите к затронутому слою в Figma, а затем — к правилу с причиной и способом исправления.',
         action: '',
-        stageLabel: 'Тег → карта → проверка страницы → исправление',
+        stageLabel: 'Проверка страницы → тег → карта → исправление',
       },
       tabsLabel: 'Экраны рабочего цикла BRIDGE',
+      previous: 'Назад',
+      next: 'Дальше',
+      screen: 'Экран',
+      of: 'из',
       slides: {
         intent: {
           title: 'Задайте роль слоя',
@@ -85,16 +89,20 @@ const copy = locale === 'ru'
         title: 'Surface design questions before implementation starts.',
         lead: 'Declare a layer’s role and connect an action to its target without writing tag syntax. BRIDGE maps the file, compares breakpoints, and shows exactly what is missing, which layer contains it, and which rule explains the fix.',
         action: 'See the path from layer to fix',
-        stageLabel: 'Layer role → target → Page Check',
+        stageLabel: 'Page Check → layer role → target',
       },
       plugin: {
         eyebrow: 'From tagging to fix',
         title: 'Not just an error list—the exact layer and rule.',
         lead: 'BRIDGE shows where structure or a relationship breaks. From the report, you can open the affected Figma layer and then the rule that explains why it matters and how to fix it.',
         action: '',
-        stageLabel: 'Tag → map → Page Check → fix',
+        stageLabel: 'Page Check → tag → map → fix',
       },
       tabsLabel: 'BRIDGE workflow screens',
+      previous: 'Previous',
+      next: 'Next',
+      screen: 'Screen',
+      of: 'of',
       slides: {
         intent: {
           title: 'Declare intent',
@@ -149,11 +157,11 @@ const copy = locale === 'ru'
     };
 
 const allSlides = [
+  { id: 'preflight', desktop: '01-preflight.png', mobile: 'ui/preflight.png', mobileWidth: 680, mobileHeight: 760 },
   { id: 'intent', desktop: '02-tagging.png', mobile: 'ui/tagging.png', mobileWidth: 560, mobileHeight: 640 },
   { id: 'targets', desktop: '03-clipboard.png', mobile: 'ui/clipboard.png', mobileWidth: 560, mobileHeight: 640 },
   { id: 'map', desktop: '04-file-map.png', mobile: 'ui/navigator.png', mobileWidth: 560, mobileHeight: 640 },
   { id: 'responsive', desktop: '05-responsive.png', mobile: 'ui/preflight-ready.png', mobileWidth: 680, mobileHeight: 760 },
-  { id: 'preflight', desktop: '01-preflight.png', mobile: 'ui/preflight.png', mobileWidth: 680, mobileHeight: 760 },
   { id: 'layer', desktop: '06-direct-navigation.png', mobile: 'ui/preflight-details.png', mobileWidth: 680, mobileHeight: 760 },
   { id: 'rule', desktop: '07-rules-and-help.png', mobile: 'ui/rules.png', mobileWidth: 1312, mobileHeight: 720 },
 ] as const;
@@ -176,6 +184,11 @@ const heading = copy[mode];
   </header>
 
   <div class="plugin-showcase-shell" data-plugin-showcase>
+    <div class="plugin-showcase-mobile-nav" aria-label={copy.tabsLabel}>
+      <button type="button" data-showcase-previous aria-label={copy.previous}><span aria-hidden="true">←</span>{copy.previous}</button>
+      <span>{copy.screen} <strong data-showcase-mobile-count>1</strong> {copy.of} {slides.length}</span>
+      <button type="button" data-showcase-next aria-label={copy.next}>{copy.next}<span aria-hidden="true">→</span></button>
+    </div>
     <div class="plugin-showcase-tabs" role="tablist" aria-label={copy.tabsLabel}>
       {slides.map((slide, index) => (
         <button
@@ -198,7 +211,6 @@ const heading = copy[mode];
     <div class="plugin-showcase-stage">
       <div class="plugin-showcase-stage-bar">
         <span><i aria-hidden="true"></i>{heading.stageLabel}</span>
-        <span data-showcase-count>{`01 / ${String(slides.length).padStart(2, '0')}`}</span>
       </div>
       {slides.map((slide, index) => (
         <figure
@@ -247,9 +259,11 @@ const heading = copy[mode];
   for (const root of document.querySelectorAll<HTMLElement>('[data-plugin-showcase]')) {
     const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-showcase-tab]')];
     const panels = [...root.querySelectorAll<HTMLElement>('[data-showcase-panel]')];
-    const count = root.querySelector<HTMLElement>('[data-showcase-count]');
+    const mobileCount = root.querySelector<HTMLElement>('[data-showcase-mobile-count]');
+    const previous = root.querySelector<HTMLButtonElement>('[data-showcase-previous]');
+    const next = root.querySelector<HTMLButtonElement>('[data-showcase-next]');
 
-    const activate = (tab: HTMLButtonElement, moveFocus = false) => {
+    const activate = (tab: HTMLButtonElement, moveFocus = false, revealTab = false) => {
       const index = Number(tab.dataset.showcaseIndex || 0);
       for (const item of tabs) {
         const active = item === tab;
@@ -257,12 +271,13 @@ const heading = copy[mode];
         item.tabIndex = active ? 0 : -1;
       }
       for (const panel of panels) panel.hidden = Number(panel.dataset.showcaseIndex || 0) !== index;
-      if (count) count.textContent = `${String(index + 1).padStart(2, '0')} / ${String(tabs.length).padStart(2, '0')}`;
+      if (mobileCount) mobileCount.textContent = String(index + 1);
+      if (revealTab) tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       if (moveFocus) tab.focus();
     };
 
     for (const tab of tabs) {
-      tab.addEventListener('click', () => activate(tab));
+      tab.addEventListener('click', () => activate(tab, false, true));
       tab.addEventListener('keydown', (event) => {
         const current = tabs.indexOf(tab);
         let next = -1;
@@ -273,8 +288,17 @@ const heading = copy[mode];
         if (next < 0) return;
         event.preventDefault();
         const nextTab = tabs[next];
-        if (nextTab) activate(nextTab, true);
+        if (nextTab) activate(nextTab, true, true);
       });
     }
+
+    const move = (direction: number) => {
+      const current = Math.max(0, tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true'));
+      const target = tabs[(current + direction + tabs.length) % tabs.length];
+      if (target) activate(target, false, true);
+    };
+
+    previous?.addEventListener('click', () => move(-1));
+    next?.addEventListener('click', () => move(1));
   }
 </script>

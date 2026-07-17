@@ -1,145 +1,91 @@
-# Project roadmap
+# Status and roadmap
 
-This roadmap turns BRIDGE from documentation into a solid methodology with checklists, examples, schemas, and automated validation.
+**Updated 17 July 2026.** BRIDGE is already a public methodology, bilingual site, rule catalog, and working Figma plugin. It is also still pre-1.0: the transfer data contract is evolving, and the plugin does not automate the full catalog. This page separates shipped capability from planned work.
 
-## Definition of solid
+## Current releases
 
-BRIDGE is solid when:
+| Product | Release | What it represents |
+| --- | --- | --- |
+| BRIDGE methodology and site | [v0.7.1](https://github.com/Poliklot/bridge-design-methodology/releases/tag/v0.7.1) | Bilingual documentation, examples, checklists, visual product walkthroughs, and the canonical catalog of 77 rules. |
+| BRIDGE Assistant for Figma | [v0.7.0](https://github.com/Poliklot/bridge-figma-assistant/releases/tag/v0.7.0) | Tagging, target connection, file navigation, and local Page Check inside Figma. |
+| Published plugin | [Figma Community](https://www.figma.com/community/plugin/1654485530503673254/bridge) | The installable public build of BRIDGE Assistant. |
 
-- designers can understand what to fix without reading every document;
-- reviewers can approve or reject a handoff consistently;
-- adapters can consume one explicit contract;
-- a validator can catch the majority of structural mistakes;
-- complex cases are handled by named exceptions, not tribal knowledge.
+The methodology and plugin source are MIT-licensed. Releases before 1.0 may refine the contract, rule wording, and machine-readable formats; changes must be read from the relevant release notes.
 
-## Phase 1 — Vocabulary and strict contract
+## Available now
 
-Goal: make all core concepts unambiguous.
+### A learnable handoff method
 
-Tasks:
+- English and Russian documentation with the same core structure.
+- A five-step [designer quick start](00-designer-quick-start.md), examples, focused guides, and preflight checklists.
+- Explicit rules for identity, responsive variants, interactions, targets, routing, content, wrappers, assets, and intentional exceptions.
+- A practical [one-file team pilot](19-team-adoption.md) that measures the handoff before wider adoption.
 
-- [ ] Define canonical tag grammar: stable identities, Figma metadata ownership, `[bp=...]`, `[href=...]`, `[action=...]`, `[height=...]`, `[overflow=...]`, `[bridge-exception=...]`.
-- [ ] Define allowed element types: text, button, link, input, image, icon, asset, decor, modal, state, section, collection.
-- [ ] Define strict vs flexible content classes: legal, price, CTA, marketing copy, decorative text.
-- [ ] Define exception grammar and required `reason` field.
-- [ ] Add a formal JSON schema for the BRIDGE Contract.
+### An open contract and catalog
 
-Deliverables:
+- A documented [tag grammar](13-tag-grammar.md) and [transfer contract](04-transfer-contract.md).
+- A machine-readable [catalog of 77 rules](../validator/rules.json), each with an identifier, severity, automation level, explanation, and fix.
+- Rule browsing on the site plus short and full review paths for designers and reviewers.
 
-- `docs/13-tag-grammar.md`
-- `schema/bridge-contract.schema.json`
-- examples for valid/invalid tags
+### A working Figma product
 
-## Phase 2 — Checklist hardening
+BRIDGE Assistant 0.7.0 can:
 
-Goal: make preflight practical for designers and reviewers.
+- apply and edit common BRIDGE tags without manually composing syntax;
+- connect controls with modal, state, form, reset, route, and anchor targets;
+- show a file map and jump directly to the relevant layer;
+- run Page Check on a selected or inferable BRIDGE page;
+- return findings with rule identifiers and direct layer navigation;
+- work without a BRIDGE account, backend, payments, or network requests.
 
-Tasks:
+## Known limitations
 
-- [ ] Split checklist into quick, strict, and adapter-certification modes.
-- [ ] Add severity labels to checklist items.
-- [ ] Add “how to fix” hints for every blocker.
-- [ ] Add a printable one-page checklist.
-- [ ] Add a score model: BRIDGE-ready / needs review / blocked.
+These limits are part of the current product definition, not hidden future work.
 
-Deliverables:
+### Page Check covers 24 of 77 rules
 
-- improved `docs/08-preflight-checklist.md`
-- improved `docs/ru/08-preflight-checklist.md`
-- `checklists/bridge-preflight.md`
+Plugin version 0.7.0 implements 24 catalog rule identifiers: 23 automatic checks and one heuristic check. The exact list is published in the [Page Check coverage file](../validator/page-check-coverage.json).
 
-## Phase 3 — Examples and anti-examples
+The other catalog rules still guide manual review or future automation. A clean Page Check report therefore means “no finding in the implemented subset,” not “all 77 rules passed.”
 
-Goal: teach by contrast.
+### The check is deliberately page-scoped
 
-Tasks:
+Page Check inspects the selected or inferable top-level BRIDGE page and its related breakpoint roots. It does not scan every unrelated exploration in the Figma file. Cross-page route and action resolution is currently reported as deferred where the page-local evidence is insufficient.
 
-- [ ] Add bad/good examples for wrappers, actions, modals, fixed heights, responsive copy, collections, forms, and states.
-- [ ] Add before/after layer trees.
-- [ ] Add expected validator report for each bad example.
-- [ ] Add minimal “BRIDGE-ready component” examples.
+### The transfer data contract is a draft
 
-Deliverables:
+The current contract document defines required information and shows an example payload. It is not yet a versioned, compatibility-guaranteed JSON schema. Teams may use it to align implementation, but should not treat the example shape as a stable 1.0 integration API.
 
-- `examples/good/`
-- `examples/bad/`
-- `examples/reports/`
+### There is no universal adapter yet
 
-## Phase 4 — Validator MVP
+BRIDGE makes design intent inspectable; it does not promise one-click production code for every target. Target capability profiles, extraction formats, and automated adapters are still future work.
 
-Goal: make the methodology checkable.
+## Before 1.0
 
-Tasks:
+The priority is to make today’s method dependable rather than add disconnected features.
 
-- [ ] Expand `validator/rules.json` into a stable rule catalog.
-- [ ] Define input format for extracted design trees.
-- [ ] Build a CLI that validates JSON exports.
-- [ ] Generate human-readable Markdown reports.
-- [ ] Make rule severity configurable.
+1. **Stabilize and version the data contract.** Publish a formal schema, compatibility policy, fixtures, and migration notes for incompatible changes.
+2. **Make automation scope impossible to misunderstand.** Keep the catalog-to-plugin coverage file tested and visible in the site and plugin release process.
+3. **Expand high-confidence checks.** Add deterministic rules where Figma exposes enough evidence; keep contextual product decisions manual or heuristic.
+4. **Harden real-team adoption.** Run representative pilots, publish before/after handoff cases, and turn recurring questions into focused fixes and examples.
+5. **Define adapter capability profiles.** Let a target declare supported actions, layout modes, media, effects, and fallback behavior without changing universal BRIDGE rules.
+6. **Establish change governance.** Maintain a changelog, decision records, rule-versioning policy, and synchronized English/Russian releases.
 
-Deliverables:
+The 1.0 threshold is not “all 77 rules automated.” It is a stable, versioned contract; honest validation coverage; reproducible handoff; and a documented change process.
 
-- `validator/rules.json`
-- `validator/input.schema.json`
-- `validator/report.schema.json`
-- CLI prototype
+## After 1.0
 
-## Phase 5 — Figma extraction path
+- Add extraction and validation interfaces for external tools and command-line workflows.
+- Publish reference adapter profiles and conformance fixtures for different implementation targets.
+- Broaden automatic and heuristic checks only where results stay explainable and actionable.
+- Support contract migrations across compatible methodology versions.
+- Grow examples from verified production patterns and community proposals.
 
-Goal: validate real Figma files.
+Dates for these items will be set only when scope and maintainers are known. Until then, release notes are the source of truth for what actually shipped.
 
-Tasks:
+## Follow progress
 
-- [ ] Define what data must be extracted from Figma nodes.
-- [ ] Map Figma Auto Layout, constraints, variables, components, variants, and hidden layers into BRIDGE concepts.
-- [ ] Detect component overrides.
-- [ ] Detect hidden source-of-truth layers.
-- [ ] Produce BRIDGE Contract JSON from a selected page/frame.
-
-Deliverables:
-
-- `extractors/figma/README.md`
-- extraction data model
-- Figma plugin or script prototype
-
-## Phase 6 — Adapter capability profiles
-
-Goal: prevent target-specific surprises without tying BRIDGE to one target.
-
-Tasks:
-
-- [ ] Define adapter capability profile format.
-- [ ] Let adapters declare supported actions, layout modes, media, effects, and fallback behavior.
-- [ ] Validate designs against a selected adapter profile.
-- [ ] Report unsupported effects before implementation starts.
-
-Deliverables:
-
-- `adapters/profile.schema.json`
-- sample generic HTML/CSS profile
-- sample strict no-code profile
-
-## Phase 7 — Contribution and governance
-
-Goal: make the methodology maintainable.
-
-Tasks:
-
-- [ ] Add contribution rules for new checks and docs.
-- [ ] Add naming/versioning policy for rules.
-- [ ] Add changelog.
-- [ ] Add decision records for controversial rules.
-
-Deliverables:
-
-- `CONTRIBUTING.md`
-- `CHANGELOG.md`
-- `decisions/`
-
-## Suggested next commit after this roadmap
-
-Implement Phase 1 foundations:
-
-```text
-docs: define BRIDGE tag grammar and contract schema
-```
+- [BRIDGE methodology releases](https://github.com/Poliklot/bridge-design-methodology/releases)
+- [BRIDGE Assistant releases](https://github.com/Poliklot/bridge-figma-assistant/releases)
+- [Methodology source and issues](https://github.com/Poliklot/bridge-design-methodology)
+- [Plugin source and issues](https://github.com/Poliklot/bridge-figma-assistant)

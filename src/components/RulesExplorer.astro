@@ -1,5 +1,6 @@
 ---
 import catalog from '../../validator/rules.json';
+import ruRules from '../data/rules.ru.json';
 
 interface Props {
   locale: 'ru' | 'en';
@@ -128,9 +129,9 @@ const russianSearchAliases = (id: string) => [
 
 const copy = locale === 'ru'
   ? {
-      eyebrow: 'Машиночитаемый справочник',
+      eyebrow: `Открытый каталог · версия ${catalog.version}`,
       title: 'Каталог правил валидатора',
-      lead: `${catalog.rules.length} правил из validator/rules.json. Фильтруйте по идентификатору, принципу, серьёзности и способу проверки.`,
+      lead: `Найдите, почему макет не проходит проверку и что именно исправить. В каталоге ${catalog.rules.length} правил с постоянными идентификаторами, серьёзностью и способом проверки.`,
       search: 'Поиск по правилу',
       searchPlaceholder: 'Например: модальное окно, адаптив…',
       severityLabel: 'Серьёзность',
@@ -140,7 +141,7 @@ const copy = locale === 'ru'
       shown: 'Показано',
       of: 'из',
       loadMore: 'Показать ещё',
-      canonical: 'Описание из спецификации',
+      canonical: 'Почему это мешает передаче',
       fix: 'Как исправить',
       empty: 'Правила с такими условиями не найдены.',
     }
@@ -198,6 +199,7 @@ const copy = locale === 'ru'
   <div class="rules-list">
     {catalog.rules.map((rule, index) => {
       const title = locale === 'ru' ? (ruTitles[rule.id] || humanize(rule.id)) : humanize(rule.id);
+      const localizedRule = locale === 'ru' ? ruRules[rule.id as keyof typeof ruRules] : undefined;
       const searchable = [
         rule.id,
         title,
@@ -205,8 +207,8 @@ const copy = locale === 'ru'
         rule.principle,
         rule.severity,
         rule.automation,
-        rule.description,
-        rule.fix,
+        localizedRule?.description || rule.description,
+        localizedRule?.fix || rule.fix,
       ].join(' ').toLowerCase();
       return (
         <article
@@ -233,8 +235,8 @@ const copy = locale === 'ru'
           ) : (
             <details>
               <summary>{copy.canonical}</summary>
-              <p lang="en">{rule.description}</p>
-              <div class="rule-fix" lang="en"><strong>{copy.fix}</strong><p>{rule.fix}</p></div>
+              <p>{localizedRule?.description}</p>
+              <div class="rule-fix"><strong>{copy.fix}</strong><p>{localizedRule?.fix}</p></div>
             </details>
           )}
         </article>

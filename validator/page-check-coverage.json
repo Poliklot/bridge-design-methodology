@@ -1,0 +1,41 @@
+{
+  "methodology": "BRIDGE",
+  "pluginVersion": "0.7.0",
+  "catalogVersion": "0.2.1",
+  "verifiedAt": "2026-07-17",
+  "source": "https://github.com/Poliklot/bridge-figma-assistant/blob/v0.7.0/src/plugin/parts/70-page-preflight.js",
+  "counts": {
+    "catalogRules": 77,
+    "pageCheckRules": 24,
+    "automaticRules": 23,
+    "heuristicRules": 1
+  },
+  "automaticRuleIds": [
+    "identity.duplicate-identity",
+    "identity.same-identity-different-type",
+    "responsive.missing-breakpoint-root",
+    "responsive.view-missing-required-breakpoint",
+    "responsive.identity-missing-in-required-breakpoint",
+    "responsive.tree-cardinality-changed",
+    "responsive.parent-changed-across-breakpoints",
+    "responsive.visual-intent-drift",
+    "interaction.control-without-action",
+    "interaction.link-without-href",
+    "interaction.link-has-second-destination",
+    "interaction.href-invalid",
+    "interaction.action-invalid",
+    "interaction.control-action-duplicate",
+    "interaction.modal-target-missing",
+    "interaction.state-target-missing",
+    "interaction.form-target-missing",
+    "interaction.reset-target-missing",
+    "routing.page-root-required",
+    "routing.default-view-missing",
+    "routing.href-internal-route-missing",
+    "routing.href-anchor-missing",
+    "routing.page-view-route-drift"
+  ],
+  "heuristicRuleIds": [
+    "content.text-changed-between-breakpoints"
+  ]
+}

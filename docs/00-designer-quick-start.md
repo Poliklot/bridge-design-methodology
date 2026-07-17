@@ -104,6 +104,26 @@ Use short English `kebab-case` names such as `hero-title`, `product-grid`, and `
 
 Ask another person to identify the page, its breakpoints, every interaction result, all modal/state targets, and what should be exported. If the answer must be given verbally, the design still lacks part of its contract.
 
+### Check it in the plugin
+
+Open the [BRIDGE Assistant workflow](https://poliklot.github.io/bridge-design-methodology/en/check/) and install the plugin. In Figma:
+
+1. open **BRIDGE**;
+2. select the top-level frame with the `[page]` tag;
+3. run **Check page**;
+4. open each finding, jump to the affected layer, and read the linked rule and fix;
+5. rerun the check after resolving or documenting the finding.
+
+The page is ready for handoff when:
+
+- the page, view, and required breakpoint roots are unambiguous;
+- stable identities still refer to the same elements across breakpoints;
+- links and controls have known destinations, and available targets resolve;
+- every reported blocker is fixed, while warnings and exceptions have an explicit decision;
+- the manual items in the [full preflight](08-preflight-checklist.md) have also been reviewed.
+
+Page Check in version 0.7.0 covers 24 of the 77 catalog rules. It shortens the review; it does not replace the remaining manual checks.
+
 ## Find the right example
 
 | Question | Open this example |

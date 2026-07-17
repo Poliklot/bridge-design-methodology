@@ -13,6 +13,7 @@ src/content/docs/*/project/
 src/content/docs/*/check/*.md
 src/content/docs/*/examples.md
 public/assets/brand/
+public/data/
 build/
 *.log
 .env

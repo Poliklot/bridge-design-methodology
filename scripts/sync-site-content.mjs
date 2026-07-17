@@ -1,5 +1,6 @@
 import {
   cpSync,
+  existsSync,
   mkdirSync,
   readFileSync,
   rmSync,
@@ -11,6 +12,7 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const contentRoot = join(root, 'src', 'content', 'docs');
 const publicBrand = join(root, 'public', 'assets', 'brand');
+const publicData = join(root, 'public', 'data');
 const siteBase = process.env.SITE_BASE || '/bridge-design-methodology';
 const basePrefix = siteBase === '/' ? '' : siteBase.replace(/\/$/u, '');
 
@@ -27,6 +29,7 @@ const entries = [
   ['quality/common-designer-mistakes', 'docs/09-common-designer-mistakes.md', 'docs/ru/09-tipichnye-oshibki-dizajnerov.md'],
   ['quality/hard-cases-and-edge-cases', 'docs/10-hard-cases-and-edge-cases.md', 'docs/ru/10-slozhnye-kejsy-i-edge-cases.md'],
   ['reference/validation-and-autochecks', 'docs/11-validation-and-autochecks.md', 'docs/ru/11-validaciya-i-avtoproverki.md'],
+  ['project/team-adoption', 'docs/19-team-adoption.md', 'docs/ru/19-vnedrenie-v-komandu.md'],
   ['project/roadmap', 'docs/12-project-roadmap.md', 'docs/ru/12-roadmap-proekta.md'],
   ['reference/tag-grammar', 'docs/13-tag-grammar.md', 'docs/ru/13-grammatika-tegov.md'],
   ['guides/components-and-ui-kit', 'docs/14-components-and-ui-kit.md', 'docs/ru/14-komponenty-i-ui-kit.md'],
@@ -101,7 +104,11 @@ function rewriteLinks(markdown, sourceFile, locale) {
       }
 
       if (resolvedTarget === resolve(root, 'validator', 'rules.json')) {
-        return `${label}(${pageUrl(locale, 'rules')})`;
+        return `${label}(${basePrefix}/data/bridge-rules.json)`;
+      }
+
+      if (resolvedTarget === resolve(root, 'validator', 'page-check-coverage.json')) {
+        return `${label}(${basePrefix}/data/page-check-coverage.json)`;
       }
 
       return match;
@@ -163,5 +170,14 @@ for (const entry of entries) {
 rmSync(publicBrand, { recursive: true, force: true });
 mkdirSync(dirname(publicBrand), { recursive: true });
 cpSync(join(root, 'assets', 'brand'), publicBrand, { recursive: true });
+
+rmSync(publicData, { recursive: true, force: true });
+mkdirSync(publicData, { recursive: true });
+cpSync(join(root, 'validator', 'rules.json'), join(publicData, 'bridge-rules.json'));
+
+const coverageSource = join(root, 'validator', 'page-check-coverage.json');
+if (existsSync(coverageSource)) {
+  cpSync(coverageSource, join(publicData, 'page-check-coverage.json'));
+}
 
 console.log(`Prepared ${entries.length * 2} localized documentation pages.`);
