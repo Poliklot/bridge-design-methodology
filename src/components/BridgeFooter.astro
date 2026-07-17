@@ -5,6 +5,9 @@ import packageInfo from '../../package.json';
 const locale = Astro.locals.starlightRoute.locale === 'en' ? 'en' : 'ru';
 const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
 const url = (path = '') => `${base}/${locale}/${path}`;
+const isSplash = Astro.locals.starlightRoute.entry.data.template === 'splash';
+const { prev, next } = Astro.locals.starlightRoute.pagination;
+const hasPagination = Boolean(prev || next);
 const copy = locale === 'ru'
   ? {
       description: 'Открытая методология и плагин для передачи интерфейсных макетов без скрытых предположений.',
@@ -14,8 +17,10 @@ const copy = locale === 'ru'
       start: 'Быстрый старт',
       plugin: 'Плагин для Figma',
       rules: 'Каталог правил',
+      figma: 'Figma plugin BRIDGE',
       docs: 'Документация на GitHub',
-      support: 'Поддержка плагина',
+      support: 'Сообщить о проблеме/идее',
+      newTab: 'откроется в новой вкладке',
       license: 'Открытый проект · MIT License',
     }
   : {
@@ -26,13 +31,21 @@ const copy = locale === 'ru'
       start: 'Quick start',
       plugin: 'Figma plugin',
       rules: 'Rule catalog',
+      figma: 'Figma plugin BRIDGE',
       docs: 'Documentation on GitHub',
-      support: 'Plugin support',
+      support: 'Report an issue or idea',
+      newTab: 'opens in a new tab',
       license: 'Open source · MIT License',
     };
 ---
 
-<div class="bridge-footer-pagination"><Pagination /></div>
+{
+  hasPagination && (
+    <div class:list={['bridge-footer-pagination', { 'bridge-footer-pagination--wide': isSplash }]}>
+      <Pagination />
+    </div>
+  )
+}
 
 <footer class="bridge-site-footer">
   <div class="bridge-footer-main">
@@ -55,27 +68,33 @@ const copy = locale === 'ru'
     <nav aria-label={copy.resources}>
       <strong>{copy.resources}</strong>
       <a href="https://www.figma.com/community/plugin/1654485530503673254/bridge" target="_blank" rel="noopener noreferrer">
-        Figma Community <span aria-hidden="true">↗</span>
+        {copy.figma} <span aria-hidden="true">↗</span><span class="sr-only"> — {copy.newTab}</span>
       </a>
       <a href="https://github.com/Poliklot/bridge-design-methodology" target="_blank" rel="noopener noreferrer">
-        {copy.docs} <span aria-hidden="true">↗</span>
+        {copy.docs} <span aria-hidden="true">↗</span><span class="sr-only"> — {copy.newTab}</span>
       </a>
-      <a href="https://github.com/Poliklot/bridge-figma-assistant/issues" target="_blank" rel="noopener noreferrer">
-        {copy.support} <span aria-hidden="true">↗</span>
+      <a href="https://github.com/Poliklot/bridge-figma-assistant/issues/new" target="_blank" rel="noopener noreferrer">
+        {copy.support} <span aria-hidden="true">↗</span><span class="sr-only"> — {copy.newTab}</span>
       </a>
     </nav>
   </div>
 
   <div class="bridge-footer-meta">
-    <span>© 2026 Poliklot</span>
+    <span>
+      © 2026 <a href="https://github.com/Poliklot" target="_blank" rel="noopener noreferrer">
+        Poliklot <span aria-hidden="true">↗</span><span class="sr-only"> — {copy.newTab}</span>
+      </a>
+    </span>
     <span>{copy.license}</span>
     <span>v{packageInfo.version}</span>
   </div>
 </footer>
 
 <style>
-  .bridge-footer-pagination:empty {
-    display: none;
+  .bridge-footer-pagination--wide {
+    width: min(100%, calc(var(--bridge-container) + 2 * var(--bridge-gutter)));
+    margin-inline: auto;
+    padding-inline: var(--bridge-gutter);
   }
 
   .bridge-site-footer {
@@ -154,6 +173,16 @@ const copy = locale === 'ru'
     padding-top: 1.25rem;
     font-family: var(--sl-font-mono);
     font-size: 0.67rem;
+  }
+
+  .bridge-footer-meta a {
+    color: inherit;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.2em;
+  }
+
+  .bridge-footer-meta a:hover {
+    color: var(--sl-color-white);
   }
 
   @media (max-width: 50rem) {

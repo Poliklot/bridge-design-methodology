@@ -6,9 +6,9 @@
 
 | Product | Release | What it represents |
 | --- | --- | --- |
-| BRIDGE methodology and site | [v0.7.1](https://github.com/Poliklot/bridge-design-methodology/releases/tag/v0.7.1) | Bilingual documentation, examples, checklists, visual product walkthroughs, and the canonical catalog of 77 rules. |
+| BRIDGE methodology and site | [v0.8.0](https://github.com/Poliklot/bridge-design-methodology/releases/tag/v0.8.0) | Bilingual documentation, examples, checklists, an interactive Figma-like layer demo, and the canonical catalog of 77 rules. |
 | BRIDGE Assistant for Figma | [v0.7.0](https://github.com/Poliklot/bridge-figma-assistant/releases/tag/v0.7.0) | Tagging, target connection, file navigation, and local Page Check inside Figma. |
-| Published plugin | [Figma Community](https://www.figma.com/community/plugin/1654485530503673254/bridge) | The installable public build of BRIDGE Assistant. |
+| Published plugin | [Figma plugin BRIDGE](https://www.figma.com/community/plugin/1654485530503673254/bridge) | The installable public build of BRIDGE Assistant. |
 
 The methodology and plugin source are MIT-licensed. Releases before 1.0 may refine the contract, rule wording, and machine-readable formats; changes must be read from the relevant release notes.
 

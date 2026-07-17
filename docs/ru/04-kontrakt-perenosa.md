@@ -26,7 +26,7 @@
 ```json
 {
   "contractVersion": "0.1-draft",
-  "methodologyVersion": "0.7.1",
+  "methodologyVersion": "0.8.0",
   "rulesVersion": "0.2.1",
   "source": {
     "tool": "figma",

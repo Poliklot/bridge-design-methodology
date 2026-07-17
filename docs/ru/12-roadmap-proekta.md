@@ -6,9 +6,9 @@
 
 | Продукт | Версия | Что в неё входит |
 | --- | --- | --- |
-| Методология и сайт BRIDGE | [v0.7.1](https://github.com/Poliklot/bridge-design-methodology/releases/tag/v0.7.1) | Двуязычная документация, примеры, чеклисты, визуальный обзор продукта и канонический каталог из 77 правил. |
+| Методология и сайт BRIDGE | [v0.8.0](https://github.com/Poliklot/bridge-design-methodology/releases/tag/v0.8.0) | Двуязычная документация, примеры, чеклисты, интерактивная панель слоёв в стиле Figma и канонический каталог из 77 правил. |
 | BRIDGE Assistant для Figma | [v0.7.0](https://github.com/Poliklot/bridge-figma-assistant/releases/tag/v0.7.0) | Теги, связывание целей, навигация по файлу и локальная проверка Page Check внутри Figma. |
-| Опубликованный плагин | [Figma Community](https://www.figma.com/community/plugin/1654485530503673254/bridge) | Общедоступная устанавливаемая версия BRIDGE Assistant. |
+| Опубликованный плагин | [Figma plugin BRIDGE](https://www.figma.com/community/plugin/1654485530503673254/bridge) | Общедоступная устанавливаемая версия BRIDGE Assistant. |
 
 Методология и исходный код плагина доступны по лицензии MIT. До версии 1.0 контракт, формулировки правил и машиночитаемые форматы могут уточняться; изменения нужно сверять с описанием соответствующего выпуска.
 

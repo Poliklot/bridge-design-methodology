@@ -132,7 +132,7 @@ Figma itself remains the host product and is governed by the workspace plan and 
 ## Keep these references open
 
 - [Designer quick start](00-designer-quick-start.md)
-- [BRIDGE Assistant in Figma Community](https://www.figma.com/community/plugin/1654485530503673254/bridge)
+- [Figma plugin BRIDGE](https://www.figma.com/community/plugin/1654485530503673254/bridge)
 - [Designer checklist](17-designer-checklist.md)
 - [Full rule catalog](../validator/rules.json)
 - [Page Check coverage](../validator/page-check-coverage.json)

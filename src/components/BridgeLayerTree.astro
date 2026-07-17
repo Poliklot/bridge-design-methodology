@@ -1,0 +1,79 @@
+---
+export interface LayerNode {
+  id: string;
+  type: 'frame' | 'section' | 'group' | 'text' | 'component';
+  name: string;
+  tag?: string;
+  children?: LayerNode[];
+}
+
+interface Props {
+  nodes: LayerNode[];
+  locale: 'ru' | 'en';
+  helpId: string;
+  depth?: number;
+}
+
+const { nodes, locale, helpId, depth = 0 } = Astro.props;
+const labels = locale === 'ru'
+  ? {
+      rename: (name: string) => `Переименовать слой «${name}»`,
+      input: (name: string) => `Новое название слоя «${name}»`,
+      reorder: (name: string, position: number, total: number) => `Изменить порядок слоя «${name}». Позиция ${position} из ${total}`,
+    }
+  : {
+      rename: (name: string) => `Rename layer “${name}”`,
+      input: (name: string) => `New name for layer “${name}”`,
+      reorder: (name: string, position: number, total: number) => `Reorder layer “${name}”. Position ${position} of ${total}`,
+    };
+
+const glyph = (type: LayerNode['type']) => type === 'text' ? 'T' : type === 'component' ? '◇' : type === 'group' ? '□' : '#';
+---
+
+<ol class="bridge-layer-list">
+  {nodes.map((node, index) => (
+    <li class="bridge-layer-item" data-layer-item data-layer-id={node.id}>
+      <div class="bridge-layer-row" style={`--layer-depth:${depth}`}>
+        <span class:list={['bridge-layer-chevron', { 'is-empty': !node.children?.length }]} aria-hidden="true"></span>
+        <span class={`bridge-layer-glyph is-${node.type}`} aria-hidden="true">{glyph(node.type)}</span>
+        <span class="bridge-layer-name-wrap">
+          <button
+            class="bridge-layer-name"
+            type="button"
+            data-layer-rename
+            aria-label={labels.rename(node.name)}
+          >{node.name}</button>
+          <input
+            class="bridge-layer-input"
+            data-layer-input
+            value={node.name}
+            maxlength="64"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label={labels.input(node.name)}
+            hidden
+          />
+        </span>
+        {node.tag ? <code title={node.tag}>{node.tag}</code> : <span class="bridge-layer-tag-spacer" aria-hidden="true"></span>}
+        <button
+          class="bridge-layer-handle"
+          type="button"
+          data-layer-handle
+          aria-label={labels.reorder(node.name, index + 1, nodes.length)}
+          aria-describedby={helpId}
+          aria-pressed="false"
+          disabled={nodes.length < 2}
+        >
+          <svg viewBox="0 0 12 16" aria-hidden="true">
+            <circle cx="3" cy="3" r="1"></circle><circle cx="9" cy="3" r="1"></circle>
+            <circle cx="3" cy="8" r="1"></circle><circle cx="9" cy="8" r="1"></circle>
+            <circle cx="3" cy="13" r="1"></circle><circle cx="9" cy="13" r="1"></circle>
+          </svg>
+        </button>
+      </div>
+      {node.children?.length && (
+        <Astro.self nodes={node.children} locale={locale} helpId={helpId} depth={depth + 1} />
+      )}
+    </li>
+  ))}
+</ol>

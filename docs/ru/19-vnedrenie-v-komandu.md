@@ -132,7 +132,7 @@
 ## Полезные ссылки
 
 - [Быстрый старт для дизайнера](00-bystryj-start-dlya-dizajnera.md)
-- [BRIDGE Assistant в Figma Community](https://www.figma.com/community/plugin/1654485530503673254/bridge)
+- [Figma plugin BRIDGE](https://www.figma.com/community/plugin/1654485530503673254/bridge)
 - [Чеклист дизайнера](17-cheklist-dlya-dizaynerov.md)
 - [Полный каталог правил](../../validator/rules.json)
 - [Покрытие Page Check](../../validator/page-check-coverage.json)

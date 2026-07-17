@@ -1,242 +1,76 @@
 ---
-import PluginMediaShowcase from './PluginMediaShowcase.astro';
-import coverage from '../../validator/page-check-coverage.json';
-
 interface Props {
   locale: 'ru' | 'en';
 }
 
 const { locale } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
-const url = (path: string) => `${base}/${locale}/${path.replace(/^\//u, '')}`;
-const showcaseLocale = locale === 'ru' ? 'ru/' : '';
-const showcaseAsset = (path: string) => `${base}/assets/plugin/showcase/${showcaseLocale}${path}`;
 const pluginUrl = 'https://www.figma.com/community/plugin/1654485530503673254/bridge';
-const supportUrl = 'https://github.com/Poliklot/bridge-figma-assistant/issues';
-const sourceUrl = 'https://github.com/Poliklot/bridge-figma-assistant/tree/v0.7.0';
-const manifestUrl = 'https://github.com/Poliklot/bridge-figma-assistant/blob/v0.7.0/manifest.json';
-const coverageUrl = `${base}/data/page-check-coverage.json`;
+const sourceUrl = 'https://github.com/Poliklot/bridge-figma-assistant';
 
 const copy = locale === 'ru'
   ? {
-      eyebrow: 'Официальный плагин для Figma',
-      title: 'Найдите разрывы до разработки.',
-      lead: 'В BRIDGE вы связываете страницы, адаптивы, действия и цели. Проверка страницы показывает незавершённую разметку и сломанные связи — с переходом к нужному слою и правилу.',
-      open: 'Открыть в Figma',
-      start: 'Запустить первую проверку',
-      facts: [
-        ['Обработка файла', 'Локально в Figma'],
-        ['Аккаунт BRIDGE', 'Не требуется'],
-        ['Сетевой доступ', 'Запрещён манифестом'],
-        ['Основа проверок', 'Открытый JSON'],
+      eyebrow: 'Инструмент методологии',
+      title: 'Проверяйте готовность макета прямо в Figma.',
+      lead: 'Плагин добавляет теги BRIDGE в имена слоёв, собирает карту файла и проверяет страницы, адаптивы, действия и цели перед передачей в разработку.',
+      open: 'Figma plugin BRIDGE',
+      capabilitiesLabel: 'Что делает плагин',
+      capabilities: [
+        ['Теги', 'Добавляет page, breakpoint, action и target без ручного набора синтаксиса.'],
+        ['Карта', 'Собирает страницы, цели и черновики в понятную структуру файла.'],
+        ['Проверка', 'Находит разрывы и открывает нужный слой и правило.'],
       ],
-      previewAlt: 'Отчёт проверки страницы в плагине BRIDGE для Figma',
-      previewCaption: 'Отчёт проверки страницы · интерфейс BRIDGE',
-      firstRunEyebrow: 'Первая проверка',
-      firstRunTitle: 'От установки до отчёта — пять действий.',
-      firstRunSteps: [
-        ['01', 'Откройте BRIDGE', 'Установите плагин из Figma Community и запустите его в рабочем файле.'],
-        ['02', 'Объявите страницу', 'Выберите корневой фрейм и задайте page, breakpoint и view через Tag as Page.'],
-        ['03', 'Свяжите действия', 'Выберите готовую цель в карте файла и вставьте её без ручного набора ID.'],
-        ['04', 'Откройте карту', 'Проверьте, что страницы, цели и оставшиеся черновики собраны ожидаемо.'],
-        ['05', 'Запустите Check page', 'Откройте найденный вопрос, перейдите к слою и исправьте его по точному правилу.'],
-      ],
-      demoEyebrow: '30 секунд в BRIDGE',
-      demoTitle: 'Посмотрите весь цикл за 30 секунд.',
-      demoText: 'Видео показывает весь цикл: связать адаптивы одной страницей, добавить действие, вставить готовую цель, запустить проверку страницы и перейти из результата к слою и правилу.',
-      demoLabel: 'Видео-демонстрация плагина BRIDGE. Интерфейс и озвучка на английском, доступны русские субтитры.',
-      demoCaption: '00:30 · в видео интерфейс на английском · субтитры на русском и английском',
-      transcriptLabel: 'Что происходит за 30 секунд',
-      demoSteps: [
-        ['0:00', 'Адаптивы помечаются как версии одной страницы.'],
-        ['0:04', 'Выбранный слой получает действие без ручного синтаксиса.'],
-        ['0:08', 'Готовая цель вставляется без повторного набора ID.'],
-        ['0:12', 'Карта файла открывает нужный объект.'],
-        ['0:15', 'Проверка страницы находит разрывы, черновики и предупреждения.'],
-        ['0:20', 'Вопрос открывает правило с причиной и способом исправления.'],
-        ['0:25', 'Все проверки выполняются локально по открытым правилам BRIDGE.'],
-      ],
-      coverageEyebrow: 'Покрытие версии 0.7.0',
-      coverageTitle: '24 правила в Page Check. 77 — в открытом каталоге.',
-      coverageText: 'Текущая версия выполняет 23 детерминированные и одну эвристическую проверку: страницы, адаптивы, идентификаторы, маршруты, действия и цели. Каталог шире плагина — ручные и ещё не реализованные проверки не выдаются за автоматические.',
-      coverageNow: 'правила выполняет Page Check',
-      coverageCatalog: 'правил описывает методология',
-      coverageDetails: 'Показать идентификаторы текущих проверок',
-      coverageAutomatic: 'Детерминированные · 23',
-      coverageHeuristic: 'Эвристическая · 1',
-      coverageDownload: 'Скачать карту покрытия',
-      coverageOpen: 'Открыть каталог правил',
-      privacyTitle: 'Файл остаётся читаемым без BRIDGE.',
-      privacyText: 'Теги хранятся в обычных именах слоёв, правила опубликованы как JSON, а код плагина открыт. Page Check ничего не изменяет: слой переименовывается только по явной команде разметки. Манифест запрещает сетевые домены.',
-      manifest: 'Проверить манифест',
-      source: 'Посмотреть исходный код',
-      adoption: 'Открыть план пилота',
-      support: 'Сообщить о проблеме',
+      trust: 'Локально в Figma · без аккаунта BRIDGE · без сетевого доступа',
+      source: 'Исходный код',
+      newTab: 'откроется в новой вкладке',
     }
   : {
-      eyebrow: 'Official Figma plugin',
-      title: 'Catch gaps before implementation.',
-      lead: 'Use BRIDGE to connect pages, breakpoints, actions, and targets. Page Check surfaces incomplete tagging and broken relationships, with direct links to the affected layer and relevant rule.',
-      open: 'Open in Figma',
-      start: 'Run your first check',
-      facts: [
-        ['File processing', 'Local in Figma'],
-        ['BRIDGE account', 'Not required'],
-        ['Network access', 'Blocked by manifest'],
-        ['Rule source', 'Open JSON'],
+      eyebrow: 'Methodology tool',
+      title: 'Review design readiness directly in Figma.',
+      lead: 'The plugin adds BRIDGE tags to layer names, maps the file, and checks pages, breakpoints, actions, and targets before implementation handoff.',
+      open: 'Figma plugin BRIDGE',
+      capabilitiesLabel: 'What the plugin does',
+      capabilities: [
+        ['Tags', 'Adds page, breakpoint, action, and target tags without handwritten syntax.'],
+        ['Map', 'Collects pages, targets, and drafts into a clear file structure.'],
+        ['Check', 'Finds gaps and opens the relevant layer and rule.'],
       ],
-      previewAlt: 'BRIDGE Page Check report in Figma',
-      previewCaption: 'Page Check report · BRIDGE interface',
-      firstRunEyebrow: 'First check',
-      firstRunTitle: 'Five actions from install to report.',
-      firstRunSteps: [
-        ['01', 'Open BRIDGE', 'Install the plugin from Figma Community and run it in a working file.'],
-        ['02', 'Declare the page', 'Select a root frame and set page, breakpoint, and view with Tag as Page.'],
-        ['03', 'Connect actions', 'Choose an existing target in the file map and paste it without retyping an ID.'],
-        ['04', 'Review the map', 'Confirm that pages, targets, and remaining drafts match the intended file structure.'],
-        ['05', 'Run Check page', 'Open an issue, jump to its layer, and fix it using the exact linked rule.'],
-      ],
-      demoEyebrow: '30 seconds in BRIDGE',
-      demoTitle: 'See the full cycle in 30 seconds.',
-      demoText: 'See the full cycle: group breakpoints under one page identity, add an action, paste a declared target, run Page Check, and jump from the result to the affected layer and rule.',
-      demoLabel: 'BRIDGE plugin video demo with English interface and voiceover. English captions are available.',
-      demoCaption: '00:30 · English interface · English and Russian captions',
-      transcriptLabel: 'What happens in 30 seconds',
-      demoSteps: [
-        ['0:00', 'Breakpoint roots are marked as versions of one page.'],
-        ['0:04', 'The selected layer receives an action without handwritten syntax.'],
-        ['0:08', 'A declared target is pasted without retyping its ID.'],
-        ['0:12', 'The file map opens the exact object.'],
-        ['0:15', 'Page Check finds gaps, drafts, and warnings.'],
-        ['0:20', 'The issue opens the rule that explains the problem and fix.'],
-        ['0:25', 'All checks run locally against BRIDGE’s open rules.'],
-      ],
-      coverageEyebrow: 'Version 0.7.0 coverage',
-      coverageTitle: '24 rules in Page Check. 77 in the open catalog.',
-      coverageText: 'The current release runs 23 deterministic checks and one heuristic check across pages, breakpoints, identities, routes, actions, and targets. The methodology is broader than the plugin: manual and not-yet-implemented rules are not presented as automated coverage.',
-      coverageNow: 'rules run in Page Check',
-      coverageCatalog: 'rules documented by BRIDGE',
-      coverageDetails: 'Show current rule identifiers',
-      coverageAutomatic: 'Deterministic · 23',
-      coverageHeuristic: 'Heuristic · 1',
-      coverageDownload: 'Download coverage map',
-      coverageOpen: 'Open rule catalog',
-      privacyTitle: 'The file remains readable without BRIDGE.',
-      privacyText: 'Tags live in ordinary layer names, rules are published as JSON, and the plugin source is open. Page Check changes nothing: a layer is renamed only after an explicit tagging command. The manifest blocks all network domains.',
-      manifest: 'Inspect manifest',
-      source: 'View source code',
-      adoption: 'Open pilot plan',
-      support: 'Report an issue',
+      trust: 'Local in Figma · no BRIDGE account · no network access',
+      source: 'Source code',
+      newTab: 'opens in a new tab',
     };
 ---
 
 <div class="plugin-page not-content">
-  <section class="plugin-hero" aria-labelledby="plugin-title">
-    <div class="plugin-hero-copy">
+  <section class="plugin-brief" aria-labelledby="plugin-title">
+    <div class="plugin-brief-copy">
       <p class="bridge-eyebrow">{copy.eyebrow}</p>
-      <div class="plugin-identity">
-        <img src={`${base}/assets/plugin/bridge-plugin-icon.png`} width="52" height="52" alt="" />
-        <span>BRIDGE <small>for Figma</small></span>
-      </div>
       <h1 id="plugin-title">{copy.title}</h1>
-      <p class="plugin-lead">{copy.lead}</p>
-      <div class="bridge-actions">
-        <a class="bridge-button bridge-button-primary" href={pluginUrl} target="_blank" rel="noopener noreferrer">
-          {copy.open}<span aria-hidden="true"> ↗</span>
-        </a>
-        <a class="bridge-button bridge-button-secondary" href="#plugin-first-run">{copy.start}</a>
-      </div>
-      <ul class="plugin-facts" aria-label={locale === 'ru' ? 'Проверяемые свойства плагина' : 'Verifiable plugin properties'}>
-        {copy.facts.map(([label, value]) => <li><span aria-hidden="true"></span><small>{label}</small><strong>{value}</strong></li>)}
-      </ul>
-    </div>
-
-    <figure class="plugin-preview">
-      <picture>
-        <source
-          media="(max-width: 50rem)"
-          srcset={showcaseAsset('ui/preflight.png')}
-          width={locale === 'ru' ? 900 : 680}
-          height={locale === 'ru' ? 1200 : 760}
-        />
-        <img src={showcaseAsset('01-preflight.png')} width="1920" height="1080" alt={copy.previewAlt} loading="eager" />
-      </picture>
-      <figcaption>{copy.previewCaption}</figcaption>
-    </figure>
-  </section>
-
-  <section class="bridge-section plugin-first-run" id="plugin-first-run" aria-labelledby="plugin-first-run-title">
-    <header><p class="bridge-eyebrow">{copy.firstRunEyebrow}</p><h2 id="plugin-first-run-title">{copy.firstRunTitle}</h2></header>
-    <ol>
-      {copy.firstRunSteps.map(([number, title, description]) => (
-        <li><span>{number}</span><div><h3>{title}</h3><p>{description}</p></div></li>
-      ))}
-    </ol>
-  </section>
-
-  <section class="bridge-section plugin-demo" id="plugin-demo" aria-labelledby="plugin-demo-title">
-    <header class="plugin-demo-heading">
-      <p class="bridge-eyebrow">{copy.demoEyebrow}</p>
-      <div><h2 id="plugin-demo-title">{copy.demoTitle}</h2><p>{copy.demoText}</p></div>
-    </header>
-    <figure class="plugin-demo-frame">
-      <video
-        controls
-        playsinline
-        preload="metadata"
-        poster={showcaseAsset('01-preflight.png')}
-        aria-label={copy.demoLabel}
+      <p class="plugin-brief-lead">{copy.lead}</p>
+      <a
+        class="plugin-brief-cta bridge-button bridge-button-primary"
+        href={pluginUrl}
+        target="_blank"
+        rel="noopener noreferrer"
       >
-        <source src={`${base}/assets/plugin/showcase/bridge-product-demo.mp4`} type="video/mp4" />
-        <track kind="captions" srclang="ru" label="Русские" src={`${base}/assets/plugin/showcase/bridge-product-demo.ru.vtt`} default={locale === 'ru'} />
-        <track kind="captions" srclang="en" label="English" src={`${base}/assets/plugin/showcase/bridge-product-demo.en.vtt`} default={locale === 'en'} />
-      </video>
-      <figcaption>{copy.demoCaption}</figcaption>
-    </figure>
-    <details class="plugin-demo-transcript">
-      <summary>{copy.transcriptLabel}</summary>
-      <ol>
-        {copy.demoSteps.map(([time, text]) => <li><time>{time}</time><span>{text}</span></li>)}
-      </ol>
-    </details>
-  </section>
+        {copy.open}<span aria-hidden="true"> ↗</span><span class="sr-only"> — {copy.newTab}</span>
+      </a>
+    </div>
 
-  <PluginMediaShowcase locale={locale} />
+    <ul class="plugin-capabilities" aria-label={copy.capabilitiesLabel}>
+      {copy.capabilities.map(([title, description], index) => (
+        <li>
+          <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <strong>{title}</strong>
+          <p>{description}</p>
+        </li>
+      ))}
+    </ul>
 
-  <section class="bridge-section plugin-coverage" aria-labelledby="plugin-coverage-title">
-    <header>
-      <p class="bridge-eyebrow">{copy.coverageEyebrow}</p>
-      <div><h2 id="plugin-coverage-title">{copy.coverageTitle}</h2><p>{copy.coverageText}</p></div>
-    </header>
-    <div class="plugin-coverage-metrics" aria-label={locale === 'ru' ? 'Покрытие проверок' : 'Check coverage'}>
-      <article><strong>{coverage.counts.pageCheckRules}</strong><span>{copy.coverageNow}</span></article>
-      <article><strong>{coverage.counts.catalogRules}</strong><span>{copy.coverageCatalog}</span></article>
-    </div>
-    <details class="plugin-coverage-details">
-      <summary>{copy.coverageDetails}</summary>
-      <div>
-        <section><h3>{copy.coverageAutomatic}</h3><ul>{coverage.automaticRuleIds.map((id) => <li><code>{id}</code></li>)}</ul></section>
-        <section><h3>{copy.coverageHeuristic}</h3><ul>{coverage.heuristicRuleIds.map((id) => <li><code>{id}</code></li>)}</ul></section>
-      </div>
-    </details>
-    <div class="plugin-coverage-actions">
-      <a href={coverageUrl} download>{copy.coverageDownload}<span aria-hidden="true"> ↓</span></a>
-      <a href={url('rules/')}>{copy.coverageOpen}<span aria-hidden="true"> →</span></a>
-    </div>
-  </section>
-
-  <section class="plugin-privacy" aria-labelledby="plugin-privacy-title">
-    <div>
-      <span class="plugin-privacy-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10M6 10h12v10H6z"></path></svg>
-      </span>
-      <div><h2 id="plugin-privacy-title">{copy.privacyTitle}</h2><p>{copy.privacyText}</p></div>
-    </div>
-    <div class="plugin-privacy-actions">
-      <a href={manifestUrl} target="_blank" rel="noopener noreferrer">{copy.manifest}<span aria-hidden="true"> ↗</span></a>
-      <a href={sourceUrl} target="_blank" rel="noopener noreferrer">{copy.source}<span aria-hidden="true"> ↗</span></a>
-      <a href={url('project/team-adoption/')}>{copy.adoption}<span aria-hidden="true"> →</span></a>
-      <a href={supportUrl} target="_blank" rel="noopener noreferrer">{copy.support}<span aria-hidden="true"> ↗</span></a>
-    </div>
+    <footer class="plugin-brief-meta">
+      <p>{copy.trust}</p>
+      <a href={sourceUrl} target="_blank" rel="noopener noreferrer">
+        {copy.source}<span aria-hidden="true"> ↗</span><span class="sr-only"> — {copy.newTab}</span>
+      </a>
+    </footer>
   </section>
 </div>

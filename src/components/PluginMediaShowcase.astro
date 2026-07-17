@@ -6,7 +6,7 @@ interface Props {
 
 const { locale, compact = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
-const pageUrl = (path: string) => `${base}/${locale}/${path.replace(/^\//u, '')}`;
+const pluginUrl = 'https://www.figma.com/community/plugin/1654485530503673254/bridge';
 const showcaseLocale = locale === 'ru' ? 'ru/' : '';
 const asset = (path: string) => `${base}/assets/plugin/showcase/${showcaseLocale}${path}`;
 
@@ -16,7 +16,7 @@ const copy = locale === 'ru'
         eyebrow: 'Что проверяет BRIDGE',
         title: 'Вопросы к макету — до начала разработки.',
         lead: 'Укажите роль слоя и свяжите действие с целью без ручного синтаксиса. BRIDGE соберёт карту файла, сопоставит адаптивы и покажет конкретно: чего не хватает, в каком слое и по какому правилу это исправить.',
-        action: 'Посмотреть путь от слоя до исправления',
+        action: 'Figma plugin BRIDGE',
         stageLabel: 'Проверка страницы → роль слоя → цель',
       },
       plugin: {
@@ -27,6 +27,7 @@ const copy = locale === 'ru'
         stageLabel: 'Проверка страницы → тег → карта → исправление',
       },
       tabsLabel: 'Экраны рабочего цикла BRIDGE',
+      newTab: 'откроется в новой вкладке',
       previous: 'Назад',
       next: 'Дальше',
       screen: 'Экран',
@@ -88,7 +89,7 @@ const copy = locale === 'ru'
         eyebrow: 'What BRIDGE checks',
         title: 'Surface design questions before implementation starts.',
         lead: 'Declare a layer’s role and connect an action to its target without writing tag syntax. BRIDGE maps the file, compares breakpoints, and shows exactly what is missing, which layer contains it, and which rule explains the fix.',
-        action: 'See the path from layer to fix',
+        action: 'Figma plugin BRIDGE',
         stageLabel: 'Page Check → layer role → target',
       },
       plugin: {
@@ -99,6 +100,7 @@ const copy = locale === 'ru'
         stageLabel: 'Page Check → tag → map → fix',
       },
       tabsLabel: 'BRIDGE workflow screens',
+      newTab: 'opens in a new tab',
       previous: 'Previous',
       next: 'Next',
       screen: 'Screen',
@@ -250,7 +252,9 @@ const heading = copy[mode];
 
   {compact && (
     <div class="plugin-showcase-action">
-      <a href={pageUrl('check/#plugin-showcase-title')}>{heading.action}<span aria-hidden="true"> →</span></a>
+      <a href={pluginUrl} target="_blank" rel="noopener noreferrer">
+        {heading.action}<span aria-hidden="true"> ↗</span><span class="sr-only"> — {copy.newTab}</span>
+      </a>
     </div>
   )}
 </section>

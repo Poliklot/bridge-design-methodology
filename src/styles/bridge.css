@@ -423,10 +423,24 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   padding: 0.5rem 0;
 }
 
+.bridge-layer-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bridge-layer-item {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
 .bridge-layer-row {
-  display: flex;
+  position: relative;
+  display: grid;
   min-height: 1.85rem;
   min-width: 0;
+  grid-template-columns: 0.42rem 1rem minmax(3.25rem, auto) minmax(0, 1fr) 1.5rem;
   align-items: center;
   gap: 0.35rem;
   padding: 0.15rem 0.75rem 0.15rem calc(0.7rem + var(--layer-depth) * 0.9rem);
@@ -435,7 +449,9 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   transition: background-color 0.1s ease-in-out;
 }
 
-.bridge-layer-row:hover {
+.bridge-layer-row:hover,
+.bridge-layer-item.is-editing > .bridge-layer-row,
+.bridge-layer-item.is-keyboard-dragging > .bridge-layer-row {
   background: #383838;
 }
 
@@ -482,9 +498,50 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 }
 
 .bridge-layer-name {
+  display: block;
+  width: 100%;
   min-width: 0;
-  flex: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0.18rem;
+  background: transparent;
+  padding: 0.12rem 0.2rem;
+  color: inherit;
+  font: inherit;
+  line-height: 1.15;
+  text-align: start;
+  text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: text;
+}
+
+.bridge-layer-name:hover {
+  background: #444444;
+  color: #ffffff;
+}
+
+.bridge-layer-name-wrap {
+  min-width: 0;
+  max-width: 9.5rem;
+}
+
+.bridge-layer-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 1.35rem;
+  border: 1px solid #0d99ff;
+  border-radius: 0.18rem;
+  background: #1e1e1e;
+  padding: 0 0.2rem;
+  color: #ffffff;
+  font: inherit;
+  line-height: 1;
+}
+
+.bridge-layer-input[hidden],
+.bridge-layer-name[hidden] {
+  display: none;
 }
 
 .bridge-layer-row code {
@@ -499,14 +556,157 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   white-space: nowrap;
 }
 
-.bridge-layers-panel > p {
-  min-height: 3.45rem;
-  margin: 0;
+.bridge-layer-tag-spacer {
+  min-width: 0;
+}
+
+.bridge-layer-handle {
+  display: grid;
+  width: 1.5rem;
+  height: 1.5rem;
+  place-items: center;
+  border: 0;
+  border-radius: 0.25rem;
+  background: transparent;
+  padding: 0;
+  color: #a5a5a5;
+  opacity: 0.34;
+  cursor: grab;
+  touch-action: none;
+}
+
+.bridge-layer-handle svg {
+  width: 0.72rem;
+  height: 0.9rem;
+  fill: currentColor;
+}
+
+.bridge-layer-row:hover .bridge-layer-handle,
+.bridge-layer-row:focus-within .bridge-layer-handle,
+.bridge-layer-handle[aria-pressed='true'] {
+  background: #4a4a4a;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.bridge-layer-handle:active,
+.bridge-layer-handle[aria-pressed='true'] {
+  cursor: grabbing;
+}
+
+.bridge-layer-handle:disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bridge-layer-name:focus-visible,
+.bridge-layer-handle:focus-visible,
+.bridge-layer-footer button:focus-visible {
+  outline: 2px solid #0d99ff;
+  outline-offset: 1px;
+}
+
+.bridge-layer-item.is-dragging {
+  opacity: 0.32;
+}
+
+.bridge-layer-item.is-drop-before > .bridge-layer-row::before,
+.bridge-layer-item.is-drop-after > .bridge-layer-row::after {
+  position: absolute;
+  z-index: 2;
+  right: 0.7rem;
+  left: calc(0.65rem + var(--layer-depth) * 0.9rem);
+  height: 2px;
+  border-radius: 999px;
+  background: #0d99ff;
+  box-shadow: -0.2rem 0 0 -0.02rem #0d99ff;
+  content: '';
+}
+
+.bridge-layer-item.is-drop-before > .bridge-layer-row::before {
+  top: -1px;
+}
+
+.bridge-layer-item.is-drop-after > .bridge-layer-row::after {
+  bottom: -1px;
+}
+
+.bridge-layer-ghost {
+  position: fixed;
+  z-index: 10000;
+  display: grid;
+  grid-template-columns: 0.42rem 1rem minmax(3.25rem, auto) minmax(0, 1fr) 1.5rem;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 1.85rem;
+  overflow: hidden;
+  border: 1px solid #0d99ff;
+  border-radius: 0.35rem;
+  background: #383838;
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 35%);
+  padding: 0.15rem 0.75rem;
+  color: #ffffff;
+  font-family: Inter, var(--sl-font), sans-serif;
+  font-size: 0.7rem;
+  opacity: 0.96;
+  pointer-events: none;
+}
+
+.bridge-layer-ghost .bridge-layer-handle {
+  opacity: 1;
+}
+
+.bridge-layer-footer {
+  display: flex;
+  min-height: 4.65rem;
+  gap: 0.75rem;
+  align-items: flex-start;
+  justify-content: space-between;
   border-top: 1px solid #444444;
   padding: 0.8rem 0.9rem;
+}
+
+.bridge-layer-footer p {
+  margin: 0;
   color: #b3b3b3;
   font-size: 0.7rem;
   line-height: 1.45;
+}
+
+.bridge-layer-footer small {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.32rem;
+  color: #858585;
+  font-size: 0.59rem;
+  line-height: 1.4;
+}
+
+.bridge-layer-footer small > span {
+  flex: none;
+  color: #b3b3b3;
+  font-size: 0.78rem;
+  line-height: 1;
+}
+
+.bridge-layer-footer button {
+  flex: none;
+  border: 0;
+  border-radius: 0.25rem;
+  background: transparent;
+  padding: 0.25rem 0.35rem;
+  color: #7fc8ff;
+  font-size: 0.62rem;
+  cursor: pointer;
+}
+
+.bridge-layer-footer button:hover {
+  background: #383838;
+  color: #ffffff;
+}
+
+.bridge-layer-footer button[hidden] {
+  display: none;
 }
 
 .bridge-section {
@@ -805,6 +1005,115 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   width: min(100%, calc(var(--bridge-container) + 2 * var(--bridge-gutter)));
   margin-inline: auto;
   padding-inline: var(--bridge-gutter);
+}
+
+.plugin-brief {
+  width: min(100%, 72rem);
+  margin-inline: auto;
+  padding-block: clamp(4rem, 9vw, 8rem) clamp(3rem, 7vw, 6rem);
+}
+
+.plugin-brief-copy {
+  display: grid;
+  justify-items: start;
+}
+
+.plugin-brief h1 {
+  max-width: 24ch;
+  margin: 0;
+  color: var(--sl-color-white);
+  font-size: clamp(3.2rem, 6.2vw, 5.8rem);
+  font-weight: 690;
+  letter-spacing: -0.058em;
+  line-height: 0.96;
+}
+
+.plugin-brief-lead {
+  max-width: 52rem;
+  margin: clamp(1.35rem, 3vw, 2rem) 0 0;
+  color: var(--bridge-muted);
+  font-size: clamp(1.02rem, 1.6vw, 1.25rem);
+  line-height: 1.62;
+}
+
+.plugin-brief-cta {
+  margin-top: 1.75rem;
+}
+
+.plugin-capabilities {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: clamp(3.5rem, 7vw, 6rem) 0 0;
+  padding: 0;
+  border-block: 1px solid var(--bridge-line);
+  list-style: none;
+}
+
+.plugin-capabilities li {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  gap: 0.55rem 0.85rem;
+  align-content: start;
+  padding: 1.5rem clamp(1rem, 2.5vw, 2rem);
+  border-inline-end: 1px solid var(--bridge-line);
+}
+
+.plugin-capabilities li:first-child {
+  padding-inline-start: 0;
+}
+
+.plugin-capabilities li:last-child {
+  border-inline-end: 0;
+  padding-inline-end: 0;
+}
+
+.plugin-capabilities li > span {
+  grid-row: 1 / 3;
+  color: var(--bridge-blue-deep);
+  font-family: var(--sl-font-mono);
+  font-size: 0.68rem;
+}
+
+.plugin-capabilities strong {
+  color: var(--sl-color-white);
+  font-size: 1.02rem;
+  font-weight: 660;
+  line-height: 1.2;
+}
+
+.plugin-capabilities p {
+  margin: 0;
+  color: var(--bridge-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.plugin-brief-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+  color: var(--bridge-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.68rem;
+}
+
+.plugin-brief-meta p {
+  margin: 0;
+}
+
+.plugin-brief-meta a {
+  color: var(--bridge-blue-deep);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.plugin-brief-meta a:hover {
+  color: var(--sl-color-white);
 }
 
 .plugin-hero {
@@ -1130,20 +1439,17 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 
 /* The contract trace is the signature visual: native structure + declared intent = a checkable file. */
 .bridge-contract-heading,
-.plugin-showcase-heading,
-.plugin-demo-heading {
+.plugin-showcase-heading {
   display: block;
 }
 
 .bridge-contract-heading .bridge-eyebrow,
-.plugin-showcase-heading .bridge-eyebrow,
-.plugin-demo-heading .bridge-eyebrow {
+.plugin-showcase-heading .bridge-eyebrow {
   margin-bottom: 1.25rem;
 }
 
 .bridge-contract-heading > div,
-.plugin-showcase-heading > div,
-.plugin-demo-heading > div {
+.plugin-showcase-heading > div {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(22rem, 0.75fr);
   column-gap: clamp(2rem, 5vw, 4.5rem);
@@ -1151,8 +1457,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 }
 
 .bridge-contract-heading h2,
-.plugin-showcase-heading h2,
-.plugin-demo-heading h2 {
+.plugin-showcase-heading h2 {
   max-width: none;
   margin: 0;
   color: var(--sl-color-white);
@@ -1164,8 +1469,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 }
 
 .bridge-contract-heading > div > p,
-.plugin-showcase-heading > div > p,
-.plugin-demo-heading > div > p {
+.plugin-showcase-heading > div > p {
   max-width: 47rem;
   margin: 0;
   justify-self: end;
@@ -1685,84 +1989,6 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 
 .plugin-showcase-action a:hover {
   color: var(--sl-color-white);
-}
-
-.plugin-demo-frame {
-  overflow: hidden;
-  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
-  border: 1px solid var(--bridge-line);
-  border-radius: 0.8rem;
-  background: #0c0d0e;
-  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 14%);
-}
-
-.plugin-demo-frame video {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #0c0d0e;
-}
-
-.plugin-demo-frame video::cue {
-  background: rgb(7 10 12 / 88%);
-  color: #ffffff;
-  font-family: var(--sl-font);
-}
-
-.plugin-demo-frame figcaption {
-  border-top: 1px solid #34383b;
-  padding: 0.8rem 1rem;
-  color: #aeb5ba;
-  font-family: var(--sl-font-mono);
-  font-size: 0.62rem;
-}
-
-.plugin-demo-transcript {
-  margin-top: 0.75rem;
-  border-bottom: 1px solid var(--bridge-line);
-}
-
-.plugin-demo-transcript summary {
-  padding: 0.8rem 0;
-  color: var(--bridge-blue-deep);
-  font-size: 0.78rem;
-  font-weight: 650;
-  cursor: pointer;
-}
-
-.plugin-demo-transcript ol {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0;
-  margin: 0;
-  padding: 0 0 1rem;
-  list-style: none;
-}
-
-.plugin-demo-transcript li {
-  display: grid;
-  grid-template-columns: 3.2rem minmax(0, 1fr);
-  gap: 0.7rem;
-  border-top: 1px solid var(--bridge-line);
-  padding: 0.75rem 0;
-  color: var(--bridge-muted);
-  font-size: 0.76rem;
-  line-height: 1.45;
-}
-
-.plugin-demo-transcript li:nth-child(odd) {
-  padding-inline-end: 1.25rem;
-}
-
-.plugin-demo-transcript li:nth-child(even) {
-  border-inline-start: 1px solid var(--bridge-line);
-  padding-inline-start: 1.25rem;
-}
-
-.plugin-demo-transcript time {
-  color: var(--bridge-blue-deep);
-  font-family: var(--sl-font-mono);
-  font-size: 0.63rem;
 }
 
 .plugin-workflow {
@@ -2382,6 +2608,12 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   to { opacity: 1; transform: translateY(0); }
 }
 
+@media (hover: none) {
+  .bridge-layer-handle:not(:disabled) {
+    opacity: 0.72;
+  }
+}
+
 @media (max-width: 68rem) {
   .bridge-method,
   .plugin-features,
@@ -2444,7 +2676,6 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 
   .bridge-contract-heading > div,
   .plugin-showcase-heading > div,
-  .plugin-demo-heading > div,
   .bridge-outcomes > header,
   .plugin-coverage > header > div {
     grid-template-columns: 1fr;
@@ -2453,8 +2684,7 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   }
 
   .bridge-contract-heading > div > p,
-  .plugin-showcase-heading > div > p,
-  .plugin-demo-heading > div > p {
+  .plugin-showcase-heading > div > p {
     justify-self: start;
   }
 
@@ -2709,6 +2939,51 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
     padding-inline: 1rem;
   }
 
+  .plugin-brief {
+    padding-block: 3rem 2.5rem;
+  }
+
+  .plugin-brief h1 {
+    max-width: none;
+    font-size: clamp(2.55rem, 11vw, 4.2rem);
+    letter-spacing: -0.05em;
+    line-height: 0.98;
+  }
+
+  .plugin-brief-lead {
+    margin-top: 1.15rem;
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .plugin-brief-cta {
+    width: 100%;
+    margin-top: 1.35rem;
+  }
+
+  .plugin-capabilities {
+    grid-template-columns: 1fr;
+    margin-top: 3rem;
+  }
+
+  .plugin-capabilities li,
+  .plugin-capabilities li:first-child,
+  .plugin-capabilities li:last-child {
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--bridge-line);
+    padding: 1.2rem 0;
+  }
+
+  .plugin-capabilities li:last-child {
+    border-bottom: 0;
+  }
+
+  .plugin-brief-meta {
+    display: grid;
+    justify-content: start;
+    line-height: 1.55;
+  }
+
   .bridge-hero,
   .plugin-hero {
     gap: 2rem;
@@ -2761,16 +3036,14 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   .plugin-section-heading h2,
   .plugin-first-run header h2,
   .bridge-contract-heading h2,
-  .plugin-showcase-heading h2,
-  .plugin-demo-heading h2 {
+  .plugin-showcase-heading h2 {
     max-width: none;
     font-size: 2rem;
     line-height: 1.04;
   }
 
   .bridge-contract-heading > div > p,
-  .plugin-showcase-heading > div > p,
-  .plugin-demo-heading > div > p {
+  .plugin-showcase-heading > div > p {
     font-size: 0.9rem;
     line-height: 1.55;
   }
@@ -2799,22 +3072,6 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
     justify-content: flex-start;
     font-size: 0.62rem;
     text-align: start;
-  }
-
-  .plugin-demo-frame {
-    margin-top: 2rem;
-    border-radius: 0.6rem;
-    box-shadow: none;
-  }
-
-  .plugin-demo-transcript ol {
-    grid-template-columns: 1fr;
-  }
-
-  .plugin-demo-transcript li:nth-child(odd),
-  .plugin-demo-transcript li:nth-child(even) {
-    border-inline-start: 0;
-    padding-inline: 0;
   }
 
   .plugin-workflow ol {
@@ -3147,13 +3404,35 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   }
 
   .bridge-layer-row {
+    grid-template-columns: 0.42rem 0.9rem minmax(2.75rem, auto) minmax(0, 1fr) 1.45rem;
     padding-inline-end: 0.5rem;
     padding-inline-start: calc(0.5rem + var(--layer-depth) * 0.72rem);
     font-size: 0.65rem;
   }
 
+  .bridge-layer-name-wrap {
+    max-width: 7rem;
+  }
+
+  .bridge-layer-input {
+    font-size: 1rem;
+  }
+
   .bridge-layer-row code {
     font-size: 0.54rem;
+  }
+
+  .bridge-layer-footer {
+    min-height: 5.35rem;
+    padding-inline: 0.7rem;
+  }
+
+  .bridge-layer-footer p {
+    font-size: 0.65rem;
+  }
+
+  .bridge-layer-footer small {
+    font-size: 0.55rem;
   }
 
   .plugin-privacy > div:first-child {
@@ -3185,10 +3464,6 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 
   .plugin-showcase-stage figcaption p {
     font-size: 0.72rem;
-  }
-
-  .plugin-demo-frame figcaption {
-    font-size: 0.56rem;
   }
 
   .rules-controls {
@@ -3228,6 +3503,10 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .bridge-layer-ghost {
+    transition: none !important;
   }
 
   *,
