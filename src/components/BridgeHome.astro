@@ -1,4 +1,7 @@
 ---
+import BridgeContractGraphic from './BridgeContractGraphic.astro';
+import PluginMediaShowcase from './PluginMediaShowcase.astro';
+
 interface Props {
   locale: 'ru' | 'en';
 }
@@ -190,6 +193,8 @@ const copy = locale === 'ru'
     </div>
   </section>
 
+  <BridgeContractGraphic locale={locale} />
+
   <section class="bridge-section" aria-labelledby="paths-title">
     <p class="bridge-eyebrow">{copy.pathsEyebrow}</p>
     <h2 id="paths-title">{copy.pathsTitle}</h2>
@@ -215,6 +220,8 @@ const copy = locale === 'ru'
       ))}
     </ol>
   </section>
+
+  <PluginMediaShowcase locale={locale} compact />
 
   <section class="bridge-section" aria-labelledby="principles-title">
     <p class="bridge-eyebrow">{copy.principlesEyebrow}</p>

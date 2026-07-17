@@ -1,0 +1,277 @@
+---
+interface Props {
+  locale: 'ru' | 'en';
+  compact?: boolean;
+}
+
+const { locale, compact = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
+const pageUrl = (path: string) => `${base}/${locale}/${path.replace(/^\//u, '')}`;
+const asset = (path: string) => `${base}/assets/plugin/showcase/${path}`;
+
+const copy = locale === 'ru'
+  ? {
+      home: {
+        eyebrow: 'Плагин в реальном файле',
+        title: 'Намерение → связь → проверка.',
+        lead: 'Три действия превращают методологию в повседневный рабочий цикл — без ручного синтаксиса и отдельного чеклиста.',
+        action: 'Посмотреть весь рабочий цикл',
+      },
+      plugin: {
+        eyebrow: 'Весь рабочий цикл',
+        title: 'От выбранного слоя до точного правила.',
+        lead: 'Каждый экран отвечает на один вопрос и ведёт к следующему действию. Никакой магии: только явные связи и детерминированная проверка.',
+        action: '',
+      },
+      tabsLabel: 'Экраны рабочего цикла BRIDGE',
+      stageLabel: 'BRIDGE · текущий Figma-файл',
+      slides: {
+        intent: {
+          title: 'Объявите смысл',
+          label: 'Выбранный слой',
+          description: 'Укажите, что делает слой. BRIDGE сам соберёт корректный тег и сохранит его в имени слоя.',
+          evidence: '[action=modal:contact-modal]',
+          alt: 'Интерфейс BRIDGE для добавления роли и действия выбранному слою',
+        },
+        targets: {
+          title: 'Свяжите цель',
+          label: 'Готовые идентификаторы',
+          description: 'Скопируйте страницу, секцию или модальное окно и вставьте связь без повторного набора ID.',
+          evidence: 'contact-button → contact-modal',
+          alt: 'Интерфейс BRIDGE со списком объявленных целей для копирования',
+        },
+        map: {
+          title: 'Увидьте контракт файла',
+          label: 'Карта и черновики',
+          description: 'Карта показывает объявленные страницы и цели — вместе с черновиками, по которым ещё нужно принять решение.',
+          evidence: '3 страницы · 2 модальных окна · 2 черновика',
+          alt: 'Карта Figma-файла в BRIDGE со страницами, целями и черновиками',
+        },
+        responsive: {
+          title: 'Сверьте адаптивы',
+          label: 'Одна логическая страница',
+          description: 'BRIDGE сравнивает identity, структуру, контент и визуальное намерение на каждой объявленной ширине.',
+          evidence: '375 · 768 · 1280 · 1920',
+          alt: 'Проверка одной страницы на четырёх адаптивных ширинах в BRIDGE',
+        },
+        preflight: {
+          title: 'Найдите разрывы заранее',
+          label: 'Page Check',
+          description: 'Проверка отделяет ошибки, черновики и предупреждения до того, как файл попадёт в разработку.',
+          evidence: 'ошибки · черновики · предупреждения',
+          alt: 'Отчёт Page Check в BRIDGE с ошибками, черновиками и предупреждениями',
+        },
+        layer: {
+          title: 'Перейдите к точному слою',
+          label: 'Из отчёта в Figma',
+          description: 'Откройте затронутый слой прямо из вопроса — без ручного поиска по страницам и фреймам.',
+          evidence: 'issue → layer → fix',
+          alt: 'Детали ошибки BRIDGE с переходом к затронутому слою Figma',
+        },
+        rule: {
+          title: 'Откройте точное правило',
+          label: 'Каноническое исправление',
+          description: 'Если нужен контекст, вопрос ведёт не в начало документации, а сразу к правилу с причиной и исправлением.',
+          evidence: 'issue → rule → fix',
+          alt: 'Переход из вопроса BRIDGE к точному правилу в каталоге методологии',
+        },
+      },
+    }
+  : {
+      home: {
+        eyebrow: 'The plugin in a real file',
+        title: 'Intent → connection → review.',
+        lead: 'Three actions turn the methodology into a daily workflow — without handwritten syntax or a separate checklist.',
+        action: 'See the complete workflow',
+      },
+      plugin: {
+        eyebrow: 'The complete workflow',
+        title: 'From the selected layer to the exact rule.',
+        lead: 'Every screen answers one question and leads to the next action. No magic: only explicit relationships and deterministic checks.',
+        action: '',
+      },
+      tabsLabel: 'BRIDGE workflow screens',
+      stageLabel: 'BRIDGE · current Figma file',
+      slides: {
+        intent: {
+          title: 'Declare intent',
+          label: 'Selected layer',
+          description: 'Choose what the layer does. BRIDGE builds the valid tag and stores it in the layer name.',
+          evidence: '[action=modal:contact-modal]',
+          alt: 'BRIDGE interface for adding a role and action to the selected layer',
+        },
+        targets: {
+          title: 'Connect the target',
+          label: 'Declared identifiers',
+          description: 'Copy a page, section, or modal and paste the relationship without retyping an ID.',
+          evidence: 'contact-button → contact-modal',
+          alt: 'BRIDGE interface listing declared targets ready to copy',
+        },
+        map: {
+          title: 'See the file contract',
+          label: 'Map and drafts',
+          description: 'The map shows declared pages and targets alongside drafts that still need a decision.',
+          evidence: '3 pages · 2 modals · 2 drafts',
+          alt: 'BRIDGE file map showing pages, targets, and unresolved drafts',
+        },
+        responsive: {
+          title: 'Compare breakpoints',
+          label: 'One logical page',
+          description: 'BRIDGE compares identity, structure, content, and visual intent at every declared width.',
+          evidence: '375 · 768 · 1280 · 1920',
+          alt: 'BRIDGE reviewing one page across four responsive widths',
+        },
+        preflight: {
+          title: 'Catch gaps early',
+          label: 'Page Check',
+          description: 'The review separates errors, drafts, and warnings before the file reaches implementation.',
+          evidence: 'errors · drafts · warnings',
+          alt: 'BRIDGE Page Check report with errors, drafts, and warnings',
+        },
+        layer: {
+          title: 'Jump to the exact layer',
+          label: 'From report to Figma',
+          description: 'Open the affected layer directly from an issue instead of searching through pages and frames.',
+          evidence: 'issue → layer → fix',
+          alt: 'BRIDGE issue details linking to the affected Figma layer',
+        },
+        rule: {
+          title: 'Open the exact rule',
+          label: 'Canonical fix',
+          description: 'When context is needed, the issue opens the relevant rule — not the beginning of the documentation.',
+          evidence: 'issue → rule → fix',
+          alt: 'BRIDGE issue linking to the exact rule in the methodology catalog',
+        },
+      },
+    };
+
+const allSlides = [
+  { id: 'intent', desktop: '02-tagging.png', mobile: 'ui/tagging.png', mobileWidth: 560, mobileHeight: 640 },
+  { id: 'targets', desktop: '03-clipboard.png', mobile: 'ui/clipboard.png', mobileWidth: 560, mobileHeight: 640 },
+  { id: 'map', desktop: '04-file-map.png', mobile: 'ui/navigator.png', mobileWidth: 560, mobileHeight: 640 },
+  { id: 'responsive', desktop: '05-responsive.png', mobile: 'ui/preflight-ready.png', mobileWidth: 680, mobileHeight: 760 },
+  { id: 'preflight', desktop: '01-preflight.png', mobile: 'ui/preflight.png', mobileWidth: 680, mobileHeight: 760 },
+  { id: 'layer', desktop: '06-direct-navigation.png', mobile: 'ui/preflight-details.png', mobileWidth: 680, mobileHeight: 760 },
+  { id: 'rule', desktop: '07-rules-and-help.png', mobile: 'ui/rules.png', mobileWidth: 1312, mobileHeight: 720 },
+] as const;
+
+const compactIds = new Set(['intent', 'targets', 'preflight']);
+const slides = allSlides
+  .filter((slide) => !compact || compactIds.has(slide.id))
+  .map((slide) => ({ ...slide, ...copy.slides[slide.id] }));
+const mode = compact ? 'home' : 'plugin';
+const heading = copy[mode];
+---
+
+<section class:list={['bridge-section', 'plugin-showcase', { 'is-compact': compact }]} aria-labelledby={`${mode}-showcase-title`}>
+  <header class="plugin-showcase-heading">
+    <p class="bridge-eyebrow">{heading.eyebrow}</p>
+    <div>
+      <h2 id={`${mode}-showcase-title`}>{heading.title}</h2>
+      <p>{heading.lead}</p>
+    </div>
+  </header>
+
+  <div class="plugin-showcase-shell" data-plugin-showcase>
+    <div class="plugin-showcase-tabs" role="tablist" aria-label={copy.tabsLabel}>
+      {slides.map((slide, index) => (
+        <button
+          id={`${mode}-showcase-${slide.id}-tab`}
+          type="button"
+          role="tab"
+          aria-selected={index === 0 ? 'true' : 'false'}
+          aria-controls={`${mode}-showcase-${slide.id}-panel`}
+          tabindex={index === 0 ? '0' : '-1'}
+          data-showcase-tab
+          data-showcase-index={index}
+        >
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <strong>{slide.title}</strong>
+          <small>{slide.label}</small>
+        </button>
+      ))}
+    </div>
+
+    <div class="plugin-showcase-stage">
+      <div class="plugin-showcase-stage-bar">
+        <span><i aria-hidden="true"></i>{copy.stageLabel}</span>
+        <span data-showcase-count>{`01 / ${String(slides.length).padStart(2, '0')}`}</span>
+      </div>
+      {slides.map((slide, index) => (
+        <figure
+          id={`${mode}-showcase-${slide.id}-panel`}
+          role="tabpanel"
+          aria-labelledby={`${mode}-showcase-${slide.id}-tab`}
+          tabindex="0"
+          data-showcase-panel
+          data-showcase-index={index}
+          hidden={index !== 0}
+        >
+          <picture>
+            <source
+              media="(max-width: 50rem)"
+              srcset={asset(slide.mobile)}
+              width={slide.mobileWidth}
+              height={slide.mobileHeight}
+            />
+            <img
+              src={asset(slide.desktop)}
+              width="1920"
+              height="1080"
+              alt={slide.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+          <figcaption>
+            <div><span>{slide.label}</span><strong>{slide.title}</strong></div>
+            <p>{slide.description}</p>
+            <code>{slide.evidence}</code>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+
+  {compact && (
+    <div class="plugin-showcase-action">
+      <a href={pageUrl('check/#plugin-showcase-title')}>{heading.action}<span aria-hidden="true"> →</span></a>
+    </div>
+  )}
+</section>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-plugin-showcase]')) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-showcase-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-showcase-panel]')];
+    const count = root.querySelector<HTMLElement>('[data-showcase-count]');
+
+    const activate = (tab: HTMLButtonElement, moveFocus = false) => {
+      const index = Number(tab.dataset.showcaseIndex || 0);
+      for (const item of tabs) {
+        const active = item === tab;
+        item.setAttribute('aria-selected', String(active));
+        item.tabIndex = active ? 0 : -1;
+      }
+      for (const panel of panels) panel.hidden = Number(panel.dataset.showcaseIndex || 0) !== index;
+      if (count) count.textContent = `${String(index + 1).padStart(2, '0')} / ${String(tabs.length).padStart(2, '0')}`;
+      if (moveFocus) tab.focus();
+    };
+
+    for (const tab of tabs) {
+      tab.addEventListener('click', () => activate(tab));
+      tab.addEventListener('keydown', (event) => {
+        const current = tabs.indexOf(tab);
+        let next = -1;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (current + 1) % tabs.length;
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (current - 1 + tabs.length) % tabs.length;
+        if (event.key === 'Home') next = 0;
+        if (event.key === 'End') next = tabs.length - 1;
+        if (next < 0) return;
+        event.preventDefault();
+        const nextTab = tabs[next];
+        if (nextTab) activate(nextTab, true);
+      });
+    }
+  }
+</script>

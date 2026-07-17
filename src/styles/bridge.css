@@ -821,6 +821,10 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 14%);
 }
 
+.plugin-preview picture {
+  display: block;
+}
+
 .plugin-preview img {
   display: block;
   width: 100%;
@@ -974,6 +978,695 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 
 .plugin-privacy-actions a:hover {
   color: var(--sl-color-white);
+}
+
+/* The contract trace is the signature visual: native structure + declared intent = a checkable file. */
+.bridge-contract-heading,
+.plugin-showcase-heading,
+.plugin-demo-heading {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 7vw, 6rem);
+  align-items: end;
+}
+
+.bridge-contract-heading .bridge-eyebrow,
+.plugin-showcase-heading .bridge-eyebrow,
+.plugin-demo-heading .bridge-eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: calc(-1 * clamp(1rem, 2vw, 2rem));
+}
+
+.bridge-contract-heading h2,
+.plugin-showcase-heading h2,
+.plugin-demo-heading h2 {
+  max-width: 17ch;
+  margin: 0;
+  color: var(--sl-color-white);
+  font-size: clamp(2.15rem, 4vw, 3.65rem);
+  font-weight: 680;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.bridge-contract-heading > p:last-child,
+.plugin-showcase-heading > div > p,
+.plugin-demo-heading > div > p {
+  max-width: 47rem;
+  margin: 0;
+  color: var(--bridge-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.bridge-contract-equation {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.75rem minmax(0, 1fr) 2.75rem minmax(0, 1fr);
+  gap: clamp(0.55rem, 1.4vw, 1.1rem);
+  align-items: stretch;
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.bridge-contract-equation::before {
+  position: absolute;
+  z-index: 0;
+  top: 1.6rem;
+  right: 8%;
+  left: 8%;
+  height: 2px;
+  background: var(--bridge-blue);
+  content: '';
+}
+
+.bridge-contract-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-width: 0;
+  min-height: 28rem;
+  flex-direction: column;
+  border: 1px solid var(--bridge-line);
+  border-radius: 0.75rem;
+  background: var(--bridge-paper);
+  padding: clamp(1rem, 2vw, 1.4rem);
+}
+
+.bridge-contract-card-head {
+  display: flex;
+  min-height: 2.15rem;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bridge-contract-card-head > span {
+  display: grid;
+  width: 2.15rem;
+  height: 2.15rem;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bridge-paper);
+  box-shadow: 0 0 0 1px var(--bridge-line);
+  color: var(--bridge-blue-deep);
+  font-family: var(--sl-font-mono);
+  font-size: 0.64rem;
+}
+
+.bridge-contract-card.is-intent .bridge-contract-card-head > span,
+.bridge-contract-card.is-result .bridge-contract-card-head > span {
+  background: var(--bridge-blue);
+  box-shadow: none;
+  color: #061016;
+}
+
+.bridge-contract-card-head small {
+  color: var(--bridge-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-align: end;
+  text-transform: uppercase;
+}
+
+.bridge-contract-window,
+.bridge-contract-tags,
+.bridge-contract-status {
+  min-height: 10rem;
+  margin: 1.15rem 0 1.35rem;
+  border-radius: 0.55rem;
+}
+
+.bridge-contract-window {
+  overflow: hidden;
+  border: 1px solid #424242;
+  background: #2c2c2c;
+  color: #eeeeee;
+  font-family: var(--sl-font-mono);
+}
+
+.bridge-contract-window > div {
+  display: flex;
+  min-height: 2.2rem;
+  gap: 0.3rem;
+  align-items: center;
+  border-bottom: 1px solid #444444;
+  padding: 0 0.65rem;
+}
+
+.bridge-contract-window > div i {
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: #666666;
+}
+
+.bridge-contract-window > div i:first-child {
+  background: var(--bridge-blue);
+}
+
+.bridge-contract-window > div span {
+  margin-inline-start: auto;
+  color: #9f9f9f;
+  font-size: 0.56rem;
+}
+
+.bridge-contract-window p {
+  display: grid;
+  grid-template-columns: 1rem minmax(0, 1fr) auto;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0;
+  padding: 0.55rem 0.65rem;
+  color: #dddddd;
+  font-size: 0.57rem;
+}
+
+.bridge-contract-window p + p {
+  border-top: 1px solid #383838;
+}
+
+.bridge-contract-window p b {
+  color: var(--bridge-blue);
+  font-weight: 400;
+}
+
+.bridge-contract-window p code {
+  color: #9f9f9f;
+  font-size: 0.51rem;
+}
+
+.bridge-contract-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-content: center;
+  border: 1px solid color-mix(in srgb, var(--bridge-blue) 35%, var(--bridge-line));
+  background: var(--bridge-sky);
+  padding: 0.8rem;
+}
+
+.bridge-contract-tags code {
+  border: 1px solid color-mix(in srgb, var(--bridge-blue) 25%, var(--bridge-line));
+  border-radius: 0.35rem;
+  background: var(--bridge-paper);
+  padding: 0.45rem 0.55rem;
+  color: var(--bridge-blue-deep);
+  font-family: var(--sl-font-mono);
+  font-size: 0.57rem;
+  white-space: nowrap;
+}
+
+.bridge-contract-status {
+  display: grid;
+  align-content: center;
+  border: 1px solid color-mix(in srgb, var(--bridge-success) 32%, var(--bridge-line));
+  background: color-mix(in srgb, var(--bridge-success) 8%, var(--bridge-paper));
+  padding: 1rem;
+}
+
+.bridge-contract-status > span {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  color: var(--bridge-success);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.bridge-contract-status > span i {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.bridge-contract-status strong {
+  margin-top: 1rem;
+  color: var(--sl-color-white);
+  font-family: var(--sl-font-mono);
+  font-size: clamp(0.7rem, 1vw, 0.84rem);
+  font-weight: 500;
+}
+
+.bridge-contract-status > div {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+}
+
+.bridge-contract-status > div i {
+  height: 0.35rem;
+  border-radius: 1rem;
+  background: var(--bridge-blue);
+}
+
+.bridge-contract-card h3 {
+  margin: auto 0 0;
+  color: var(--sl-color-white);
+  font-size: clamp(1.2rem, 2vw, 1.45rem);
+  letter-spacing: -0.03em;
+}
+
+.bridge-contract-card ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  color: var(--bridge-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  list-style: none;
+}
+
+.bridge-contract-card li {
+  position: relative;
+  padding-inline-start: 1rem;
+}
+
+.bridge-contract-card li::before {
+  position: absolute;
+  top: 0.55em;
+  left: 0;
+  width: 0.4rem;
+  height: 1px;
+  background: var(--bridge-blue);
+  content: '';
+}
+
+.bridge-contract-operator {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: start center;
+}
+
+.bridge-contract-operator span {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid var(--bridge-blue);
+  border-radius: 50%;
+  background: var(--bridge-paper);
+  color: var(--bridge-blue-deep);
+  font-family: var(--sl-font-mono);
+  font-size: 1rem;
+}
+
+.bridge-contract-caption {
+  display: flex;
+  gap: 0.7rem;
+  align-items: baseline;
+  justify-content: flex-end;
+  margin: 1rem 0 0;
+  color: var(--bridge-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.68rem;
+  text-align: end;
+}
+
+.bridge-contract-caption span {
+  color: var(--bridge-blue-deep);
+}
+
+.plugin-showcase-heading > div,
+.plugin-demo-heading > div {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.plugin-showcase-shell {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.34fr) minmax(0, 1fr);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border: 1px solid var(--bridge-line);
+  border-radius: 0.75rem;
+  background: var(--bridge-paper);
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 10%);
+}
+
+.plugin-showcase-tabs {
+  min-width: 0;
+  border-inline-end: 1px solid var(--bridge-line);
+}
+
+.plugin-showcase-tabs button {
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.18rem 0.75rem;
+  border: 0;
+  border-bottom: 1px solid var(--bridge-line);
+  border-radius: 0;
+  background: transparent;
+  padding: 1rem 1rem 1rem 1.15rem;
+  color: var(--bridge-muted);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.plugin-showcase-tabs button:last-child {
+  border-bottom: 0;
+}
+
+.plugin-showcase-tabs button::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 3px;
+  background: var(--bridge-blue);
+  content: '';
+  opacity: 0;
+}
+
+.plugin-showcase-tabs button:hover {
+  background: color-mix(in srgb, var(--bridge-sky) 55%, transparent);
+  color: var(--sl-color-white);
+}
+
+.plugin-showcase-tabs button[aria-selected='true'] {
+  background: var(--bridge-sky);
+  color: var(--sl-color-white);
+}
+
+.plugin-showcase-tabs button[aria-selected='true']::before {
+  opacity: 1;
+}
+
+.plugin-showcase-tabs button > span {
+  grid-row: 1 / 3;
+  color: var(--bridge-blue-deep);
+  font-family: var(--sl-font-mono);
+  font-size: 0.62rem;
+}
+
+.plugin-showcase-tabs button strong {
+  color: currentColor;
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
+.plugin-showcase-tabs button small {
+  overflow: hidden;
+  color: var(--bridge-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 0.58rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.plugin-showcase-stage {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 0 0.7rem 0.7rem 0;
+  background: #17191b;
+  color: #f5f5f5;
+}
+
+.plugin-showcase-stage-bar {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #34383b;
+  padding: 0 1rem;
+  color: #aeb5ba;
+  font-family: var(--sl-font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.plugin-showcase-stage-bar > span:first-child {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.plugin-showcase-stage-bar i {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--bridge-blue);
+}
+
+.plugin-showcase-stage figure {
+  margin: 0;
+  outline-offset: -4px;
+}
+
+.plugin-showcase-stage figure[hidden] {
+  display: none;
+}
+
+.plugin-showcase-stage picture,
+.plugin-showcase-stage img {
+  display: block;
+  width: 100%;
+}
+
+.plugin-showcase-stage img {
+  height: auto;
+  background: #f1f4f6;
+}
+
+.plugin-showcase-stage figcaption {
+  display: grid;
+  grid-template-columns: minmax(9rem, 0.48fr) minmax(0, 1fr) auto;
+  gap: 1.2rem;
+  align-items: start;
+  border-top: 1px solid #34383b;
+  padding: 1rem;
+}
+
+.plugin-showcase-stage figcaption > div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.plugin-showcase-stage figcaption span {
+  color: #8e979d;
+  font-family: var(--sl-font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.plugin-showcase-stage figcaption strong {
+  color: #f5f5f5;
+  font-size: 0.92rem;
+}
+
+.plugin-showcase-stage figcaption p {
+  margin: 0;
+  color: #aeb5ba;
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.plugin-showcase-stage figcaption code {
+  max-width: 17rem;
+  overflow: hidden;
+  border: 1px solid #31495b;
+  border-radius: 0.35rem;
+  background: #172b39;
+  padding: 0.45rem 0.55rem;
+  color: #74c8ff;
+  font-family: var(--sl-font-mono);
+  font-size: 0.55rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.plugin-showcase-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.plugin-showcase-action a {
+  color: var(--bridge-blue-deep);
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.plugin-showcase-action a:hover {
+  color: var(--sl-color-white);
+}
+
+.plugin-demo-frame {
+  overflow: hidden;
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+  border: 1px solid var(--bridge-line);
+  border-radius: 0.8rem;
+  background: #0c0d0e;
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 14%);
+}
+
+.plugin-demo-frame video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0c0d0e;
+}
+
+.plugin-demo-frame video::cue {
+  background: rgb(7 10 12 / 88%);
+  color: #ffffff;
+  font-family: var(--sl-font);
+}
+
+.plugin-demo-frame figcaption {
+  border-top: 1px solid #34383b;
+  padding: 0.8rem 1rem;
+  color: #aeb5ba;
+  font-family: var(--sl-font-mono);
+  font-size: 0.62rem;
+}
+
+.plugin-demo-transcript {
+  margin-top: 0.75rem;
+  border-bottom: 1px solid var(--bridge-line);
+}
+
+.plugin-demo-transcript summary {
+  padding: 0.8rem 0;
+  color: var(--bridge-blue-deep);
+  font-size: 0.78rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.plugin-demo-transcript ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0 0 1rem;
+  list-style: none;
+}
+
+.plugin-demo-transcript li {
+  display: grid;
+  grid-template-columns: 3.2rem minmax(0, 1fr);
+  gap: 0.7rem;
+  border-top: 1px solid var(--bridge-line);
+  padding: 0.75rem 0;
+  color: var(--bridge-muted);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.plugin-demo-transcript li:nth-child(odd) {
+  padding-inline-end: 1.25rem;
+}
+
+.plugin-demo-transcript li:nth-child(even) {
+  border-inline-start: 1px solid var(--bridge-line);
+  padding-inline-start: 1.25rem;
+}
+
+.plugin-demo-transcript time {
+  color: var(--bridge-blue-deep);
+  font-family: var(--sl-font-mono);
+  font-size: 0.63rem;
+}
+
+.plugin-workflow {
+  display: block;
+}
+
+.plugin-workflow .plugin-section-heading {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 7vw, 6rem);
+  align-items: end;
+}
+
+.plugin-workflow .plugin-section-heading .bridge-eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: calc(-1 * clamp(1rem, 2vw, 2rem));
+}
+
+.plugin-workflow .plugin-section-heading h2 {
+  max-width: 18ch;
+}
+
+.plugin-workflow ol {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  border: 1px solid var(--bridge-line);
+  border-radius: 0.7rem;
+}
+
+.plugin-workflow ol::before {
+  position: absolute;
+  z-index: 0;
+  top: 1.55rem;
+  right: 10%;
+  left: 10%;
+  height: 2px;
+  background: var(--bridge-blue);
+  content: '';
+}
+
+.plugin-workflow li {
+  position: relative;
+  z-index: 1;
+  display: block;
+  border: 0;
+  padding: 1.15rem clamp(1rem, 2vw, 1.5rem) 1.4rem;
+}
+
+.plugin-workflow li + li {
+  border-inline-start: 1px solid var(--bridge-line);
+}
+
+.plugin-workflow li > span {
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  place-items: center;
+  border: 1px solid var(--bridge-blue);
+  border-radius: 50%;
+  background: var(--bridge-paper);
+  color: var(--bridge-blue-deep);
+}
+
+.plugin-workflow li > div {
+  margin-top: 2.5rem;
+}
+
+.plugin-workflow h3 {
+  font-size: 1.2rem;
+}
+
+.plugin-workflow p {
+  min-height: 5.8rem;
+  margin-top: 0.6rem;
+}
+
+.plugin-workflow code {
+  display: block;
+  overflow: hidden;
+  margin-top: 1rem;
+  border: 1px solid var(--bridge-line);
+  border-radius: 0.35rem;
+  background: var(--bridge-sky);
+  padding: 0.55rem 0.65rem;
+  color: var(--bridge-blue-deep);
+  font-family: var(--sl-font-mono);
+  font-size: 0.58rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .preflight,
@@ -1415,6 +2108,30 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   .plugin-preview {
     width: min(100%, 52rem);
   }
+
+  .bridge-contract-equation {
+    width: min(100%, 44rem);
+    grid-template-columns: 1fr;
+    margin-inline: auto;
+  }
+
+  .bridge-contract-equation::before {
+    top: 1.4rem;
+    right: auto;
+    bottom: 1.4rem;
+    left: 1.35rem;
+    width: 2px;
+    height: auto;
+  }
+
+  .bridge-contract-card {
+    min-height: 0;
+  }
+
+  .bridge-contract-operator {
+    min-height: 2.75rem;
+    place-items: center start;
+  }
 }
 
 @media (max-width: 50rem) {
@@ -1507,10 +2224,182 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   .bridge-section > h2,
   .bridge-method h2,
   .bridge-final h2,
-  .plugin-section-heading h2 {
+  .plugin-section-heading h2,
+  .bridge-contract-heading h2,
+  .plugin-showcase-heading h2,
+  .plugin-demo-heading h2 {
     max-width: none;
     font-size: 2rem;
     line-height: 1.04;
+  }
+
+  .bridge-contract-heading,
+  .plugin-showcase-heading,
+  .plugin-demo-heading,
+  .plugin-workflow .plugin-section-heading {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .bridge-contract-heading .bridge-eyebrow,
+  .plugin-showcase-heading .bridge-eyebrow,
+  .plugin-demo-heading .bridge-eyebrow,
+  .plugin-workflow .plugin-section-heading .bridge-eyebrow {
+    grid-column: auto;
+    margin-bottom: 0;
+  }
+
+  .bridge-contract-heading > p:last-child,
+  .plugin-showcase-heading > div > p,
+  .plugin-demo-heading > div > p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .bridge-contract-equation {
+    margin-top: 2rem;
+  }
+
+  .bridge-contract-card {
+    border-radius: 0.6rem;
+    padding: 1rem;
+  }
+
+  .bridge-contract-window,
+  .bridge-contract-tags,
+  .bridge-contract-status {
+    min-height: 8.75rem;
+    margin-block: 1rem;
+  }
+
+  .bridge-contract-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .bridge-contract-caption {
+    justify-content: flex-start;
+    font-size: 0.62rem;
+    text-align: start;
+  }
+
+  .plugin-showcase-shell {
+    display: block;
+    margin-top: 2rem;
+    border-radius: 0.6rem;
+    box-shadow: none;
+  }
+
+  .plugin-showcase-tabs {
+    display: flex;
+    overflow-x: auto;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--bridge-line);
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    scroll-snap-type: x mandatory;
+  }
+
+  .plugin-showcase-tabs button {
+    width: 14.5rem;
+    min-width: 14.5rem;
+    flex: 0 0 auto;
+    border-right: 1px solid var(--bridge-line);
+    border-bottom: 0;
+    padding: 0.85rem 0.9rem;
+    scroll-snap-align: start;
+  }
+
+  .plugin-showcase-tabs button:last-child {
+    border-right: 0;
+  }
+
+  .plugin-showcase-tabs button::before {
+    top: auto;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    width: auto;
+    height: 3px;
+  }
+
+  .plugin-showcase-stage {
+    border-radius: 0 0 0.55rem 0.55rem;
+  }
+
+  .plugin-showcase-stage picture {
+    display: grid;
+    min-height: 23rem;
+    place-items: center;
+    background: #edf1f3;
+    padding: 1rem;
+  }
+
+  .plugin-showcase-stage img {
+    width: min(100%, 34rem);
+    max-height: 72svh;
+    border-radius: 0.45rem;
+    background: #2c2c2c;
+    box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 18%);
+    object-fit: contain;
+  }
+
+  .plugin-showcase-stage figcaption {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+
+  .plugin-showcase-stage figcaption code {
+    justify-self: start;
+  }
+
+  .plugin-demo-frame {
+    margin-top: 2rem;
+    border-radius: 0.6rem;
+    box-shadow: none;
+  }
+
+  .plugin-demo-transcript ol {
+    grid-template-columns: 1fr;
+  }
+
+  .plugin-demo-transcript li:nth-child(odd),
+  .plugin-demo-transcript li:nth-child(even) {
+    border-inline-start: 0;
+    padding-inline: 0;
+  }
+
+  .plugin-workflow ol {
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+  }
+
+  .plugin-workflow ol::before {
+    top: 1.5rem;
+    right: auto;
+    bottom: 1.5rem;
+    left: 2.03rem;
+    width: 2px;
+    height: auto;
+  }
+
+  .plugin-workflow li {
+    display: grid;
+    grid-template-columns: 2.1rem minmax(0, 1fr);
+    gap: 0.85rem;
+    padding: 1rem;
+  }
+
+  .plugin-workflow li + li {
+    border-top: 1px solid var(--bridge-line);
+    border-inline-start: 0;
+  }
+
+  .plugin-workflow li > div {
+    margin-top: 0;
+  }
+
+  .plugin-workflow p {
+    min-height: 0;
   }
 
   .bridge-paths,
@@ -1640,6 +2529,24 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
   .plugin-preview {
     border-radius: 0.6rem;
     box-shadow: none;
+  }
+
+  .plugin-preview picture {
+    display: grid;
+    min-height: 24rem;
+    place-items: center;
+    background: #edf1f3;
+    padding: 1rem;
+  }
+
+  .plugin-preview img {
+    width: min(100%, 34rem);
+    height: auto;
+    max-height: 72svh;
+    aspect-ratio: auto;
+    border-radius: 0.45rem;
+    box-shadow: 0 1rem 2.5rem rgb(0 0 0 / 18%);
+    object-fit: contain;
   }
 
   .plugin-feature-list article {
@@ -1800,6 +2707,33 @@ main:is(:has(.bridge-home), :has(.plugin-page), :has(.preflight), :has(.rules-ex
 
   .plugin-facts {
     display: grid;
+  }
+
+  .plugin-showcase-tabs button {
+    width: 12.75rem;
+    min-width: 12.75rem;
+  }
+
+  .plugin-showcase-stage-bar {
+    padding-inline: 0.7rem;
+    font-size: 0.52rem;
+  }
+
+  .plugin-showcase-stage picture {
+    min-height: 19rem;
+    padding: 0.75rem;
+  }
+
+  .plugin-showcase-stage figcaption {
+    padding: 0.85rem;
+  }
+
+  .plugin-showcase-stage figcaption p {
+    font-size: 0.72rem;
+  }
+
+  .plugin-demo-frame figcaption {
+    font-size: 0.56rem;
   }
 
   .rules-controls {

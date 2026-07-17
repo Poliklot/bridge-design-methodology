@@ -1,0 +1,109 @@
+---
+interface Props {
+  locale: 'ru' | 'en';
+}
+
+const { locale } = Astro.props;
+
+const copy = locale === 'ru'
+  ? {
+      eyebrow: 'Что именно передаёт BRIDGE',
+      title: 'Figma хранит геометрию. BRIDGE добавляет намерение.',
+      lead: 'Методология не дублирует то, что редактор уже знает. Она добавляет недостающие связи — и превращает файл в контракт, который можно проверить.',
+      nativeLabel: 'Нативная структура Figma',
+      nativeTitle: 'Техническая правда',
+      nativeItems: ['Auto Layout и размеры', 'Компоненты и варианты', 'Иерархия и стили'],
+      intentLabel: 'Намерение BRIDGE',
+      intentTitle: 'Продуктовый смысл',
+      intentItems: ['Страница и адаптив', 'Действие и цель', 'Роль и исключение'],
+      resultLabel: 'Передаваемый контракт',
+      resultTitle: 'Макет читается без автора',
+      resultItems: ['Одна identity на всех ширинах', 'Каждое действие ведёт к цели', 'Каждый вопрос ведёт к правилу'],
+      ready: 'Готов к проверке',
+      equationPlus: 'плюс',
+      equationEquals: 'равно',
+      caption: 'BRIDGE описывает только то, чего нельзя надёжно вывести из пикселей и структуры слоя.',
+    }
+  : {
+      eyebrow: 'What BRIDGE actually transfers',
+      title: 'Figma stores geometry. BRIDGE adds intent.',
+      lead: 'The methodology does not duplicate what the editor already knows. It adds missing relationships and turns the file into a contract that can be checked.',
+      nativeLabel: 'Native Figma structure',
+      nativeTitle: 'Technical truth',
+      nativeItems: ['Auto Layout and size', 'Components and variants', 'Hierarchy and styles'],
+      intentLabel: 'BRIDGE intent',
+      intentTitle: 'Product meaning',
+      intentItems: ['Page and breakpoint', 'Action and target', 'Role and exception'],
+      resultLabel: 'Transferable contract',
+      resultTitle: 'The design reads without its author',
+      resultItems: ['One identity at every width', 'Every action resolves to a target', 'Every issue resolves to a rule'],
+      ready: 'Ready to review',
+      equationPlus: 'plus',
+      equationEquals: 'equals',
+      caption: 'BRIDGE declares only what cannot be inferred reliably from pixels or layer structure.',
+    };
+---
+
+<section class="bridge-section bridge-contract" aria-labelledby="bridge-contract-title">
+  <header class="bridge-contract-heading">
+    <p class="bridge-eyebrow">{copy.eyebrow}</p>
+    <h2 id="bridge-contract-title">{copy.title}</h2>
+    <p>{copy.lead}</p>
+  </header>
+
+  <div class="bridge-contract-equation">
+    <article class="bridge-contract-card is-native">
+      <div class="bridge-contract-card-head">
+        <span>01</span>
+        <small>{copy.nativeLabel}</small>
+      </div>
+      <div class="bridge-contract-window" aria-hidden="true">
+        <div><i></i><i></i><i></i><span>Home / 1440</span></div>
+        <p><b>#</b><span>Hero</span><code>Auto layout</code></p>
+        <p><b>◇</b><span>contact-button</span><code>Instance</code></p>
+        <p><b>T</b><span>hero-title</span><code>48 / 52</code></p>
+      </div>
+      <h3>{copy.nativeTitle}</h3>
+      <ul>{copy.nativeItems.map((item) => <li>{item}</li>)}</ul>
+    </article>
+
+    <div class="bridge-contract-operator" aria-label={copy.equationPlus}>
+      <span aria-hidden="true">+</span>
+    </div>
+
+    <article class="bridge-contract-card is-intent">
+      <div class="bridge-contract-card-head">
+        <span>02</span>
+        <small>{copy.intentLabel}</small>
+      </div>
+      <div class="bridge-contract-tags" aria-hidden="true">
+        <code>[page=home]</code>
+        <code>[bp=1440]</code>
+        <code>[action=modal:contact]</code>
+        <code>[exception=hero-crop]</code>
+      </div>
+      <h3>{copy.intentTitle}</h3>
+      <ul>{copy.intentItems.map((item) => <li>{item}</li>)}</ul>
+    </article>
+
+    <div class="bridge-contract-operator" aria-label={copy.equationEquals}>
+      <span aria-hidden="true">=</span>
+    </div>
+
+    <article class="bridge-contract-card is-result">
+      <div class="bridge-contract-card-head">
+        <span>03</span>
+        <small>{copy.resultLabel}</small>
+      </div>
+      <div class="bridge-contract-status" aria-hidden="true">
+        <span><i></i>{copy.ready}</span>
+        <strong>375 · 768 · 1280 · 1920</strong>
+        <div><i></i><i></i><i></i><i></i></div>
+      </div>
+      <h3>{copy.resultTitle}</h3>
+      <ul>{copy.resultItems.map((item) => <li>{item}</li>)}</ul>
+    </article>
+  </div>
+
+  <p class="bridge-contract-caption"><span aria-hidden="true">↳</span>{copy.caption}</p>
+</section>
