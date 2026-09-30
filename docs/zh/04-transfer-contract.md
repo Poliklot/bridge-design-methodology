@@ -1,10 +1,10 @@
-# BRIDGE 转让合约
+# DFC Bridge 转让合约
 
-BRIDGE 合同是面向进阶使用的、版本化且独立于目标平台的记录，用于连接设计、实施和 QA。此页面面向集成和工具，不是设计师的第一阅读材料。结构化信封和 [JSON Schema](../validator/bridge.schema.json) 在 1.0 之前可能继续变化，因此每次交换都要固定 `contractVersion`、`methodologyVersion` 和 `rulesVersion`。
+DFC Bridge 合同是面向进阶使用的、版本化且独立于目标平台的记录，用于连接设计、实施和 QA。此页面面向集成和工具，不是设计师的第一阅读材料。结构化信封和 [JSON Schema](../validator/bridge.schema.json) 在 1.0 之前可能继续变化，因此每次交换都要固定 `contractVersion`、`methodologyVersion` 和 `rulesVersion`。
 
 ## 两个互补的表面
 
-BRIDGE 故意避免将图层名称转换为数据库。
+DFC Bridge 故意避免将图层名称转换为数据库。
 
 ### 短层标签
 
@@ -25,7 +25,7 @@ catalog [page=catalog] [route=/catalog] [bp=1200] [view=default]
 丰富的意图存在于一个命名空间对象中。它引用设计中可见的稳定身份，并且可以存储为 Figma 插件数据、sidecar JSON 文件或适配器有效负载。它必须随交接一起移动并作为一个单元进行验证。
 
 ```text
-Figma/source metadata + short BRIDGE anchors + structured bridge metadata
+Figma/source metadata + short DFC Bridge anchors + structured bridge metadata
                                 ↓
                     one transferable contract
 ```
@@ -39,7 +39,7 @@ Figma/source metadata + short BRIDGE anchors + structured bridge metadata
 | Field | Purpose |
 | --- | --- |
 | `contractVersion` | Version of the structured payload shape. |
-| `methodologyVersion` | BRIDGE release used to prepare the transfer. |
+| `methodologyVersion` | DFC Bridge release used to prepare the transfer. |
 | `rulesVersion` | Rule catalog version used for validation. |
 | `source` | Tool, file/page, immutable revision, and capture context. |
 | `上下文` | Declared transfer scope, product/page context when applicable, included axes, and external dependencies. |
@@ -53,7 +53,7 @@ Figma/source metadata + short BRIDGE anchors + structured bridge metadata
 
 ## 旧主机内的选定部分范围
 
-团队可以将 BRIDGE 应用到一个新部分，而无需迁移周围的产品。边界是一个明确选择的源根，带有稳定的节标识：
+团队可以将 DFC Bridge 应用到一个新部分，而无需迁移周围的产品。边界是一个明确选择的源根，带有稳定的节标识：
 
 ```text
 checkout-summary [section=checkout-summary]
@@ -112,11 +112,11 @@ checkout-summary [section=checkout-summary]
 
 在所选根内解析的操作目标是本地的。完整有效的 `http:`、`https:`、`mailto:` 或 `tel：` href 是为节源范围编写解析的，不会导致部分；它的运行时可用性仍然在源代码验证之外。不完整或格式错误的外部 href 是阻塞 `interaction.href-invalid` 发现，而不是延迟。需要在选定根之外查找的内部路由/锚点、模态/状态/表单/重置目标、组件和数据既不“缺失”也不经过验证：链接外部合约或将它们记录在 `externalDependencies` 中作为延迟/未验证，然后在单独的文件/主机集成检查中解决它们。完整的可执行示例是 [`bridge-section-contract.valid.json`](../validator/examples/bridge-section-contract.valid.json)。
 
-成功的节范围合同意味着**节源已准备好用于声明的选定上下文**。这绝不意味着旧版主机页面、路由、完整的响应集、端到端旅程、实施、产品或 WCAG 一致性是 BRIDGE 就绪的。
+成功的节范围合同意味着**节源已准备好用于声明的选定上下文**。这绝不意味着旧版主机页面、路由、完整的响应集、端到端旅程、实施、产品或 WCAG 一致性是 DFC Bridge 就绪的。
 
 ## Identity 是一种映射，而不是一个重载的 id
 
-单个名称无法安全地代表传输中涉及的每个身份。BRIDGE 划分了五个维度：
+单个名称无法安全地代表传输中涉及的每个身份。DFC Bridge 划分了五个维度：
 
 | Dimension | Question | Example |
 | --- | --- | --- |
@@ -138,7 +138,7 @@ checkout-summary [section=checkout-summary]
 {
   "bridge": {
     "contractVersion": "0.2.0",
-    "methodologyVersion": "0.11.5",
+    "methodologyVersion": "0.11.6",
     "rulesVersion": "0.5.0",
     "source": {
       "tool": "figma",
@@ -322,7 +322,7 @@ checkout-summary [section=checkout-summary]
 
 ## 显式未知数：没有未跟踪的盲点
 
-BRIDGE **不**承诺每个决定都是已知的。它承诺不会追踪任何相关的未知因素。
+DFC Bridge **不**承诺每个决定都是已知的。它承诺不会追踪任何相关的未知因素。
 
 `unknown`、`unsupported`、`TBD` 和等效状态仅作为 `openQuestions[]` 记录有效：
 
@@ -334,7 +334,7 @@ BRIDGE **不**承诺每个决定都是已知的。它承诺不会追踪任何相
 - 未解决时的安全后备；
 - 当前状态和解决后的决策链接。
 
-如果后备不安全、无法访问、具有误导性或破坏性，则问题将被阻塞，受影响的范围无法通过其大门。仅存在于言语、聊天、独立任务或某人记忆中的问题是 BRIDGE 盲点。
+如果后备不安全、无法访问、具有误导性或破坏性，则问题将被阻塞，受影响的范围无法通过其大门。仅存在于言语、聊天、独立任务或某人记忆中的问题是 DFC Bridge 盲点。
 
 ## 目标能力和性能概况
 
@@ -350,7 +350,7 @@ BRIDGE **不**承诺每个决定都是已知的。它承诺不会追踪任何相
 
 1. 目标平台的安全性、保密性、隐私性和本机语义限制所有其他来源；
 2. 批准的产品/内容决策定义含义；
-3. 结构化 BRIDGE 合约定义了源工具无法表达的意图；
+3. 结构化 DFC Bridge 合约定义了源工具无法表达的意图；
 4.Figma/源元数据定义了创作的结构、组件、几何形状和样式；
 5. 固定组件/系统契约提供继承行为；
 6. 明确批准的例外/偏差记录任何剩余差异。

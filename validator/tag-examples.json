@@ -1,7 +1,7 @@
 {
   "$schema": "./tag-examples.schema.json",
   "schemaVersion": "1.0.0",
-  "description": "Executable examples for the canonical BRIDGE layer-tag registry.",
+  "description": "Executable examples for the canonical DFC Bridge layer-tag registry.",
   "valid": [
     {
       "id": "page-root",

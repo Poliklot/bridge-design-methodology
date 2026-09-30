@@ -2,6 +2,14 @@
 
 All notable changes to the public BRIDGE methodology, schemas, rule catalog, and documentation are recorded here. The private Figma plugin has its own non-public implementation history; only its public coverage boundary is documented in this repository.
 
+## 0.11.6 — DFC Bridge
+
+- Adopted **DFC Bridge** (Design Frontend Contract) as the public name across English, Russian and Chinese documentation, the site, diagrams and Assistant media. Spoken Bridge / Бридж remains unchanged.
+- Moved the canonical repository and site to `Poliklot/dfc-bridge` and `https://poliklot.github.io/dfc-bridge/`. Existing repository links redirect on GitHub; legacy documentation routes redirect with their query and fragment intact.
+- Kept published schema identifiers, the `bridge` contract root, `bridgeKey`, tags and all 107 rule IDs/severities unchanged. Catalog schemas accept both `DFC Bridge` and legacy `BRIDGE`.
+- Preserved legacy schema/data/image endpoints on the account Pages site, without introducing a second methodology source.
+- Retained upstream dependency security fixes; the complete dependency audit reports zero vulnerabilities.
+
 ## [0.11.5] — 2026-08-19
 
 ### Changed

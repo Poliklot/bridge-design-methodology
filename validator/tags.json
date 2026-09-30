@@ -1,8 +1,8 @@
 {
   "$schema": "./tags.schema.json",
-  "methodology": "BRIDGE",
+  "methodology": "DFC Bridge",
   "schemaVersion": "1.0.0",
-  "description": "Canonical registry of BRIDGE layer-name tags and the boundary with structured Figma metadata and namespaced bridge contracts.",
+  "description": "Canonical registry of DFC Bridge layer-name tags and the boundary with structured Figma metadata and namespaced bridge contracts.",
   "statusLevels": [
     "stable",
     "experimental",
@@ -54,9 +54,9 @@
         ]
       },
       "notes": {
-        "en": "A BRIDGE page root always uses native Auto Layout and must never carry [asset]. It may sit directly on the Figma page or below native Figma SECTION canvas organizers; those organizers are transparent and contribute no BRIDGE context.",
-        "ru": "Корень страницы BRIDGE всегда использует нативный Auto Layout и никогда не содержит [asset]. Он может лежать прямо на странице Figma или под нативными организаторами SECTION Figma; такие организаторы прозрачны и не передают контекст BRIDGE.",
-        "zh": "BRIDGE 页面根始终使用本机自动布局并且绝不能携带 [asset]。它可以直接位于 Figma 页面上或本地 Figma SECTION 画布组织者下方；这些组织者是透明的，不会贡献 BRIDGE 背景。"
+        "en": "A DFC Bridge page root always uses native Auto Layout and must never carry [asset]. It may sit directly on the Figma page or below native Figma SECTION canvas organizers; those organizers are transparent and contribute no DFC Bridge context.",
+        "ru": "Корень страницы DFC Bridge всегда использует нативный Auto Layout и никогда не содержит [asset]. Он может лежать прямо на странице Figma или под нативными организаторами SECTION Figma; такие организаторы прозрачны и не передают контекст DFC Bridge.",
+        "zh": "DFC Bridge 页面根始终使用本机自动布局并且绝不能携带 [asset]。它可以直接位于 Figma 页面上或本地 Figma SECTION 画布组织者下方；这些组织者是透明的，不会贡献 DFC Bridge 背景。"
       }
     },
     {

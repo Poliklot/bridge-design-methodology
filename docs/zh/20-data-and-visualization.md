@@ -1,6 +1,6 @@
 # 数据与可视化契约
 
-BRIDGE将数据显示视为产品合同，而不是排列在矩形中的样本副本。可转移的设计说明了数据的含义、数据来自何处、如何格式化、用户可以执行哪些操作以及当理想数据集不可用时会发生什么。
+DFC Bridge将数据显示视为产品合同，而不是排列在矩形中的样本副本。可转移的设计说明了数据的含义、数据来自何处、如何格式化、用户可以执行哪些操作以及当理想数据集不可用时会发生什么。
 
 ![Pipeline from data semantics to an accessible responsive presentation](../assets/diagrams/data-contract-pipeline.svg)
 
@@ -37,7 +37,7 @@ Figma 中的示例值是固定装置。它们不是模式、最大长度、精�
 
 ## 使用短层标签，保持丰富的合约结构
 
-层名称和现有的 BRIDGE 标签应仅公开审阅者在设计中需要的锚点：
+层名称和现有的 DFC Bridge 标签应仅公开审阅者在设计中需要的锚点：
 
 ```text
 revenue [section=revenue-overview]
@@ -73,7 +73,7 @@ revenue [section=revenue-overview]
 }
 ```
 
-结构化元数据可进行版本控制、可审查且与目标无关。它可能存在于 Figma 插件数据、sidecar 文件或适配器有效负载中，但它必须引用稳定的 BRIDGE 身份并随切换一起移动。
+结构化元数据可进行版本控制、可审查且与目标无关。它可能存在于 Figma 插件数据、sidecar 文件或适配器有效负载中，但它必须引用稳定的 DFC Bridge 身份并随切换一起移动。
 
 ## 表格
 

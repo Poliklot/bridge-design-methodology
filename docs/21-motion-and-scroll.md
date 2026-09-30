@@ -64,7 +64,7 @@ story [section=feature-story]
   scene-result
 ```
 
-Do not create a flat grammar of `[fade]`, `[duration]`, `[easing]`, `[pin]`, and `[scroll-start]` tags. Reference the identities from structured BRIDGE metadata:
+Do not create a flat grammar of `[fade]`, `[duration]`, `[easing]`, `[pin]`, and `[scroll-start]` tags. Reference the identities from structured DFC Bridge metadata:
 
 > **Non-standalone module fragment.** This excerpt shows only `bridge.motion` and intentionally omits required envelope fields. Insert it into the required `bridge` envelope from the [transfer contract](04-transfer-contract.md#required-envelope) before exchange or full-contract validation.
 
@@ -143,7 +143,7 @@ The implementation must never rely on an `animationend` event as the only way to
 
 ## Reduced motion and fallbacks
 
-BRIDGE requires a reduced-motion design even when WCAG conformance alone would not force removal of every animation. Use the user's `prefers-reduced-motion` preference described by [CSS Media Queries](https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion).
+DFC Bridge requires a reduced-motion design even when WCAG conformance alone would not force removal of every animation. Use the user's `prefers-reduced-motion` preference described by [CSS Media Queries](https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion).
 
 For each sequence choose a real strategy:
 

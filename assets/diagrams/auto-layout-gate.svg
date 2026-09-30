@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
-  <title id="title">BRIDGE Auto Layout gate</title>
+  <title id="title">DFC Bridge Auto Layout gate</title>
   <desc id="desc">A blind-spot Figma frame with manual coordinates and a group enters Page Check. The gate requires Auto Layout on page, section, and content containers, rejects groups outside assets, and accepts a ready hierarchy with an absolute decorative layer and an opaque asset.</desc>
   <defs>
     <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">

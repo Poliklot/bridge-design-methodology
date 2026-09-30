@@ -2,7 +2,7 @@
   "$schema": "./methodology-coverage.schema.json",
   "schemaVersion": "1.0.0",
   "catalogVersion": "0.5.0",
-  "description": "Explicit validation ownership for every readiness area added by the expanded BRIDGE contract. Manual means a reviewer must record evidence; it does not mean optional.",
+  "description": "Explicit validation ownership for every readiness area added by the expanded DFC Bridge contract. Manual means a reviewer must record evidence; it does not mean optional.",
   "areas": [
     {
       "id": "source-auto-layout",

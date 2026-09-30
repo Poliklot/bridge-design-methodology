@@ -1,6 +1,6 @@
 # Delivery lifecycle
 
-BRIDGE is complete only when intent remains traceable from design through release. The lifecycle is:
+DFC Bridge is complete only when intent remains traceable from design through release. The lifecycle is:
 
 > **design → contract → implementation → QA → release or declared deviation**
 
@@ -21,7 +21,7 @@ REQ-CATALOG-017
   deviations: none
 ```
 
-Do not create five unrelated specifications. Figma shows authored visual/structural evidence; structured BRIDGE metadata records intent Figma cannot express; code realizes it; tests verify outcomes; deviations record known differences. Stable identities connect the evidence.
+Do not create five unrelated specifications. Figma shows authored visual/structural evidence; structured DFC Bridge metadata records intent Figma cannot express; code realizes it; tests verify outcomes; deviations record known differences. Stable identities connect the evidence.
 
 ## Roles and accountability
 
@@ -81,7 +81,7 @@ The source gate is invalid when a selected section lies below a different opaque
 
 **Check selected section** can produce Ready, Partial, or Blocked evidence for the first gate. Store that label with its scope and coverage matrix; do not replace `bridge.lifecycle.status` with it and do not use it as evidence that the second gate passed. A Ready single-context section source is valid when only that context was requested. A deferred file-resolved reference or selected section root that is itself an `INSTANCE` makes the source result Partial until the linked gate supplies evidence. Ordinary descendant instances are trusted atomic boundaries and do not lower Ready.
 
-The legacy host is a declared boundary, not an accepted BRIDGE deviation and not a hidden migration requirement. The lifecycle record must say `hostCompliance: legacy-out-of-scope`, link every external dependency to an owner/review point, and prevent “section source ready” from becoming “page/product ready” in downstream status or release notes.
+The legacy host is a declared boundary, not an accepted DFC Bridge deviation and not a hidden migration requirement. The lifecycle record must say `hostCompliance: legacy-out-of-scope`, link every external dependency to an owner/review point, and prevent “section source ready” from becoming “page/product ready” in downstream status or release notes.
 
 ## Stage 1: design
 
@@ -172,7 +172,7 @@ After release, runtime evidence may reveal content lengths, data volumes, device
 
 ## Open-question protocol
 
-BRIDGE promises no **untracked** unknowns, not omniscience. A decision may remain `unknown`, `unsupported`, or `TBD` only in `bridge.openQuestions[]` with a stable id, exact scope, accountable owner, blocking status, due date or named review gate, safe fallback, and status/decision link.
+DFC Bridge promises no **untracked** unknowns, not omniscience. A decision may remain `unknown`, `unsupported`, or `TBD` only in `bridge.openQuestions[]` with a stable id, exact scope, accountable owner, blocking status, due date or named review gate, safe fallback, and status/decision link.
 
 At each lifecycle gate:
 
@@ -281,4 +281,4 @@ The team does not silently drop selection on mobile:
 6. The release links `DEV-CATALOG-004` with an owner and expiry.
 7. When the component gains selection, the team implements the original transformation, reruns the tests, and closes the deviation.
 
-This is the BRIDGE lifecycle: the gap is visible, owned, tested, and eventually removed.
+This is the DFC Bridge lifecycle: the gap is visible, owned, tested, and eventually removed.

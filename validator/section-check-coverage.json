@@ -1,11 +1,11 @@
 {
   "$schema": "./section-check-coverage.schema.json",
-  "methodology": "BRIDGE",
+  "methodology": "DFC Bridge",
   "pluginVersion": "0.9.3",
   "catalogVersion": "0.5.0",
   "verifiedAt": "2026-08-19",
   "implementation": {
-    "product": "BRIDGE Figma plugin",
+    "product": "DFC Bridge Figma plugin",
     "feature": "Check selected section",
     "commandId": "check-section",
     "coverageBasis": "exact-emitted-rule-union",

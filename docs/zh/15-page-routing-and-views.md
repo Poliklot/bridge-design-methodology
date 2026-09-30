@@ -1,6 +1,6 @@
 # 页面路由和视图
 
-BRIDGE 将页面、生产路线、锚点和页面/数据状态视为传输契约的一流部分。设计不仅仅是一组部分；它是一个可导航的产品表面。
+DFC Bridge 将页面、生产路线、锚点和页面/数据状态视为传输契约的一流部分。设计不仅仅是一组部分；它是一个可导航的产品表面。
 
 ## 页面标识和可选路由
 
@@ -188,7 +188,7 @@ catalog-empty [page=catalog] [route=/catalog] [bp=320] [view=empty]
 
 ## 验证者规则
 
-A BRIDGE validator should report:
+A DFC Bridge validator should report:
 
 - page root has no route as Draft TODO, not a hard error;
 - route value is not a production URL/path when route is specified;

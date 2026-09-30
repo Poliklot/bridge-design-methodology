@@ -1,6 +1,6 @@
 # Variation axes
 
-BRIDGE separates the reasons a design changes. One axis must not hide the effect of another.
+DFC Bridge separates the reasons a design changes. One axis must not hide the effect of another.
 
 ## Core rule
 

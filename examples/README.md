@@ -1,4 +1,4 @@
-# BRIDGE examples
+# DFC Bridge examples
 
 Use these short recipes when a design question is concrete. Each example has one problem, one correction, and one reason. Start with the first eight examples; the advanced guides cover data, reactions, motion, and accessibility.
 

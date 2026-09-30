@@ -46,7 +46,7 @@ Fix: keep text native unless the visual effect truly requires an asset.
 
 Problem: the same element is called differently across breakpoints and has different keys.
 
-Fix: keep one stable identity: an English kebab-case layer name or a required BRIDGE tag when Figma does not know the intent.
+Fix: keep one stable identity: an English kebab-case layer name or a required DFC Bridge tag when Figma does not know the intent.
 
 ## 9. Hidden layers as source of truth
 

@@ -45,14 +45,14 @@ for (const page of manifest.pages) {
     const words = countWords(read(sources[locale]), locale);
     if (words > limit[locale]) problems.push(`${sources[locale]}: ${words} words/characters exceeds ${limit[locale]}`);
     const text = read(sources[locale]);
-    if (/BRIDGE 0\.|Page Check 0\.|interactive preflight|browser simulation|интерактивн.*провер/iu.test(text)) {
+    if (/DFC Bridge 0\.|Page Check 0\.|interactive preflight|browser simulation|интерактивн.*провер/iu.test(text)) {
       problems.push(`${sources[locale]}: technical/versioned entry-copy leak`);
     }
   }
 }
 
 for (const page of manifest.pages) {
-  if (page.description?.zh === 'BRIDGE 方法论的中文文档页面，说明设计交付、结构化数据与验证规则。') {
+  if (page.description?.zh === 'DFC Bridge 方法论的中文文档页面，说明设计交付、结构化数据与验证规则。') {
     problems.push(`${page.route}: generic Chinese description remains`);
   }
 }

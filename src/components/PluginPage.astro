@@ -6,7 +6,7 @@ interface Props {
 const { locale } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/u, '');
 const url = (path: string) => `${base}/${locale}/${path.replace(/^\//u, '')}`;
-const pluginUrl = 'https://www.figma.com/community/plugin/1654485530503673254/bridge';
+const pluginUrl = 'https://www.figma.com/community/plugin/1654485530503673254';
 
 const copy = locale === 'ru'
   ? {
@@ -20,14 +20,14 @@ const copy = locale === 'ru'
       pluginEyebrow: 'Помощник в Figma',
       pluginTitle: 'Проверьте макет прямо в файле.',
       pluginLead: 'Плагин помогает добавить смысл слоям, увидеть карту файла и перейти от замечания к точному месту.',
-      open: 'Открыть плагин BRIDGE',
+      open: 'Открыть плагин DFC Bridge',
       capabilitiesLabel: 'Что делает плагин',
       capabilities: [
         ['Добавляет смысл', 'Помогает разметить слой без ручного набора синтаксиса.'],
         ['Показывает карту', 'Показывает страницы, цели и места, требующие решения.'],
         ['Находит пробелы', 'Открывает нужный слой и объясняет, что исправить.'],
       ],
-      trust: 'Доступен через Figma Community · отдельный аккаунт BRIDGE не нужен',
+      trust: 'Доступен через Figma Community · отдельный аккаунт DFC Bridge не нужен',
       newTab: 'откроется в новой вкладке',
     }
   : locale === 'zh'
@@ -42,14 +42,14 @@ const copy = locale === 'ru'
       pluginEyebrow: 'Figma 助手',
       pluginTitle: '直接在文件中检查设计。',
       pluginLead: '插件帮助为图层添加含义、查看文件地图，并从问题跳到相关位置。',
-      open: '打开 BRIDGE 插件',
+      open: '打开 DFC Bridge 插件',
       capabilitiesLabel: '插件功能',
       capabilities: [
         ['添加含义', '无需手工拼接语法即可标记图层。'],
         ['查看地图', '展示页面、目标和仍需决定的位置。'],
         ['发现缺口', '打开相关图层并说明需要修正的内容。'],
       ],
-      trust: '可从 Figma Community 获取 · 不需要 BRIDGE 账号',
+      trust: '可从 Figma Community 获取 · 不需要 DFC Bridge 账号',
       newTab: '将在新标签页打开',
     }
   : {
@@ -63,14 +63,14 @@ const copy = locale === 'ru'
       pluginEyebrow: 'Figma companion',
       pluginTitle: 'Check the design directly in the file.',
       pluginLead: 'The plugin helps add meaning to layers, see the file map, and move from an issue to the exact place.',
-      open: 'Open BRIDGE plugin',
+      open: 'Open DFC Bridge plugin',
       capabilitiesLabel: 'What the plugin does',
       capabilities: [
         ['Add meaning', 'Helps tag a layer without handwritten syntax.'],
         ['Show the map', 'Shows pages, targets, and places that need a decision.'],
         ['Find gaps', 'Opens the affected layer and explains what to fix.'],
       ],
-      trust: 'Available from Figma Community · no separate BRIDGE account required',
+      trust: 'Available from Figma Community · no separate DFC Bridge account required',
       newTab: 'opens in a new tab',
     };
 ---

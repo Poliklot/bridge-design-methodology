@@ -1,6 +1,6 @@
 {
   "$schema": "./rules.schema.json",
-  "methodology": "BRIDGE",
+  "methodology": "DFC Bridge",
   "version": "0.5.0",
   "severityLevels": [
     "error",
@@ -42,7 +42,7 @@
       "principle": "Identity",
       "severity": "error",
       "automation": "automatic",
-      "description": "Optional BRIDGE identity values must describe logical elements, not responsive breakpoints. A value such as `[control=button-reviews-box-375]` inside a `[bp=375]` root is invalid when the suffix matches the current breakpoint.",
+      "description": "Optional DFC Bridge identity values must describe logical elements, not responsive breakpoints. A value such as `[control=button-reviews-box-375]` inside a `[bp=375]` root is invalid when the suffix matches the current breakpoint.",
       "fix": "Remove the breakpoint suffix from the optional id. For ordinary buttons/controls, remove the optional id completely and use `Отзывы мобилка [action=modal:marketplaces-modal]`."
     },
     {
@@ -90,7 +90,7 @@
       "principle": "Roles",
       "severity": "error",
       "automation": "automatic",
-      "description": "A layer must not repeat the same BRIDGE tag key.",
+      "description": "A layer must not repeat the same DFC Bridge tag key.",
       "fix": "Keep one canonical value for the key. If two values describe different concerns, model them with the appropriate distinct tags or split the logical entities."
     },
     {
@@ -147,22 +147,22 @@
       "severity": "warning",
       "automation": "heuristic",
       "description": "Default names such as `Frame 53` or `Group 271` usually hide missing structure or intent.",
-      "fix": "Rename the layer with a stable English kebab-case identity; add BRIDGE intent tags only where needed."
+      "fix": "Rename the layer with a stable English kebab-case identity; add DFC Bridge intent tags only where needed."
     },
     {
       "id": "layout.missing-role",
       "principle": "Roles",
       "severity": "error",
       "automation": "automatic",
-      "description": "Every layer must be classifiable from Figma metadata or BRIDGE intent tags.",
-      "fix": "Fix the Figma structure/metadata first; add BRIDGE tags only for product or transfer intent such as `[section=...]`, `[href=...]`, `[link]`, `[action=...]`, `[control]`, `[field=...]`, `[decor]`, `[asset]`, `[modal=...]`, or `[state=...]`."
+      "description": "Every layer must be classifiable from Figma metadata or DFC Bridge intent tags.",
+      "fix": "Fix the Figma structure/metadata first; add DFC Bridge tags only for product or transfer intent such as `[section=...]`, `[href=...]`, `[link]`, `[action=...]`, `[control]`, `[field=...]`, `[decor]`, `[asset]`, `[modal=...]`, or `[state=...]`."
     },
     {
       "id": "layout.page-root-missing-auto-layout",
       "principle": "Geometry",
       "severity": "error",
       "automation": "automatic",
-      "description": "Every BRIDGE page root must use native Figma Auto Layout, even when it has zero or one child. A page root is a responsive content container, not primitive or leaf geometry, and cannot mark itself `[asset]` to bypass the rule.",
+      "description": "Every DFC Bridge page root must use native Figma Auto Layout, even when it has zero or one child. A page root is a responsive content container, not primitive or leaf geometry, and cannot mark itself `[asset]` to bypass the rule.",
       "fix": "Enable vertical, horizontal, or grid Auto Layout on the page root and define its padding, gap, alignment, and wrapping in Figma. `[asset]`, `[decor]`, absolute positioning, and an exception tag on the page root do not suppress this blocking finding."
     },
     {
@@ -170,7 +170,7 @@
       "principle": "Geometry",
       "severity": "error",
       "automation": "automatic",
-      "description": "A BRIDGE page root must not carry `[asset]`. A page is a live responsive content contract, never one opaque exported visual; root-level `[asset]` does not create an opaque boundary and descendants must still be validated.",
+      "description": "A DFC Bridge page root must not carry `[asset]`. A page is a live responsive content contract, never one opaque exported visual; root-level `[asset]` does not create an opaque boundary and descendants must still be validated.",
       "fix": "Remove `[asset]` from the page root, keep native Auto Layout on the root, and apply `[asset]` only to genuine descendant visuals transferred as opaque units. Report the Auto Layout finding separately when the same page root also has layout mode NONE."
     },
     {
@@ -291,7 +291,7 @@
       "severity": "error",
       "automation": "automatic",
       "description": "The same identity has different visual-intent/policy tags across comparable declared responsive contexts, for example `sneg [decor] [asset]` in one selected variant and plain `sneg` in another.",
-      "fix": "Keep visual-intent flags stable across the declared contexts, or model the difference as an explicit state, variant, target-specific rule, or BRIDGE exception."
+      "fix": "Keep visual-intent flags stable across the declared contexts, or model the difference as an explicit state, variant, target-specific rule, or DFC Bridge exception."
     },
     {
       "id": "content.text-changed-between-breakpoints",
@@ -818,7 +818,7 @@
       "principle": "Exceptions",
       "severity": "error",
       "automation": "manual",
-      "description": "Any accepted deviation from the BRIDGE contract must be declared with scope, reason, risk, owner, expiry or review date, mitigation, and evidence.",
+      "description": "Any accepted deviation from the DFC Bridge contract must be declared with scope, reason, risk, owner, expiry or review date, mitigation, and evidence.",
       "fix": "Create a delivery deviation record, link affected identities and targets, assign an accountable owner, set review or expiry, and document mitigation and approval."
     },
     {
@@ -827,7 +827,7 @@
       "severity": "error",
       "automation": "manual",
       "description": "Each delivery target profile must identify the content, actions, data, media, and task outcomes that remain essential under constrained conditions.",
-      "fix": "List the essential BRIDGE identities and outcomes for the target, including low bandwidth, offline, data-saver, and low-power conditions where applicable."
+      "fix": "List the essential DFC Bridge identities and outcomes for the target, including low bandwidth, offline, data-saver, and low-power conditions where applicable."
     },
     {
       "id": "capability.unsupported-feature-fallback-missing",

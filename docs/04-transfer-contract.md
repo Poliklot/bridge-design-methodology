@@ -1,10 +1,10 @@
-# BRIDGE transfer contract
+# DFC Bridge transfer contract
 
-The BRIDGE Contract is an advanced, versioned, target-independent record that connects design evidence to implementation and QA. Use this page for integrations and tooling, not as the first reading for a designer. The structured envelope and [JSON Schema](../validator/bridge.schema.json) may evolve before 1.0, so every exchange pins `contractVersion`, `methodologyVersion`, and `rulesVersion`.
+The DFC Bridge Contract is an advanced, versioned, target-independent record that connects design evidence to implementation and QA. Use this page for integrations and tooling, not as the first reading for a designer. The structured envelope and [JSON Schema](../validator/bridge.schema.json) may evolve before 1.0, so every exchange pins `contractVersion`, `methodologyVersion`, and `rulesVersion`.
 
 ## Two complementary surfaces
 
-BRIDGE deliberately avoids turning layer names into a database.
+DFC Bridge deliberately avoids turning layer names into a database.
 
 ### Short layer tags
 
@@ -25,7 +25,7 @@ Tags locate pages, variants, sections, links/actions, targets, fields, collectio
 Rich intent lives in one namespaced object. It references the stable identities visible in the design and may be stored as Figma plugin data, a sidecar JSON file, or an adapter payload. It must travel with the handoff and be validated as a unit.
 
 ```text
-Figma/source metadata + short BRIDGE anchors + structured bridge metadata
+Figma/source metadata + short DFC Bridge anchors + structured bridge metadata
                                 ↓
                     one transferable contract
 ```
@@ -39,7 +39,7 @@ A complete payload has a `bridge` root. The core envelope includes:
 | Field | Purpose |
 | --- | --- |
 | `contractVersion` | Version of the structured payload shape. |
-| `methodologyVersion` | BRIDGE release used to prepare the transfer. |
+| `methodologyVersion` | DFC Bridge release used to prepare the transfer. |
 | `rulesVersion` | Rule catalog version used for validation. |
 | `source` | Tool, file/page, immutable revision, and capture context. |
 | `context` | Declared transfer scope, product/page context when applicable, included axes, and external dependencies. |
@@ -53,7 +53,7 @@ An omitted module means “not applicable” only when the scope proves that it 
 
 ## Selected-section scope inside a legacy host
 
-A team may apply BRIDGE to one new section without migrating the surrounding product. The boundary is an explicitly selected source root carrying a stable section identity:
+A team may apply DFC Bridge to one new section without migrating the surrounding product. The boundary is an explicitly selected source root carrying a stable section identity:
 
 ```text
 checkout-summary [section=checkout-summary]
@@ -112,11 +112,11 @@ The structured scope records what was selected and what remains outside it. This
 
 An action target resolved inside the selected roots is local. A complete valid `http:`, `https:`, `mailto:`, or `tel:` href is authored-resolved for section-source scope and does not cause Partial; its runtime availability remains outside source validation. An incomplete or malformed external href is a blocking `interaction.href-invalid` finding, not Deferred. Internal routes/anchors, modal/state/form/reset targets, components, and data that require lookup outside the selected roots are neither “missing” nor proven: link an external contract or record them in `externalDependencies` as deferred/unverified, then resolve them at the separate file/host integration check. The complete executable example is [`bridge-section-contract.valid.json`](../validator/examples/bridge-section-contract.valid.json).
 
-A successful section-scope contract means **section source ready for the declared selected contexts**. It never means that the legacy host page, routes, complete responsive set, end-to-end journey, implementation, product, or WCAG conformance is BRIDGE-ready.
+A successful section-scope contract means **section source ready for the declared selected contexts**. It never means that the legacy host page, routes, complete responsive set, end-to-end journey, implementation, product, or WCAG conformance is DFC Bridge-ready.
 
 ## Identity is a mapping, not one overloaded id
 
-A single name cannot safely represent every identity involved in transfer. BRIDGE separates five dimensions:
+A single name cannot safely represent every identity involved in transfer. DFC Bridge separates five dimensions:
 
 | Dimension | Question | Example |
 | --- | --- | --- |
@@ -138,7 +138,7 @@ This example is intentionally broad enough to show the composition of modules. R
 {
   "bridge": {
     "contractVersion": "0.2.0",
-    "methodologyVersion": "0.11.5",
+    "methodologyVersion": "0.11.6",
     "rulesVersion": "0.5.0",
     "source": {
       "tool": "figma",
@@ -322,7 +322,7 @@ Page Check treats a placed INSTANCE as atomic and does not resolve its source co
 
 ## Explicit unknowns: no untracked blind spots
 
-BRIDGE does **not** promise that every decision is already known. It promises that no relevant unknown is untracked.
+DFC Bridge does **not** promise that every decision is already known. It promises that no relevant unknown is untracked.
 
 `unknown`, `unsupported`, `TBD`, and equivalent states are valid only as an `openQuestions[]` record with:
 
@@ -334,7 +334,7 @@ BRIDGE does **not** promise that every decision is already known. It promises th
 - safe fallback while unresolved;
 - current status and decision link when resolved.
 
-If the fallback would be unsafe, inaccessible, misleading, or destructive, the question is blocking and the affected scope cannot pass its gate. A question that exists only in speech, chat, a detached task, or someone's memory is a BRIDGE blind spot.
+If the fallback would be unsafe, inaccessible, misleading, or destructive, the question is blocking and the affected scope cannot pass its gate. A question that exists only in speech, chat, a detached task, or someone's memory is a DFC Bridge blind spot.
 
 ## Target capability and performance profile
 
@@ -350,7 +350,7 @@ Use one owner for each fact:
 
 1. target-platform safety, security, privacy, and native semantics constrain all other sources;
 2. approved product/content decisions define meaning;
-3. the structured BRIDGE contract defines intent not expressible by the source tool;
+3. the structured DFC Bridge contract defines intent not expressible by the source tool;
 4. Figma/source metadata defines authored structure, components, geometry, and styling;
 5. pinned component/system contracts supply inherited behavior;
 6. an explicit approved exception/deviation records any remaining difference.

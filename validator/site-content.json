@@ -290,8 +290,8 @@
         "zh": "docs/zh/18-terminology.md"
       },
       "description": {
-        "en": "Canonical BRIDGE terminology and precise definitions.",
-        "ru": "Единый язык русской документации BRIDGE."
+        "en": "Canonical DFC Bridge terminology and precise definitions.",
+        "ru": "Единый язык русской документации DFC Bridge."
       },
       "sidebarLabel": {
         "en": "Glossary",
@@ -322,13 +322,13 @@
         "zh": "docs/zh/examples/README.md"
       },
       "description": {
-        "en": "Short BRIDGE recipes in a problem-to-solution format.",
-        "ru": "Короткие решения BRIDGE в формате «неудачно → правильно»."
+        "en": "Short DFC Bridge recipes in a problem-to-solution format.",
+        "ru": "Короткие решения DFC Bridge в формате «неудачно → правильно»."
       },
       "sidebarLabel": {
-        "en": "BRIDGE examples",
-        "ru": "Примеры BRIDGE",
-        "zh": "BRIDGE 示例"
+        "en": "DFC Bridge examples",
+        "ru": "Примеры DFC Bridge",
+        "zh": "DFC Bridge 示例"
       }
     },
     {

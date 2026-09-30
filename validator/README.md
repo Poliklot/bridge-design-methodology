@@ -1,6 +1,6 @@
-# BRIDGE machine-readable contracts
+# DFC Bridge machine-readable contracts
 
-This directory is the canonical machine-readable surface of BRIDGE. It separates compact layer-name tags from rich structured handoff metadata and makes documentation, localization, examples, and plugin coverage verifiable.
+This directory is the canonical machine-readable surface of DFC Bridge. It separates compact layer-name tags from rich structured handoff metadata and makes documentation, localization, examples, and plugin coverage verifiable.
 
 ## Canonical files
 

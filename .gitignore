@@ -22,3 +22,6 @@ build/
 *.log
 .env
 .env.*
+
+# Static legacy URL compatibility delivery.
+legacy-dist/

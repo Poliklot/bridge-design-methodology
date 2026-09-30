@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 
-const base = process.env.SITE_BASE || '/bridge-design-methodology';
+const base = process.env.SITE_BASE || '/dfc-bridge';
 const canonicalRoot = `https://poliklot.github.io${base === '/' ? '/' : `${base.replace(/\/$/u, '')}/`}`;
 
 export default defineConfig({
@@ -12,16 +12,16 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [
     starlight({
-      title: { ru: 'BRIDGE', en: 'BRIDGE', zh: 'BRIDGE' },
+      title: { ru: 'DFC Bridge', en: 'DFC Bridge', zh: 'DFC Bridge' },
       description:
-        'BRIDGE is a methodology for interface designs that can be implemented without guesswork.',
+        'DFC Bridge is a methodology for interface designs that can be implemented without guesswork.',
       logo: {
-        light: '/assets/brand/bridge-lockup-light.svg',
-        dark: '/assets/brand/bridge-lockup-dark.svg',
-        alt: 'BRIDGE',
+        light: '/assets/brand/dfc-bridge-lockup-light.svg',
+        dark: '/assets/brand/dfc-bridge-lockup-dark.svg',
+        alt: 'DFC Bridge',
         replacesTitle: true,
       },
-      favicon: '/assets/brand/bridge-mark.svg',
+      favicon: '/assets/brand/dfc-bridge-mark.svg',
       defaultLocale: 'ru',
       locales: {
         ru: { label: 'Русский', lang: 'ru' },
@@ -32,7 +32,7 @@ export default defineConfig({
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/Poliklot/bridge-design-methodology',
+          href: 'https://github.com/Poliklot/dfc-bridge',
         },
       ],
       customCss: ['/src/styles/bridge.css'],

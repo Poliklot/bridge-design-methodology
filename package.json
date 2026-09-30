@@ -1,6 +1,6 @@
 {
-  "name": "bridge-design-methodology",
-  "version": "0.11.5",
+  "name": "dfc-bridge",
+  "version": "0.11.6",
   "private": true,
   "type": "module",
   "engines": {
@@ -19,13 +19,14 @@
     "build": "astro build",
     "check": "npm run content:sync && npm run lint:contracts && npm run lint:ru && npm run lint:rules && npm run lint:locale && npm run lint:docs && npm run lint:coverage && npm run lint:links && npm run content:check && astro check",
     "preview": "astro preview",
-    "test": "npm run check && npm run build && npm run content:check && npm run lint:built",
+    "test": "npm run check && npm run build && npm run content:check && npm run lint:built && npm run build:legacy",
     "test:e2e": "playwright test",
     "serve:test": "node scripts/serve-dist.mjs",
     "content:check": "node scripts/sync-site-content.mjs --check",
     "lint:contracts": "node scripts/check-validator-contracts.mjs",
     "lint:links": "node scripts/check-links.mjs",
-    "lint:built": "node scripts/check-built-site.mjs"
+    "lint:built": "node scripts/check-built-site.mjs",
+    "build:legacy": "node scripts/build-legacy-site.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

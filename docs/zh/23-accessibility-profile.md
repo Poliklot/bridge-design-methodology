@@ -1,8 +1,8 @@
 # 无障碍配置
 
-BRIDGE 最终实现的目标是 **WCAG 2.2 AA 级**。此概要文件将该目标转化为设计、合同、实施和质量保证责任。它并不声称单独的 Figma 文件就可以符合：一致性是在整个产品和所有适用的 [WCAG 2.2](https://www.w3.org/TR/WCAG22/) 成功标准上进行评估的。
+DFC Bridge 最终实现的目标是 **WCAG 2.2 AA 级**。此概要文件将该目标转化为设计、合同、实施和质量保证责任。它并不声称单独的 Figma 文件就可以符合：一致性是在整个产品和所有适用的 [WCAG 2.2](https://www.w3.org/TR/WCAG22/) 成功标准上进行评估的。
 
-![BRIDGE coverage from design evidence through implementation and accessibility QA](../assets/diagrams/bridge-coverage-map.svg)
+![DFC Bridge coverage from design evidence through implementation and accessibility QA](../assets/diagrams/dfc-bridge-coverage-map.svg)
 
 *设计证据、结构化意图、语义实现和面向用户的测试都是必需的。没有单层证明可访问性。*
 
@@ -69,7 +69,7 @@ Requirements:
 - 当存在粘性标题、cookie 横幅、覆盖层或滚动容器时聚焦可见性；
 - 拖动、基于路径的手势、悬停和仅指针操作的替代方案。
 
-不要使用正的 `tabindex` 或视觉顺序来代替正确的源顺序。在 AA 级，重点组件不得被作者在 [Focus Not Obscured (Minimum)](https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum) 下创建的内容完全隐藏。BRIDGE还需要有意的焦点指示器，而不是依赖于不确定的浏览器/主题对比。
+不要使用正的 `tabindex` 或视觉顺序来代替正确的源顺序。在 AA 级，重点组件不得被作者在 [Focus Not Obscured (Minimum)](https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum) 下创建的内容完全隐藏。DFC Bridge还需要有意的焦点指示器，而不是依赖于不确定的浏览器/主题对比。
 
 ## 视觉要求
 
@@ -88,7 +88,7 @@ Requirements:
 
 ## 目标大小和指针输入
 
-WCAG 2.2 AA [Target Size (Minimum)](https://www.w3.org/TR/WCAG22/#target-size-minimum) 要求指针目标至少为 **24 × 24 CSS 像素** 或满足其间距/异常条件之一。BRIDGE 建议主要触摸控制使用 **44 × 44 CSS 像素** 激活区域，并使用 24 像素标准作为不可​​协商的 AA 底板。
+WCAG 2.2 AA [Target Size (Minimum)](https://www.w3.org/TR/WCAG22/#target-size-minimum) 要求指针目标至少为 **24 × 24 CSS 像素** 或满足其间距/异常条件之一。DFC Bridge 建议主要触摸控制使用 **44 × 44 CSS 像素** 激活区域，并使用 24 像素标准作为不可​​协商的 AA 底板。
 
 Also define:
 
@@ -203,6 +203,6 @@ A responsive transformation must preserve:
 
 ## 例外情况和一致性声明
 
-异常记录必须确定确切的标准或 BRIDGE 要求、受影响的范围、证据、用户影响、原因、所有者、缓解措施、批准和审查/到期日期。没有证据和缓解计划的“技术限制”是不可接受的。
+异常记录必须确定确切的标准或 DFC Bridge 要求、受影响的范围、证据、用户影响、原因、所有者、缓解措施、批准和审查/到期日期。没有证据和缓解计划的“技术限制”是不可接受的。
 
 请勿声称模型、孤立组件、自动评分或不完整旅程符合 WCAG 要求。只有在根据所有适用标准对已实施的完整范围页面和流程进行评估并准确披露已知故障后，发布才可以声明符合性。

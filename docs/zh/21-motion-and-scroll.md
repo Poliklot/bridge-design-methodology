@@ -64,7 +64,7 @@ story [section=feature-story]
   scene-result
 ```
 
-不要创建 `[fade]`、`[duration]`、`[easing]`、`[pin]` 和 `[scroll-start]` 标记的平面语法。引用结构化 BRIDGE 元数据中的身份：
+不要创建 `[fade]`、`[duration]`、`[easing]`、`[pin]` 和 `[scroll-start]` 标记的平面语法。引用结构化 DFC Bridge 元数据中的身份：
 
 > **非独立模块片段。** 此摘录仅显示 `bridge.motion` 并有意省略必需的信封字段。在交换或完整合同验证之前，将其插入 [transfer contract](04-transfer-contract.md#required-envelope) 中所需的 `bridge` 信封中。
 
@@ -143,7 +143,7 @@ A long-scroll sequence defines:
 
 ## 减少运动和后退
 
-BRIDGE requires a reduced-motion design even when WCAG conformance alone would not force removal of every animation. Use the user's `更喜欢减少运动`[CSS Media Queries](https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion) 描述的偏好。
+DFC Bridge requires a reduced-motion design even when WCAG conformance alone would not force removal of every animation. Use the user's `更喜欢减少运动`[CSS Media Queries](https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion) 描述的偏好。
 
 对于每个序列选择一个真实的策略：
 

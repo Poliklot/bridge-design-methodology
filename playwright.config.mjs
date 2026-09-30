@@ -27,7 +27,7 @@ export default defineConfig({
     ? undefined
     : {
         command: 'npm run serve:test',
-        url: 'http://127.0.0.1:4322/bridge-design-methodology/ru/',
+        url: 'http://127.0.0.1:4322/dfc-bridge/ru/',
         reuseExistingServer: !process.env.CI,
         timeout: 120_000,
       },

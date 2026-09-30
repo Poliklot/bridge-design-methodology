@@ -47,7 +47,7 @@ See [components](14-components-and-ui-kit.md) and [content and overflow](07-heig
 
 - [ ] A person who did not prepare the file can find the page, widths, actions, targets, and editable resources without a call.
 
-If one answer still lives in chat, add it to the file or record it as an owned open question. Then run [Check page in Figma](https://www.figma.com/community/plugin/1654485530503673254/bridge).
+If one answer still lives in chat, add it to the file or record it as an owned open question. Then run [Check page in Figma](https://www.figma.com/community/plugin/1654485530503673254).
 
 ## For a stricter review
 

@@ -1,6 +1,6 @@
 # Data and visualization contract
 
-BRIDGE treats data display as a product contract, not as sample copy arranged in rectangles. A transferable design states what the data means, where it comes from, how it is formatted, which operations users can perform, and what happens when the ideal dataset is unavailable.
+DFC Bridge treats data display as a product contract, not as sample copy arranged in rectangles. A transferable design states what the data means, where it comes from, how it is formatted, which operations users can perform, and what happens when the ideal dataset is unavailable.
 
 ![Pipeline from data semantics to an accessible responsive presentation](../assets/diagrams/data-contract-pipeline.svg)
 
@@ -37,7 +37,7 @@ Keep these roles distinct. A chart title is not a data field; a highlighted maxi
 
 ## Use short layer tags, keep the rich contract structured
 
-Layer names and existing BRIDGE tags should expose only the anchors a reviewer needs in the design:
+Layer names and existing DFC Bridge tags should expose only the anchors a reviewer needs in the design:
 
 ```text
 revenue [section=revenue-overview]
@@ -73,7 +73,7 @@ Do not encode the entire schema in names such as `[series-revenue]`, `[currency-
 }
 ```
 
-Structured metadata is versionable, reviewable, and target-independent. It may live in Figma plugin data, a sidecar file, or an adapter payload, but it must reference stable BRIDGE identities and travel with the handoff.
+Structured metadata is versionable, reviewable, and target-independent. It may live in Figma plugin data, a sidecar file, or an adapter payload, but it must reference stable DFC Bridge identities and travel with the handoff.
 
 ## Tables
 

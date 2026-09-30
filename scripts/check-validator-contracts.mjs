@@ -56,6 +56,16 @@ for (const [schemaPath, dataPath] of schemaPairs) {
         problems.push(`${dataPath}${error.instancePath || '/'}: ${error.message}`);
       }
     }
+    if (data.methodology === 'DFC Bridge') {
+      // A brand-only transition must still accept catalogs/coverage records
+      // produced before the rename, without accepting another methodology.
+      if (!validate({ ...data, methodology: 'BRIDGE' })) {
+        problems.push(`${dataPath}: legacy methodology label is no longer accepted`);
+      }
+      if (validate({ ...data, methodology: 'Another methodology' })) {
+        problems.push(`${dataPath}: foreign methodology label must be rejected`);
+      }
+    }
   } catch (error) {
     problems.push(`${schemaPath}: could not compile schema (${error.message})`);
   }
@@ -413,7 +423,7 @@ if (tagRegistry) {
       for (const match of tagSource.matchAll(tagPattern)) {
         const key = match[1];
         if (tagByKey.has(key) || ignoredGenericKeys.has(key) || negativeCue.test(line)) continue;
-        problems.push(`${file}:${index + 1}: undocumented BRIDGE-like tag [${key}]`);
+        problems.push(`${file}:${index + 1}: undocumented DFC Bridge-like tag [${key}]`);
       }
     });
   }
@@ -520,8 +530,8 @@ if (methodologyCoverage && catalog && contentManifest) {
 }
 
 if (problems.length) {
-  console.error(`BRIDGE contract validation found ${problems.length} problem(s):\n- ${problems.join('\n- ')}`);
+  console.error(`DFC Bridge contract validation found ${problems.length} problem(s):\n- ${problems.join('\n- ')}`);
   process.exitCode = 1;
 } else {
-  console.log(`BRIDGE contracts verified: ${catalog.rules.length} rules, ${tagRegistry.tags.length} registered tags, ${tagExamples.valid.length + tagExamples.invalid.length} executable tag cases, and ${contentManifest.pages.length} localized page pairs.`);
+  console.log(`DFC Bridge contracts verified: ${catalog.rules.length} rules, ${tagRegistry.tags.length} registered tags, ${tagExamples.valid.length + tagExamples.invalid.length} executable tag cases, and ${contentManifest.pages.length} localized page pairs.`);
 }

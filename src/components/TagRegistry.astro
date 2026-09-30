@@ -13,7 +13,7 @@ type Relationship = [label: string, values: string[]];
 const copy = locale === 'ru'
   ? {
       eyebrow: `Канонический реестр · схема ${registry.schemaVersion}`,
-      title: 'Справочник тегов BRIDGE',
+      title: 'Справочник тегов DFC Bridge',
       lead: `${registry.tags.length} тегов с формой записи, областью применения и связями. Стабильные теги можно добавлять в имя слоя; сложные данные, движение и сценарии хранятся в структурированном контракте.`,
       search: 'Поиск по тегу',
       placeholder: 'Например: страница, действие, модальное окно…',
@@ -33,7 +33,7 @@ const copy = locale === 'ru'
       noValue: 'без значения',
       empty: 'Теги с такими условиями не найдены.',
       source: 'Источник правды',
-      sourceBridge: 'BRIDGE-тег',
+      sourceBridge: 'DFC Bridge-тег',
       sourceFigma: 'метаданные Figma',
       statuses: { stable: 'Стабильный', experimental: 'Экспериментальный', deprecated: 'Устаревший' },
       forms: { boolean: 'логический', property: 'свойство', 'boolean-or-property': 'логический или свойство' },
@@ -45,7 +45,7 @@ const copy = locale === 'ru'
   : locale === 'zh'
     ? {
       eyebrow: `规范标签注册表 · schema ${registry.schemaVersion}`,
-      title: 'BRIDGE 标签参考',
+      title: 'DFC Bridge 标签参考',
       lead: `${registry.tags.length} 个标签，包含书写形式、适用范围和关系。稳定标签可以写入图层名称；复杂数据、动效和场景应保存在结构化契约中。`,
       search: '搜索标签',
       placeholder: '例如：页面、动作、模态框……',
@@ -65,7 +65,7 @@ const copy = locale === 'ru'
       noValue: '无值',
       empty: '没有符合条件的标签。',
       source: '真实来源',
-      sourceBridge: 'BRIDGE 标签',
+      sourceBridge: 'DFC Bridge 标签',
       sourceFigma: 'Figma 元数据',
       statuses: { stable: '稳定', experimental: '实验性', deprecated: '已弃用' },
       forms: { boolean: '布尔值', property: '属性', 'boolean-or-property': '布尔值或属性' },
@@ -76,7 +76,7 @@ const copy = locale === 'ru'
     }
   : {
       eyebrow: `Canonical registry · schema ${registry.schemaVersion}`,
-      title: 'BRIDGE tag reference',
+      title: 'DFC Bridge tag reference',
       lead: `${registry.tags.length} tags with authored form, scope, and relationships. Stable tags can be written into layer names; rich data, motion, and scenarios belong in the structured contract.`,
       search: 'Search tags',
       placeholder: 'For example: page, action, modal…',
@@ -96,7 +96,7 @@ const copy = locale === 'ru'
       noValue: 'no value',
       empty: 'No tags match these filters.',
       source: 'Source of truth',
-      sourceBridge: 'BRIDGE tag',
+      sourceBridge: 'DFC Bridge tag',
       sourceFigma: 'Figma metadata',
       statuses: { stable: 'Stable', experimental: 'Experimental', deprecated: 'Deprecated' },
       forms: { boolean: 'boolean', property: 'property', 'boolean-or-property': 'boolean or property' },

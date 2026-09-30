@@ -1,6 +1,6 @@
 # Page routing and views
 
-BRIDGE treats pages, production routes, anchors, and page/data states as first-class parts of the transfer contract. A design is not only a set of sections; it is a navigable product surface.
+DFC Bridge treats pages, production routes, anchors, and page/data states as first-class parts of the transfer contract. A design is not only a set of sections; it is a navigable product surface.
 
 ## Page identity and optional route
 
@@ -188,7 +188,7 @@ catalog [page=catalog] [route=/catalog] [bp=320] [view=empty]
 
 ## Validator rules
 
-A BRIDGE validator should report:
+A DFC Bridge validator should report:
 
 - page root has no route as Draft TODO, not a hard error;
 - route value is not a production URL/path when route is specified;

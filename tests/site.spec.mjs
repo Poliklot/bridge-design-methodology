@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const base = '/bridge-design-methodology';
+const base = '/dfc-bridge';
 
 for (const locale of ['ru', 'en', 'zh']) {
   test(`${locale} home has no overflow and no serious accessibility violations`, async ({ page }) => {

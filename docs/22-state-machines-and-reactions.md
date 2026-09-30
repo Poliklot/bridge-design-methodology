@@ -1,6 +1,6 @@
 # State machines and reactions
 
-A clickable prototype shows one path. A BRIDGE reaction contract defines every relevant path: the event, current state, guard, side effect, next state, feedback, focus, URL/history effect, and recovery behavior.
+A clickable prototype shows one path. A DFC Bridge reaction contract defines every relevant path: the event, current state, guard, side effect, next state, feedback, focus, URL/history effect, and recovery behavior.
 
 ## Reaction, state, and view
 
@@ -22,7 +22,7 @@ lead-form [state=lead-form-idle]
 success [state=lead-form-success]
 ```
 
-Prototype connections may supply additional evidence. Do not add a tag for every event, guard, timeout, focus destination, announcement, and HTTP status. Put those relationships in structured BRIDGE metadata keyed by stable identities.
+Prototype connections may supply additional evidence. Do not add a tag for every event, guard, timeout, focus destination, announcement, and HTTP status. Put those relationships in structured DFC Bridge metadata keyed by stable identities.
 
 ## Canonical reaction record
 
@@ -196,7 +196,7 @@ Before handoff, enumerate at least:
 
 ## Review gate
 
-A flow is BRIDGE-ready only when:
+A flow is DFC Bridge-ready only when:
 
 - every interactive anchor has an action or real navigation destination;
 - every action resolves to a target and a complete reaction record;

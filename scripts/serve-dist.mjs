@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const host = process.env.HOST || '127.0.0.1';
 const port = Number.parseInt(process.env.PORT || '4322', 10);
-const base = (process.env.SITE_BASE || '/bridge-design-methodology').replace(/\/$/u, '');
+const base = (process.env.SITE_BASE || '/dfc-bridge').replace(/\/$/u, '');
 const root = path.resolve('dist');
 
 const mimeTypes = new Map([

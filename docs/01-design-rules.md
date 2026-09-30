@@ -1,6 +1,6 @@
 # Design rules
 
-BRIDGE adds only the meaning that Figma does not already store. The file itself remains the source of truth for layout, size, style, hierarchy, and component data.
+DFC Bridge adds only the meaning that Figma does not already store. The file itself remains the source of truth for layout, size, style, hierarchy, and component data.
 
 ## 1. Do not repeat Figma
 
@@ -40,7 +40,7 @@ Use the component from the correct library. A local instance may have page-speci
 
 ## 7. Keep the method platform-independent
 
-BRIDGE describes intent, relationships, and constraints. It does not require a specific frontend framework. Implementation-specific details belong in the structured contract or the implementation record.
+DFC Bridge describes intent, relationships, and constraints. It does not require a specific frontend framework. Implementation-specific details belong in the structured contract or the implementation record.
 
 ## Ready to hand over
 

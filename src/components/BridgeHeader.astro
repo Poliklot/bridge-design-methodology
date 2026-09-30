@@ -84,7 +84,7 @@ const isCurrent = (href: string) => currentPath === href.replace(/\/$/u, '');
           {items.map(([label, href]) => (
             <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>
           ))}
-          <a href="https://github.com/Poliklot/bridge-design-methodology" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Poliklot/dfc-bridge" target="_blank" rel="noopener noreferrer">
             GitHub <span aria-hidden="true">↗</span>
           </a>
         </nav>

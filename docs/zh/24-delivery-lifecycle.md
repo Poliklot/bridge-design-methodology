@@ -1,6 +1,6 @@
 # 交付生命周期
 
-仅当意图从设计到发布保持可追溯时，BRIDGE 才算完整。生命周期是：
+仅当意图从设计到发布保持可追溯时，DFC Bridge 才算完整。生命周期是：
 
 > **设计 → 合同 → 实施 → QA → 发布或声明偏差**
 
@@ -21,7 +21,7 @@ REQ-CATALOG-017
   deviations: none
 ```
 
-不要创建五个不相关的规范。Figma 显示创作的视觉/结构证据；结构化的BRIDGE元数据记录Figma无法表达的意图；代码实现了它；测试验证结果；偏差记录已知的差异。稳定的身份将证据联系起来。
+不要创建五个不相关的规范。Figma 显示创作的视觉/结构证据；结构化的DFC Bridge元数据记录Figma无法表达的意图；代码实现了它；测试验证结果；偏差记录已知的差异。稳定的身份将证据联系起来。
 
 ## 角色和责任
 
@@ -81,7 +81,7 @@ REQ-CATALOG-017
 
 **检查所选部分**可以为第一个门生成就绪、部分或阻止的证据。存储该标签及其范围和覆盖矩阵；不要用它替换 `bridge.lifecycle.status` ，也不要用它作为第二个门通过的证据。仅当请求该上下文时，就绪单上下文部分源才有效。延迟的文件解析引用或选定的节根本身就是 `INSTANCE` ，使源结果部分，直到链接的门提供证据。普通后代实例是受信任的原子边界，不会降低Ready。
 
-The legacy host is a declared boundary, not an accepted BRIDGE deviation and not a hidden migration requirement. The lifecycle record must say `hostCompliance：遗留范围外`, link every external dependency to an owner/review point, and prevent “section source ready” from becoming “page/product ready” in downstream status or release notes.
+The legacy host is a declared boundary, not an accepted DFC Bridge deviation and not a hidden migration requirement. The lifecycle record must say `hostCompliance：遗留范围外`, link every external dependency to an owner/review point, and prevent “section source ready” from becoming “page/product ready” in downstream status or release notes.
 
 ## 第一阶段：设计
 
@@ -172,7 +172,7 @@ At release, pin together:
 
 ## 开放式问题协议
 
-BRIDGE promises no **untracked** unknowns, not omniscience. A decision may remain `未知`, `不支持`, or `TBD` only in `bridge.openQuestions[]` with a stable id, exact scope, accountable owner, blocking status, due date or named review gate, safe fallback, and status/decision link.
+DFC Bridge promises no **untracked** unknowns, not omniscience. A decision may remain `未知`, `不支持`, or `TBD` only in `bridge.openQuestions[]` with a stable id, exact scope, accountable owner, blocking status, due date or named review gate, safe fallback, and status/decision link.
 
 在每个生命周期关口：
 
@@ -281,4 +281,4 @@ Required rules:
 6. The release links `DEV-CATALOG-004`有所有者并到期。
 7. 当组件获得选择时，团队实施原始转换，重新运行测试并消除偏差。
 
-这就是 BRIDGE 的生命周期：差距是可见的、拥有的、测试的，并最终被消除的。
+这就是 DFC Bridge 的生命周期：差距是可见的、拥有的、测试的，并最终被消除的。

@@ -19,7 +19,7 @@ const validatorRoot = join(root, 'validator');
 const publicData = join(root, 'public', 'data');
 const publicSchema = join(root, 'public', 'schema');
 const checkOnly = process.argv.includes('--check');
-const siteBase = process.env.SITE_BASE || '/bridge-design-methodology';
+const siteBase = process.env.SITE_BASE || '/dfc-bridge';
 
 if (!siteBase.startsWith('/') || /[?#]/u.test(siteBase) || siteBase.split('/').includes('..')) {
   throw new Error(`SITE_BASE must be an absolute URL path without traversal, query, or fragment: ${siteBase}`);
@@ -140,11 +140,11 @@ function rewriteLinks(markdown, sourceFile, locale) {
     if (assetTarget && statSync(assetTarget).isDirectory() && assetTarget.startsWith(`${assetsRoot}${sep}`)) {
       const assetDirectory = relative(root, assetTarget).split(sep).join('/');
       if (label.startsWith('!')) return match;
-      return `${label}(https://github.com/Poliklot/bridge-design-methodology/tree/main/${assetDirectory})`;
+      return `${label}(https://github.com/Poliklot/dfc-bridge/tree/main/${assetDirectory})`;
     }
     if (resolvedTarget === assetsRoot) {
       if (label.startsWith('!')) return match;
-      return `${label}(https://github.com/Poliklot/bridge-design-methodology/tree/main/assets)`;
+      return `${label}(https://github.com/Poliklot/dfc-bridge/tree/main/assets)`;
     }
     const assetFileTarget = [resolvedTarget, ...equivalentTargets].find((target) => target.startsWith(`${assetsRoot}${sep}`));
     if (assetFileTarget) {
@@ -216,7 +216,7 @@ function extractDescription(markdown, locale, overrides) {
     .map((line) => line.trim())
     .find((line) => line && !line.startsWith('|') && !line.startsWith('-') && !line.startsWith('!'));
 
-  return (body || (locale === 'ru' ? 'Документация BRIDGE.' : locale === 'zh' ? 'BRIDGE 中文文档。' : 'BRIDGE documentation.'))
+  return (body || (locale === 'ru' ? 'Документация DFC Bridge.' : locale === 'zh' ? 'DFC Bridge 中文文档。' : 'DFC Bridge documentation.'))
     .replace(/\[([^\]]+)\]\([^)]+\)/gu, '$1')
     .replace(/[*_`>]/gu, '')
     .slice(0, 220);
@@ -367,8 +367,13 @@ for (const directory of ['brand', 'diagrams']) {
   const source = join(root, 'assets', directory);
   if (!existsSync(source)) continue;
   const target = join(root, 'public', 'assets', directory);
+  const sourceFiles = relativeFileMap(source);
+  // Existing published image URLs keep resolving to the current identity.
+  // Canonical sources have only the new names; aliases are generated here.
+  for (const [name, contents] of [...sourceFiles]) {
+    if (name.startsWith('dfc-bridge-')) sourceFiles.set(name.slice(4), contents);
+  }
   if (checkOnly) {
-    const sourceFiles = relativeFileMap(source);
     const targetFiles = relativeFileMap(target);
     const names = new Set([...sourceFiles.keys(), ...targetFiles.keys()]);
     for (const name of names) {
@@ -383,6 +388,7 @@ for (const directory of ['brand', 'diagrams']) {
     rmSync(staging, { recursive: true, force: true });
     mkdirSync(dirname(staging), { recursive: true });
     cpSync(source, staging, { recursive: true });
+    for (const [name, contents] of sourceFiles) writeFileSync(join(staging, name), contents);
     const backup = `${target}.backup-${process.pid}`;
     mkdirSync(dirname(target), { recursive: true });
     try {

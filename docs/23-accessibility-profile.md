@@ -1,8 +1,8 @@
 # Accessibility profile
 
-BRIDGE targets **WCAG 2.2 Level AA** for final implementations. This profile turns that target into design, contract, implementation, and QA responsibilities. It does not claim that a Figma file alone can conform: conformance is evaluated on the complete product and all applicable [WCAG 2.2](https://www.w3.org/TR/WCAG22/) success criteria.
+DFC Bridge targets **WCAG 2.2 Level AA** for final implementations. This profile turns that target into design, contract, implementation, and QA responsibilities. It does not claim that a Figma file alone can conform: conformance is evaluated on the complete product and all applicable [WCAG 2.2](https://www.w3.org/TR/WCAG22/) success criteria.
 
-![BRIDGE coverage from design evidence through implementation and accessibility QA](../assets/diagrams/bridge-coverage-map.svg)
+![DFC Bridge coverage from design evidence through implementation and accessibility QA](../assets/diagrams/dfc-bridge-coverage-map.svg)
 
 *Design evidence, structured intent, semantic implementation, and user-facing tests are all required. No single layer proves accessibility.*
 
@@ -69,7 +69,7 @@ All functionality must be usable from a keyboard or equivalent sequential input 
 - focus visibility when sticky headers, cookie banners, overlays, or scroll containers are present;
 - alternatives to drag, path-based gestures, hover, and pointer-only actions.
 
-Do not use positive `tabindex` or visual order as a substitute for correct source order. At Level AA, focused components must not be entirely hidden by author-created content under [Focus Not Obscured (Minimum)](https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum). BRIDGE additionally requires intentional focus indicators rather than relying on uncertain browser/theme contrast.
+Do not use positive `tabindex` or visual order as a substitute for correct source order. At Level AA, focused components must not be entirely hidden by author-created content under [Focus Not Obscured (Minimum)](https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum). DFC Bridge additionally requires intentional focus indicators rather than relying on uncertain browser/theme contrast.
 
 ## Visual requirements
 
@@ -88,7 +88,7 @@ Validate real rendered states, not token names. A color token called `accessible
 
 ## Target size and pointer input
 
-WCAG 2.2 AA [Target Size (Minimum)](https://www.w3.org/TR/WCAG22/#target-size-minimum) requires pointer targets to be at least **24 × 24 CSS px** or satisfy one of its spacing/exception conditions. BRIDGE recommends a **44 × 44 CSS px** activation area for primary touch controls and uses the 24 px criterion as the non-negotiable AA floor.
+WCAG 2.2 AA [Target Size (Minimum)](https://www.w3.org/TR/WCAG22/#target-size-minimum) requires pointer targets to be at least **24 × 24 CSS px** or satisfy one of its spacing/exception conditions. DFC Bridge recommends a **44 × 44 CSS px** activation area for primary touch controls and uses the 24 px criterion as the non-negotiable AA floor.
 
 Also define:
 
@@ -203,6 +203,6 @@ Record browser, platform, assistive technology/version, scenario, expected resul
 
 ## Exceptions and conformance claims
 
-An exception record must identify the exact criterion or BRIDGE requirement, affected scope, evidence, user impact, reason, owner, mitigation, approval, and review/expiry date. “Technical limitation” without evidence and a mitigation plan is not acceptable.
+An exception record must identify the exact criterion or DFC Bridge requirement, affected scope, evidence, user impact, reason, owner, mitigation, approval, and review/expiry date. “Technical limitation” without evidence and a mitigation plan is not acceptable.
 
 Do not claim WCAG conformance for a mockup, component in isolation, automated score, or incomplete journey. A release may claim conformance only after the implemented, complete scoped pages and processes have been evaluated against all applicable criteria and known failures are accurately disclosed.

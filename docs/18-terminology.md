@@ -1,17 +1,17 @@
-# BRIDGE glossary
+# DFC Bridge glossary
 
 This is an advanced reference for contracts, implementation notes, QA, and deviations. Start with the [designer quick start](00-designer-quick-start.md) if you are preparing a first file.
 
 ## Usage rule
 
-Human-facing explanations may be localized. Machine-readable layer tags, JSON field names, rule ids, enum values, and stable references remain in their canonical English form. A familiar word does not override its BRIDGE definition below.
+Human-facing explanations may be localized. Machine-readable layer tags, JSON field names, rule ids, enum values, and stable references remain in their canonical English form. A familiar word does not override its DFC Bridge definition below.
 
-## BRIDGE name
+## DFC Bridge name
 
-| Term | BRIDGE meaning |
+| Term | DFC Bridge meaning |
 | --- | --- |
 | **Breakpoints** | Declared responsive contexts: authored width anchors plus viewport-, container-, fluid-, intrinsic-, directional-, and capability-dependent rules. A breakpoint is not merely a screenshot or an inferred CSS media query. |
-| **Roles** | The logical purpose of an element, display, action, or owner, derived from native source metadata first and explicit BRIDGE intent where needed. |
+| **Roles** | The logical purpose of an element, display, action, or owner, derived from native source metadata first and explicit DFC Bridge intent where needed. |
 | **Identity** | A traceable mapping across role, template, design instance, runtime data, and target implementation. It is not one overloaded id. |
 | **Dependencies** | Data, actions, targets, states, focus/history effects, capabilities, and inherited contracts required for an outcome to work. |
 | **Geometry** | Reproducible exact, stepped, fluid, intrinsic, spatial, and temporal properties, including bounds, spacing, text metrics, ranges, and motion tracks. |
@@ -23,11 +23,11 @@ Human-facing explanations may be localized. Machine-readable layer tags, JSON fi
 | --- | --- |
 | **Design/source evidence** | The versioned source file, page, node, component, native metadata, fixture, prototype, annotation, or asset that demonstrates authored intent. Figma is one possible source, not a requirement of the methodology. |
 | **Root** | The top-level source object for a page, view, responsive context, or standalone section. |
-| **Figma Section organizer** | A native Figma `SECTION` used to group objects on the canvas. It is transparent during BRIDGE page-root discovery and is not the same as a product section carrying `[section=...]`. Its name/tags do not become page context. |
+| **Figma Section organizer** | A native Figma `SECTION` used to group objects on the canvas. It is transparent during DFC Bridge page-root discovery and is not the same as a product section carrying `[section=...]`. Its name/tags do not become page context. |
 | **Stable layer name** | A human-visible English `kebab-case` design anchor that does not encode viewport width, device label, or runtime list position. |
 | **Short layer tag** | A canonical bracketed marker such as `[page=catalog]`, `[href=/catalog]`, or `[item=product]` used only for concise intent that must remain visible in the layer tree. |
 | **Structured `bridge` metadata** | Namespaced data for relationships too rich for layer names: identity mappings, data displays, responsive transformations, reactions, motion, accessibility, capabilities, lifecycle, questions, and exceptions. |
-| **BRIDGE Contract** | The versioned, target-independent combination of source evidence, short anchors, structured metadata, requirements, and acceptance criteria delivered to implementation and QA. |
+| **DFC Bridge Contract** | The versioned, target-independent combination of source evidence, short anchors, structured metadata, requirements, and acceptance criteria delivered to implementation and QA. |
 | **Required envelope** | A complete payload rooted at `bridge` with supported version fields plus `source`, `context`, and `identity`; applicable modules are added inside that envelope. |
 | **Module fragment** | A non-standalone excerpt such as `{ "bridge": { "data": … } }` used to explain one module. It must be inserted into the required envelope before exchange or validation as a complete contract. |
 | **Requirement** | A stable, scoped statement of behavior or quality whose result can be verified. |
@@ -45,7 +45,7 @@ Human-facing explanations may be localized. Machine-readable layer tags, JSON fi
 | **Design instance** | One authored occurrence and its source nodes in declared contexts; identified by `designInstanceKey`. |
 | **Runtime data** | The collection, stable record-key rule, and optional fixture binding used when real data is rendered; `runtimeDataKey` is never an array position. |
 | **Target implementation** | The component, native control, view, route, entity, or locator that realizes the contract on a target platform. |
-| **Interaction target** | A modal, state, form, route, or element reached by a reaction through a stable BRIDGE reference. It is distinct from the target-implementation mapping. |
+| **Interaction target** | A modal, state, form, route, or element reached by a reaction through a stable DFC Bridge reference. It is distinct from the target-implementation mapping. |
 | **`[item=…]` value** | A repeatable item role/type, for example `[item=product]`. Sibling items may intentionally use the same value. Their unique authored and runtime identities come from the stable layer name/`bridgeKey`, `designInstance`, and `runtimeData`, not from `[item]`. |
 | **Fixture key** | A stable authored sample binding used to reproduce a scenario. It may identify the oak-chair example, but it must not be treated as the production record key. |
 
@@ -139,7 +139,7 @@ Human-facing explanations may be localized. Machine-readable layer tags, JSON fi
 | **Lifecycle** | The traceable chain from design to contract, implementation, QA, release, operation, and feedback. |
 | **Gate** | A design, contract, implementation, QA, or release decision with scope, revisions, evidence, owners, and an explicit result. |
 | **Handoff** | Delivery of the accepted source and contract to implementation; it is one lifecycle transition, not the end of responsibility. |
-| **BRIDGE-ready** | Explicit enough for the affected gate to proceed without inventing behavior and without untracked unknowns. |
+| **DFC Bridge-ready** | Explicit enough for the affected gate to proceed without inventing behavior and without untracked unknowns. |
 | **Open question** | A known `unknown`, `unsupported`, or `TBD` decision with stable id, exact scope, owner, blocking status, due/review point, safe fallback, status, and eventual decision link. |
 | **Blind spot** | Relevant meaning or uncertainty that is absent from the versioned source/contract and exists only in chat, speech, memory, or an unlinked task. “No blind spots” means no untracked unknowns, not that every answer is already known. |
 | **Exception** | An approved exception to a methodology, source, or contract rule, recorded before implementation relies on it. |
@@ -155,7 +155,7 @@ Human-facing explanations may be localized. Machine-readable layer tags, JSON fi
 | **Heuristic check** | A tool finding that identifies a likely risk and requires human judgment. |
 | **Manual check** | A semantic, product, visual, accessibility, or target-specific review by a qualified person. |
 | **Runtime check** | A measurement or observation in a declared implementation environment. |
-| **Validator** | A tool that evaluates only the rules represented in its declared coverage; a clean report is not complete BRIDGE or WCAG validation. |
+| **Validator** | A tool that evaluates only the rules represented in its declared coverage; a clean report is not complete DFC Bridge or WCAG validation. |
 | **Severity** | The reporting priority `error`, `warning`, or `info`; it does not replace gate status. |
 | **Gate status** | `pass`, `pass with accepted deviations`, `blocked`, or a precisely justified `not applicable` decision for a reviewed scope. |
 

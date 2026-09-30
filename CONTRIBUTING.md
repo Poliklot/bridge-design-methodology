@@ -1,6 +1,6 @@
-# Contributing to BRIDGE
+# Contributing to DFC Bridge
 
-BRIDGE accepts improvements to the public methodology, documentation, schemas, validator catalog, examples, and site. The Figma plugin implementation is private and is not part of this repository.
+DFC Bridge accepts improvements to the public methodology, documentation, schemas, validator catalog, examples, and site. The Figma plugin implementation is private and is not part of this repository.
 
 ## Source of truth
 

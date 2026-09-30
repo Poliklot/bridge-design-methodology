@@ -30,7 +30,7 @@ const stripCodeAndKnownNames = (value) =>
   value
     .replace(/`[^`]*`/gu, ' ')
     .replace(/<[^>]*>/gu, ' ')
-    .replace(/\b(?:BRIDGE|Figma|Escape|Lottie|kebab-case)\b/giu, ' ');
+    .replace(/\b(?:DFC Bridge|Figma|Escape|Lottie|kebab-case)\b/giu, ' ');
 
 const untranslatedPhrasePattern =
   /(?:\b[A-Za-z][A-Za-z-]{2,}\b(?:[\s,;:()—–-]+|$)){4,}/gu;

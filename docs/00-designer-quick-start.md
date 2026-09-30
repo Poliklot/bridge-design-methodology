@@ -1,6 +1,6 @@
 # Designer quick start
 
-BRIDGE helps another person understand a Figma file without a private explanation. You do not need to read the full specification first: prepare one real page, check its important relationships, and then hand it over.
+DFC Bridge helps another person understand a Figma file without a private explanation. You do not need to read the full specification first: prepare one real page, check its important relationships, and then hand it over.
 
 ## What the result should answer
 
@@ -98,7 +98,7 @@ If the answers require a call, add the missing names, relationships, or states a
 
 ## Add only meaning that Figma does not already store
 
-Figma already stores layer type, component source, layout settings, dimensions, position, styles, and hierarchy. BRIDGE tags add product meaning such as page, section, route, action, target, state, content, decoration, or export policy.
+Figma already stores layer type, component source, layout settings, dimensions, position, styles, and hierarchy. DFC Bridge tags add product meaning such as page, section, route, action, target, state, content, decoration, or export policy.
 
 See [design rules](01-design-rules.md) for the source-of-truth boundary and [layer names](02-layer-naming-and-identity.md) for naming details.
 
@@ -108,6 +108,6 @@ Start with one new section instead of inventing page metadata for the surroundin
 
 ## Continue
 
-- [BRIDGE examples](../examples/README.md)
+- [DFC Bridge examples](../examples/README.md)
 - [Designer checklist](17-designer-checklist.md)
 - [Full review](08-preflight-checklist.md)

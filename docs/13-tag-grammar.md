@@ -1,6 +1,6 @@
-# BRIDGE tag grammar
+# DFC Bridge tag grammar
 
-BRIDGE tags are short machine-readable annotations in layer names. In Figma, they are used only for transfer intent that is not present in Figma metadata.
+DFC Bridge tags are short machine-readable annotations in layer names. In Figma, they are used only for transfer intent that is not present in Figma metadata.
 
 ## Core principle
 
@@ -15,7 +15,7 @@ Figma is the source of truth for technical layer properties:
 - fills, strokes, effects;
 - source component, variants, component properties.
 
-A BRIDGE tag is only for product or transfer meaning.
+A DFC Bridge tag is only for product or transfer meaning.
 
 ## Syntax
 
@@ -281,7 +281,7 @@ A whole exported visual is marked with `[asset]`.
 - do not rebuild it from internal layers;
 - treat its internal composition as opaque for structural layout checks;
 - the root asset still preserves stable responsive identity between breakpoints and remains one item in its parent's Auto Layout;
-- never mark an entire BRIDGE page root `[asset]` to bypass layout checks.
+- never mark an entire DFC Bridge page root `[asset]` to bypass layout checks.
 
 ```text
 promo-poster [asset]

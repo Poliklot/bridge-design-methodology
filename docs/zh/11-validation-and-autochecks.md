@@ -1,6 +1,6 @@
 # 验证与自动检查
 
-BRIDGE 应该变得舒适，因为设计人员可以在移交之前进行飞行前检查并查看具体的、可修复的问题。因此，该方法不仅必须定义建议，还必须定义机器可检查的规则。
+DFC Bridge 应该变得舒适，因为设计人员可以在移交之前进行飞行前检查并查看具体的、可修复的问题。因此，该方法不仅必须定义建议，还必须定义机器可检查的规则。
 
 ## 验证层
 
@@ -48,11 +48,11 @@ extract design tree
   -> emit report with rule IDs, severity, location, and fix hints
 ```
 
-本机 Figma 部分仅在页面根目录发现期间是透明的。验证器不会继承它们的名称/标签，将它们序列化到 BRIDGE 页面树中​​，或使用它们来抑制布局规则。它停止普通 `FRAME`/`GROUP` 包装器上的根发现，然后仅验证发现的标记根及其自己的子树。
+本机 Figma 部分仅在页面根目录发现期间是透明的。验证器不会继承它们的名称/标签，将它们序列化到 DFC Bridge 页面树中​​，或使用它们来抑制布局规则。它停止普通 `FRAME`/`GROUP` 包装器上的根发现，然后仅验证发现的标记根及其自己的子树。
 
 ## 检查所选部分
 
-**检查所选部分**是针对旧版/非 BRIDGE 主机内的新 BRIDGE 部分的单独审核模式。它不得使用伪造的元数据运行页面管道。
+**检查所选部分**是针对旧版/非 DFC Bridge 主机内的新 DFC Bridge 部分的单独审核模式。它不得使用伪造的元数据运行页面管道。
 
 ```text
 read explicit selection
@@ -139,7 +139,7 @@ read explicit selection
 
 ```json
 {
-  "methodology": "BRIDGE",
+  "methodology": "DFC Bridge",
   "status": "not-ready",
   "summary": {
     "errors": 3,
@@ -163,7 +163,7 @@ read explicit selection
 
 ```json
 {
-  "methodology": "BRIDGE",
+  "methodology": "DFC Bridge",
   "mode": "section",
   "status": "partial",
   "scope": {
@@ -207,7 +207,7 @@ read explicit selection
 
 ### 适配器认证检查
 
-用于证明目标实现路径支持BRIDGE：
+用于证明目标实现路径支持DFC Bridge：
 
 - 支持的标签；
 - 支持的行动；

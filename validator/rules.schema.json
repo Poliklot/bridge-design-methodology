@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://poliklot.github.io/bridge-design-methodology/schema/rules.schema.json",
-  "title": "BRIDGE validator rule catalog",
+  "title": "DFC Bridge validator rule catalog",
   "type": "object",
   "additionalProperties": false,
   "required": ["$schema", "methodology", "version", "severityLevels", "automationLevels", "rules"],
   "properties": {
     "$schema": { "const": "./rules.schema.json" },
-    "methodology": { "const": "BRIDGE" },
+    "methodology": { "enum": ["DFC Bridge", "BRIDGE"] },
     "version": {
       "type": "string",
       "pattern": "^(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)$"

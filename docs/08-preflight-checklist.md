@@ -58,7 +58,7 @@ The affected scope cannot pass its gate when any of these applies:
 
 ## Selected-section profile for a legacy host
 
-Use this profile when the surrounding file/product is not BRIDGE and the transfer unit is one new section. It narrows evidence; it does not waive local BRIDGE requirements or convert the host page to BRIDGE.
+Use this profile when the surrounding file/product is not DFC Bridge and the transfer unit is one new section. It narrows evidence; it does not waive local DFC Bridge requirements or convert the host page to DFC Bridge.
 
 ### Boundary and evidence
 
@@ -100,15 +100,15 @@ All three statuses are scope-qualified. “Ready” means **section source ready
 - [ ] `[item=...]` describes a repeatable item role/type and may repeat; it is not the unique fixture or runtime record identity.
 - [ ] Design fixtures have stable design identities that survive reordering; runtime records use a stable product key rather than array position.
 - [ ] Every declared source node exists in its context and maps to the expected logical element.
-- [ ] Interaction targets use stable BRIDGE references and are not confused with target-implementation locators.
+- [ ] Interaction targets use stable DFC Bridge references and are not confused with target-implementation locators.
 - [ ] `[decor]` and `[asset]` remain policy flags; they do not replace a stable design identity.
 
 See [Layer naming and identity](02-layer-naming-and-identity.md) and the [transfer contract](04-transfer-contract.md).
 
 ## 3. Source structure, components, and wrappers
 
-- [ ] Each page root is either a direct child of the Figma page or reached only through native Figma `SECTION` canvas organizers. Organizer Sections carry no inherited BRIDGE context and do not replace the root; ordinary outer `FRAME`/`GROUP` wrappers are not transparent.
-- [ ] Every BRIDGE page root uses native Auto Layout even with zero or one child; the root cannot declare itself `[asset]` to bypass the check.
+- [ ] Each page root is either a direct child of the Figma page or reached only through native Figma `SECTION` canvas organizers. Organizer Sections carry no inherited DFC Bridge context and do not replace the root; ordinary outer `FRAME`/`GROUP` wrappers are not transparent.
+- [ ] Every DFC Bridge page root uses native Auto Layout even with zero or one child; the root cannot declare itself `[asset]` to bypass the check.
 - [ ] Every frame-built section uses native Auto Layout even with zero or one child, except a narrowly legitimate whole-visual `[asset]` section with no live content flow.
 - [ ] Every generic Auto Layout-capable container with at least two visible meaningful direct flow children uses native Auto Layout.
 - [ ] Primitive and leaf geometry is exempt; an opaque `[asset]` subtree may keep its internal composition, while its root remains one child in the parent's Auto Layout.
@@ -251,7 +251,7 @@ See the [Delivery lifecycle](24-delivery-lifecycle.md).
 - [ ] Page Check scope is represented honestly: it has an exact emitted-rule union of 42 of 107 rules—40 automatic and 2 heuristic.
 - [ ] **Check selected section** is represented separately: its exact emitted-rule union is 26 rules—24 automatic and 2 heuristic; 20 local and 6 selected-variant.
 - [ ] Rules outside each declared union have structured, heuristic, manual, implementation, or runtime evidence according to the coverage manifest; the two counts are not added because the scopes overlap.
-- [ ] A clean Page Check report is not presented as full BRIDGE or WCAG validation.
+- [ ] A clean Page Check report is not presented as full DFC Bridge or WCAG validation.
 - [ ] Automatic, heuristic, manual, and runtime results name environment, expected result, actual result, and evidence.
 - [ ] Every applicable acceptance criterion is `pass`, `fail`, `not-applicable`, `blocked`, or linked to an accepted deviation.
 - [ ] High-risk behavior has repeatable regression coverage.

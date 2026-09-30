@@ -21,7 +21,7 @@ const copy = locale === 'ru'
       start: 'Быстрый старт',
       plugin: 'Центр проверки',
       rules: 'Каталог правил',
-      figma: 'Figma plugin BRIDGE',
+      figma: 'Figma plugin DFC Bridge',
       docs: 'Документация на GitHub',
       newTab: 'откроется в новой вкладке',
       license: 'Методология и документация · MIT License',
@@ -35,7 +35,7 @@ const copy = locale === 'ru'
       start: '快速入门',
       plugin: 'Figma 插件',
       rules: '规则目录',
-      figma: 'Figma 插件 BRIDGE',
+      figma: 'Figma 插件 DFC Bridge',
       docs: 'GitHub 文档',
       support: '反馈问题或想法',
       newTab: '将在新标签页打开',
@@ -49,7 +49,7 @@ const copy = locale === 'ru'
       start: 'Quick start',
       plugin: 'Review hub',
       rules: 'Rule catalog',
-      figma: 'Figma plugin BRIDGE',
+      figma: 'Figma plugin DFC Bridge',
       docs: 'Documentation on GitHub',
       newTab: 'opens in a new tab',
       license: 'Methodology and documentation · MIT License',
@@ -67,9 +67,9 @@ const copy = locale === 'ru'
 <footer class="bridge-site-footer">
   <div class="bridge-footer-main">
     <div class="bridge-footer-brand">
-      <a class="bridge-footer-logo" href={url()} aria-label="BRIDGE">
-        <img src={`${base}/assets/brand/bridge-mark.svg`} width="34" height="34" alt="" />
-        <strong>BRIDGE</strong>
+      <a class="bridge-footer-logo" href={url()} aria-label="DFC Bridge">
+        <img src={`${base}/assets/brand/dfc-bridge-mark.svg`} width="34" height="34" alt="" />
+        <strong>DFC Bridge</strong>
       </a>
       <p>{copy.description}</p>
     </div>
@@ -84,10 +84,10 @@ const copy = locale === 'ru'
 
     <nav aria-label={copy.resources}>
       <strong>{copy.resources}</strong>
-      <a href="https://www.figma.com/community/plugin/1654485530503673254/bridge" target="_blank" rel="noopener noreferrer">
+      <a href="https://www.figma.com/community/plugin/1654485530503673254" target="_blank" rel="noopener noreferrer">
         {copy.figma} <span aria-hidden="true">↗</span><span class="sr-only"> — {copy.newTab}</span>
       </a>
-      <a href="https://github.com/Poliklot/bridge-design-methodology" target="_blank" rel="noopener noreferrer">
+      <a href="https://github.com/Poliklot/dfc-bridge" target="_blank" rel="noopener noreferrer">
         {copy.docs} <span aria-hidden="true">↗</span><span class="sr-only"> — {copy.newTab}</span>
       </a>
     </nav>

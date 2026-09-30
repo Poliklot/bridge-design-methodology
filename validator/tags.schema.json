@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://poliklot.github.io/bridge-design-methodology/schema/tags.schema.json",
-  "title": "BRIDGE layer-tag registry",
+  "title": "DFC Bridge layer-tag registry",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -17,7 +17,7 @@
   ],
   "properties": {
     "$schema": { "const": "./tags.schema.json" },
-    "methodology": { "const": "BRIDGE" },
+    "methodology": { "enum": ["DFC Bridge", "BRIDGE"] },
     "schemaVersion": { "$ref": "#/$defs/semver" },
     "description": { "type": "string", "minLength": 20 },
     "statusLevels": {

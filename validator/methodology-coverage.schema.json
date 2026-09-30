@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://poliklot.github.io/bridge-design-methodology/schema/methodology-coverage.schema.json",
-  "title": "Expanded BRIDGE methodology validation coverage",
+  "title": "Expanded DFC Bridge methodology validation coverage",
   "type": "object",
   "additionalProperties": false,
   "required": ["$schema", "schemaVersion", "catalogVersion", "description", "areas"],

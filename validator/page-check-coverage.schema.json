@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://poliklot.github.io/bridge-design-methodology/schema/page-check-coverage.schema.json",
-  "title": "BRIDGE Figma Page Check coverage snapshot",
+  "title": "DFC Bridge Figma Page Check coverage snapshot",
   "type": "object",
   "additionalProperties": false,
   "required": ["$schema", "methodology", "pluginVersion", "catalogVersion", "verifiedAt", "implementation", "counts", "automaticRuleIds", "heuristicRuleIds"],
   "properties": {
     "$schema": { "const": "./page-check-coverage.schema.json" },
-    "methodology": { "const": "BRIDGE" },
+    "methodology": { "enum": ["DFC Bridge", "BRIDGE"] },
     "pluginVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
     "catalogVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
     "verifiedAt": { "type": "string", "format": "date" },
@@ -16,7 +16,7 @@
       "additionalProperties": false,
       "required": ["product", "feature", "coverageBasis", "visibility"],
       "properties": {
-        "product": { "const": "BRIDGE Figma plugin" },
+        "product": { "const": "DFC Bridge Figma plugin" },
         "feature": { "const": "Page Check" },
         "coverageBasis": { "const": "exact-emitted-rule-union" },
         "visibility": { "enum": ["private", "public"] }

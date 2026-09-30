@@ -1,4 +1,4 @@
-# Adopt BRIDGE with one real file
+# Adopt DFC Bridge with one real file
 
 Do not begin by renaming the archive or rebuilding the component library. Run a small pilot on one working page or one new section and measure whether the handoff became clearer.
 

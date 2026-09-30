@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://poliklot.github.io/bridge-design-methodology/schema/site-content.schema.json",
-  "title": "BRIDGE canonical documentation manifest",
+  "title": "DFC Bridge canonical documentation manifest",
   "type": "object",
   "additionalProperties": false,
   "required": ["$schema", "version", "locales", "pages"],

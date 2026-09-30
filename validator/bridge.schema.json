@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://poliklot.github.io/bridge-design-methodology/schema/bridge.schema.json",
-  "title": "BRIDGE structured transfer contract",
-  "description": "Versioned, target-independent BRIDGE metadata. Layer-name tags remain compact anchors; rich contracts live under the bridge namespace.",
+  "title": "DFC Bridge structured transfer contract",
+  "description": "Versioned, target-independent DFC Bridge metadata. Layer-name tags remain compact anchors; rich contracts live under the bridge namespace.",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -48,7 +48,8 @@ const informalPattern =
   /\b(используй|добавляй|пиши|не пиши|не добавляй|проверяй|сохрани|создавай|задай|убери|помечай|считай|моделируй)\b/iu;
 
 const allowedHeadingWords = new Set([
-  'BRIDGE',
+  'DFC',
+  'Bridge',
   'Figma',
   'UI',
   'Kit',
@@ -92,7 +93,7 @@ for (const file of files) {
       /^\d+\. \*\*[BRIDGE] — (Breakpoints|Roles|Identity|Dependencies|Geometry|Exceptions):/u.test(
         candidateLine,
       ) ||
-      /^- \*\*BRIDGE (Contract|Preflight|Adapter|Linter|Exception|ready)/u.test(sourceLine);
+      /^- \*\*DFC Bridge (Contract|Preflight|Adapter|Linter|Exception|ready)/u.test(sourceLine);
 
     const terminologyFile = fileName.endsWith('18-terminologiya.md');
 

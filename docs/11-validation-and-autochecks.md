@@ -1,6 +1,6 @@
 # Validation and autochecks
 
-BRIDGE should become comfortable because a designer can run a preflight check before handoff and see concrete, fixable problems. The methodology must therefore define not only advice, but also machine-checkable rules.
+DFC Bridge should become comfortable because a designer can run a preflight check before handoff and see concrete, fixable problems. The methodology must therefore define not only advice, but also machine-checkable rules.
 
 ## Validation layers
 
@@ -22,7 +22,7 @@ BRIDGE should become comfortable because a designer can run a preflight check be
 
 ## Report severity
 
-- **error** — blocks BRIDGE-ready status.
+- **error** — blocks DFC Bridge-ready status.
 - **warning** — requires explanation or fix before serious transfer.
 - **info** — useful context for implementers and adapters.
 
@@ -48,11 +48,11 @@ extract design tree
   -> emit report with rule IDs, severity, location, and fix hints
 ```
 
-Native Figma Sections are transparent only during page-root discovery. The validator does not inherit their names/tags, serialize them into the BRIDGE page tree, or use them to suppress layout rules. It stops root discovery at ordinary `FRAME`/`GROUP` wrappers, then validates only the discovered tagged roots and their own subtrees.
+Native Figma Sections are transparent only during page-root discovery. The validator does not inherit their names/tags, serialize them into the DFC Bridge page tree, or use them to suppress layout rules. It stops root discovery at ordinary `FRAME`/`GROUP` wrappers, then validates only the discovered tagged roots and their own subtrees.
 
 ## Check selected section
 
-**Check selected section** is a separate audit mode for a new BRIDGE section inside a legacy/non-BRIDGE host. It must not run the page pipeline with fabricated metadata.
+**Check selected section** is a separate audit mode for a new DFC Bridge section inside a legacy/non-DFC Bridge host. It must not run the page pipeline with fabricated metadata.
 
 ```text
 read explicit selection
@@ -139,7 +139,7 @@ For `layout.section-missing-auto-layout`, automatic means a non-page FRAME or CO
 
 ```json
 {
-  "methodology": "BRIDGE",
+  "methodology": "DFC Bridge",
   "status": "not-ready",
   "summary": {
     "errors": 3,
@@ -163,7 +163,7 @@ For a section-scoped report, include the boundary and unfinished evidence rather
 
 ```json
 {
-  "methodology": "BRIDGE",
+  "methodology": "DFC Bridge",
   "mode": "section",
   "status": "partial",
   "scope": {
@@ -207,7 +207,7 @@ Use before approving a handoff:
 
 ### Adapter certification check
 
-Use to prove that a target implementation path supports BRIDGE:
+Use to prove that a target implementation path supports DFC Bridge:
 
 - supported tags;
 - supported actions;

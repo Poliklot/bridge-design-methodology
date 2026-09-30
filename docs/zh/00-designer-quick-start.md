@@ -1,6 +1,6 @@
 # 设计师快速起步
 
-BRIDGE 帮助其他人无需作者解释就能看懂 Figma 文件。不需要先读完整规范：先准备一份真实页面，说明重要关系，再交付文件。
+DFC Bridge 帮助其他人无需作者解释就能看懂 Figma 文件。不需要先读完整规范：先准备一份真实页面，说明重要关系，再交付文件。
 
 ## 文件需要回答什么
 
@@ -98,7 +98,7 @@ contact-button [action=modal:contact-modal]
 
 ## 只添加 Figma 没有保存的含义
 
-Figma 已经保存图层类型、组件来源、布局设置、尺寸、位置、样式和层级。BRIDGE 标签只补充产品含义：页面、区块、路径、动作、目标、状态、内容、装饰或导出规则。
+Figma 已经保存图层类型、组件来源、布局设置、尺寸、位置、样式和层级。DFC Bridge 标签只补充产品含义：页面、区块、路径、动作、目标、状态、内容、装饰或导出规则。
 
 参见[设计规则](01-design-rules.md)和[图层命名](02-layer-naming-and-identity.md)。
 
@@ -108,6 +108,6 @@ Figma 已经保存图层类型、组件来源、布局设置、尺寸、位置�
 
 ## 下一步
 
-- [BRIDGE 示例](../examples/README.md)
+- [DFC Bridge 示例](../examples/README.md)
 - [设计师清单](17-designer-checklist.md)
 - [完整检查](08-preflight-checklist.md)

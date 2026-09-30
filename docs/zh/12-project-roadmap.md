@@ -1,14 +1,14 @@
 # 状态与路线图
 
-**更新于 2026 年 8 月 14 日。** BRIDGE 是一种公共的、麻省理工学院许可的方法和开源文档/验证器存储库。BRIDGE Assistant 插件可从 Figma 社区公开安装，但其实现存储库是私有的。公共安装并不意味着公共插件源、问题或发布历史记录。
+**更新于 2026 年 8 月 14 日。** DFC Bridge 是一种公共的、麻省理工学院许可的方法和开源文档/验证器存储库。DFC Bridge Assistant 插件可从 Figma 社区公开安装，但其实现存储库是私有的。公共安装并不意味着公共插件源、问题或发布历史记录。
 
 ## 当前版本
 
 |产品 |版本 |状态 |
 |--- |--- |--- |
-|BRIDGE 方法和网站 |**0.11.5** |三语精简入口、简化的导航和检查、实用的设计师指南，以及稳定的高级参考。契约、模式、标签注册表和验证器工件保持兼容。|
-|BRIDGE规则目录|**107 条规则** |跨方法论表面的显式自动、启发式和手动覆盖。|
-|Figma 覆盖快照的 BRIDGE 助手 |**已验证覆盖** |已验证的实施合同，用于阻止源结构检查、按节组织的页面根、页面检查和单独范围的**检查选定的节**。Figma 社区对于当前发布的可安装版本仍然具有权威性；实施仍然是私人的。|
+|DFC Bridge 方法和网站 |**0.11.6** |三语精简入口、简化的导航和检查、实用的设计师指南，以及稳定的高级参考。契约、模式、标签注册表和验证器工件保持兼容。|
+|DFC Bridge规则目录|**107 条规则** |跨方法论表面的显式自动、启发式和手动覆盖。|
+|Figma 覆盖快照的 DFC Bridge 助手 |**已验证覆盖** |已验证的实施合同，用于阻止源结构检查、按节组织的页面根、页面检查和单独范围的**检查选定的节**。Figma 社区对于当前发布的可安装版本仍然具有权威性；实施仍然是私人的。|
 
 该方法仍然是 1.0 之前的版本。Pin 版本：结构化有效负载、模式、规则和措辞可能会随着记录的方法发布而变化。
 
@@ -41,7 +41,7 @@
 
 ### 可公开安装的 Figma 助手
 
-[Install BRIDGE Assistant from Figma Community](https://www.figma.com/community/plugin/1654485530503673254/bridge)。公开覆盖快照支持直接和本机部分组织的页面根以及单独的选定部分源检查，无需单独的 BRIDGE 帐户。社区发布是一个单独的手动步骤，因此请使用该页面来确认当前可用的可安装版本。
+[Install DFC Bridge Assistant from Figma Community](https://www.figma.com/community/plugin/1654485530503673254)。公开覆盖快照支持直接和本机部分组织的页面根以及单独的选定部分源检查，无需单独的 DFC Bridge 帐户。社区发布是一个单独的手动步骤，因此请使用该页面来确认当前可用的可安装版本。
 
 插件的实现/源存储库、私人问题和内部发布记录不是公共方法资源。使用公共安装页面以获取可用性；使用此存储库来获取公共合同、规则、示例和路线图。
 
@@ -71,7 +71,7 @@ Therefore:
 
 ### 没有通用适配器
 
-BRIDGE 定义了独立于目标的意图和功能配置文件。它尚未推出一款可以为每个 Web、本机、无代码、编辑器和设计系统目标生成生产质量输出的适配器。
+DFC Bridge 定义了独立于目标的意图和功能配置文件。它尚未推出一款可以为每个 Web、本机、无代码、编辑器和设计系统目标生成生产质量输出的适配器。
 
 ### 源工具检查是有意限定范围的
 
@@ -96,8 +96,8 @@ BRIDGE 定义了独立于目标的意图和功能配置文件。它尚未推出�
 
 ## 公共参考文献
 
-- [Documentation site](https://poliklot.github.io/bridge-design-methodology/)
-- [Public methodology repository](https://github.com/Poliklot/bridge-design-methodology)
-- [Methodology releases](https://github.com/Poliklot/bridge-design-methodology/releases)
-- [Figma Community installation](https://www.figma.com/community/plugin/1654485530503673254/bridge)
+- [Documentation site](https://poliklot.github.io/dfc-bridge/)
+- [Public methodology repository](https://github.com/Poliklot/dfc-bridge)
+- [Methodology releases](https://github.com/Poliklot/dfc-bridge/releases)
+- [Figma Community installation](https://www.figma.com/community/plugin/1654485530503673254)
 - [Delivery lifecycle](24-delivery-lifecycle.md)

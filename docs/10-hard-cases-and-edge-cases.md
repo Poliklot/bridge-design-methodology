@@ -1,18 +1,18 @@
 # Hard cases and edge cases
 
-BRIDGE becomes useful only if it covers ugly real-world design situations, not just clean landing-page examples. This document lists the cases that should shape the checklist, validator rules, examples, and future adapters.
+DFC Bridge becomes useful only if it covers ugly real-world design situations, not just clean landing-page examples. This document lists the cases that should shape the checklist, validator rules, examples, and future adapters.
 
 ## Severity model
 
-- **Blocker** — the design is not BRIDGE-ready. Transfer would require guessing.
+- **Blocker** — the design is not DFC Bridge-ready. Transfer would require guessing.
 - **Warning** — transfer is possible, but the result is risky or adapter-specific.
 - **Manual review** — automation can detect a suspicious pattern, but a human must confirm intent.
 
 ## 1. Identity nightmares
 
-| Case | Why it is dangerous | BRIDGE response | Auto-check |
+| Case | Why it is dangerous | DFC Bridge response | Auto-check |
 | --- | --- | --- | --- |
-| Same logical element has different identities on breakpoints | The adapter creates duplicates instead of one responsive element. | Keep one stable identity: a layer name or required BRIDGE tag. | Compare breakpoint groups. |
+| Same logical element has different identities on breakpoints | The adapter creates duplicates instead of one responsive element. | Keep one stable identity: a layer name or required DFC Bridge tag. | Compare breakpoint groups. |
 | Same identity points to different element types | A button becomes text, an image becomes a card, etc. | Same identity must preserve logical type unless modeled as a different entity. | Compare type by key. |
 | Repeated cards reuse one identity | The adapter cannot distinguish instances. | Use indexed keys: `card-1`, `card-2`. | Detect duplicate identities. |
 | Component instance overrides hide changed content | Source component says one thing, override says another. | Treat resolved instance content as source of truth and report overrides. | Extract component metadata. |
@@ -20,7 +20,7 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 
 ## 2. Responsive nightmares
 
-| Case | Why it is dangerous | BRIDGE response | Auto-check |
+| Case | Why it is dangerous | DFC Bridge response | Auto-check |
 | --- | --- | --- | --- |
 | Mobile copy changes product meaning | Users see different promises on different devices. | Responsive breakpoints must preserve exact content; model locale/experiment/product variants separately. | Text diff by identity. |
 | Element count changes between breakpoints | The adapter cannot know whether an item is deleted, hidden, duplicated, or variant-specific. | Preserve the same logical cardinality, or model the difference as a collection rule, state, variant, or structural exception. | Identity cardinality diff. |
@@ -35,10 +35,10 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 
 ## 3. Structure and geometry nightmares
 
-| Case | Why it is dangerous | BRIDGE response | Auto-check |
+| Case | Why it is dangerous | DFC Bridge response | Auto-check |
 | --- | --- | --- | --- |
 | Page or section root has Auto Layout disabled | Its content flow is only a snapshot of coordinates. | Enable native Auto Layout unconditionally, even with zero or one child. | `layout.page-root-missing-auto-layout` / `layout.section-missing-auto-layout`. |
-| BRIDGE page root carries `[asset]` | The entire live page is hidden behind an opaque-export claim. | Remove `[asset]`; keep checking descendants and report missing root Auto Layout separately when applicable. | `layout.page-root-cannot-be-asset`. |
+| DFC Bridge page root carries `[asset]` | The entire live page is hidden behind an opaque-export claim. | Remove `[asset]`; keep checking descendants and report missing root Auto Layout separately when applicable. | `layout.page-root-cannot-be-asset`. |
 | Generic content container has two or more visible meaningful flow children but no Auto Layout | Responsive transfer cannot reproduce direction, gap, wrapping, or sizing deterministically. | Enable native Auto Layout; primitives and leaf geometry remain exempt. | `layout.container-missing-auto-layout`. |
 | Figma GROUP exists outside an asset | A GROUP preserves geometry but exposes no transferable layout contract. | Replace it with an Auto Layout frame/component or make a genuine opaque subtree `[asset]`. Manual-layout plus reason records a deviation but does not suppress the error. | `layout.group-outside-asset`. |
 | Page roots are grouped in native Figma Sections on the canvas | A checker that expects only direct Figma-page children misses valid responsive roots. | Treat native Figma Sections as transparent root-discovery organizers; keep each actual root as a tagged Auto Layout frame. Do not use outer FRAME/GROUP wrappers for this purpose. | Page Check discovery; no finding when the boundary is valid. |
@@ -53,7 +53,7 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 
 ## 4. Content and dynamic data nightmares
 
-| Case | Why it is dangerous | BRIDGE response | Auto-check |
+| Case | Why it is dangerous | DFC Bridge response | Auto-check |
 | --- | --- | --- | --- |
 | CMS item count changes | A 3-card design breaks with 2 or 7 cards. | Declare collection rules: min/max/empty/loading. | Collection metadata check. |
 | Localization expands text | German/Russian text overflows English layout. | Use hug/min-height and text expansion tolerance. | Text box risk heuristic. |
@@ -64,7 +64,7 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 
 ## 5. Interaction nightmares
 
-| Case | Why it is dangerous | BRIDGE response | Auto-check |
+| Case | Why it is dangerous | DFC Bridge response | Auto-check |
 | --- | --- | --- | --- |
 | Button has no action | Nobody knows what click does. | Use `[action=...]` when known, or `[control]` as a draft TODO until it is known. Navigation uses `[href=...]` or draft `[link]`. | Clickable-without-action. |
 | Modal target is missing | Adapter cannot build the flow. | `action=modal:x` requires `[modal=x]`. | Interaction graph check. |
@@ -76,17 +76,17 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 
 ## 6. Asset and media nightmares
 
-| Case | Why it is dangerous | BRIDGE response | Auto-check |
+| Case | Why it is dangerous | DFC Bridge response | Auto-check |
 | --- | --- | --- | --- |
 | Text is rasterized as an image | It cannot be translated, indexed, or edited. | Keep text native or mark asset reason. | Image-with-text heuristic/manual. |
 | Image crop has no focal point | Responsive crops cut faces/products. | Declare focal point or crop strategy. | Asset metadata check. |
 | SVG/icon is a random image | Color/theme/tokens cannot apply. | Mark icon role and theming policy. | Asset type check. |
 | Video/Lottie has no fallback | Target may not support it. | Declare poster, fallback, autoplay, controls. | Media metadata check. |
-| Blend modes/filters are unsupported | Visual result changes across targets. | Mark as BRIDGE Exception or flatten asset. | Adapter capability check. |
+| Blend modes/filters are unsupported | Visual result changes across targets. | Mark as DFC Bridge Exception or flatten asset. | Adapter capability check. |
 
 ## 7. Design-system and theme nightmares
 
-| Case | Why it is dangerous | BRIDGE response | Auto-check |
+| Case | Why it is dangerous | DFC Bridge response | Auto-check |
 | --- | --- | --- | --- |
 | Colors and spacing are one-off | Implementation drifts from system. | Prefer tokens; mark exceptions. | Token coverage check. |
 | Dark mode is partial | Some elements disappear or clash. | Declare theme coverage. | Theme coverage check. |
@@ -109,7 +109,7 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 
 ## 9. Capability and performance blind spots
 
-| Case | Why it is dangerous | BRIDGE response | Owner/check |
+| Case | Why it is dangerous | DFC Bridge response | Owner/check |
 | --- | --- | --- | --- |
 | Oversized image/video has no delivery intent | Bandwidth, memory, and loading regress while the design still “matches.” | Declare intrinsic dimensions, formats, quality, art direction, crop safe area, poster, and priority/lazy policy. | Design declares essential media; implementation owns budget and measurement. |
 | A data display assumes the fixture count | Large results freeze or become unusable. | Declare expected/max volume and pagination, streaming, or virtualization threshold. | Data + implementation test. |
@@ -117,8 +117,8 @@ BRIDGE becomes useful only if it covers ugly real-world design situations, not j
 | Target lacks sticky, animation, codec, input, or chart capability | An adapter silently drops meaning. | Record support and a semantic fallback; if unknown, create an owned blocking/non-blocking open question. | Adapter capability check. |
 | Budget exists only as a vague wish | Nobody can verify it. | Name metric, limit, environment, measurement point, and accountable implementation owner. | Release evidence. |
 
-BRIDGE is not web-only: each target maps the same capability profile into native mechanisms. Safety, privacy, accessibility, and essential task completion take priority over media fidelity.
+DFC Bridge is not web-only: each target maps the same capability profile into native mechanisms. Safety, privacy, accessibility, and essential task completion take priority over media fidelity.
 
-## Definition of a robust BRIDGE design
+## Definition of a robust DFC Bridge design
 
-A robust BRIDGE design is not perfect because it has no exceptions. It is robust because every exception is named, justified, and checkable.
+A robust DFC Bridge design is not perfect because it has no exceptions. It is robust because every exception is named, justified, and checkable.

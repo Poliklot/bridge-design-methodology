@@ -5,9 +5,11 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(root, 'dist');
 const validatorRoot = join(root, 'validator');
-const base = (process.env.SITE_BASE || '/bridge-design-methodology').replace(/^\/+|\/+$/gu, '');
+const base = (process.env.SITE_BASE || '/dfc-bridge').replace(/^\/+|\/+$/gu, '');
 const baseRoot = dist;
 const publicRoot = `https://poliklot.github.io/${base ? `${base}/` : ''}`;
+// Schema identity is a published contract, not the current site's navigation base.
+const schemaRoot = 'https://poliklot.github.io/bridge-design-methodology/schema/';
 const problems = [];
 
 if (!existsSync(baseRoot)) {
@@ -27,6 +29,9 @@ walk(dist);
 
 function targetForPath(pathname) {
   let normalized = pathname.replace(/^\/+/, '');
+  if (normalized.startsWith('bridge-design-methodology/schema/')) {
+    return join(dist, 'schema', normalized.slice('bridge-design-methodology/schema/'.length));
+  }
   if (base && normalized.startsWith(`${base}/`)) normalized = normalized.slice(base.length + 1);
   else if (base && normalized === base) normalized = '';
   else if (base && normalized && !normalized.startsWith('_astro/') && !normalized.startsWith('assets/') && !normalized.startsWith('data/') && !normalized.startsWith('pagefind/')) return join(dist, '__outside-configured-base__', normalized);
@@ -139,7 +144,7 @@ for (const schemaName of schemaNames) {
     problems.push(`validator/${schemaName}: invalid or missing $id`);
     continue;
   }
-  const expectedId = new URL(`schema/${schemaName}`, publicRoot).href;
+  const expectedId = new URL(schemaName, schemaRoot).href;
   if (id.href !== expectedId) {
     problems.push(`validator/${schemaName}: $id ${id.href} does not match ${expectedId}`);
     continue;

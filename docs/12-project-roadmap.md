@@ -1,14 +1,14 @@
 # Status and roadmap
 
-**Updated 14 August 2026.** BRIDGE is a public, MIT-licensed methodology and open-source documentation/validator repository. The BRIDGE Assistant plugin is publicly installable from Figma Community, but its implementation repository is private. Public installation does not imply public plugin source, issues, or release history.
+**Updated 14 August 2026.** DFC Bridge is a public, MIT-licensed methodology and open-source documentation/validator repository. The DFC Bridge Assistant plugin is publicly installable from Figma Community, but its implementation repository is private. Public installation does not imply public plugin source, issues, or release history.
 
 ## Current releases
 
 | Product | Version | Status |
 | --- | --- | --- |
-| BRIDGE methodology and site | **0.11.5** | Concise trilingual entry path, simplified navigation and checks, practical designer guides, and stable advanced references. Contract/schema, tag registry, and validator artifacts remain compatible. |
-| BRIDGE rule catalog | **107 rules** | Explicit automatic, heuristic, and manual coverage across methodology surfaces. |
-| BRIDGE Assistant for Figma coverage snapshot | **Verified coverage** | Verified implementation contract for blocking source-structure checks, Section-organized page roots, page checking, and separately scoped **Check selected section**. Figma Community remains authoritative for the currently published installable build; implementation remains private. |
+| DFC Bridge methodology and site | **0.11.6** | Concise trilingual entry path, simplified navigation and checks, practical designer guides, and stable advanced references. Contract/schema, tag registry, and validator artifacts remain compatible. |
+| DFC Bridge rule catalog | **107 rules** | Explicit automatic, heuristic, and manual coverage across methodology surfaces. |
+| DFC Bridge Assistant for Figma coverage snapshot | **Verified coverage** | Verified implementation contract for blocking source-structure checks, Section-organized page roots, page checking, and separately scoped **Check selected section**. Figma Community remains authoritative for the currently published installable build; implementation remains private. |
 
 The methodology remains pre-1.0. Pin versions: the structured payload, schema, rules, and wording may change with documented methodology releases.
 
@@ -41,7 +41,7 @@ Structured metadata supplements Figma/source metadata and short tags. It is not 
 
 ### Publicly installable Figma helper
 
-[Install BRIDGE Assistant from Figma Community](https://www.figma.com/community/plugin/1654485530503673254/bridge). The public coverage snapshot supports direct and native-Section-organized page roots plus a separate selected-section source check without a separate BRIDGE account. Community publication is a separate manual step, so use that page to confirm which installable build is currently available.
+[Install DFC Bridge Assistant from Figma Community](https://www.figma.com/community/plugin/1654485530503673254). The public coverage snapshot supports direct and native-Section-organized page roots plus a separate selected-section source check without a separate DFC Bridge account. Community publication is a separate manual step, so use that page to confirm which installable build is currently available.
 
 The plugin's implementation/source repository, private issues, and internal release records are not public methodology resources. Use the public installation page for availability; use this repository for the public contract, rules, examples, and roadmap.
 
@@ -71,7 +71,7 @@ The 0.9 structured contract is usable and versioned but not frozen. Before 1.0, 
 
 ### No universal adapter
 
-BRIDGE defines target-independent intent and capability profiles. It does not yet ship one adapter that can generate production-quality output for every web, native, no-code, editor, and design-system target.
+DFC Bridge defines target-independent intent and capability profiles. It does not yet ship one adapter that can generate production-quality output for every web, native, no-code, editor, and design-system target.
 
 ### Source-tool checks are intentionally scoped
 
@@ -96,8 +96,8 @@ Potential work includes target-specific adapters, deeper source-tool inspection,
 
 ## Public references
 
-- [Documentation site](https://poliklot.github.io/bridge-design-methodology/)
-- [Public methodology repository](https://github.com/Poliklot/bridge-design-methodology)
-- [Methodology releases](https://github.com/Poliklot/bridge-design-methodology/releases)
-- [Figma Community installation](https://www.figma.com/community/plugin/1654485530503673254/bridge)
+- [Documentation site](https://poliklot.github.io/dfc-bridge/)
+- [Public methodology repository](https://github.com/Poliklot/dfc-bridge)
+- [Methodology releases](https://github.com/Poliklot/dfc-bridge/releases)
+- [Figma Community installation](https://www.figma.com/community/plugin/1654485530503673254)
 - [Delivery lifecycle](24-delivery-lifecycle.md)
